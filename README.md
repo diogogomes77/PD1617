@@ -1,3 +1,6 @@
+Plataformas de Desenvolvimento
+Trabalho Prático
+
 O trabalho prático consiste na implementação de um sistema de leilões. O trabalho está organizado nas seguintes três metas:
 
 - Meta 1 - Estrutura de aplicação: EJB e managed beans com acesso remoto consola. 3 de Janeiro 2017
@@ -112,3 +115,47 @@ A arquitectura do sistema é obrigatoriamente cliente-servidor:
 - Servidor: gere todos os dados do sistema, implementa e valida as regras dos leilões, gere os utilizadores e centraliza tudo. É implementado com JEE no servidor aplicacional (glasfsish).
 - Cliente remoto consola: Acede à funcionalidade do sistema segundo o paradigma da consola. São aceites algumas simplificações na funcionalidade decorrentes das restrições típicas do paradigma consola.
 - Cliente web-browser. Permite o acesso ao sistema segundo o paradigma de "página web"
+
+**Cliente remoto consola**
+Esta aplicação segue uma lógica de interacção com utilizador muito simples. Usa menús e comandos para obter dados do utilizador e, invocando a funcionalidade do servidor, apresenta os resultados ao utilizador. Não é pedida nenhuma forma de interacção no sentido servidor —› cliente: só existirá actualização dos dados apresentados quando o utilizador toma a iniciática de efectuar uma consulta ou outra operação.
+
+**Cliente web-browser**
+O cliente web-browser é suportado por urna aplicação web com recurso a componentes web, tal como JSF. Podem também se usadas quaisquer bibliotecas para composição gráfica web, tal como bootstrap. A aplicação disponibilizará a funcionalidade e apresentará os dados no contexto de um web-browser. Nesta aplicação existirá actualização automática de dados de 10 em 10 segundos via AJA X nas partes em que essa actualização faz falta:
+
+- Quando na consulta de um item, o seu preço pode variar consoante outros utilizadores o estejam a licitar.
+- Idem na licitação de um item.
+
+É aceite que a gestão do tempo seja simplificada. Em vez de se estar a usar dia + mês + ano, pode-se usar uma contagem linear baseada em segundos a contar de uma determinada altura, definida e salvaguardada pelo sistema e conhecida pelos clientes. O administrador poderia ter a hipótese (para efeitos de testes) de modificar essa contagem. Isto é uma simplificação que é aceite, não uma imposição.
+
+Alguns dos aspectos que devem ser respeitados são:
+- Podem existir vários clientes a correr – um utilizador por cada.
+- Não deve ser aceite o login múltiplo (mesmo utilizador em mais do que um cliente em simultâneo).
+- Toda a informação é armazenada e gerida no servidor.
+- Não existe comunicação directa entre dois clientes.
+
+**Meta 1– 3 de Janeiro, 2017**
+Envolve essencialmente a estruturação da aplicação em EJB, alguns dados e uma aplicação cliente consola (remota)
+
+- Servidor e cliente remoto consola.
+- Funcionalidade:
+ - Apenas: gestão de utilizadores. Colocação de itens à venda. Envio e consulta de mensagens. Newsletter.
+ - Os dados envolvidos nesta meta são armazenados de forma simplificada com recursos a colecções no servidor. São mantidos de forma persistente.
+
+**Meta 2 —17 de Janeiro, 2017**
+Envolve essencialmente a persistência de dados com JPA.
+- Mantém-se: Servidor e cliente remoto consola apenas.
+- Acrescenta à meta anterior:
+ - Funcionalidade completa.
+ - Dados armazenados em base de dados.
+
+**Meta 3 — Dia do exame**
+Envolve essencialmente o uso de JSF,
+- Acrescenta à metas anteriores
+ - Cliente web-browser.
+- Ambos os clientes, funcionalidade completa e dados armazenados em base de dados.
+
+**A meta 3 coincide com a entrega finai. Caso não sejam cumpridas as metas 1 e 2:**
+Será perdido um valor por cada meta. Esse valor só pode ser recuperado através da implementação de funcionalidade adicional:
+
+- Pontuação de vendedores e de compradores
+ - Relatórios de utilizadores: top 10 vendedor mais activo, top 10 comprador mais activo, top 10 de preços atingidos.
