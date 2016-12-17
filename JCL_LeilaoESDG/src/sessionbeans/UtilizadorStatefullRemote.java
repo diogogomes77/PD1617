@@ -1,5 +1,5 @@
 
-package leilao;
+package sessionbeans;
 
 import javax.ejb.Remote;
 
@@ -7,5 +7,7 @@ import javax.ejb.Remote;
 public interface UtilizadorStatefullRemote {
 
     int teste();
+
+    String getMenu();
     
 }

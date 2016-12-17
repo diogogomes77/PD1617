@@ -4,7 +4,7 @@ import java.util.Properties;
 import java.util.Scanner;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
-import leilao.UtilizadorStatefullRemote;
+import sessionbeans.UtilizadorStatefullRemote;
 
 public class main {
 
@@ -30,7 +30,7 @@ public class main {
         }
         System.out.println("InitialContext Criado");
         String rsing_class_name
-                = "java:global/ServerLeilaoESDG/ServerLeilaoESDG-ejb/UtilizadorStatefull!leilao.UtilizadorStatefullRemote";
+                = "java:global/ServerLeilaoESDG/ServerLeilaoESDG-ejb/UtilizadorStatefull!sessionbeans.UtilizadorStatefullRemote";
 
         try {
             System.out.println("Iniciar lookup");
@@ -48,7 +48,14 @@ public class main {
         obtemReferencias();
 
         System.out.println(utilizador.teste());
+        System.out.println(utilizador.getMenu());
         System.exit(0);
+    }
+    
+    private String showMenu(int tipo){
+        String menu="";
+        
+        return menu;                
     }
 
 }

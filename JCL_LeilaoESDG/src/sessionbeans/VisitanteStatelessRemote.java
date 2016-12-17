@@ -1,5 +1,5 @@
 
-package leilao;
+package sessionbeans;
 
 import javax.ejb.Remote;
 
