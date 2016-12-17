@@ -19,7 +19,7 @@ public class main {
                 "com.sun.enterprise.naming");
         prop.setProperty("java.naming.factory.state",
                 "com.sun.corba.ee.impl.presentation.rmi.JNDIStateFactoryImpl");
-        prop.setProperty("org.omg.CORBA.ORBInitialHost", "172.17.8.175");
+        prop.setProperty("org.omg.CORBA.ORBInitialHost", "glassfixe");
         prop.setProperty("org.omg.CORBA.ORBInitialPort", "3700");
 
         try {
