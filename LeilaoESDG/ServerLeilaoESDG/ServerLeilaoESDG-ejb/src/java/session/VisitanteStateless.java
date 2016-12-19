@@ -1,5 +1,5 @@
 
-package remotebeans;
+package session;
 
 import javax.ejb.Stateless;
 

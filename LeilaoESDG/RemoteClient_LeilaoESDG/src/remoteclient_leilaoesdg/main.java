@@ -4,7 +4,7 @@ import java.util.Properties;
 import java.util.Scanner;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
-import remotebeans.UtilizadorStatefullRemote;
+import session.UtilizadorStatefullRemote;
 
 public class main {
 static Scanner sc = new Scanner(System.in);
@@ -31,7 +31,7 @@ static Scanner sc = new Scanner(System.in);
         }
         System.out.println("InitialContext Criado");
         String rsing_class_name
-                = "java:global/ServerLeilaoESDG/ServerLeilaoESDG-ejb/UtilizadorStatefull!remotebeans.UtilizadorStatefullRemote";
+                = "java:global/ServerLeilaoESDG/ServerLeilaoESDG-ejb/UtilizadorStatefull!session.UtilizadorStatefullRemote";
 
         try {
             System.out.println("Iniciar lookup");
