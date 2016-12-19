@@ -7,6 +7,7 @@ import javax.naming.NamingException;
 import leilao.UtilizadorStatefullRemote;
 
 public class main {
+static Scanner sc = new Scanner(System.in);
 
     static UtilizadorStatefullRemote utilizador;
 
@@ -46,8 +47,21 @@ public class main {
 
     public static void main(String[] args) {
         obtemReferencias();
-
-        System.out.println(utilizador.teste());
+        Menu menu = new Menu();
+        int opcao = Menu.getMenuVisitante();
+        switch (opcao){
+            case 0:
+                System.out.println("opcao 0");
+                break;
+            case 1:
+                System.out.println("opcao 1");
+                break;
+            case 2:
+                System.out.println("opcao 2");
+                break;
+        }
+        
+        
         System.exit(0);
     }
 
