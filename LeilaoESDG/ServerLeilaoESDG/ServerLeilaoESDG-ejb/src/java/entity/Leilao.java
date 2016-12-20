@@ -6,20 +6,20 @@ import java.util.TreeMap;
 
 
 public class Leilao {
-    private Vendedor vendedor;
+   
     private TreeMap<Double,Membro> licitacoes;
     private Date dataLimite;
-    private String descricao;
-    private Double comprarJa;
+    
+    private Item item;
     private LeilaoEstados estado;
+    private Venda venda;
     private Membro comprador;
 
-    public Leilao(Vendedor vendedor, Date dataLimite, String descricao, Double comprarJa) {
-        this.vendedor = vendedor;
+    public Leilao(Item item,Date dataLimite, String descricao, Double comprarJa) {
+       this.item = item;
         this.licitacoes = new TreeMap<>();
         this.dataLimite = dataLimite;
-        this.descricao = descricao;
-        this.comprarJa = comprarJa;
+
         this.estado = LeilaoEstados.INICIADA;
     }
     public boolean addLicitacao(Membro licitador,Double valor){
@@ -30,13 +30,14 @@ public class Leilao {
         this.licitacoes.put(valor, licitador);
         return true;
     }
-    public Venda comprarJa(Membro membro){
+    public boolean comprarJa(Membro membro){
         if (!checkLicitador(membro))
             return false;
         this.comprador = membro;
         this.estado = LeilaoEstados.TERMINADA;
-        return new Venda();
+        return true;
     }
+    
     public boolean cancelarVenda(Membro membro){
         if (checkLicitador(membro)){
             this.estado = LeilaoEstados.CANCELADA;
@@ -45,7 +46,7 @@ public class Leilao {
         return false;
     }
     private boolean checkLicitador(Membro licitador){
-         return licitador != vendedor;
+         return licitador != item.getVendedor();
     }
     private boolean checkValor(Double valor){
         return (valor<=licitacoes.lastKey());
