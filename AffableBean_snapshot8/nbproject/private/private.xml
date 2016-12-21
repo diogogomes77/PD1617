@@ -3,8 +3,17 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group name="PD_TrabalhoPratico">
+            <file>file:/home/diogo/NetBeansProjects/PD_TrabalhoPratico/AffableBean_snapshot8/src/java/session/AbstractFacade.java</file>
+            <file>file:/home/diogo/NetBeansProjects/PD_TrabalhoPratico/AffableBean_snapshot8/src/java/session/OrderManager.java</file>
+            <file>file:/home/diogo/NetBeansProjects/PD_TrabalhoPratico/AffableBean_snapshot8/src/java/controller/ControllerServlet.java</file>
             <file>file:/home/diogo/NetBeansProjects/PD_TrabalhoPratico/AffableBean_snapshot8/src/java/entity/Product.java</file>
+            <file>file:/home/diogo/NetBeansProjects/PD_TrabalhoPratico/AffableBean_snapshot8/src/java/session/ProductFacade.java</file>
+            <file>file:/home/diogo/NetBeansProjects/PD_TrabalhoPratico/AffableBean_snapshot8/src/java/filter/SessionTimeoutFilter.java</file>
+            <file>file:/home/diogo/NetBeansProjects/PD_TrabalhoPratico/AffableBean_snapshot8/src/java/session/CustomerFacade.java</file>
+            <file>file:/home/diogo/NetBeansProjects/PD_TrabalhoPratico/AffableBean_snapshot8/src/java/session/OrderedProductFacade.java</file>
+            <file>file:/home/diogo/NetBeansProjects/PD_TrabalhoPratico/AffableBean_snapshot8/src/java/session/CustomerOrderFacade.java</file>
             <file>file:/home/diogo/NetBeansProjects/PD_TrabalhoPratico/AffableBean_snapshot8/src/java/session/CategoryFacade.java</file>
+            <file>file:/home/diogo/NetBeansProjects/PD_TrabalhoPratico/AffableBean_snapshot8/src/java/entity/Customer.java</file>
         </group>
     </open-files>
 </project-private>

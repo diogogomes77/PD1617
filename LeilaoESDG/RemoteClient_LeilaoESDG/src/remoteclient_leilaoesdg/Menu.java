@@ -12,6 +12,8 @@ public class Menu {
     private static TreeMap<Integer, String> menuMap;
     private static StringBuilder menuText;
 
+
+
     public Menu() {
         Menu.menuMap = new TreeMap<>();
         Menu.menuText = new StringBuilder("");
@@ -53,4 +55,6 @@ public class Menu {
         return opcao;
 
     }
+    
+
 }

@@ -5,11 +5,14 @@ import java.util.Scanner;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import session.UtilizadorStatefullRemote;
+import session.VisitanteStatelessRemote;
 
 public class main {
-static Scanner sc = new Scanner(System.in);
+
+    static Scanner sc = new Scanner(System.in);
 
     static UtilizadorStatefullRemote utilizador;
+    static VisitanteStatelessRemote visitante;
 
     static void obtemReferencias() {
         InitialContext ctx = null;
@@ -30,13 +33,16 @@ static Scanner sc = new Scanner(System.in);
             System.exit(1);
         }
         System.out.println("InitialContext Criado");
-        String rsing_class_name
+        String utilizador_class_name
                 = "java:global/ServerLeilaoESDG/ServerLeilaoESDG-ejb/UtilizadorStatefull!session.UtilizadorStatefullRemote";
-
+        String visitante_class_name
+                = "java:global/ServerLeilaoESDG/ServerLeilaoESDG-ejb/VisitanteStateless!session.VisitanteStatelessRemote";
         try {
             System.out.println("Iniciar lookup");
-            Object z = ctx.lookup(rsing_class_name);
-            utilizador = (UtilizadorStatefullRemote) z;
+            Object v = ctx.lookup(visitante_class_name);
+            visitante = (VisitanteStatelessRemote) v;
+            Object u = ctx.lookup(utilizador_class_name);
+            utilizador = (UtilizadorStatefullRemote) u;
         } catch (NamingException e) {
             System.out.println(e.getMessage());
             e.printStackTrace();
@@ -45,24 +51,57 @@ static Scanner sc = new Scanner(System.in);
         System.out.println("JNDI lookup conlcuido");
     }
 
-    public static void main(String[] args) {
+    public void main(String[] args) {
         obtemReferencias();
         Menu menu = new Menu();
-        int opcao = Menu.getMenuVisitante();
-        switch (opcao){
-            case 0:
-                System.out.println("opcao 0");
-                break;
-            case 1:
-                System.out.println("opcao 1");
-                break;
-            case 2:
-                System.out.println("opcao 2");
-                break;
-        }
-        
-        
-        System.exit(0);
+        do {
+            int opcao = Menu.getMenuVisitante();
+            switch (opcao) {
+                case 0:
+                    System.out.println("Sair");
+                    System.exit(0);
+                    break;
+                case 1:
+                    System.out.println("Inscricao");
+                    inscreveMembro();
+                    break;
+                case 2:
+                    System.out.println("Newsletter");
+                    break;
+            }
+        } while (true);
+
     }
+
+    private void inscreveMembro() {
+        String nome;
+        String morada;
+        String username;
+        String password;
+        System.out.println("Nome: ");
+            nome = sc.next();
+            sc.skip("\n");
+        System.out.println("Morada: ");
+        morada = sc.next();
+            sc.skip("\n");
+        System.out.println("Username: ");
+            username = sc.next();
+            sc.skip("\n"); 
+        boolean ok = false;
+        while (!ok){
+            System.out.println("Password: ");
+            password = sc.next();
+            sc.skip("\n");
+            System.out.println("Repita password: ");
+            if (password.compareTo(sc.next())==0){
+                ok = true;
+            } else {
+                System.out.println("Password nao coincide! Tente novamente... ");
+            }
+            sc.skip("\n");
+        }
+        utilizador.teste();
+    }
+
 
 }
