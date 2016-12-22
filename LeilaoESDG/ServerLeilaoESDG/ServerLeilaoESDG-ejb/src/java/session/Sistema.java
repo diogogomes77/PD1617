@@ -5,9 +5,11 @@ import entity.Leilao;
 import entity.Membro;
 import java.util.ArrayList;
 import java.util.List;
+import javax.ejb.LocalBean;
 import javax.ejb.Singleton;
 
 @Singleton
+@LocalBean
 public class Sistema implements SistemaLocal {
 
 
@@ -33,12 +35,29 @@ public class Sistema implements SistemaLocal {
 
     private boolean isUnique(String username) {
         for (Membro membro : this.membros) {
-            if (username.equalsIgnoreCase(username))
+            if (username.equalsIgnoreCase(membro.getUsername()))
                 return false;
         } 
         return true;   
     }
 
+    public boolean loginMembro(String username, String password) {
+        for (Membro membro : this.membros) {
+            if (username.equalsIgnoreCase(membro.getUsername()) && password.equalsIgnoreCase(membro.getPassword()))
+                return true;
+                //return "Bemvindo ".concat(membro.getNome());
+        }
+        return false;
+        //return ("username ou password desconhecida");
+    }
+
+    public Membro getMembro(String username){
+       for (Membro membro : this.membros) {
+            if (username.equalsIgnoreCase(membro.getUsername()))
+                return membro;
+        } 
+        return null;  
+    }
   
     
 }
