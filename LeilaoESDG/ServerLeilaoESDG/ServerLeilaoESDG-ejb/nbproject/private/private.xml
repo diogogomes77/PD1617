@@ -3,16 +3,6 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group name="PD_TrabalhoPratico">
-            <file>file:/home/diogo/NetBeansProjects/PD_TrabalhoPratico/LeilaoESDG/ServerLeilaoESDG/ServerLeilaoESDG-ejb/src/java/entity/Membro.java</file>
-            <file>file:/home/diogo/NetBeansProjects/PD_TrabalhoPratico/LeilaoESDG/ServerLeilaoESDG/ServerLeilaoESDG-ejb/src/java/session/SistemaLocal.java</file>
-            <file>file:/home/diogo/NetBeansProjects/PD_TrabalhoPratico/LeilaoESDG/ServerLeilaoESDG/ServerLeilaoESDG-ejb/src/java/entity/Licitacao.java</file>
-            <file>file:/home/diogo/NetBeansProjects/PD_TrabalhoPratico/LeilaoESDG/ServerLeilaoESDG/ServerLeilaoESDG-ejb/src/java/session/Sistema.java</file>
-            <file>file:/home/diogo/NetBeansProjects/PD_TrabalhoPratico/LeilaoESDG/ServerLeilaoESDG/ServerLeilaoESDG-ejb/src/java/entity/VendaEstados.java</file>
-            <file>file:/home/diogo/NetBeansProjects/PD_TrabalhoPratico/LeilaoESDG/ServerLeilaoESDG/ServerLeilaoESDG-ejb/src/java/entity/Venda.java</file>
-            <file>file:/home/diogo/NetBeansProjects/PD_TrabalhoPratico/LeilaoESDG/ServerLeilaoESDG/ServerLeilaoESDG-ejb/src/java/session/VisitanteStateless.java</file>
-            <file>file:/home/diogo/NetBeansProjects/PD_TrabalhoPratico/LeilaoESDG/ServerLeilaoESDG/ServerLeilaoESDG-ejb/src/java/entity/Leilao.java</file>
-            <file>file:/home/diogo/NetBeansProjects/PD_TrabalhoPratico/LeilaoESDG/ServerLeilaoESDG/ServerLeilaoESDG-ejb/src/java/session/UtilizadorStatefull.java</file>
-            <file>file:/home/diogo/NetBeansProjects/PD_TrabalhoPratico/LeilaoESDG/ServerLeilaoESDG/ServerLeilaoESDG-ejb/src/java/entity/LeilaoEstados.java</file>
             <file>file:/home/diogo/NetBeansProjects/PD_TrabalhoPratico/LeilaoESDG/ServerLeilaoESDG/ServerLeilaoESDG-ejb/src/java/entity/Item.java</file>
         </group>
     </open-files>
