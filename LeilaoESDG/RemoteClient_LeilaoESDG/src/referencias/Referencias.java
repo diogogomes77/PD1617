@@ -14,7 +14,7 @@ public abstract class Referencias {
     public abstract Object getUtilizador();
     protected Referencias() {
         prop = new Properties();
-        prop.setProperty("java.naming.factory.initial",
+          prop.setProperty("java.naming.factory.initial",
                 "com.sun.enterprise.naming.SerialInitContextFactory");
         prop.setProperty("java.naming.factory.url.pkgs",
                 "com.sun.enterprise.naming");
