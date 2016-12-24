@@ -50,12 +50,13 @@ public class PDTPrcse {
     public static void printMenu() {
         System.out.println("\n------------------------");
         System.out.println("Adivinha numero");
-        System.out.println(" 1 - Registar nome");
+        System.out.println(" 1 - Login Utilizador");
         System.out.println(" 2 - Tentar numero");
         System.out.println(" 3 - Consultar pontuacao");
         System.out.println(" 4 - Consultar tentativas");
         System.out.println(" 5 - Consultar hiscores");
         System.out.println(" 6 - Log Off");
+        System.out.println(" 7 - Registar Utilizador");
         System.out.println("____");
         System.out.println(" Sair -> 0");
         System.out.println("\n------------------------");
@@ -125,14 +126,17 @@ public class PDTPrcse {
         }
     }
 
-    public static void registarNome() {
-        String s;
-        System.out.print("\nNome -> ");
-        s = sc.nextLine();
-        if (ligacao.registerName(s)) {
-            System.out.println("accao confirmada");
+    public static void loginUtilizador() {
+        String username;
+        String password;
+        System.out.print("\nUsername -> ");
+        username = sc.nextLine();
+        System.out.print("\nPassword -> ");
+        password = sc.nextLine();
+        if (ligacao.LoginUtilizador(username,password)) {
+            System.out.println("Login valido");
         } else {
-            System.out.println("accao nao aceite");
+            System.out.println("ERRO: Login invalido");
         }
     }
      public static void main(String[] args) {
@@ -141,10 +145,10 @@ public class PDTPrcse {
         obtemReferencias();
         while (continuar) {
             printMenu();
-            opcao = obtemOpcaoMenu(6);
+            opcao = obtemOpcaoMenu(7);
             switch (opcao) {
                 case 1:
-                    registarNome();
+                    loginUtilizador();
                     break;
                 case 2:
                     tentarNumero();
@@ -161,6 +165,9 @@ public class PDTPrcse {
                 case 6:
                     logOff();
                     break;
+                case 7:
+                    registarUtilizador();
+                    break;
                 case 0:
                     continuar = false;
                     break;
@@ -172,5 +179,52 @@ public class PDTPrcse {
         System.out.println("\nlog off");
         logOff();
         System.out.println("fim do programa");
+    }
+
+    public static void registarUtilizador() {
+        
+        String s;        
+        String nome="";
+        String morada="";
+        String username="";
+        String password="";
+        System.out.print("Nome: ");
+        nome = sc.next();
+        sc.skip("\n");
+        System.out.print("Morada: ");
+        morada = sc.next();
+        sc.skip("\n");
+        boolean freeUsername = false;
+        while (!freeUsername){
+            System.out.print("Username: ");
+            username = sc.next();
+            sc.skip("\n");
+            if (ligacao.existeUsername(username))
+                System.out.println("ERRO: Username ja existe, escolha outro");
+            else
+                freeUsername=true;
+        }
+        
+        boolean okPassword = false;
+        password = "";
+        while (!okPassword) {
+            System.out.print("Password: ");
+            password = sc.next();
+            sc.skip("\n");
+            System.out.print("Repita password: ");
+
+            if (password.compareTo(sc.next()) == 0) {
+                okPassword = true;
+            } else {
+                System.out.println("ERRO: Password nao coincide! Tente novamente... ");
+            }
+            sc.skip("\n");
+        }
+      
+         if (ligacao.inscreveUtilizador(nome, morada, username, password)) {
+            System.out.println("Utilizador inscrito");
+        } else {
+            System.out.println("ERRO: Utilizador nao inscrito");
+        }
     }
 }

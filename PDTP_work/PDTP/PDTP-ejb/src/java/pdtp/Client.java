@@ -12,11 +12,11 @@ public class Client implements ClientRemote {
     
     @EJB LeiloeiraLocal leiloeira;
     @Override
-    public boolean registerName(String name) {
-        //if (MyName != null))
-        //return false;
-        if (leiloeira.acceptNewUtilizador(name)){
-            myName = name;
+    public boolean LoginUtilizador(String username, String password) {
+        if (myName != null)
+            return false;
+        if (leiloeira.loginUtilizador(username,password)){
+            myName = username;
             return true;
         }
         return false;
@@ -53,4 +53,19 @@ public class Client implements ClientRemote {
         myName = null;
         return leiloeira.logOff(myName); // Singleeton testa MyName == null
     }
+
+    @Override
+    public void test() {
+    }
+
+    @Override
+    public boolean inscreveUtilizador(String nome, String morada, String username, String password) {
+        return leiloeira.registaUtilizador(nome, morada, username, password);
+    }
+
+    @Override
+    public boolean existeUsername(String username) {
+        return leiloeira.existeUtilizador(username);
+    }
+    
 }

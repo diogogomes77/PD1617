@@ -13,9 +13,13 @@ public interface LeiloeiraLocal {
 
     int getMyAttempts(String name);
 
-    boolean acceptNewUtilizador(String name);
+    boolean existeUtilizador(String name);
 
     TryResult tryNumber (String name, int numero);
 
     boolean logOff(String name);
+
+    boolean registaUtilizador(String nome, String morada, String username, String password);
+
+    boolean loginUtilizador(String username, String password);
 }
