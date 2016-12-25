@@ -1,6 +1,8 @@
 
 package pdtp;
 
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,6 +24,7 @@ public class Utilizador {
         this.saldo = 0.0;
         this.items = new ArrayList<>();
         this.leiloes = new ArrayList<>();
+        logged=true;
     }
 
     public void addItem(Item item){
@@ -78,52 +81,81 @@ public class Utilizador {
         return leiloes;
     }
     
-    Utilizador(String name) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    String name;
+    int score;
+    int attempts;
+    boolean advised;
+    boolean logged;
+    long lastAction;
+    
+    public Utilizador(String name){
+        this.name=name;
+        this.advised=false;
+        lastAction=LocalDateTime.now()
+                .toInstant(ZoneOffset.UTC).getEpochSecond();
+        logged=true;
+    }
+    
+    public String getname() {
+        return name;
     }
 
-    void setLastAction() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public int getAttempts(){
+        return attempts;
     }
-
-    int getScore() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void addScore(){
+        score++;
     }
-
-    boolean isLogged() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void addAttempts(){
+        attempts++;
     }
-
-    void setLogged() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public boolean advised(){
+        return advised;
     }
-
-    boolean advised() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void resetAdvised(){
+        advised = false;
     }
-
-    void setAdvised() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void setAdvised(){
+        advised=true;
     }
-
-    void addAttempts() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void setLastAction(){
+        lastAction=LocalDateTime.now()
+                .toInstant(ZoneOffset.UTC).getEpochSecond();
     }
-
-    void addScore() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public boolean lastActionMoreThan(long seconds){
+        return LocalDateTime.now().toInstant(ZoneOffset.UTC).getEpochSecond()
+        - lastAction < seconds;
     }
-
-    void resetAdvised() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public long fromLastActionFromNoew(long now) {
+        return now - lastAction;
     }
-
-    void resetLogged() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public boolean isLogged() {
+        return logged;
     }
-
-    int fromLastActionFromNoew(long now) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void setLogged() {
+        logged = true;
+    }
+    public void resetLogged() {
+        logged = false;
+    }
+    @Override
+    public String toString(){
+        return name + ": Pontos="+score+
+                " Tent="+attempts+
+                " ("+(logged?"logado":"nao logado") + ")";
+    }
+    @Override
+    public boolean equals(Object x){
+        if(x==null)
+            return false;
+        if(getClass() != x.getClass())
+            return false;
+        Utilizador j = (Utilizador) x;
+        return name.compareToIgnoreCase(j.name) == 0;
+    }
+    @Override
+    public int hashCode(){
+        return name.hashCode();
     }
 
 

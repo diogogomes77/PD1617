@@ -2,6 +2,7 @@
 package pdtp;
 
 import java.util.ArrayList;
+import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateful;
 
@@ -12,7 +13,7 @@ public class Client implements ClientRemote {
     
     @EJB LeiloeiraLocal leiloeira;
     @Override
-    public boolean LoginUtilizador(String username, String password) {
+    public boolean loginUtilizador(String username, String password) {
         if (myName != null)
             return false;
         if (leiloeira.loginUtilizador(username,password)){
@@ -24,29 +25,6 @@ public class Client implements ClientRemote {
 
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")
-
-    @Override
-    public int getMyScore() {
-        return leiloeira.getMyScore(myName);
-    }
-
-    @Override
-    public ArrayList<String> getHiScores() {
-        return null;
-    }
-
-    @Override
-    public int getMyAttempts() {
-        return leiloeira.getMyAttempts(myName);
-    }
-
-    @Override
-    public TryResult tryNumber(int numero) {
-        if (myName == null)
-            return TryResult.NoName; // testado no singleton
-        
-        return leiloeira.tryNumber(myName,numero);
-    }
 
     @Override
     public boolean logOff() {
@@ -66,6 +44,11 @@ public class Client implements ClientRemote {
     @Override
     public boolean existeUsername(String username) {
         return leiloeira.existeUtilizador(username);
+    }
+
+    @Override
+    public ArrayList getLogged() {
+        return leiloeira.getLogged();
     }
     
 }

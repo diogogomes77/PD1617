@@ -42,32 +42,9 @@ public class Leiloeira implements LeiloeiraLocal {
         // nao atualiza timetampo porque pode nem estar logado;
     }
 
-    @Override
-    public int getMyScore(String name) {
-        if (name == null) {
-            return 0;
-        }
-        Utilizador j = utilizadores.get(name);
-        if (j == null) {
-            return 0;
-        }
-        j.setLastAction();
-        return j.getScore();
-    }
 
-    @Override
-    public int getMyAttempts(String name) {
-        if (name == null) {
-            return 0;
-        }
-        Utilizador j = utilizadores.get(name);
-        if (j == null) {
-            return 0;
-        }
-        j.setLastAction();
-        Object x; // ???
-        return j.getScore();
-    }
+
+
 
     @Override
     public boolean existeUtilizador(String username) {
@@ -75,11 +52,11 @@ public class Leiloeira implements LeiloeiraLocal {
             return false;
         }
         Utilizador j = utilizadores.get(username);
-        if (j == null) // sera que nao fica null?
+        if (j==null) // sera que nao fica null?
         {
-            return true;
+            return false;
         }
-        return false;
+        return true;
     }
 
     @Override
@@ -110,35 +87,7 @@ public class Leiloeira implements LeiloeiraLocal {
         return false;
     }
 
-    @Override
-    public TryResult tryNumber(String name, int numero) {
-        if (name == null) {
-            return TryResult.Error;
-        }
-        Utilizador j = utilizadores.get(name);
-        if (j == null) {
-            return TryResult.Error;
-        }
-        if (!j.isLogged()) {
-            return TryResult.NotLogged;
-        }
-        j.setLastAction();
-        if (!j.advised()) {
-            j.setAdvised();
-            return TryResult.NewNumber;
-        }
-        j.addAttempts();
-        if (numero == secretNum) {
-            j.addScore();
-            newNumber();
-            return TryResult.Right;
-        }
-        if (numero > secretNum) {
-            return TryResult.TooBig;
-        } else {
-            return TryResult.TooSmall;
-        }
-    }
+   
 
     private void newNumber() {
         secretNum = rnd.nextInt(100) + 1;
@@ -203,6 +152,18 @@ public class Leiloeira implements LeiloeiraLocal {
         } catch (Exception e) {
 
         }
+    }
+
+    @Override
+    public ArrayList getLogged() {
+        ArrayList logados = new ArrayList<>();
+        Collection<Utilizador> todos = utilizadores.values();
+        for (Utilizador j : todos) {
+            if (j.isLogged()) {
+                logados.add(j.getUsername());
+            }
+        }
+        return logados;
     }
 
 }

@@ -7,15 +7,7 @@ import javax.ejb.Remote;
 @Remote
 public interface ClientRemote {
     
-    boolean LoginUtilizador(String name, String password);
-
-    int getMyScore();
-
-    ArrayList<String> getHiScores();
-
-    int getMyAttempts();
-
-     TryResult tryNumber(int numero);
+    boolean loginUtilizador(String name, String password);
 
     boolean logOff();
 
@@ -24,4 +16,6 @@ public interface ClientRemote {
     boolean inscreveUtilizador(String nome, String morada, String username, String password);
 
     boolean existeUsername(String username);
+
+    ArrayList getLogged();
 }

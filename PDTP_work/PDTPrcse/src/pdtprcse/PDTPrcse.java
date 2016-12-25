@@ -51,10 +51,6 @@ public class PDTPrcse {
         System.out.println("\n------------------------");
         System.out.println("Adivinha numero");
         System.out.println(" 1 - Login Utilizador");
-        System.out.println(" 2 - Tentar numero");
-        System.out.println(" 3 - Consultar pontuacao");
-        System.out.println(" 4 - Consultar tentativas");
-        System.out.println(" 5 - Consultar hiscores");
         System.out.println(" 6 - Log Off");
         System.out.println(" 7 - Registar Utilizador");
         System.out.println("____");
@@ -81,43 +77,6 @@ public class PDTPrcse {
         }
     }
 
-    public static void tentarNumero() {
-        int numero;
-        String s;
-        System.out.print("\nNumero (1-100) -> ");
-        try {
-            s = sc.nextLine();
-            numero = Integer.parseInt(s);
-            if ((numero < 1) || (numero > 100)) {
-                System.out.println("Fora da gama. Nao vou enviar ao servidor");
-            } else {
-                System.out.println("Resultado: "
-                        + ligacao.tryNumber(numero).msg());
-            }
-        } catch (NumberFormatException e) {
-            System.out.println("Problema no teclado");
-        }
-    }
-
-    public static void consultarPontuacao() {
-        System.out.println("\nPontuacao actual:" + ligacao.getMyScore());
-    }
-
-    public static void consultarTentativas() {
-        System.out.println("\nTentativas ate agora: " + ligacao.getMyAttempts());
-    }
-
-    public static void consultarHiscores() {
-        ArrayList<String> hisc = ligacao.getHiScores();
-        if ((hisc == null) || (hisc.isEmpty())) {
-            System.out.println("Lista vazia (nem sequer este jogador?)");
-        } else {
-            for (String s : hisc) {
-                System.out.println(s);
-            }
-        }
-    }
-
     public static void logOff() {
         if (ligacao.logOff()) {
             System.out.println("accao confirmada");
@@ -133,34 +92,44 @@ public class PDTPrcse {
         username = sc.nextLine();
         System.out.print("\nPassword -> ");
         password = sc.nextLine();
-        if (ligacao.LoginUtilizador(username,password)) {
+        if (ligacao.loginUtilizador(username,password)) {
             System.out.println("Login valido");
         } else {
             System.out.println("ERRO: Login invalido");
         }
     }
-     public static void main(String[] args) {
+    public static void printLogged(){
+        ArrayList <String> logados = ligacao.getLogged();
+        
+         System.out.print("Utilizadores online: ");
+        logados.forEach((user)->{
+            System.out.print(user +" ");
+        });
+         System.out.print("\n");
+    }
+    public static void main(String[] args) {
         int opcao;
         boolean continuar = true;
         obtemReferencias();
         while (continuar) {
             printMenu();
+            printLogged();
             opcao = obtemOpcaoMenu(7);
             switch (opcao) {
                 case 1:
                     loginUtilizador();
                     break;
                 case 2:
-                    tentarNumero();
+                    
                     break;
                 case 3:
-                    consultarPontuacao();
+           
                     break;
                 case 4:
-                    consultarTentativas();
+            
                     break;
                 case 5:
-                    consultarHiscores();
+
                     break;
                 case 6:
                     logOff();
@@ -221,7 +190,7 @@ public class PDTPrcse {
             sc.skip("\n");
         }
       
-         if (ligacao.inscreveUtilizador(nome, morada, username, password)) {
+        if (ligacao.inscreveUtilizador(nome, morada, username, password)) {
             System.out.println("Utilizador inscrito");
         } else {
             System.out.println("ERRO: Utilizador nao inscrito");
