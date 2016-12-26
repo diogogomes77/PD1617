@@ -6,6 +6,9 @@ import java.util.Properties;
 import java.util.Scanner;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
+import menus.Menu;
+import menus.MenuUtilizador;
+import menus.MenuVisitante;
 import pdtp.ClientRemote;
 
 public class PDTPrcse {
@@ -108,6 +111,15 @@ public class PDTPrcse {
          System.out.print("\n");
     }
     public static void main(String[] args) {
+        Menu menu = new MenuVisitante();
+        obtemReferencias();
+         boolean continuar = true;
+        while (continuar) {
+            printLogged();
+            continuar=menu.escolheMenu();
+        }
+    }
+    public static void main_(String[] args) {
         int opcao;
         boolean continuar = true;
         obtemReferencias();
