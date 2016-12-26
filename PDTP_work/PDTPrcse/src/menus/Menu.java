@@ -1,17 +1,17 @@
 package menus;
 
+import controladores.Controlador;
+
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Scanner;
-import java.util.TreeMap;
-import static pdtprcse.PDTPrcse.logOff;
-import static pdtprcse.PDTPrcse.loginUtilizador;
-import static pdtprcse.PDTPrcse.registarUtilizador;
+import pdtp.ClientRemote;
+import pdtprcse.PDTPrcse;
 
-public abstract class Menu {
+
+public abstract class Menu extends PDTPrcse{
 
     
     protected static HashMap<Integer, String> menuMap;
@@ -22,15 +22,15 @@ public abstract class Menu {
     protected ArrayList<OpcaoMenu> opcoes;
     private  Integer numOpcoes;
     
-
+    protected Controlador controlador;
 
     protected Menu() {
        opcoes =  new ArrayList();
-        OpcaoMenu newsletter = new OpcaoMenu("Newsletter",() -> registarUtilizador());
-        OpcaoMenu sair = new OpcaoMenu("Sair",() -> logOff());
+        OpcaoMenu newsletter = new OpcaoMenu("Newsletter",() -> controlador.printInscritos());
+        OpcaoMenu sair = new OpcaoMenu("Sair",() -> controlador.sair());
         opcoes.add(sair);
         opcoes.add(newsletter);
-        
+        //this.controlador=controlador;
         comandos = new HashMap<>();
         
     }
@@ -53,8 +53,10 @@ public abstract class Menu {
         }
         menuText.append("\n*****************************\n");
     }
-    public boolean escolheMenu() {
+    public boolean escolheOpcao() {
         geraMenu();
+        controlador.printInscritos();
+        controlador.printOnline();
         int opcao;
         System.out.println(menuText.toString());
         do {
@@ -69,10 +71,15 @@ public abstract class Menu {
             }
             System.out.println("Opcao invalida! Escolha outra");
         } while (true);
-        System.out.println(comandos);
+   
         OpcaoMenu escolha = comandos.get(opcao);
-       // System.out.println(escolha.getOpcao());
+   
         escolha.getFuncao().run();
         return true;
     }  
+
+    public Controlador getControlador() {
+        return controlador;
+    }
+    
 }

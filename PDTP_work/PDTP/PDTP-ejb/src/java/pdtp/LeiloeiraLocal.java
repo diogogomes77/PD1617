@@ -22,5 +22,7 @@ public interface LeiloeiraLocal {
 
     boolean loginUtilizador(String username, String password);
 
-    ArrayList getLogged();
+    ArrayList getUsernameInscritos();
+
+    ArrayList getUsernamesOnline();
 }

@@ -28,7 +28,7 @@ public class Leiloeira implements LeiloeiraLocal {
     int secretNum;
 
     public Leiloeira() {
-        newNumber();
+       
     }
 
     @Override
@@ -87,17 +87,7 @@ public class Leiloeira implements LeiloeiraLocal {
         return false;
     }
 
-   
-
-    private void newNumber() {
-        secretNum = rnd.nextInt(100) + 1;
-        //avisa todos que o numero mudou
-        Collection<Utilizador> todos = utilizadores.values();
-        ArrayList<String> hisc = new ArrayList<>(); // pouco eficiente
-        todos.forEach((j) -> {
-            j.resetAdvised();
-        });
-    }
+  
 
     @Override
     public boolean logOff(String username) {
@@ -155,7 +145,17 @@ public class Leiloeira implements LeiloeiraLocal {
     }
 
     @Override
-    public ArrayList getLogged() {
+    public ArrayList getUsernameInscritos() {
+        ArrayList inscritos = new ArrayList<>();
+        Collection<Utilizador> todos = utilizadores.values();
+        for (Utilizador j : todos) {
+            inscritos.add(j.getUsername());
+        }
+        return inscritos;
+    }
+
+    @Override
+    public ArrayList getUsernamesOnline() {
         ArrayList logados = new ArrayList<>();
         Collection<Utilizador> todos = utilizadores.values();
         for (Utilizador j : todos) {
@@ -165,5 +165,4 @@ public class Leiloeira implements LeiloeiraLocal {
         }
         return logados;
     }
-
 }

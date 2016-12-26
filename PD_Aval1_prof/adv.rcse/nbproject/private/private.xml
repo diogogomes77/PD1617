@@ -7,10 +7,6 @@
             <file>file:/home/diogo/NetBeansProjects/PD_TrabalhoPratico/PD_Aval1_prof/adv.rcse/src/advgame/TryResult.java</file>
             <file>file:/home/diogo/NetBeansProjects/PD_TrabalhoPratico/PD_Aval1_prof/adv.rcse/src/advgame/AdvClientRemote.java</file>
         </group>
-        <group name="PD_TrabalhoPratico">
-            <file>file:/home/diogo/NetBeansProjects/PD_TrabalhoPratico/PD_Aval1_prof/adv.rcse/src/adv/rcse/AdvRcse.java</file>
-            <file>file:/home/diogo/NetBeansProjects/PD_TrabalhoPratico/PD_Aval1_prof/adv.rcse/src/advgame/TryResult.java</file>
-            <file>file:/home/diogo/NetBeansProjects/PD_TrabalhoPratico/PD_Aval1_prof/adv.rcse/src/advgame/AdvClientRemote.java</file>
-        </group>
+        <group name="PD_TrabalhoPratico"/>
     </open-files>
 </project-private>

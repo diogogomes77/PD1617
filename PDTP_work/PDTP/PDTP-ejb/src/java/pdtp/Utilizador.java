@@ -15,6 +15,9 @@ public class Utilizador {
     private Double saldo;
     private List<Item> items;
     private List<Leilao> leiloes;
+
+    private boolean logged;
+    long lastAction;
     
     public Utilizador(String nome, String morada, String username, String password) {
         this.nome = nome;
@@ -24,7 +27,7 @@ public class Utilizador {
         this.saldo = 0.0;
         this.items = new ArrayList<>();
         this.leiloes = new ArrayList<>();
-        logged=true;
+        logged=false;
     }
 
     public void addItem(Item item){
@@ -80,44 +83,7 @@ public class Utilizador {
     public List<Leilao> getLeiloes() {
         return leiloes;
     }
-    
-    String name;
-    int score;
-    int attempts;
-    boolean advised;
-    boolean logged;
-    long lastAction;
-    
-    public Utilizador(String name){
-        this.name=name;
-        this.advised=false;
-        lastAction=LocalDateTime.now()
-                .toInstant(ZoneOffset.UTC).getEpochSecond();
-        logged=true;
-    }
-    
-    public String getname() {
-        return name;
-    }
 
-    public int getAttempts(){
-        return attempts;
-    }
-    public void addScore(){
-        score++;
-    }
-    public void addAttempts(){
-        attempts++;
-    }
-    public boolean advised(){
-        return advised;
-    }
-    public void resetAdvised(){
-        advised = false;
-    }
-    public void setAdvised(){
-        advised=true;
-    }
     public void setLastAction(){
         lastAction=LocalDateTime.now()
                 .toInstant(ZoneOffset.UTC).getEpochSecond();
@@ -140,8 +106,7 @@ public class Utilizador {
     }
     @Override
     public String toString(){
-        return name + ": Pontos="+score+
-                " Tent="+attempts+
+        return nome +
                 " ("+(logged?"logado":"nao logado") + ")";
     }
     @Override
@@ -151,11 +116,11 @@ public class Utilizador {
         if(getClass() != x.getClass())
             return false;
         Utilizador j = (Utilizador) x;
-        return name.compareToIgnoreCase(j.name) == 0;
+        return username.compareToIgnoreCase(j.username) == 0;
     }
     @Override
     public int hashCode(){
-        return name.hashCode();
+        return username.hashCode();
     }
 
 

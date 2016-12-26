@@ -17,5 +17,7 @@ public interface ClientRemote {
 
     boolean existeUsername(String username);
 
-    ArrayList getLogged();
+    ArrayList getUsernameInscritos();
+
+    ArrayList getUsernamesOnline();
 }

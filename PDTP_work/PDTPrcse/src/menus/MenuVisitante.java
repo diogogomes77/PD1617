@@ -5,27 +5,23 @@
  */
 package menus;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeMap;
-import static menus.Menu.menuText;
-import static pdtprcse.PDTPrcse.loginUtilizador;
-import static pdtprcse.PDTPrcse.registarUtilizador;
+import controladores.ControladorVisitante;
+import static controladores.ControladorVisitante.*;
+import pdtp.ClientRemote;
 
 public class MenuVisitante extends Menu {
 
-    private static MenuVisitante instancia =  new MenuVisitante();
-    public static MenuVisitante getInstance() {
-        return instancia;
-    }
+//    private static MenuVisitante instancia =  new MenuVisitante();
+//    public static MenuVisitante getInstance() {
+//        return instancia;
+//    }
     
-    public MenuVisitante() {
-        super();
-        OpcaoMenu login = new OpcaoMenu("Login",() -> loginUtilizador());
-        OpcaoMenu registo = new OpcaoMenu("Registo",() -> registarUtilizador());
+    public MenuVisitante(ClientRemote ligacao,ControladorVisitante controlador) {
+        //super();
+        this.controlador = controlador;
+        //controlador = (ControladorVisitante) controlador;
+        OpcaoMenu login = new OpcaoMenu("Login",() -> controlador.loginUtilizador());
+        OpcaoMenu registo = new OpcaoMenu("Registo",() -> controlador.registarUtilizador());
         
         opcoes.add(login);
         opcoes.add(registo);

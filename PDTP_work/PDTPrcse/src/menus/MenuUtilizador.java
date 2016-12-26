@@ -5,31 +5,23 @@
  */
 package menus;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeMap;
-import static menus.Menu.menuMap;
-import static pdtprcse.PDTPrcse.loginUtilizador;
-import static pdtprcse.PDTPrcse.registarUtilizador;
+import controladores.ControladorUtilizador;
+
+import pdtp.ClientRemote;
 
 public class MenuUtilizador extends Menu {
 
-    private static final MenuUtilizador instancia =  new MenuUtilizador();
-    public static MenuUtilizador getInstance() {
-        return instancia;
-    }
-   // private String nome;
-    public MenuUtilizador() {
-    super();
-        opcoes.add(new OpcaoMenu("Criar Leilao",() -> loginUtilizador()));
-         opcoes.add(new OpcaoMenu("Terminar Sessao",() -> registarUtilizador()));
-       
-        
-    }
+//    private static final MenuUtilizador instancia = new MenuUtilizador();
+//
+//    public static MenuUtilizador getInstance() {
+//        return instancia;
+//    }
 
-
-   
+    public MenuUtilizador(ClientRemote ligacao, ControladorUtilizador controlador) {
+       // super();
+       this.controlador=controlador;
+        opcoes.add(new OpcaoMenu("Criar Leilao", () -> controlador.sair()));
+        opcoes.add(new OpcaoMenu("Terminar Sessao", () -> controlador.logOff()));
+    }
 
 }

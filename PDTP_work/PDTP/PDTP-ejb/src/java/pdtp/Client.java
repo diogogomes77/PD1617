@@ -17,7 +17,7 @@ public class Client implements ClientRemote {
         if (myName != null)
             return false;
         if (leiloeira.loginUtilizador(username,password)){
-            myName = username;
+            myName = username; // faz login
             return true;
         }
         return false;
@@ -28,8 +28,12 @@ public class Client implements ClientRemote {
 
     @Override
     public boolean logOff() {
-        myName = null;
-        return leiloeira.logOff(myName); // Singleeton testa MyName == null
+       
+        if (leiloeira.logOff(myName)){ // Singleeton testa MyName == null
+             myName = null;
+             return true;
+        }
+        return false;
     }
 
     @Override
@@ -47,8 +51,13 @@ public class Client implements ClientRemote {
     }
 
     @Override
-    public ArrayList getLogged() {
-        return leiloeira.getLogged();
+    public ArrayList getUsernameInscritos() {
+        return leiloeira.getUsernameInscritos();
+    }
+
+    @Override
+    public ArrayList getUsernamesOnline() {
+         return leiloeira.getUsernamesOnline();
     }
     
 }
