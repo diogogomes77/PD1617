@@ -3,6 +3,7 @@ package controladores;
 import java.util.ArrayList;
 import java.util.Scanner;
 import menus.MenuUtilizador;
+import menus.OpcaoMenu;
 import pdtp.ClientRemote;
 
 public class ControladorVisitante extends Controlador{
@@ -73,6 +74,14 @@ public class ControladorVisitante extends Controlador{
         } else {
             System.out.println("ERRO: Login invalido");
         }
+    }
+
+    public OpcaoMenu vendasRecentes() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public OpcaoMenu reativarConta() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 

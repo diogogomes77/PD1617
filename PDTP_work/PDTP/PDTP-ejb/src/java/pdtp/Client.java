@@ -42,7 +42,9 @@ public class Client implements ClientRemote {
 
     @Override
     public boolean inscreveUtilizador(String nome, String morada, String username, String password) {
-        return leiloeira.registaUtilizador(nome, morada, username, password);
+        if (myName==null)
+            return leiloeira.registaUtilizador(nome, morada, username, password);
+        return false;
     }
 
     @Override

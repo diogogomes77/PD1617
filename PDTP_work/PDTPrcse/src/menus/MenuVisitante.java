@@ -17,14 +17,12 @@ public class MenuVisitante extends Menu {
 //    }
     
     public MenuVisitante(ClientRemote ligacao,ControladorVisitante controlador) {
-        //super();
         this.controlador = controlador;
-        //controlador = (ControladorVisitante) controlador;
-        OpcaoMenu login = new OpcaoMenu("Login",() -> controlador.loginUtilizador());
-        OpcaoMenu registo = new OpcaoMenu("Registo",() -> controlador.registarUtilizador());
-        
-        opcoes.add(login);
-        opcoes.add(registo);
+        opcoes.add(new OpcaoMenu("Login",() -> controlador.loginUtilizador()));
+        opcoes.add(new OpcaoMenu("Registo",() -> controlador.registarUtilizador()));
+        opcoes.add(new OpcaoMenu("Vendas recentes",() -> controlador.vendasRecentes()));
+        opcoes.add(new OpcaoMenu("Reativar Conta",() -> controlador.reativarConta()));
+
         
     }
 
