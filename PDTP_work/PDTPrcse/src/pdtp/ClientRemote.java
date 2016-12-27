@@ -20,4 +20,8 @@ public interface ClientRemote {
     ArrayList getUsernameInscritos();
 
     ArrayList getUsernamesOnline();
+
+    Double addSaldo(Double valor);
+
+    Double getSaldo();
 }

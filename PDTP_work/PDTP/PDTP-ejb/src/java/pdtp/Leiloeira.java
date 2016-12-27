@@ -165,4 +165,15 @@ public class Leiloeira implements LeiloeiraLocal {
         }
         return logados;
     }
+
+    @Override
+    public Double addSaldo(Double valor,String username) {
+        return utilizadores.get(username).addSaldo(valor);
+    }
+
+    @Override
+    public Double getSaldo(String username) {
+      return utilizadores.get(username).getSaldo();
+    }
+    
 }

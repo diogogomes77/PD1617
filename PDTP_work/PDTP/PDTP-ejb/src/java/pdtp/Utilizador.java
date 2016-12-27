@@ -15,6 +15,7 @@ public class Utilizador {
     private Double saldo;
     private List<Item> items;
     private List<Leilao> leiloes;
+   
 
     private boolean logged;
     long lastAction;
@@ -51,11 +52,14 @@ public class Utilizador {
     public void setPassword(String password) {
         this.password = password;
     }
-
-    public void setSaldo(Double saldo) {
-        this.saldo = saldo;
+    public Double addSaldo(Double valor) {
+        this.saldo += valor;
+        return this.saldo;
     }
-
+    public Double decSaldo(Double valor) {
+        this.saldo -= valor;
+        return this.saldo;
+    }
     public String getNome() {
         return nome;
     }

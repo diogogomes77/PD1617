@@ -2,6 +2,9 @@ package controladores;
 
 import java.util.ArrayList;
 import java.util.Scanner;
+import menus.Menu;
+import menus.MenuUtilizador;
+import menus.OpcaoMenu;
 import pdtp.ClientRemote;
 import pdtprcse.PDTPrcse;
 
@@ -36,5 +39,10 @@ public abstract class Controlador extends PDTPrcse{
     
     public void sair(){
         System.exit(1);
+    }
+    
+    public void mostrarMenu(Menu newmenu) {
+        menu=newmenu;
+        controlador=newmenu.getControlador();
     }
 }

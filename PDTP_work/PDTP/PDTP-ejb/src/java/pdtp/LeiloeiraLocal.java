@@ -25,4 +25,8 @@ public interface LeiloeiraLocal {
     ArrayList getUsernameInscritos();
 
     ArrayList getUsernamesOnline();
+
+    Double addSaldo(Double valor,String username);
+
+    Double getSaldo(String username);
 }

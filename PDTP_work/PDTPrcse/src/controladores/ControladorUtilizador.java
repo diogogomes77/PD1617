@@ -1,6 +1,7 @@
 package controladores;
 
 import menus.MenuUtilizador;
+import menus.MenuUtilizadorSaldo;
 import menus.MenuVisitante;
 import menus.OpcaoMenu;
 import pdtp.ClientRemote;
@@ -8,22 +9,23 @@ import pdtp.ClientRemote;
 public class ControladorUtilizador extends Controlador {
 
     public ControladorUtilizador(ClientRemote ligacao) {
-       this.ligacao=ligacao;
+        this.ligacao = ligacao;
     }
-        
+
     public void logOff() {
         if (ligacao.logOff()) {
             System.out.println("\nlog off");
             controlador = new ControladorVisitante(ligacao);
-            menu = new MenuVisitante(ligacao,(ControladorVisitante)controlador);
-           
+            menu = new MenuVisitante(ligacao, (ControladorVisitante) controlador);
+
         } else {
             System.out.println("ERRO: accao nao aceite");
         }
     }
 
-    public OpcaoMenu consultarSaldo() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void consultarSaldo() {
+        //controlador = new ControladorVisitante(ligacao);
+        menu = new MenuUtilizadorSaldo(ligacao, (ControladorUtilizador) controlador);
     }
 
     public OpcaoMenu historialItens() {
@@ -62,12 +64,12 @@ public class ControladorUtilizador extends Controlador {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    public OpcaoMenu verSaldo() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void verSaldo() {  
+         System.out.println(ligacao.getSaldo());
     }
 
-    public OpcaoMenu carregarSaldo() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void carregarSaldo() {
+        System.out.println(ligacao.addSaldo(10.00));
     }
 
     public OpcaoMenu denunciarVendedor() {
@@ -105,6 +107,5 @@ public class ControladorUtilizador extends Controlador {
     public OpcaoMenu consultarDados() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
 
 }

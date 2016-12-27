@@ -61,5 +61,15 @@ public class Client implements ClientRemote {
     public ArrayList getUsernamesOnline() {
          return leiloeira.getUsernamesOnline();
     }
+
+    @Override
+    public Double addSaldo(Double valor) {
+        return leiloeira.addSaldo(valor, myName);
+    }
+
+    @Override
+    public Double getSaldo() {
+        return leiloeira.getSaldo(myName);
+    }
     
 }
