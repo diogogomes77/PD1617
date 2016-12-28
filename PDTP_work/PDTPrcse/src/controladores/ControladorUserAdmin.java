@@ -2,7 +2,7 @@
 package controladores;
 
 
-import pdtp.ClientRemote;
+import remotebeans.ClientRemote;
 
 public abstract class ControladorUserAdmin extends Controlador{
   

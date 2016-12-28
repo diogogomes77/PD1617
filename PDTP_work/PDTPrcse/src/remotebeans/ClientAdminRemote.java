@@ -1,5 +1,5 @@
 
-package pdtp;
+package remotebeans;
 
 import java.util.ArrayList;
 import javax.ejb.Remote;

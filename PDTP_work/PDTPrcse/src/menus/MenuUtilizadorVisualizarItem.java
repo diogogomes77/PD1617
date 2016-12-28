@@ -6,7 +6,7 @@
 package menus;
 
 import controladores.ControladorUtilizador;
-import pdtp.ClientUtilizadorRemote;
+import remotebeans.ClientUtilizadorRemote;
 
 /**
  *

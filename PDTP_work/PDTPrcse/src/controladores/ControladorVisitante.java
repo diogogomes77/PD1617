@@ -3,9 +3,9 @@ package controladores;
 import menus.MenuAdministrador;
 import menus.MenuUtilizador;
 import menus.OpcaoMenu;
-import pdtp.ClientAdminRemote;
-import pdtp.ClientUtilizadorRemote;
-import pdtp.ClientVisitanteRemote;
+import remotebeans.ClientAdminRemote;
+import remotebeans.ClientUtilizadorRemote;
+import remotebeans.ClientVisitanteRemote;
 import pdtprcse.ReferenciaAdmin;
 import pdtprcse.ReferenciaUtilizador;
 

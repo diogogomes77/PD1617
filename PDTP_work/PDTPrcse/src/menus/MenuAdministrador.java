@@ -3,7 +3,7 @@ package menus;
 
 
 import controladores.ControladorAdministrador;
-import pdtp.ClientAdminRemote;
+import remotebeans.ClientAdminRemote;
 ;
 
 public class MenuAdministrador extends MenuUtilizadorAdministrador{

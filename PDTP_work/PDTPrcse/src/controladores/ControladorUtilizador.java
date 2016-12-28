@@ -3,8 +3,8 @@ package controladores;
 import menus.MenuUtilizadorSaldo;
 import menus.MenuVisitante;
 import menus.OpcaoMenu;
-import pdtp.ClientUtilizadorRemote;
-import pdtp.ClientVisitanteRemote;
+import remotebeans.ClientUtilizadorRemote;
+import remotebeans.ClientVisitanteRemote;
 import pdtprcse.ReferenciaVisitante;
 
 public class ControladorUtilizador extends ControladorUserAdmin {
@@ -30,6 +30,9 @@ public class ControladorUtilizador extends ControladorUserAdmin {
         }
     }
 
+    public String getUsername(){
+        return ligacao.getMyName();
+    }
     public void consultarSaldo() {
         controlador = new ControladorUtilizador(ligacao);
         menu = new MenuUtilizadorSaldo(ligacao, (ControladorUtilizador) controlador);

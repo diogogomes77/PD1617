@@ -4,7 +4,7 @@ package menus;
 import controladores.ControladorUserAdmin;
 import controladores.ControladorUtilizador;
 
-import pdtp.ClientUtilizadorRemote;
+import remotebeans.ClientUtilizadorRemote;
 
 public class MenuUtilizador extends MenuUtilizadorAdministrador {
 
@@ -15,7 +15,7 @@ public class MenuUtilizador extends MenuUtilizadorAdministrador {
 //    }
     public MenuUtilizador(ClientUtilizadorRemote ligacao, ControladorUtilizador controlador) {
         super(ligacao,controlador);
-       titulo="Utilizador";
+       titulo="Utilizador ".concat(controlador.getUsername());
         this.controlador =  controlador;
         opcoes.add(new OpcaoMenu("Colocar Item a venda", () -> controlador.colocarItemVenda()));
         opcoes.add(new OpcaoMenu("Gerir Conta", () -> controlador.gerirConta()));

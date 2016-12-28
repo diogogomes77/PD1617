@@ -5,8 +5,8 @@ import controladores.*;
 import javax.naming.InitialContext;
 import menus.Menu;
 import menus.MenuVisitante;
-import pdtp.ClientRemote;
-import pdtp.ClientVisitanteRemote;
+import remotebeans.ClientRemote;
+import remotebeans.ClientVisitanteRemote;
 
 public class PDTPrcse {
     public static Controlador controlador;

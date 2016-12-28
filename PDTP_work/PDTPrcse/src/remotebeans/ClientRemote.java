@@ -1,4 +1,4 @@
-package pdtp;
+package remotebeans;
 
 import java.util.ArrayList;
 

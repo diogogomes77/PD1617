@@ -1,5 +1,5 @@
 
-package pdtp;
+package remotebeans;
 
 
 public enum TryResult {

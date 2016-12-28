@@ -1,5 +1,5 @@
 
-package pdtp;
+package remotebeans;
 
 import java.util.ArrayList;
 import javax.ejb.Remote;
@@ -27,4 +27,6 @@ public interface ClientUtilizadorRemote extends ClientRemote{
     public ArrayList getUsernamesOnline();
 
     boolean setMyName(String username, String password);
+
+    String getMyName();
 }

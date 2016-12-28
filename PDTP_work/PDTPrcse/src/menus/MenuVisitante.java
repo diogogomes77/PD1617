@@ -7,7 +7,7 @@ package menus;
 
 import controladores.ControladorVisitante;
 
-import pdtp.ClientVisitanteRemote;
+import remotebeans.ClientVisitanteRemote;
 
 public class MenuVisitante extends Menu {
 

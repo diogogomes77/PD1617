@@ -1,6 +1,7 @@
 
 package pdtp;
 
+import remotebeans.ClientVisitanteRemote;
 import java.util.ArrayList;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;

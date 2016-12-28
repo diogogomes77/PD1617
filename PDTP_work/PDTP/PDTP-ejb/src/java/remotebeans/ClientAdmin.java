@@ -1,6 +1,7 @@
 
 package pdtp;
 
+import remotebeans.ClientAdminRemote;
 import java.util.ArrayList;
 import javax.ejb.EJB;
 import javax.ejb.Singleton;

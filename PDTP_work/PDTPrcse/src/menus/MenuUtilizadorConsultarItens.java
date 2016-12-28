@@ -2,7 +2,7 @@
 package menus;
 
 import controladores.ControladorUtilizador;
-import pdtp.ClientUtilizadorRemote;
+import remotebeans.ClientUtilizadorRemote;
 
 public class MenuUtilizadorConsultarItens extends MenuUtilizador {
 

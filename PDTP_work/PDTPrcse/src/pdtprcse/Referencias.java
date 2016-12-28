@@ -4,7 +4,7 @@ package pdtprcse;
 import java.util.Properties;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
-import pdtp.ClientRemote;
+import remotebeans.ClientRemote;
 
 
 

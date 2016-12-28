@@ -1,6 +1,7 @@
 
 package pdtp;
 
+import remotebeans.ClientUtilizadorRemote;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
@@ -84,6 +85,11 @@ public class ClientUtilizador implements ClientUtilizadorRemote {
         if (admin)
             return null;
         return leiloeira.getSaldo(myName);
+    }
+
+    @Override
+    public String getMyName() {
+        return myName;
     }
 
 

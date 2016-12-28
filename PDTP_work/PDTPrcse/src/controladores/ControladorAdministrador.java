@@ -3,9 +3,9 @@ package controladores;
 
 import menus.MenuVisitante;
 import menus.OpcaoMenu;
-import pdtp.ClientAdminRemote;
-import pdtp.ClientUtilizadorRemote;
-import pdtp.ClientVisitanteRemote;
+import remotebeans.ClientAdminRemote;
+import remotebeans.ClientUtilizadorRemote;
+import remotebeans.ClientVisitanteRemote;
 import static pdtprcse.PDTPrcse.controlador;
 import static pdtprcse.PDTPrcse.menu;
 import pdtprcse.ReferenciaVisitante;
