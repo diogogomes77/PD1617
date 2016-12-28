@@ -1,58 +1,29 @@
 package pdtprcse;
 
 import controladores.*;
-import java.util.Properties;
+
 import javax.naming.InitialContext;
-import javax.naming.NamingException;
 import menus.Menu;
 import menus.MenuVisitante;
 import pdtp.ClientRemote;
+import pdtp.ClientVisitanteRemote;
 
 public class PDTPrcse {
-    protected static Controlador controlador;
-    protected static Menu menu;
+    public static Controlador controlador;
+    public static Menu menu;
     static ClientRemote ligacao;
-   
-    public static void obtemReferencias() {
-        InitialContext ctx = null;
-        Properties prop = new Properties();
+    static InitialContext ctx;
 
-        prop.setProperty("java.naming.factory.initial",
-                "com.sun.enterprise.naming.SerialInitContextFactory");
-        prop.setProperty("java.naming.factory.url.pkgs",
-                "com.sun.enterprise.naming");
-        prop.setProperty("java.naming.factory.state",
-                "com.sun.corba.ee.impl.presentation.rmi.JNDIStateFactoryImpl");
-        prop.setProperty("org.omg.CORBA.ORBInitialHost", "glassfixe");
-        prop.setProperty("org.omg.CORBA.ORBInitialPort", "3700");
-
-        try {
-            ctx = new InitialContext(prop);
-        } catch (NamingException e) {
-            System.out.println(e.getMessage());
-            System.exit(1);
-        }
-        System.out.println("InitialContxt Criado");
-
-        String advremote
-                = "java:global/PDTP/PDTP-ejb/Client!pdtp.ClientRemote";
-        try {
-            System.out.println("Iniciar lookup");
-            Object x = ctx.lookup(advremote);
-            ligacao = (ClientRemote) x;
-        } catch (NamingException e) {
-            System.out.println(e.getMessage());
-            e.printStackTrace();
-            System.exit(1);
-        }
-        System.out.println("JNDI lookup concluido");
-    }
+    static Referencias referencia;
 
     public static void main(String[] args) {
-        obtemReferencias();
-        controlador = new ControladorVisitante(ligacao);
-        menu = new MenuVisitante(ligacao,(ControladorVisitante)controlador);
-        //Menu menu = new MenuVisitante(ligacao,controlador);
+        ReferenciaVisitante refVisitante = new ReferenciaVisitante();
+        referencia = refVisitante;
+        ClientVisitanteRemote clientVisitante = refVisitante.getLigacao();
+        ligacao = clientVisitante;
+        ControladorVisitante controladorVisitante = new ControladorVisitante(clientVisitante);
+        controlador = controladorVisitante;
+        menu = new MenuVisitante(clientVisitante,controladorVisitante);
         
         boolean continuar = true;
         while (continuar) {

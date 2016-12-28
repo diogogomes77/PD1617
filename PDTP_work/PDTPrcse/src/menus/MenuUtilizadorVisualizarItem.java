@@ -6,7 +6,7 @@
 package menus;
 
 import controladores.ControladorUtilizador;
-import pdtp.ClientRemote;
+import pdtp.ClientUtilizadorRemote;
 
 /**
  *
@@ -14,8 +14,9 @@ import pdtp.ClientRemote;
  */
 public class MenuUtilizadorVisualizarItem extends MenuUtilizador {
 
-    public MenuUtilizadorVisualizarItem(ClientRemote ligacao, ControladorUtilizador controlador) {
+    public MenuUtilizadorVisualizarItem(ClientUtilizadorRemote ligacao, ControladorUtilizador controlador) {
         super(ligacao, controlador);
+        titulo="Utilizador - Visualizar Item";
         opcoes.clear();
         opcoes.add(new OpcaoMenu("Licitar Item", () -> controlador.licitarItem()));
         opcoes.add(new OpcaoMenu("Enviar mensagem ao vendedor", () -> controlador.enviarMensagemVendedor()));

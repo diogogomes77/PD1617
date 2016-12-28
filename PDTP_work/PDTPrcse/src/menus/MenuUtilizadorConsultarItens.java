@@ -2,12 +2,13 @@
 package menus;
 
 import controladores.ControladorUtilizador;
-import pdtp.ClientRemote;
+import pdtp.ClientUtilizadorRemote;
 
 public class MenuUtilizadorConsultarItens extends MenuUtilizador {
 
-    public MenuUtilizadorConsultarItens(ClientRemote ligacao, ControladorUtilizador controlador) {
+    public MenuUtilizadorConsultarItens(ClientUtilizadorRemote ligacao, ControladorUtilizador controlador) {
         super(ligacao, controlador);
+         titulo="Utilizador - Itens";
         opcoes.clear();
     }
 }

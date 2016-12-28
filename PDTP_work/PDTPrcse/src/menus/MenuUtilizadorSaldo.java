@@ -2,13 +2,13 @@
 package menus;
 
 import controladores.ControladorUtilizador;
-import pdtp.ClientRemote;
+import pdtp.ClientUtilizadorRemote;
 
 public class MenuUtilizadorSaldo extends Menu {
 
-    public MenuUtilizadorSaldo(ClientRemote ligacao, ControladorUtilizador controlador) {
+    public MenuUtilizadorSaldo(ClientUtilizadorRemote ligacao, ControladorUtilizador controlador) {
        super();
-       
+        titulo="Utilizador - Saldo";
        this.controlador=controlador;
         //opcoes.clear();
         opcoes.add(new OpcaoMenu("Ver Saldo", () -> controlador.verSaldo()));

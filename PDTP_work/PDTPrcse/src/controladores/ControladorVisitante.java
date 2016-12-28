@@ -1,16 +1,20 @@
 package controladores;
 
-import java.util.ArrayList;
-import java.util.Scanner;
 import menus.MenuAdministrador;
 import menus.MenuUtilizador;
 import menus.OpcaoMenu;
-import pdtp.ClientRemote;
+import pdtp.ClientAdminRemote;
+import pdtp.ClientUtilizadorRemote;
+import pdtp.ClientVisitanteRemote;
+import pdtprcse.ReferenciaAdmin;
+import pdtprcse.ReferenciaUtilizador;
 
 public class ControladorVisitante extends Controlador{
 
-    public ControladorVisitante(ClientRemote ligacao) {
-       this.ligacao=ligacao;
+    private ClientVisitanteRemote ligacao;
+    public ControladorVisitante(ClientVisitanteRemote ligacao) {
+        super(ligacao);
+       this.ligacao= ligacao;
     }
 
     public void registarUtilizador() {
@@ -71,11 +75,20 @@ public class ControladorVisitante extends Controlador{
         if (ligacao.loginUtilizador(username, password)) {
             System.out.println("Login valido");
             if ("admin".equals(username)){
-               controlador = new ControladorAdministrador(ligacao);
-                menu = new MenuAdministrador(ligacao,(ControladorAdministrador)controlador); 
+                ReferenciaAdmin refAdmin = new ReferenciaAdmin();
+                ClientAdminRemote ligAdmin = refAdmin.getLigacao();
+                controlador = new ControladorAdministrador(ligAdmin);
+                menu = new MenuAdministrador(ligAdmin,(ControladorAdministrador)controlador); 
             }else{
-               controlador = new ControladorUtilizador(ligacao);
-               menu = new MenuUtilizador(ligacao,(ControladorUtilizador)controlador); 
+               ReferenciaUtilizador refUtilizador = new ReferenciaUtilizador();
+               ClientUtilizadorRemote ligUtilizador = refUtilizador.getLigacao();
+               
+               if(ligUtilizador.setMyName(username, password)){ // o user ja esta autenticado no EBJ Local Leiloeira
+                    controlador = new ControladorUtilizador(ligUtilizador);
+                    menu = new MenuUtilizador(ligUtilizador,(ControladorUtilizador)controlador); 
+               }else{
+                   System.out.println("ERRO: problema no login...");
+               }
             }
             
         } else {

@@ -3,20 +3,17 @@ package controladores;
 import java.util.ArrayList;
 import java.util.Scanner;
 import menus.Menu;
-import menus.MenuUtilizador;
-import menus.OpcaoMenu;
-import pdtp.ClientRemote;
 import pdtprcse.PDTPrcse;
+import pdtp.ClientRemote;
 
 public abstract class Controlador extends PDTPrcse{
     
     protected ClientRemote ligacao;
     protected static Scanner sc = new Scanner(System.in);
     
-    protected Controlador() {
-      
+    protected Controlador(ClientRemote ligacao) {
+      this.ligacao=ligacao;
     }
-
 
     public void printInscritos() {
         ArrayList<String> insccritos = ligacao.getUsernameInscritos();

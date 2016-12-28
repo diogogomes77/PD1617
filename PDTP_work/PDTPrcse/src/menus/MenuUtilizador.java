@@ -1,14 +1,10 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package menus;
 
 import controladores.ControladorUserAdmin;
 import controladores.ControladorUtilizador;
 
-import pdtp.ClientRemote;
+import pdtp.ClientUtilizadorRemote;
 
 public class MenuUtilizador extends MenuUtilizadorAdministrador {
 
@@ -17,9 +13,9 @@ public class MenuUtilizador extends MenuUtilizadorAdministrador {
 //    public static MenuUtilizador getInstance() {
 //        return instancia;
 //    }
-    public MenuUtilizador(ClientRemote ligacao, ControladorUtilizador controlador) {
+    public MenuUtilizador(ClientUtilizadorRemote ligacao, ControladorUtilizador controlador) {
         super(ligacao,controlador);
-       
+       titulo="Utilizador";
         this.controlador =  controlador;
         opcoes.add(new OpcaoMenu("Colocar Item a venda", () -> controlador.colocarItemVenda()));
         opcoes.add(new OpcaoMenu("Gerir Conta", () -> controlador.gerirConta()));

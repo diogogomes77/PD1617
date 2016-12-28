@@ -24,12 +24,12 @@ public class Leiloeira implements LeiloeiraLocal {
     HashMap<String, Utilizador> utilizadores = new HashMap<>();
     List<Leilao> leiloes = new ArrayList<>();
 
-    HashMap<String,String> definicoes = new HashMap<>();;
+ 
     List<String> categorias = new ArrayList<>();;
     
     public Leiloeira() {
-       definicoes.put("adminpass", "admin");
-       
+      
+       this.registaUtilizador("Administrador", "sistema", "admin", "admin");
     }
 
     @Override
@@ -42,6 +42,11 @@ public class Leiloeira implements LeiloeiraLocal {
         return hisc;
         // nao atualiza timetampo porque pode nem estar logado;
     }
+    
+@Override
+    public HashMap<String, Utilizador> getUtilizadores() {
+        return utilizadores;
+    }
 
 
 
@@ -49,9 +54,6 @@ public class Leiloeira implements LeiloeiraLocal {
 
     @Override
     public boolean existeUtilizador(String username) {
-        if ("admin".equals(username)){
-            return true;
-        }
         if (username == null) {
             return false;
         }
@@ -65,9 +67,9 @@ public class Leiloeira implements LeiloeiraLocal {
 
     @Override
     public boolean registaUtilizador(String nome, String morada, String username, String password) {
-        if ("admin".equals(username)){
-            return false;
-        }
+//        if ("admin".equals(username)){
+//            return false;
+//        }
         if (!existeUtilizador(username)) {
             utilizadores.put(username, new Utilizador(nome, morada, username, password));
             return true;
@@ -77,13 +79,10 @@ public class Leiloeira implements LeiloeiraLocal {
 
     @Override
     public boolean loginUtilizador(String username, String password) {
-        if ("admin".equals(username)&& password.equals(definicoes.get("adminpass"))){
-            return true;
-            
-        }
+
         Utilizador j = utilizadores.get(username);
         if (j != null) {
-            //ja existe
+            // existe
             if (j.getPassword().equalsIgnoreCase(password)) {
                 if (j.isLogged()) // esta logado -Z nao deixa repetir user
                 {
@@ -138,7 +137,8 @@ public class Leiloeira implements LeiloeiraLocal {
                         new BufferedInputStream(
                                 new FileInputStream("/tmp/LeiloeiraDados")))) {
             utilizadores = (HashMap<String, Utilizador>) ois.readObject();
-            definicoes = (HashMap<String, String>) ois.readObject();
+            
+            categorias = (ArrayList<String>) ois.readObject();
         } catch (Exception e) {
             //Utilizadors = fica com o objecto vazio criado no construtor
         }
@@ -151,7 +151,7 @@ public class Leiloeira implements LeiloeiraLocal {
                         new BufferedOutputStream(
                                 new FileOutputStream("/tmp/LeiloeiraDados")))) {
             oos.writeObject(utilizadores);
-            oos.writeObject(definicoes);
+            oos.writeObject(categorias);
         } catch (Exception e) {
 
         }

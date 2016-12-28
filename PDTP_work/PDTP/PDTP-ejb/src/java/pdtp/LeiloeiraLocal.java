@@ -2,6 +2,7 @@
 package pdtp;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import javax.ejb.Local;
 
 @Local
@@ -29,4 +30,6 @@ public interface LeiloeiraLocal {
     Double addSaldo(Double valor,String username);
 
     Double getSaldo(String username);
+    
+     public HashMap<String, Utilizador> getUtilizadores();
 }

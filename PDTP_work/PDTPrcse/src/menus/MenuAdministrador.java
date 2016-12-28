@@ -1,14 +1,16 @@
 
 package menus;
 
-import controladores.Controlador;
+
 import controladores.ControladorAdministrador;
-import pdtp.ClientRemote;
+import pdtp.ClientAdminRemote;
+;
 
 public class MenuAdministrador extends MenuUtilizadorAdministrador{
     
-    public MenuAdministrador(ClientRemote ligacao,ControladorAdministrador controlador) {
+    public MenuAdministrador(ClientAdminRemote ligacao,ControladorAdministrador controlador) {
          super(ligacao,controlador);
+         titulo="Administrador";
         this.controlador=controlador;
         opcoes.add(new OpcaoMenu("Consultar Denuncias", () -> controlador.consultarDenuncias()));
         opcoes.add(new OpcaoMenu("Consultar Adesoes e Reativacoes", () -> controlador.consultarAdesoes()));

@@ -1,19 +1,34 @@
 package controladores;
 
-import menus.MenuUtilizador;
 import menus.MenuUtilizadorSaldo;
 import menus.MenuVisitante;
 import menus.OpcaoMenu;
-import pdtp.ClientRemote;
+import pdtp.ClientUtilizadorRemote;
+import pdtp.ClientVisitanteRemote;
+import pdtprcse.ReferenciaVisitante;
 
 public class ControladorUtilizador extends ControladorUserAdmin {
 
-    public ControladorUtilizador(ClientRemote ligacao) {
-         super(ligacao);
+    private ClientUtilizadorRemote ligacao;
+    
+    public ControladorUtilizador(ClientUtilizadorRemote ligacao) {
+        super(ligacao);
         this.ligacao = ligacao;
     }
 
+    @Override
+    public void logOff() {
+        if (ligacao.logOff()) {
+            System.out.println("\nlog off");
+            ReferenciaVisitante refVisitante = new ReferenciaVisitante();
+            ClientVisitanteRemote ligVisitante = refVisitante.getLigacao();
+            controlador = new ControladorVisitante(ligVisitante);
+            menu = new MenuVisitante(ligVisitante, (ControladorVisitante) controlador);
 
+        } else {
+            System.out.println("ERRO: accao nao aceite");
+        }
+    }
 
     public void consultarSaldo() {
         controlador = new ControladorUtilizador(ligacao);

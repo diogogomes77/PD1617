@@ -1,16 +1,35 @@
 
 package controladores;
 
+import menus.MenuVisitante;
 import menus.OpcaoMenu;
-import pdtp.ClientRemote;
+import pdtp.ClientAdminRemote;
+import pdtp.ClientUtilizadorRemote;
+import pdtp.ClientVisitanteRemote;
+import static pdtprcse.PDTPrcse.controlador;
+import static pdtprcse.PDTPrcse.menu;
+import pdtprcse.ReferenciaVisitante;
 
 public class ControladorAdministrador extends ControladorUserAdmin{
 
-    public ControladorAdministrador(ClientRemote ligacao) {
+    private ClientAdminRemote ligacao;
+    public ControladorAdministrador(ClientAdminRemote ligacao) {
         super(ligacao);
         this.ligacao=ligacao;
     }
+    @Override
+    public void logOff() {
+        if (ligacao.logOff()) {
+            System.out.println("\nlog off");
+            ReferenciaVisitante refVisitante = new ReferenciaVisitante();
+            ClientVisitanteRemote ligVisitante = refVisitante.getLigacao();
+            controlador = new ControladorVisitante(ligVisitante);
+            menu = new MenuVisitante(ligVisitante, (ControladorVisitante) controlador);
 
+        } else {
+            System.out.println("ERRO: accao nao aceite");
+        }
+    }
     public OpcaoMenu consultarDenuncias() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }

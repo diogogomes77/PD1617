@@ -1,10 +1,9 @@
 
 package menus;
 
-import controladores.Controlador;
 import controladores.ControladorUserAdmin;
-import controladores.ControladorUtilizador;
 import pdtp.ClientRemote;
+
 
 public class MenuUtilizadorAdministrador extends Menu{
 

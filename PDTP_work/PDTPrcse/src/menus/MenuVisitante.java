@@ -6,8 +6,8 @@
 package menus;
 
 import controladores.ControladorVisitante;
-import static controladores.ControladorVisitante.*;
-import pdtp.ClientRemote;
+
+import pdtp.ClientVisitanteRemote;
 
 public class MenuVisitante extends Menu {
 
@@ -16,8 +16,9 @@ public class MenuVisitante extends Menu {
 //        return instancia;
 //    }
     
-    public MenuVisitante(ClientRemote ligacao,ControladorVisitante controlador) {
+    public MenuVisitante(ClientVisitanteRemote ligacao,ControladorVisitante controlador) {
         this.controlador = controlador;
+        titulo="Visitante";
         opcoes.add(new OpcaoMenu("Login",() -> controlador.loginUtilizador()));
         opcoes.add(new OpcaoMenu("Registo",() -> controlador.registarUtilizador()));
         opcoes.add(new OpcaoMenu("Vendas recentes",() -> controlador.vendasRecentes()));

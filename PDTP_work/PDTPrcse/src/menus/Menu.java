@@ -7,7 +7,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Scanner;
-import pdtp.ClientRemote;
 import pdtprcse.PDTPrcse;
 
 
@@ -24,6 +23,8 @@ public abstract class Menu extends PDTPrcse{
     
     protected Controlador controlador;
 
+    protected String titulo;
+    
     protected Menu() {
        opcoes =  new ArrayList();
         OpcaoMenu newsletter = new OpcaoMenu("Newsletter",() -> controlador.printInscritos());
@@ -44,6 +45,7 @@ public abstract class Menu extends PDTPrcse{
         menuText.setLength(0);
         menuText.append("*****************************\n");
         menuText.append("\nBenvindo a Leiloeira PD1617\n\n");
+        menuText.append("Menu de ").append(titulo).append("\n");
         Iterator it = comandos.entrySet().iterator();
         while (it.hasNext()){
             Map.Entry par = (Map.Entry)it.next();
