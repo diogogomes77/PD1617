@@ -5,11 +5,12 @@
  */
 package menus;
 
+import controladores.ControladorUserAdmin;
 import controladores.ControladorUtilizador;
 
 import pdtp.ClientRemote;
 
-public class MenuUtilizador extends Menu {
+public class MenuUtilizador extends MenuUtilizadorAdministrador {
 
 //    private static final MenuUtilizador instancia = new MenuUtilizador();
 //
@@ -17,7 +18,9 @@ public class MenuUtilizador extends Menu {
 //        return instancia;
 //    }
     public MenuUtilizador(ClientRemote ligacao, ControladorUtilizador controlador) {
-        this.controlador = controlador;
+        super(ligacao,controlador);
+       
+        this.controlador =  controlador;
         opcoes.add(new OpcaoMenu("Colocar Item a venda", () -> controlador.colocarItemVenda()));
         opcoes.add(new OpcaoMenu("Gerir Conta", () -> controlador.gerirConta()));
         opcoes.add(new OpcaoMenu("Consultar meus Itens a venda", () -> controlador.consultarItensMeus()));
@@ -28,7 +31,7 @@ public class MenuUtilizador extends Menu {
         opcoes.add(new OpcaoMenu("Consultar Itens seguidos", () -> controlador.consultarItensSeguidos()));
         opcoes.add(new OpcaoMenu("Historial de Itens", () -> controlador.historialItens()));
         opcoes.add(new OpcaoMenu("Consultar saldo", () -> controlador.consultarSaldo()));
-        opcoes.add(new OpcaoMenu("Terminar Sessao", () -> controlador.logOff()));
+      //  opcoes.add(new OpcaoMenu("Terminar Sessao", () -> controlador.logOff()));
     }
 
 }

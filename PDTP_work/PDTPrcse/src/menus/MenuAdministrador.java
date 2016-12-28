@@ -5,9 +5,10 @@ import controladores.Controlador;
 import controladores.ControladorAdministrador;
 import pdtp.ClientRemote;
 
-public class MenuAdministrador extends Menu{
+public class MenuAdministrador extends MenuUtilizadorAdministrador{
     
     public MenuAdministrador(ClientRemote ligacao,ControladorAdministrador controlador) {
+         super(ligacao,controlador);
         this.controlador=controlador;
         opcoes.add(new OpcaoMenu("Consultar Denuncias", () -> controlador.consultarDenuncias()));
         opcoes.add(new OpcaoMenu("Consultar Adesoes e Reativacoes", () -> controlador.consultarAdesoes()));

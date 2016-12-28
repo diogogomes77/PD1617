@@ -10,6 +10,7 @@ import javax.ejb.Stateful;
 public class Client implements ClientRemote {
 
     String myName;
+    boolean admin;
     
     @EJB LeiloeiraLocal leiloeira;
     @Override
@@ -18,6 +19,9 @@ public class Client implements ClientRemote {
             return false;
         if (leiloeira.loginUtilizador(username,password)){
             myName = username; // faz login
+            if ("admin".equals(username)){
+                admin=true;
+            }
             return true;
         }
         return false;
@@ -28,9 +32,13 @@ public class Client implements ClientRemote {
 
     @Override
     public boolean logOff() {
-       
+        if (admin){
+            admin=false;
+            return true;
+        }
         if (leiloeira.logOff(myName)){ // Singleeton testa MyName == null
              myName = null;
+             admin = false;
              return true;
         }
         return false;
@@ -64,11 +72,15 @@ public class Client implements ClientRemote {
 
     @Override
     public Double addSaldo(Double valor) {
+        if (admin)
+            return null;
         return leiloeira.addSaldo(valor, myName);
     }
 
     @Override
     public Double getSaldo() {
+        if (admin)
+            return null;
         return leiloeira.getSaldo(myName);
     }
     

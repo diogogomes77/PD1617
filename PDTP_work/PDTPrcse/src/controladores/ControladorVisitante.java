@@ -2,6 +2,7 @@ package controladores;
 
 import java.util.ArrayList;
 import java.util.Scanner;
+import menus.MenuAdministrador;
 import menus.MenuUtilizador;
 import menus.OpcaoMenu;
 import pdtp.ClientRemote;
@@ -69,8 +70,14 @@ public class ControladorVisitante extends Controlador{
         password = sc.nextLine();
         if (ligacao.loginUtilizador(username, password)) {
             System.out.println("Login valido");
-            controlador = new ControladorUtilizador(ligacao);
-            menu = new MenuUtilizador(ligacao,(ControladorUtilizador)controlador);
+            if ("admin".equals(username)){
+               controlador = new ControladorAdministrador(ligacao);
+                menu = new MenuAdministrador(ligacao,(ControladorAdministrador)controlador); 
+            }else{
+               controlador = new ControladorUtilizador(ligacao);
+               menu = new MenuUtilizador(ligacao,(ControladorUtilizador)controlador); 
+            }
+            
         } else {
             System.out.println("ERRO: Login invalido");
         }

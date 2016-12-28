@@ -6,25 +6,17 @@ import menus.MenuVisitante;
 import menus.OpcaoMenu;
 import pdtp.ClientRemote;
 
-public class ControladorUtilizador extends Controlador {
+public class ControladorUtilizador extends ControladorUserAdmin {
 
     public ControladorUtilizador(ClientRemote ligacao) {
+         super(ligacao);
         this.ligacao = ligacao;
     }
 
-    public void logOff() {
-        if (ligacao.logOff()) {
-            System.out.println("\nlog off");
-            controlador = new ControladorVisitante(ligacao);
-            menu = new MenuVisitante(ligacao, (ControladorVisitante) controlador);
 
-        } else {
-            System.out.println("ERRO: accao nao aceite");
-        }
-    }
 
     public void consultarSaldo() {
-        //controlador = new ControladorVisitante(ligacao);
+        controlador = new ControladorUtilizador(ligacao);
         menu = new MenuUtilizadorSaldo(ligacao, (ControladorUtilizador) controlador);
     }
 
@@ -65,11 +57,15 @@ public class ControladorUtilizador extends Controlador {
     }
 
     public void verSaldo() {  
-         System.out.println(ligacao.getSaldo());
+         System.out.println("Saldo: " + ligacao.getSaldo());
     }
 
     public void carregarSaldo() {
-        System.out.println(ligacao.addSaldo(10.00));
+        System.out.print("Valor a carregar (int): ");
+        Double valor;    
+        valor = sc.nextDouble();
+            sc.skip("\n");
+        System.out.println("Saldo atual: " + ligacao.addSaldo(valor));
     }
 
     public OpcaoMenu denunciarVendedor() {

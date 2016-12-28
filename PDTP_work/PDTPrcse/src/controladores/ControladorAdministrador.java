@@ -4,9 +4,10 @@ package controladores;
 import menus.OpcaoMenu;
 import pdtp.ClientRemote;
 
-public class ControladorAdministrador extends Controlador{
+public class ControladorAdministrador extends ControladorUserAdmin{
 
     public ControladorAdministrador(ClientRemote ligacao) {
+        super(ligacao);
         this.ligacao=ligacao;
     }
 

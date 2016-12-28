@@ -24,10 +24,11 @@ public class Leiloeira implements LeiloeiraLocal {
     HashMap<String, Utilizador> utilizadores = new HashMap<>();
     List<Leilao> leiloes = new ArrayList<>();
 
-    Random rnd = new Random();
-    int secretNum;
-
+    HashMap<String,String> definicoes = new HashMap<>();;
+    List<String> categorias = new ArrayList<>();;
+    
     public Leiloeira() {
+       definicoes.put("adminpass", "admin");
        
     }
 
@@ -48,6 +49,9 @@ public class Leiloeira implements LeiloeiraLocal {
 
     @Override
     public boolean existeUtilizador(String username) {
+        if ("admin".equals(username)){
+            return true;
+        }
         if (username == null) {
             return false;
         }
@@ -61,6 +65,9 @@ public class Leiloeira implements LeiloeiraLocal {
 
     @Override
     public boolean registaUtilizador(String nome, String morada, String username, String password) {
+        if ("admin".equals(username)){
+            return false;
+        }
         if (!existeUtilizador(username)) {
             utilizadores.put(username, new Utilizador(nome, morada, username, password));
             return true;
@@ -70,6 +77,10 @@ public class Leiloeira implements LeiloeiraLocal {
 
     @Override
     public boolean loginUtilizador(String username, String password) {
+        if ("admin".equals(username)&& password.equals(definicoes.get("adminpass"))){
+            return true;
+            
+        }
         Utilizador j = utilizadores.get(username);
         if (j != null) {
             //ja existe
@@ -113,7 +124,7 @@ public class Leiloeira implements LeiloeiraLocal {
         Collection<Utilizador> todos = utilizadores.values();
         for (Utilizador j : todos) {
             if (j.isLogged()) {
-                if (j.fromLastActionFromNoew(now) > 60) {
+                if (j.fromLastActionFromNoew(now) > 240) { // 4 minutos
                     j.resetLogged();
                 }
             }
@@ -125,8 +136,9 @@ public class Leiloeira implements LeiloeiraLocal {
         try (ObjectInputStream ois
                 = new ObjectInputStream(
                         new BufferedInputStream(
-                                new FileInputStream("/tmp/LeiloeiraUtilizadores")))) {
+                                new FileInputStream("/tmp/LeiloeiraDados")))) {
             utilizadores = (HashMap<String, Utilizador>) ois.readObject();
+            definicoes = (HashMap<String, String>) ois.readObject();
         } catch (Exception e) {
             //Utilizadors = fica com o objecto vazio criado no construtor
         }
@@ -137,8 +149,9 @@ public class Leiloeira implements LeiloeiraLocal {
         try (ObjectOutputStream oos
                 = new ObjectOutputStream(
                         new BufferedOutputStream(
-                                new FileOutputStream("/tmp/LeiloeiraUtilizadores")))) {
+                                new FileOutputStream("/tmp/LeiloeiraDados")))) {
             oos.writeObject(utilizadores);
+            oos.writeObject(definicoes);
         } catch (Exception e) {
 
         }
@@ -168,12 +181,17 @@ public class Leiloeira implements LeiloeiraLocal {
 
     @Override
     public Double addSaldo(Double valor,String username) {
-        return utilizadores.get(username).addSaldo(valor);
+        if (utilizadores.get(username).isLogged())
+            return utilizadores.get(username).addSaldo(valor);
+        return null;
     }
 
     @Override
     public Double getSaldo(String username) {
-      return utilizadores.get(username).getSaldo();
+        if (utilizadores.get(username).isLogged())
+            return utilizadores.get(username).getSaldo();
+        return null;
+      
     }
     
 }
