@@ -10,4 +10,8 @@ public interface ClientAdminRemote extends ClientRemote{
         ArrayList getUsernameInscritos();
 
     public ArrayList getUsernamesOnline();
+
+    ArrayList getUtilizadoresPedidos();
+
+    boolean ativaUtilizador(String username);
 }

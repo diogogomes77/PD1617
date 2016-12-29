@@ -1,11 +1,12 @@
 
-package pdtp;
+package beans;
 
 import remotebeans.ClientUtilizadorRemote;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateful;
+import remotebeans.ClientUtilizadorRemote;
 
 @Stateful
 public class ClientUtilizador implements ClientUtilizadorRemote {
@@ -91,8 +92,5 @@ public class ClientUtilizador implements ClientUtilizadorRemote {
     public String getMyName() {
         return myName;
     }
-
-
-
-    
+   
 }

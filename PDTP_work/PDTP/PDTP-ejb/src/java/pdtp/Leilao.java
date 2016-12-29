@@ -4,7 +4,7 @@ package pdtp;
 import java.util.Date;
 import java.util.TreeMap;
 
-class Leilao {
+public class Leilao {
     private TreeMap<Double,Utilizador> licitacoes;
     private Date dataLimite;
     

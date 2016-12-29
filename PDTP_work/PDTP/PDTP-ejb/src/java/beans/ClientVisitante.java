@@ -1,10 +1,11 @@
 
-package pdtp;
+package beans;
 
 import remotebeans.ClientVisitanteRemote;
 import java.util.ArrayList;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import remotebeans.ClientVisitanteRemote;
 
 @Stateless
 public class ClientVisitante implements ClientVisitanteRemote {

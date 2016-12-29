@@ -1,10 +1,11 @@
 
-package pdtp;
+package beans;
 
 import remotebeans.ClientAdminRemote;
 import java.util.ArrayList;
 import javax.ejb.EJB;
 import javax.ejb.Singleton;
+import remotebeans.ClientAdminRemote;
 
 @Singleton
 public class ClientAdmin implements ClientAdminRemote {
@@ -28,4 +29,15 @@ public class ClientAdmin implements ClientAdminRemote {
     public ArrayList getUsernamesOnline() {
          return leiloeira.getUsernamesOnline();
     }
+
+    @Override
+    public ArrayList getUtilizadoresPedidos() {
+        return leiloeira.getUtilizadoresPedidos();
+    }
+
+    @Override
+    public boolean ativaUtilizador(String username) {
+        return leiloeira.ativaUtilizador(username);
+    }
+    
 }

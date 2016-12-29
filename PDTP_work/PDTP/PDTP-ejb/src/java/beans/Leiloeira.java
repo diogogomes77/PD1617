@@ -1,4 +1,4 @@
-package pdtp;
+package beans;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -12,11 +12,13 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Random;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.ejb.Schedule;
 import javax.ejb.Singleton;
+import pdtp.Leilao;
+import pdtp.Utilizador;
+import pdtp.UtilizadorEstado;
 
 @Singleton
 public class Leiloeira implements LeiloeiraLocal {
@@ -28,8 +30,8 @@ public class Leiloeira implements LeiloeiraLocal {
     List<String> categorias = new ArrayList<>();;
     
     public Leiloeira() {
-      
-       this.registaUtilizador("Administrador", "sistema", "admin", "admin");
+      utilizadores.put("admin", 
+              new Utilizador("Administrador", "Sistema", "admin", "admin",UtilizadorEstado.ATIVO));
     }
 
     @Override
@@ -43,14 +45,10 @@ public class Leiloeira implements LeiloeiraLocal {
         // nao atualiza timetampo porque pode nem estar logado;
     }
     
-@Override
+    @Override
     public HashMap<String, Utilizador> getUtilizadores() {
         return utilizadores;
     }
-
-
-
-
 
     @Override
     public boolean existeUtilizador(String username) {
@@ -67,11 +65,9 @@ public class Leiloeira implements LeiloeiraLocal {
 
     @Override
     public boolean registaUtilizador(String nome, String morada, String username, String password) {
-//        if ("admin".equals(username)){
-//            return false;
-//        }
         if (!existeUtilizador(username)) {
-            utilizadores.put(username, new Utilizador(nome, morada, username, password));
+            utilizadores.put(username, 
+                    new Utilizador(nome, morada, username, password,UtilizadorEstado.ATIVO_PEDIDO));
             return true;
         }
         return false;
@@ -79,25 +75,24 @@ public class Leiloeira implements LeiloeiraLocal {
 
     @Override
     public boolean loginUtilizador(String username, String password) {
-
         Utilizador j = utilizadores.get(username);
         if (j != null) {
             // existe
             if (j.getPassword().equalsIgnoreCase(password)) {
-                if (j.isLogged()) // esta logado -Z nao deixa repetir user
-                {
-                    return false;
-                } else {
-                    j.setLogged();
-                    j.setLastAction();
-                    return true;
+                if (j.getEstado()==UtilizadorEstado.ATIVO){
+                    if (j.isLogged()) // esta logado -Z nao deixa repetir user
+                    {
+                        return false;
+                    } else {
+                        j.setLogged();
+                        j.setLastAction();
+                        return true;
+                    }
                 }
             }
         }
         return false;
     }
-
-  
 
     @Override
     public boolean logOff(String username) {
@@ -192,6 +187,28 @@ public class Leiloeira implements LeiloeiraLocal {
             return utilizadores.get(username).getSaldo();
         return null;
       
+    }
+
+    @Override
+    public boolean ativaUtilizador(String username) {
+        Utilizador u = utilizadores.get(username);
+        if (u.getEstado()!=UtilizadorEstado.ATIVO){
+            u.setEstado(UtilizadorEstado.ATIVO);
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public ArrayList getUtilizadoresPedidos() {
+        ArrayList pedidos = new ArrayList<>();
+        Collection<Utilizador> todos = utilizadores.values();
+        for (Utilizador j : todos) {
+            if (j.getEstado()==UtilizadorEstado.ATIVO_PEDIDO) {
+                pedidos.add(j.getUsername());
+            }
+        }
+        return pedidos;
     }
     
 }

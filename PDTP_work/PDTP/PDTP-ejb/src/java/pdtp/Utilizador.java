@@ -15,12 +15,12 @@ public class Utilizador {
     private Double saldo;
     private List<Item> items;
     private List<Leilao> leiloes;
-   
+    private UtilizadorEstado estado;
 
     private boolean logged;
     long lastAction;
     
-    public Utilizador(String nome, String morada, String username, String password) {
+    public Utilizador(String nome, String morada, String username, String password,UtilizadorEstado estado) {
         this.nome = nome;
         this.morada = morada;
         this.username = username;
@@ -28,7 +28,16 @@ public class Utilizador {
         this.saldo = 0.0;
         this.items = new ArrayList<>();
         this.leiloes = new ArrayList<>();
-        logged=false;
+        this.logged=false;
+        this.estado=estado;
+    }
+
+    public UtilizadorEstado getEstado() {
+        return estado;
+    }
+
+    public void setEstado(UtilizadorEstado estado) {
+        this.estado = estado;
     }
 
     public void addItem(Item item){

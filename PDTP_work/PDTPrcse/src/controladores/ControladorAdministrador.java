@@ -1,6 +1,7 @@
 
 package controladores;
 
+import java.util.ArrayList;
 import menus.MenuVisitante;
 import menus.OpcaoMenu;
 import remotebeans.ClientAdminRemote;
@@ -34,8 +35,12 @@ public class ControladorAdministrador extends ControladorUserAdmin{
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    public OpcaoMenu consultarAdesoes() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void consultarAdesoes() {
+        ArrayList<String> pedidos = ligacao.getUtilizadoresPedidos();
+        System.out.print("Peidos de ativacao de Utilizador: ");
+        for (String pedido : pedidos){
+            System.out.print(pedido.concat(" "));
+        }
     }
 
     public OpcaoMenu cancelarItens() {
@@ -68,6 +73,17 @@ public class ControladorAdministrador extends ControladorUserAdmin{
 
     public OpcaoMenu gerirCategorias() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public void ativarConta() {
+        System.out.print("Ativar username -> ");
+        String username = sc.next();
+        sc.skip("\n");
+        if (ligacao.ativaUtilizador(username)){
+            System.out.println("Utilizador ativado");
+        }else{
+            System.out.println("ERRO: Utilizador nao ativado");
+        }
     }
 
 
