@@ -17,7 +17,7 @@ public abstract class Menu extends PDTPrcse{
     protected static StringBuilder menuText;
     //public abstract int getMenu();
     protected HashMap<Integer, OpcaoMenu> comandos;
-         protected static Scanner sc = new Scanner(System.in);
+    protected static Scanner sc = new Scanner(System.in);
     protected ArrayList<OpcaoMenu> opcoes;
     private  Integer numOpcoes;
     

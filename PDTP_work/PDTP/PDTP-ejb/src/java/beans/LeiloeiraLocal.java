@@ -37,4 +37,8 @@ public interface LeiloeiraLocal {
     boolean ativaUtilizador(String username);
 
     ArrayList getUtilizadoresPedidos();
+
+    String getDadosUtilizador(String username);
+
+    boolean atualizaDadosUtilizador(String username, String nome, String morada);
 }

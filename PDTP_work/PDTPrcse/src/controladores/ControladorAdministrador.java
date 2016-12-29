@@ -37,10 +37,11 @@ public class ControladorAdministrador extends ControladorUserAdmin{
 
     public void consultarAdesoes() {
         ArrayList<String> pedidos = ligacao.getUtilizadoresPedidos();
-        System.out.print("Peidos de ativacao de Utilizador: ");
+        System.out.print("Pedidos de ativacao de Utilizador: ");
         for (String pedido : pedidos){
             System.out.print(pedido.concat(" "));
         }
+        System.out.print("\n");
     }
 
     public OpcaoMenu cancelarItens() {

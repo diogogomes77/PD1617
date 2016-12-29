@@ -1,5 +1,6 @@
 package controladores;
 
+import menus.MenuUtilizadorGerirConta;
 import menus.MenuUtilizadorSaldo;
 import menus.MenuVisitante;
 import menus.OpcaoMenu;
@@ -38,40 +39,40 @@ public class ControladorUtilizador extends ControladorUserAdmin {
         menu = new MenuUtilizadorSaldo(ligacao, (ControladorUtilizador) controlador);
     }
 
-    public OpcaoMenu historialItens() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void historialItens() {
+        System.out.println("historialItens");
     }
 
-    public OpcaoMenu consultarItensSeguidos() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void consultarItensSeguidos() {
+        System.out.println("consultarItensSeguidos");
     }
 
-    public OpcaoMenu concluirTransacao() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void concluirTransacao() {
+        System.out.println("concluirTransacao");
     }
 
-    public OpcaoMenu consultarItens() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void consultarItens() {
+        System.out.println("consultarItens");
     }
 
-    public OpcaoMenu enviarMensagem() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void enviarMensagem() {
+        System.out.println("enviarMensagem");
     }
 
-    public OpcaoMenu consultarMensagensMinhas() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void consultarMensagensMinhas() {
+        System.out.println("consultarMensagensMinhas");
     }
 
-    public OpcaoMenu consultarItensMeus() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void consultarItensMeus() {
+        System.out.println("consultarItensMeus");
     }
 
-    public OpcaoMenu gerirConta() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void gerirConta() {
+        menu = new MenuUtilizadorGerirConta(ligacao, (ControladorUtilizador) controlador);
     }
 
-    public OpcaoMenu colocarItemVenda() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void colocarItemVenda() {
+        System.out.println("colocarItemVenda");
     }
 
     public void verSaldo() {  
@@ -86,40 +87,59 @@ public class ControladorUtilizador extends ControladorUserAdmin {
         System.out.println("Saldo atual: " + ligacao.addSaldo(valor));
     }
 
-    public OpcaoMenu denunciarVendedor() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void denunciarVendedor() {
+        System.out.println("denunciarVendedor");
     }
 
-    public OpcaoMenu denunciarItem() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void denunciarItem() {
+        System.out.println("denunciarItem");
     }
 
-    public OpcaoMenu seguirItemCancelar() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void seguirItemCancelar() {
+        System.out.println("seguirItemCancelar");
     }
 
-    public OpcaoMenu seguirItem() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void seguirItem() {
+        System.out.println("pedirSuspensao");
     }
 
-    public OpcaoMenu enviarMensagemVendedor() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void enviarMensagemVendedor() {
+        System.out.println("enviarMensagemVendedor");
     }
 
-    public OpcaoMenu licitarItem() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void licitarItem() {
+        System.out.println("pedirSuspensao");
     }
 
-    public OpcaoMenu pedirSuspensao() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void pedirSuspensao() {
+        System.out.println("pedirSuspensao");
     }
 
-    public OpcaoMenu atualizarDados() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void atualizarDados() {
+        System.out.println("Atualizar Dados do utilizador:");
+         String s;
+        String nome = "";
+        String morada = "";
+        String username = "";
+        String password = "";
+        System.out.print("Nome: ");
+        nome = sc.next();
+        sc.skip("\n");
+        System.out.print("Morada: ");
+        morada = sc.next();
+        sc.skip("\n");
+
+
+        if (ligacao.atualizaDados(nome, morada)) {
+            System.out.println("Utilizador atualizado");
+        } else {
+            System.out.println("ERRO: utilizador nao atualizado");
+        }
     }
 
-    public OpcaoMenu consultarDados() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void consultarDados() {
+        System.out.println("Dados do utilizador:");
+        System.out.println(ligacao.getDados());
     }
 
 }

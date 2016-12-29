@@ -56,9 +56,6 @@ public class ClientUtilizador implements ClientUtilizadorRemote {
         return false;
     }
 
-
-
-
     @Override
     public boolean existeUsername(String username) {
         return leiloeira.existeUtilizador(username);
@@ -91,6 +88,21 @@ public class ClientUtilizador implements ClientUtilizadorRemote {
     @Override
     public String getMyName() {
         return myName;
+    }
+
+//    @Override
+//    public String toString() {
+//        return leiloeira.getDadosUtilizador(myName);
+//    }
+
+    @Override
+    public String getDados() {
+         return leiloeira.getDadosUtilizador(myName);
+    }
+
+    @Override
+    public boolean atualizaDados(String nome, String morada) {
+        return leiloeira.atualizaDadosUtilizador(myName,nome,morada);
     }
    
 }

@@ -210,5 +210,15 @@ public class Leiloeira implements LeiloeiraLocal {
         }
         return pedidos;
     }
+
+    @Override
+    public String getDadosUtilizador(String username) {
+        return utilizadores.get(username).getDados();
+    }
+
+    @Override
+    public boolean atualizaDadosUtilizador(String username, String nome, String morada) {
+        return utilizadores.get(username).aualizaDados(nome,morada);
+    }
     
 }

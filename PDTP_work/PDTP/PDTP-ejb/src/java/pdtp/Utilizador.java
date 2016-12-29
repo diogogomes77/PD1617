@@ -117,10 +117,15 @@ public class Utilizador {
     public void resetLogged() {
         logged = false;
     }
-    @Override
-    public String toString(){
-        return nome +
-                " ("+(logged?"logado":"nao logado") + ")";
+    
+    public String getDados(){
+        StringBuilder dados = new StringBuilder();
+        dados.append("\n");
+        dados.append("Nome: ").append(nome).append("\n");
+        dados.append("Morada: ").append(morada).append("\n");
+        dados.append("Username: ").append(username).append("\n");
+        dados.append("\n");
+        return dados.toString();
     }
     @Override
     public boolean equals(Object x){
@@ -136,6 +141,11 @@ public class Utilizador {
         return username.hashCode();
     }
 
+    public boolean aualizaDados(String nome, String morada) {
+         this.nome = nome;
+        this.morada = morada;
+        return true;
+    }
 
   
 }

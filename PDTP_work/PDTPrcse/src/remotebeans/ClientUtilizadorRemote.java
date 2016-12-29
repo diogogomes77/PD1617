@@ -29,4 +29,10 @@ public interface ClientUtilizadorRemote extends ClientRemote{
     boolean setMyName(String username, String password);
 
     String getMyName();
+
+    //String toString();
+
+    String getDados();
+
+    boolean atualizaDados(String nome, String morada);
 }

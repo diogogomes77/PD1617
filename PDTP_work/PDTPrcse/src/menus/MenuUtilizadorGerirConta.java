@@ -4,12 +4,13 @@ package menus;
 import controladores.ControladorUtilizador;
 import remotebeans.ClientUtilizadorRemote;
 
-public class MenuUtilizadorGerirConta extends MenuUtilizador {
+public class MenuUtilizadorGerirConta extends Menu {
 
     public MenuUtilizadorGerirConta(ClientUtilizadorRemote ligacao, ControladorUtilizador controlador) {
-        super(ligacao, controlador);
+        super();
          titulo="Utilizador - Conta";
-        opcoes.clear();
+         this.controlador=controlador;
+        //opcoes.clear();
         opcoes.add(new OpcaoMenu("Consultar dados", () -> controlador.consultarDados()));
         opcoes.add(new OpcaoMenu("Atualizar dados", () -> controlador.atualizarDados()));
         opcoes.add(new OpcaoMenu("Pedir Suspensao", () -> controlador.pedirSuspensao()));
