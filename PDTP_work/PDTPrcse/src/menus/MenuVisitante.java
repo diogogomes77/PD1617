@@ -7,7 +7,7 @@ package menus;
 
 import controladores.ControladorVisitante;
 
-import remotebeans.ClientVisitanteRemote;
+import beans.ClientVisitanteRemote;
 
 public class MenuVisitante extends Menu {
 

@@ -2,7 +2,7 @@
 package pdtprcse;
 
 import javax.naming.NamingException;
-import remotebeans.ClientAdminRemote;
+import beans.ClientAdminRemote;
 import static pdtprcse.Referencias.ctx;
 
 public class ReferenciaAdmin extends Referencias{
@@ -10,9 +10,9 @@ public class ReferenciaAdmin extends Referencias{
     public ReferenciaAdmin() {
          super();
         String advremote
-                = "java:global/PDTP/PDTP-ejb/ClientAdmin!remotebeans.ClientAdminRemote";
+                = "java:global/PDTP/PDTP-ejb/ClientAdmin!beans.ClientAdminRemote";
         try {
-            System.out.println("Iniciar lookup");
+         //   System.out.println("Iniciar lookup");
             Object x = ctx.lookup(advremote);
             ligacao = (ClientAdminRemote) x;
         } catch (NamingException e) {

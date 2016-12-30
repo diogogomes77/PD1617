@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import menus.Menu;
 import pdtprcse.PDTPrcse;
-import remotebeans.ClientRemote;
+import beans.ClientRemote;
 
 public abstract class Controlador extends PDTPrcse{
     

@@ -1,11 +1,11 @@
 package controladores;
 
-import menus.MenuAdministrador;
+import menus.MenuAdmin;
 import menus.MenuUtilizador;
 import menus.OpcaoMenu;
-import remotebeans.ClientAdminRemote;
-import remotebeans.ClientUtilizadorRemote;
-import remotebeans.ClientVisitanteRemote;
+import beans.ClientAdminRemote;
+import beans.ClientUtilizadorRemote;
+import beans.ClientVisitanteRemote;
 import pdtprcse.ReferenciaAdmin;
 import pdtprcse.ReferenciaUtilizador;
 
@@ -78,7 +78,7 @@ public class ControladorVisitante extends Controlador{
                 ReferenciaAdmin refAdmin = new ReferenciaAdmin();
                 ClientAdminRemote ligAdmin = refAdmin.getLigacao();
                 controlador = new ControladorAdministrador(ligAdmin);
-                menu = new MenuAdministrador(ligAdmin,(ControladorAdministrador)controlador); 
+                menu = new MenuAdmin(ligAdmin,(ControladorAdministrador)controlador); 
             }else{
                ReferenciaUtilizador refUtilizador = new ReferenciaUtilizador();
                ClientUtilizadorRemote ligUtilizador = refUtilizador.getLigacao();

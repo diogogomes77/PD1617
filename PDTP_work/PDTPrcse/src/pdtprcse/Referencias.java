@@ -4,7 +4,7 @@ package pdtprcse;
 import java.util.Properties;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
-import remotebeans.ClientRemote;
+import beans.ClientRemote;
 
 
 
@@ -31,7 +31,7 @@ public abstract class Referencias {
             System.out.println(e.getMessage());
             System.exit(1);
         }
-        System.out.println("InitialContxt Criado");
+       // System.out.println("InitialContxt Criado");
     }
     public abstract ClientRemote getLigacao();
 }

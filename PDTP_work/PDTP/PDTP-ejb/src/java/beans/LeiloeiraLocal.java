@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import javax.ejb.Local;
 import pdtp.Utilizador;
+import pdtp.UtilizadorEstado;
 
 @Local
 public interface LeiloeiraLocal {
@@ -36,9 +37,21 @@ public interface LeiloeiraLocal {
 
     boolean ativaUtilizador(String username);
 
-    ArrayList getUtilizadoresPedidos();
+    ArrayList getUtilizadoresEstado(UtilizadorEstado estado);
 
     String getDadosUtilizador(String username);
 
     boolean atualizaDadosUtilizador(String username, String nome, String morada);
+
+    boolean pedirSuspensaoUtilizador(String username,String razao);
+
+    HashMap getPedidosSuspensao();
+
+    boolean suspendeUtilizador(String username);
+
+    void setLastAction(String username);
+
+    boolean addMensagem(String remetente, String destinatario, String texto,String assunto);
+
+    ArrayList<Mensagem> getMensagensUtilizador(String username);
 }

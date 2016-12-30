@@ -2,7 +2,7 @@
 package menus;
 
 import controladores.ControladorUtilizador;
-import remotebeans.ClientUtilizadorRemote;
+import beans.ClientUtilizadorRemote;
 
 public class MenuUtilizadorGerirConta extends Menu {
 
@@ -14,6 +14,7 @@ public class MenuUtilizadorGerirConta extends Menu {
         opcoes.add(new OpcaoMenu("Consultar dados", () -> controlador.consultarDados()));
         opcoes.add(new OpcaoMenu("Atualizar dados", () -> controlador.atualizarDados()));
         opcoes.add(new OpcaoMenu("Pedir Suspensao", () -> controlador.pedirSuspensao()));
+      opcoes.add(new OpcaoMenu("Voltar", () -> controlador.mostrarMenu(new MenuUtilizador(ligacao,controlador))));
 
     }
 }

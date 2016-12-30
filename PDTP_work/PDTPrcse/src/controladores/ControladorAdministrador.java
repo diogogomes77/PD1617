@@ -2,11 +2,14 @@
 package controladores;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import menus.MenuAdminContas;
 import menus.MenuVisitante;
 import menus.OpcaoMenu;
-import remotebeans.ClientAdminRemote;
-import remotebeans.ClientUtilizadorRemote;
-import remotebeans.ClientVisitanteRemote;
+import beans.ClientAdminRemote;
+import beans.ClientUtilizadorRemote;
+import beans.ClientVisitanteRemote;
 import static pdtprcse.PDTPrcse.controlador;
 import static pdtprcse.PDTPrcse.menu;
 import pdtprcse.ReferenciaVisitante;
@@ -48,8 +51,15 @@ public class ControladorAdministrador extends ControladorUserAdmin{
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    public OpcaoMenu suspenderContas() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void suspenderContas() {
+        System.out.print("Suspender username -> ");
+        String username = sc.next();
+        sc.skip("\n");
+        if (ligacao.ativaUtilizador(username)){
+            System.out.println("Utilizador suspenso");
+        }else{
+            System.out.println("ERRO: Utilizador nao suspenso");
+        }
     }
 
     public OpcaoMenu reativarContas() {
@@ -86,6 +96,21 @@ public class ControladorAdministrador extends ControladorUserAdmin{
             System.out.println("ERRO: Utilizador nao ativado");
         }
     }
+
+    public void consultarPedidosSuspensao() {
+        HashMap<String,String> pedidos = ligacao.getPedidosSuspensao();
+        System.out.print("Pedidos de suspensao de Utilizador: ");
+        for (Map.Entry<String,String> pedido : pedidos.entrySet()){
+            System.out.print(pedido.getKey().concat(": ").concat(pedido.getValue()));
+         System.out.print("\n");
+        }
+        System.out.print("\n");
+    }
+
+    public void contas() {
+        menu = new MenuAdminContas(ligacao, (ControladorAdministrador) controlador);
+    }
+
 
 
     

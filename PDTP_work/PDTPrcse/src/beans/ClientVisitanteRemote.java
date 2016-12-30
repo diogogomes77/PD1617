@@ -1,5 +1,5 @@
 
-package remotebeans;
+package beans;
 
 import java.util.ArrayList;
 import javax.ejb.Remote;

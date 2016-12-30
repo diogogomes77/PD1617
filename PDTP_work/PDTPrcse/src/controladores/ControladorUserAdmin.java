@@ -2,7 +2,7 @@
 package controladores;
 
 
-import remotebeans.ClientRemote;
+import beans.ClientRemote;
 
 public abstract class ControladorUserAdmin extends Controlador{
   

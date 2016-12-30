@@ -1,5 +1,5 @@
 
-package remotebeans;
+package beans;
 
 import java.util.ArrayList;
 import javax.ejb.Remote;
@@ -35,4 +35,10 @@ public interface ClientUtilizadorRemote extends ClientRemote{
     String getDados();
 
     boolean atualizaDados(String nome, String morada);
+
+    boolean pedirSuspensao(String razao);
+
+    boolean sendMensagem(String destinatario, String texto,String assunto);
+
+    ArrayList<Mensagem> consultarMensagens();
 }

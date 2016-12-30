@@ -2,12 +2,12 @@
 package menus;
 
 import controladores.ControladorUserAdmin;
-import remotebeans.ClientRemote;
+import beans.ClientRemote;
 
 
-public class MenuUtilizadorAdministrador extends Menu{
+public class MenuUtilizadorAdmin extends Menu{
 
-    public MenuUtilizadorAdministrador(ClientRemote ligacao, ControladorUserAdmin controlador) {
+    public MenuUtilizadorAdmin(ClientRemote ligacao, ControladorUserAdmin controlador) {
         this.controlador = controlador;
         opcoes.add(new OpcaoMenu("Terminar Sessao", () -> controlador.logOff()));
     }

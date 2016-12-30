@@ -25,9 +25,8 @@ public class Leiloeira implements LeiloeiraLocal {
 
     HashMap<String, Utilizador> utilizadores = new HashMap<>();
     List<Leilao> leiloes = new ArrayList<>();
-
- 
     List<String> categorias = new ArrayList<>();;
+    List<Mensagem> mensagens = new ArrayList<>();
     
     public Leiloeira() {
       utilizadores.put("admin", 
@@ -200,15 +199,15 @@ public class Leiloeira implements LeiloeiraLocal {
     }
 
     @Override
-    public ArrayList getUtilizadoresPedidos() {
-        ArrayList pedidos = new ArrayList<>();
+    public ArrayList getUtilizadoresEstado(UtilizadorEstado estado) {
+        ArrayList users = new ArrayList<>();
         Collection<Utilizador> todos = utilizadores.values();
         for (Utilizador j : todos) {
-            if (j.getEstado()==UtilizadorEstado.ATIVO_PEDIDO) {
-                pedidos.add(j.getUsername());
+            if (j.getEstado()==estado) {
+                users.add(j.getUsername());
             }
         }
-        return pedidos;
+        return users;
     }
 
     @Override
@@ -219,6 +218,56 @@ public class Leiloeira implements LeiloeiraLocal {
     @Override
     public boolean atualizaDadosUtilizador(String username, String nome, String morada) {
         return utilizadores.get(username).aualizaDados(nome,morada);
+    }
+
+    @Override
+    public boolean pedirSuspensaoUtilizador(String username,String razao) {
+        utilizadores.get(username).setEstado(UtilizadorEstado.SUSPENDO_PEDIDO);
+        utilizadores.get(username).setRazaoPedidoSuspensao(razao);
+        return true;
+    }
+
+    @Override
+    public HashMap getPedidosSuspensao() {
+        HashMap<String,String> pedidos = new HashMap<>();
+       // ArrayList users = new ArrayList<>();
+        Collection<Utilizador> todos = utilizadores.values();
+        for (Utilizador j : todos) {
+            if (j.getEstado()==UtilizadorEstado.SUSPENDO_PEDIDO) {
+                pedidos.put(j.getUsername(), j.getRazaoPedidoSuspensao());
+            }
+        }
+        return pedidos;
+ 
+    }
+
+    @Override
+    public boolean suspendeUtilizador(String username) {
+        utilizadores.get(username).setEstado(UtilizadorEstado.SUSPENSO);
+        return true;
+    }
+
+    @Override
+    public void setLastAction(String username) {
+        utilizadores.get(username).setLastAction();
+    }
+
+    @Override
+    public boolean addMensagem(String remetente, String destinatario, String texto,String assunto) {
+        Mensagem msg = new Mensagem(remetente,destinatario,texto,assunto,MensagemEstado.ENVIADA);
+        mensagens.add(msg);
+        return true;
+    }
+
+    @Override
+    public ArrayList<Mensagem> getMensagensUtilizador(String username) {
+        ArrayList<Mensagem> myMsg = new ArrayList<>();
+        for (Mensagem msg : mensagens){
+            if (msg.getDestinatario().equals(username)){
+                myMsg.add(msg);
+            }
+        }
+        return myMsg;
     }
     
 }

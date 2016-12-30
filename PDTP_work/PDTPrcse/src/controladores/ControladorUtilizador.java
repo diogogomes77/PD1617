@@ -1,11 +1,16 @@
 package controladores;
 
 import menus.MenuUtilizadorGerirConta;
+import menus.MenuUtilizadorItens;
 import menus.MenuUtilizadorSaldo;
 import menus.MenuVisitante;
-import menus.OpcaoMenu;
-import remotebeans.ClientUtilizadorRemote;
-import remotebeans.ClientVisitanteRemote;
+import beans.ClientUtilizadorRemote;
+import beans.ClientVisitanteRemote;
+import beans.Mensagem;
+import java.text.Format;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import pdtprcse.ReferenciaVisitante;
 
 public class ControladorUtilizador extends ControladorUserAdmin {
@@ -56,13 +61,38 @@ public class ControladorUtilizador extends ControladorUserAdmin {
     }
 
     public void enviarMensagem() {
-        System.out.println("enviarMensagem");
+        System.out.println("enviar Mensagem a utilizador");
+        String destinatario = "";
+        String texto = "";
+        String assunto = "";
+        System.out.print("Destinatario: ");
+        destinatario = sc.next();
+        sc.skip("\n");
+        System.out.print("Assunto: ");
+        assunto = sc.next();
+        sc.skip("\n");
+        System.out.print("Texto: ");
+        texto = sc.next();
+        sc.skip("\n");
+        if (ligacao.sendMensagem(destinatario, texto, assunto)) {
+            System.out.println("Mensagem enviada");
+        } else {
+            System.out.println("ERRO: mensagem nao enviada");
+        }
     }
 
     public void consultarMensagensMinhas() {
-        System.out.println("consultarMensagensMinhas");
+        System.out.println("Minhas mensagems:");
+        ArrayList<Mensagem> mensagens = ligacao.consultarMensagens();
+        for(Mensagem msg : mensagens){
+            System.out.println("Enviada: ".concat(convertTime(msg.getData())).concat(" por: ").concat(msg.getDestinatario()).concat(" Assunto: ").concat(msg.getAssunto()));
+        }
     }
-
+public String convertTime(long time){
+    Date date = new Date(time);
+    Format format = new SimpleDateFormat("yyyy MM dd HH:mm:ss");
+    return format.format(date);
+}
     public void consultarItensMeus() {
         System.out.println("consultarItensMeus");
     }
@@ -112,12 +142,16 @@ public class ControladorUtilizador extends ControladorUserAdmin {
     }
 
     public void pedirSuspensao() {
-        System.out.println("pedirSuspensao");
+        System.out.println("Pedido de suspensao");
+        System.out.print("Indique a razao -> ");
+        String razao = sc.next();
+        sc.skip("\n");
+        
     }
 
     public void atualizarDados() {
         System.out.println("Atualizar Dados do utilizador:");
-         String s;
+        String s;
         String nome = "";
         String morada = "";
         String username = "";
@@ -128,8 +162,6 @@ public class ControladorUtilizador extends ControladorUserAdmin {
         System.out.print("Morada: ");
         morada = sc.next();
         sc.skip("\n");
-
-
         if (ligacao.atualizaDados(nome, morada)) {
             System.out.println("Utilizador atualizado");
         } else {
@@ -140,6 +172,11 @@ public class ControladorUtilizador extends ControladorUserAdmin {
     public void consultarDados() {
         System.out.println("Dados do utilizador:");
         System.out.println(ligacao.getDados());
+    }
+
+    public void gerirItens() {
+        menu = new MenuUtilizadorItens(ligacao, (ControladorUtilizador) controlador);
+
     }
 
 }

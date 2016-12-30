@@ -1,12 +1,10 @@
 
 package beans;
 
-import remotebeans.ClientUtilizadorRemote;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateful;
-import remotebeans.ClientUtilizadorRemote;
 
 @Stateful
 public class ClientUtilizador implements ClientUtilizadorRemote {
@@ -41,6 +39,8 @@ public class ClientUtilizador implements ClientUtilizadorRemote {
                  admin=true;
              return true;
         }
+                setLastAction();
+
         return false;
            
         //return !leiloeira.loginUtilizador(username,password);
@@ -53,26 +53,32 @@ public class ClientUtilizador implements ClientUtilizadorRemote {
              admin = false;
              return true;
         }
+                setLastAction();
+
         return false;
     }
 
     @Override
     public boolean existeUsername(String username) {
+        setLastAction();
         return leiloeira.existeUtilizador(username);
     }
 
     @Override
     public ArrayList getUsernameInscritos() {
+        setLastAction();
         return leiloeira.getUsernameInscritos();
     }
    
     @Override
     public ArrayList getUsernamesOnline() {
+        setLastAction();
          return leiloeira.getUsernamesOnline();
     }
 
     @Override
     public Double addSaldo(Double valor) {
+        setLastAction();
         if (admin)
             return null;
         return leiloeira.addSaldo(valor, myName);
@@ -80,6 +86,7 @@ public class ClientUtilizador implements ClientUtilizadorRemote {
 
     @Override
     public Double getSaldo() {
+        setLastAction();
         if (admin)
             return null;
         return leiloeira.getSaldo(myName);
@@ -87,6 +94,7 @@ public class ClientUtilizador implements ClientUtilizadorRemote {
 
     @Override
     public String getMyName() {
+        setLastAction();
         return myName;
     }
 
@@ -97,12 +105,38 @@ public class ClientUtilizador implements ClientUtilizadorRemote {
 
     @Override
     public String getDados() {
+        setLastAction();
          return leiloeira.getDadosUtilizador(myName);
     }
 
     @Override
     public boolean atualizaDados(String nome, String morada) {
+        setLastAction();
         return leiloeira.atualizaDadosUtilizador(myName,nome,morada);
     }
+
+    @Override
+    public boolean pedirSuspensao(String razao) {
+        setLastAction();
+        return leiloeira.pedirSuspensaoUtilizador(myName, razao);
+    }
    
+    private void setLastAction(){
+        leiloeira.setLastAction(myName);
+    }
+
+    @Override
+    public boolean sendMensagem(String destinatario, String texto,String assunto) {
+        if (leiloeira.existeUtilizador(destinatario))
+            return leiloeira.addMensagem(myName, destinatario, texto, assunto);
+        return false;
+    }
+
+    @Override
+    public ArrayList<Mensagem> consultarMensagens() {
+        
+        return leiloeira.getMensagensUtilizador(myName);
+    }
+    
+    
 }

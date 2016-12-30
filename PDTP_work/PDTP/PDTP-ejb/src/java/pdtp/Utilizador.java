@@ -16,7 +16,7 @@ public class Utilizador {
     private List<Item> items;
     private List<Leilao> leiloes;
     private UtilizadorEstado estado;
-
+    private String razaoPedidoSuspensao;
     private boolean logged;
     long lastAction;
     
@@ -147,5 +147,11 @@ public class Utilizador {
         return true;
     }
 
-  
+    public String getRazaoPedidoSuspensao() {
+        return razaoPedidoSuspensao;
+    }
+
+    public void setRazaoPedidoSuspensao(String razaoPedidoSuspensao) {
+        this.razaoPedidoSuspensao = razaoPedidoSuspensao;
+    }
 }

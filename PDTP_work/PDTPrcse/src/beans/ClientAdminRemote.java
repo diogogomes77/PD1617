@@ -1,7 +1,8 @@
 
-package remotebeans;
+package beans;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import javax.ejb.Remote;
 
 @Remote
@@ -14,4 +15,8 @@ public interface ClientAdminRemote extends ClientRemote{
     ArrayList getUtilizadoresPedidos();
 
     boolean ativaUtilizador(String username);
+
+    HashMap<String,String> getPedidosSuspensao();
+
+    boolean suspendeUsername(String username);
 }

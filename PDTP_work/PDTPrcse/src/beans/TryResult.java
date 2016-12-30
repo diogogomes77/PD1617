@@ -1,5 +1,5 @@
 
-package remotebeans;
+package beans;
 
 
 public enum TryResult {

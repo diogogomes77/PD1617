@@ -2,8 +2,8 @@
 package pdtprcse;
 
 import javax.naming.NamingException;
-import remotebeans.ClientUtilizadorRemote;
-import remotebeans.ClientVisitanteRemote;
+import beans.ClientUtilizadorRemote;
+import beans.ClientVisitanteRemote;
 import static pdtprcse.PDTPrcse.ctx;
 import static pdtprcse.Referencias.ligacao;
 
@@ -12,9 +12,9 @@ public class ReferenciaUtilizador extends Referencias{
     public ReferenciaUtilizador() {
         super();
         String advremote
-                = "java:global/PDTP/PDTP-ejb/ClientUtilizador!remotebeans.ClientUtilizadorRemote";
+                = "java:global/PDTP/PDTP-ejb/ClientUtilizador!beans.ClientUtilizadorRemote";
         try {
-            System.out.println("Iniciar lookup");
+          //  System.out.println("Iniciar lookup");
             Object x = ctx.lookup(advremote);
             ligacao = (ClientUtilizadorRemote) x;
         } catch (NamingException e) {
