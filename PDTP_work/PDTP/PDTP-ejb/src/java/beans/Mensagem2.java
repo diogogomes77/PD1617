@@ -1,19 +1,20 @@
 
 package beans;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import static java.time.LocalDateTime.now;
 import java.time.ZoneOffset;
 import java.util.Date;
 
-public class Mensagem {
+public class Mensagem2 implements Serializable {
    private String remetente;
    private String destinatario;
    private MensagemEstado estado;
    private String texto;
    private String assunto;
    private long data;
-    public Mensagem(String remetente, String destinatario, String texto,String assunto, MensagemEstado estado) {
+    public Mensagem2(String remetente, String destinatario, String texto,String assunto, MensagemEstado estado) {
         this.remetente = remetente;
         this.destinatario = destinatario;
         this.estado = estado;
