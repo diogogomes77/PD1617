@@ -25,9 +25,15 @@ public class PDTPrcse {
         controlador = controladorVisitante;
         menu = new MenuVisitante(clientVisitante,controladorVisitante);
         
-        boolean continuar = true;
-        while (continuar) {
-            continuar = menu.escolheOpcao();
+        try{
+            boolean continuar = true;
+            while (continuar) {
+                continuar = menu.escolheOpcao();
+            }
+        }
+        finally{
+            System.out.println("Fim...");
+            controlador.logOff();
         }
     }  
 }

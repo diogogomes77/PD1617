@@ -21,6 +21,7 @@ public class ControladorUtilizador extends ControladorUserAdmin {
         super(ligacao);
         this.ligacao = ligacao;
     }
+    
 
     @Override
     public void logOff() {
@@ -179,4 +180,9 @@ public String convertTime(long time){
 
     }
 
+    @Override
+    protected void finalize () {
+        this.logOff();
+    }
+    
 }

@@ -10,5 +10,6 @@ public abstract class ControladorUserAdmin extends Controlador{
         super(ligacao);
         this.ligacao = ligacao;
     }
-    public abstract void logOff();
+    
+    //public abstract void logOff();
 }

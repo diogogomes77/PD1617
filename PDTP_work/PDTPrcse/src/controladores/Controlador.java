@@ -42,4 +42,7 @@ public abstract class Controlador extends PDTPrcse{
         menu=newmenu;
         controlador=newmenu.getControlador();
     }
+    
+    public abstract void logOff();
+
 }

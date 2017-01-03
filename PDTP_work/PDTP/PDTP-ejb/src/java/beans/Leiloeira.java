@@ -29,8 +29,9 @@ public class Leiloeira implements LeiloeiraLocal {
     List<Mensagem> mensagens = new ArrayList<>();
     
     public Leiloeira() {
-      utilizadores.put("admin", 
-              new Utilizador("Administrador", "Sistema", "admin", "admin",UtilizadorEstado.ATIVO));
+        if( !utilizadores.containsKey("admin") )
+            utilizadores.put("admin",
+                    new Utilizador("Administrador", "Sistema", "admin", "admin",UtilizadorEstado.ATIVO));
     }
 
     
