@@ -38,7 +38,7 @@ public class ClientVisitanteRemoteTest {
     public void tearDown() {
     }
 
-    private ClientVisitanteRemote getInstance(){
+    private ClientVisitanteRemote getInstanceVisitante(){
         ReferenciaVisitante refVisitante = new ReferenciaVisitante();
         ClientVisitanteRemote instance = refVisitante.getLigacao();
         return instance;
@@ -57,7 +57,7 @@ public class ClientVisitanteRemoteTest {
        
         //ClientVisitanteRemote instance = new ClientVisitanteRemote();
         boolean expResult = true;
-        boolean result = getInstance().inscreveUtilizador(nome, morada, username, password);
+        boolean result = getInstanceVisitante().inscreveUtilizador(nome, morada, username, password);
         assertEquals(expResult, result);
 
     }
@@ -72,7 +72,7 @@ public class ClientVisitanteRemoteTest {
         String password = "user1";
         
         boolean expResult = false;
-        boolean result = getInstance().loginUtilizador(name, password);
+        boolean result = getInstanceVisitante().loginUtilizador(name, password);
         assertEquals(expResult, result);
 
     }
@@ -86,7 +86,7 @@ public class ClientVisitanteRemoteTest {
         String username = "user1";
        
         boolean expResult = true;
-        boolean result = getInstance().existeUsername(username);
+        boolean result = getInstanceVisitante().existeUsername(username);
         assertEquals(expResult, result);
 
     }
@@ -99,7 +99,7 @@ public class ClientVisitanteRemoteTest {
         System.out.println("getUsernameInscritos");
       
         ArrayList expResult = null;
-        ArrayList result = getInstance().getUsernameInscritos();
+        ArrayList result = getInstanceVisitante().getUsernameInscritos();
         assertEquals(expResult, result);
 
     }
@@ -112,7 +112,7 @@ public class ClientVisitanteRemoteTest {
         System.out.println("getUsernamesOnline");
        
         ArrayList expResult = null;
-        ArrayList result = getInstance().getUsernamesOnline();
+        ArrayList result = getInstanceVisitante().getUsernamesOnline();
         assertEquals(expResult, result);
 
     }

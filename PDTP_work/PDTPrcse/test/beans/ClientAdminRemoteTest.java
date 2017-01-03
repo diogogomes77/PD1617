@@ -49,35 +49,9 @@ public class ClientAdminRemoteTest {
         System.out.println("logOff");
 
         boolean expResult = false;
-        boolean result = getInstance().logOff();
+        boolean result = getInstanceAdmin().logOff();
         assertEquals(expResult, result);
      
-    }
-
-    /**
-     * Test of getUsernameInscritos method, of class ClientAdminRemote.
-     */
-    @Test
-    public void testGetUsernameInscritos() {
-        System.out.println("getUsernameInscritos");
-
-        ArrayList expResult = null;
-        ArrayList result = getInstance().getUsernameInscritos();
-        assertEquals(expResult, result);
-      
-    }
-
-    /**
-     * Test of getUsernamesOnline method, of class ClientAdminRemote.
-     */
-    @Test
-    public void testGetUsernamesOnline() {
-        System.out.println("getUsernamesOnline");
-
-        ArrayList expResult = null;
-        ArrayList result = getInstance().getUsernamesOnline();
-        assertEquals(expResult, result);
-    
     }
 
     /**
@@ -88,7 +62,7 @@ public class ClientAdminRemoteTest {
         System.out.println("getUtilizadoresPedidos");
 
         ArrayList expResult = null;
-        ArrayList result = getInstance().getUtilizadoresPedidos();
+        ArrayList result = getInstanceAdmin().getUtilizadoresPedidos();
         assertEquals(expResult, result);
      
     }
@@ -102,38 +76,12 @@ public class ClientAdminRemoteTest {
         String username = "user1";
 
         boolean expResult = true;
-        boolean result = getInstance().ativaUtilizador(username);
+        boolean result = getInstanceAdmin().ativaUtilizador(username);
         assertEquals(expResult, result);
        
     }
 
-    /**
-     * Test of getPedidosSuspensao method, of class ClientAdminRemote.
-     */
-    @Test
-    public void testGetPedidosSuspensao() {
-        System.out.println("getPedidosSuspensao");
-
-        HashMap<String, String> expResult = null;
-        HashMap<String, String> result = getInstance().getPedidosSuspensao();
-        assertEquals(expResult, result);
-      
-    }
-
-    /**
-     * Test of suspendeUsername method, of class ClientAdminRemote.
-     */
-    @Test
-    public void testSuspendeUsername() {
-        System.out.println("suspendeUsername");
-        String username = "";
-        boolean expResult = false;
-        boolean result = getInstance().suspendeUsername(username);
-        assertEquals(expResult, result);
-       
-    }
-
-     private ClientAdminRemote getInstance(){
+     private ClientAdminRemote getInstanceAdmin(){
         ReferenciaAdmin refVisitante = new ReferenciaAdmin();
         ClientAdminRemote instance = refVisitante.getLigacao();
         return instance;

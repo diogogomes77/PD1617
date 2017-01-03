@@ -12,7 +12,7 @@ public class ReferenciaVisitante extends Referencias{
         String advremote
                 = "java:global/PDTP/PDTP-ejb/ClientVisitante!beans.ClientVisitanteRemote";
         try {
-            System.out.println("Iniciar lookup");
+           // System.out.println("Iniciar lookup");
             Object x = ctx.lookup(advremote);
             ligacao = (ClientVisitanteRemote) x;
         } catch (NamingException e) {

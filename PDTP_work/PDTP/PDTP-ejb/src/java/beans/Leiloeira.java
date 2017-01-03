@@ -33,16 +33,6 @@ public class Leiloeira implements LeiloeiraLocal {
               new Utilizador("Administrador", "Sistema", "admin", "admin",UtilizadorEstado.ATIVO));
     }
 
-    @Override
-    public ArrayList<String> getHiScores() {
-        Collection<Utilizador> todos = utilizadores.values();
-        ArrayList<String> hisc = new ArrayList<>(); //pouco eficiente
-        todos.forEach((j) -> {
-            hisc.add(j.toString()); // ou so j
-        });
-        return hisc;
-        // nao atualiza timetampo porque pode nem estar logado;
-    }
     
     @Override
     public HashMap<String, Utilizador> getUtilizadores() {
@@ -131,7 +121,7 @@ public class Leiloeira implements LeiloeiraLocal {
                         new BufferedInputStream(
                                 new FileInputStream("/tmp/LeiloeiraDados")))) {
             utilizadores = (HashMap<String, Utilizador>) ois.readObject();
-            
+            mensagens = (ArrayList<Mensagem>) ois.readObject();
             categorias = (ArrayList<String>) ois.readObject();
         } catch (Exception e) {
             //Utilizadors = fica com o objecto vazio criado no construtor
@@ -145,6 +135,7 @@ public class Leiloeira implements LeiloeiraLocal {
                         new BufferedOutputStream(
                                 new FileOutputStream("/tmp/LeiloeiraDados")))) {
             oos.writeObject(utilizadores);
+             oos.writeObject(mensagens);
             oos.writeObject(categorias);
         } catch (Exception e) {
 

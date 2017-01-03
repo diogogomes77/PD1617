@@ -10,14 +10,7 @@ import pdtp.UtilizadorEstado;
 @Local
 public interface LeiloeiraLocal {
     
-    ArrayList<String> getHiScores();
-
-
- 
-
     boolean existeUtilizador(String name);
-
-   
 
     boolean logOff(String name);
 

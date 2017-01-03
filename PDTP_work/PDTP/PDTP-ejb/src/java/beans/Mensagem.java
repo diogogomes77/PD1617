@@ -24,6 +24,7 @@ public class Mensagem {
     }
 
     public String getTexto() {
+        this.estado=MensagemEstado.LIDA;
         return texto;
     }
 
