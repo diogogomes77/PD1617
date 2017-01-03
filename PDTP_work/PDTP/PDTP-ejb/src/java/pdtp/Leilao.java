@@ -1,10 +1,11 @@
 
 package pdtp;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.TreeMap;
 
-public class Leilao {
+public class Leilao implements Serializable {
     private TreeMap<Double,Utilizador> licitacoes;
     private Date dataLimite;
     

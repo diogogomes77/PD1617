@@ -5,11 +5,13 @@
  */
 package pdtp;
 
+import java.io.Serializable;
+
 /**
  *
  * Item para leilao
  */
-public class Item {
+public class Item implements Serializable {
     private Utilizador vendedor;
     private String descricao;
     private Double comprarJa;

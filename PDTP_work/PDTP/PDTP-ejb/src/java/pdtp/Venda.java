@@ -5,11 +5,13 @@
  */
 package pdtp;
 
+import java.io.Serializable;
+
 /**
  *
  * venda é um leilao terminado com sucesso
  */
-public class Venda {
+public class Venda implements Serializable {
     private Item item;
     private Utilizador comprador;
     private Double valor;
