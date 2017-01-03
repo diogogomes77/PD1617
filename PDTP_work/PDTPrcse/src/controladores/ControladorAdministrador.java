@@ -10,6 +10,8 @@ import menus.OpcaoMenu;
 import beans.ClientAdminRemote;
 import beans.ClientUtilizadorRemote;
 import beans.ClientVisitanteRemote;
+import java.util.List;
+import menus.MenuAdminCategorias;
 import static pdtprcse.PDTPrcse.controlador;
 import static pdtprcse.PDTPrcse.menu;
 import pdtprcse.ReferenciaVisitante;
@@ -82,8 +84,8 @@ public class ControladorAdministrador extends ControladorUserAdmin{
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    public OpcaoMenu gerirCategorias() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void gerirCategorias() {
+        menu = new MenuAdminCategorias(ligacao, (ControladorAdministrador) controlador);
     }
 
     public void ativarConta() {
@@ -109,6 +111,32 @@ public class ControladorAdministrador extends ControladorUserAdmin{
 
     public void contas() {
         menu = new MenuAdminContas(ligacao, (ControladorAdministrador) controlador);
+    }
+
+    public void consultarCategorias() {
+        //Obter o servidor as categorias
+        List<String> categorias = ligacao.obtemCategorias();
+        System.out.print("Categorias disponíveis: ");
+        for (String categoria : categorias){
+            System.out.print(categoria.concat(" "));
+        }
+        System.out.print("\n");
+        //Listar o resultados
+    }
+
+    public void novaCategoria() {
+        System.out.print("Nome da categoria -> ");
+        String nomecat = sc.next();
+        sc.skip("\n");
+        if (ligacao.adicionarCategoria(nomecat)){
+            System.out.println("Categoria Adicionada");
+        }else{
+            System.out.println("ERRO: Categoria não adicionada");
+        }
+    }
+
+    public OpcaoMenu eliminarCategoria() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 

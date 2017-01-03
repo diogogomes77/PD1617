@@ -3,6 +3,7 @@ package beans;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Singleton;
 import pdtp.UtilizadorEstado;
@@ -60,4 +61,17 @@ public class ClientAdmin implements ClientAdminRemote {
        private void setLastAction(){
         leiloeira.setLastAction("admin");
     }
+
+    @Override
+    public boolean adicionarCategoria(String nomeCategoria) {
+        
+        return leiloeira.adicionarCategoria(nomeCategoria);
+    }
+
+    @Override
+    public List<String> obtemCategorias() {
+        return leiloeira.obterCategorias();
+    }
+    
+    
 }

@@ -260,5 +260,19 @@ public class Leiloeira implements LeiloeiraLocal {
         }
         return myMsg;
     }
+
+    @Override
+    public boolean adicionarCategoria(String nomeCategoria) {
+        if( categorias.indexOf(nomeCategoria) > 0 )
+            return false;
+        else
+            categorias.add(nomeCategoria);
+        return true;
+    }
+
+    @Override
+    public List<String> obterCategorias() {
+        return categorias;
+    }
     
 }

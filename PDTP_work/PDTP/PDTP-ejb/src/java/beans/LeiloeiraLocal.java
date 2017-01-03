@@ -3,6 +3,7 @@ package beans;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import javax.ejb.Local;
 import pdtp.Utilizador;
 import pdtp.UtilizadorEstado;
@@ -47,4 +48,8 @@ public interface LeiloeiraLocal {
     boolean addMensagem(String remetente, String destinatario, String texto,String assunto);
 
     ArrayList<Mensagem> getMensagensUtilizador(String username);
+
+    boolean adicionarCategoria(String nomeCategoria);
+
+    List<String> obterCategorias();
 }

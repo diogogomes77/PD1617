@@ -3,6 +3,7 @@ package beans;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import javax.ejb.Remote;
 
 @Remote
@@ -19,4 +20,8 @@ public interface ClientAdminRemote extends ClientRemote{
     HashMap<String,String> getPedidosSuspensao();
 
     boolean suspendeUsername(String username);
+
+    boolean adicionarCategoria(String nomeCategoria);
+
+    List<String> obtemCategorias();
 }
