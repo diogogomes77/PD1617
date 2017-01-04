@@ -8,7 +8,7 @@ import menus.MenuAdminContas;
 import menus.MenuVisitante;
 import menus.OpcaoMenu;
 import beans.ClientAdminRemote;
-import beans.ClientUtilizadorRemote;
+//import beans.ClientUtilizadorRemote;
 import beans.ClientVisitanteRemote;
 import java.util.List;
 import menus.MenuAdminCategorias;
@@ -135,8 +135,15 @@ public class ControladorAdministrador extends ControladorUserAdmin{
         }
     }
 
-    public OpcaoMenu eliminarCategoria() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void eliminarCategoria() {
+        System.out.print("Nome da categoria -> ");
+        String nomecat = sc.next();
+        sc.skip("\n");
+        if (ligacao.eliminaCategoria(nomecat)){
+            System.out.println("Categoria Eliminada");
+        }else{
+            System.out.println("ERRO: Categoria não eliminada");
+        }
     }
 
     @Override
