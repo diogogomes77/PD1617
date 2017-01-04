@@ -275,5 +275,19 @@ public class Leiloeira implements LeiloeiraLocal {
     public List<String> obterCategorias() {
         return categorias;
     }
+
+    @Override
+    public boolean eliminaCategoria(String nomeCategoria) {
+        if( categorias.indexOf(nomeCategoria) > 0 ){
+            categorias.remove(nomeCategoria);
+            return false;
+            
+        }
+        else
+            categorias.add(nomeCategoria);
+        return false;
+    }
+    
+    
     
 }
