@@ -52,6 +52,4 @@ public interface LeiloeiraLocal {
     boolean adicionarCategoria(String nomeCategoria);
 
     List<String> obterCategorias();
-
-    boolean eliminaCategoria(String nomeCategoria);
 }
