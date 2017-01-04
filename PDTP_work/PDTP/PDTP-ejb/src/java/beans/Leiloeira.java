@@ -287,6 +287,18 @@ public class Leiloeira implements LeiloeiraLocal {
             categorias.add(nomeCategoria);
         return false;
     }
+
+    @Override
+    public boolean pedirReativacaoUsername(String username) {
+        if (existeUtilizador(username)){
+            Utilizador u = utilizadores.get(username);
+            if (u.getEstado()==UtilizadorEstado.SUSPENSO){
+                u.setEstado(UtilizadorEstado.REATIVACAO_PEDIDO);
+                return true;
+            }
+        }           
+        return false;
+    }
     
     
     

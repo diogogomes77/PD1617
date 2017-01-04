@@ -100,8 +100,19 @@ public class ControladorVisitante extends Controlador{
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    public OpcaoMenu reativarConta() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void reativarConta() {
+      String s;
+        String username = "";
+        System.out.println("Pedido de reativacao de conta");
+        System.out.print("Username: ");
+        username = sc.next();
+        sc.skip("\n");
+        if (ligacao.pedirReativacaoUsername(username)) {
+            System.out.println("Pedido de reativacao efetuado");
+        } else {
+            System.out.println("ERRO: Username nao existente ou ja ativado");
+        }
+       
     }
     
     @Override

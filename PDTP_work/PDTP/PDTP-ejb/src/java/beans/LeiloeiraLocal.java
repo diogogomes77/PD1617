@@ -54,4 +54,6 @@ public interface LeiloeiraLocal {
     List<String> obterCategorias();
 
     boolean eliminaCategoria(String nomeCategoria);
+
+    boolean pedirReativacaoUsername(String username);
 }

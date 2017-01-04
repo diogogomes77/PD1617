@@ -32,4 +32,9 @@ public class ClientVisitante implements ClientVisitanteRemote {
          return leiloeira.getUsernamesOnline();
     }
 
+    @Override
+    public boolean pedirReativacaoUsername(String username) {
+        return leiloeira.pedirReativacaoUsername(username);
+    }
+
 }
