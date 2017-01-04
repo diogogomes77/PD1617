@@ -26,4 +26,6 @@ public interface ClientAdminRemote extends ClientRemote{
     List<String> obtemCategorias();
 
     boolean eliminaCategoria(String nomeCategoria);
+
+    boolean modificaCategoria(String nomeCategoria, String novoNomeCategoria);
 }

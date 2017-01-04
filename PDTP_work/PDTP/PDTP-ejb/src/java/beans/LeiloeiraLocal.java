@@ -56,4 +56,6 @@ public interface LeiloeiraLocal {
     boolean eliminaCategoria(String nomeCategoria);
 
     boolean pedirReativacaoUsername(String username);
+
+    boolean modificaCategoria(String nomeCategoria, String novoNomeCategoria);
 }
