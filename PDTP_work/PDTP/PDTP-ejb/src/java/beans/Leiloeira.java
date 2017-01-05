@@ -16,7 +16,7 @@ import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.ejb.Schedule;
 import javax.ejb.Singleton;
-import pdtp.Leilao;
+import pdtp.Item;
 import pdtp.Utilizador;
 import pdtp.UtilizadorEstado;
 
@@ -24,7 +24,7 @@ import pdtp.UtilizadorEstado;
 public class Leiloeira implements LeiloeiraLocal {
 
     HashMap<String, Utilizador> utilizadores = new HashMap<>();
-    List<Leilao> leiloes = new ArrayList<>();
+    List<Item> leiloes = new ArrayList<>();
     List<String> categorias = new ArrayList<>();
     List<Mensagem> mensagens = new ArrayList<>();
     

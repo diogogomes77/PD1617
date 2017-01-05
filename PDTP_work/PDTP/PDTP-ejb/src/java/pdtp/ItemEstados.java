@@ -5,7 +5,7 @@
  */
 package pdtp;
 
-public enum LeilaoEstados {
+public enum ItemEstados {
     INICIADA,
     TERMINADA,
     CANCELADA

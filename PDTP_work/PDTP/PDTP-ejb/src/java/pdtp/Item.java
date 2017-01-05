@@ -1,27 +1,60 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package pdtp;
 
 import java.io.Serializable;
+import java.util.Date;
+import java.util.TreeMap;
 
-/**
- *
- * Item para leilao
- */
 public class Item implements Serializable {
-    private Utilizador vendedor;
+    private TreeMap<Double,Utilizador> licitacoes;
+    private Date dataLimite;
+     private Utilizador vendedor;
     private String descricao;
     private Double comprarJa;
+    
+    //private Item item;
+    private ItemEstados estado;
+    private Venda venda;
+    private Utilizador comprador;
 
-    public Item(Utilizador vendedor, String descricao, Double comprarJa) {
-        this.vendedor = vendedor;
+    public Item(Utilizador vendedor, Double comprarJa,Date dataLimite, String descricao) {
+       this.vendedor = vendedor;
         this.descricao = descricao;
         this.comprarJa = comprarJa;
-    }
+        this.licitacoes = new TreeMap<>();
+        this.dataLimite = dataLimite;
 
+        this.estado = ItemEstados.INICIADA;
+    }
+    public boolean addLicitacao(Utilizador licitador,Double valor){
+        if (!checkLicitador(licitador))
+            return false;
+        if (!checkValor(valor))
+            return false;
+        this.licitacoes.put(valor, licitador);
+        return true;
+    }
+    public boolean comprarJa(Utilizador membro){
+        if (!checkLicitador(membro))
+            return false;
+        this.comprador = membro;
+        this.estado = ItemEstados.TERMINADA;
+        return true;
+    }
+    
+    public boolean cancelarVenda(Utilizador membro){
+        if (checkLicitador(membro)){
+            this.estado = ItemEstados.CANCELADA;
+            return true;
+        }
+        return false;
+    }
+    private boolean checkLicitador(Utilizador licitador){
+         return licitador != vendedor;
+    }
+    private boolean checkValor(Double valor){
+        return (valor<=licitacoes.lastKey());
+    }
     public Utilizador getVendedor() {
         return vendedor;
     }
@@ -33,6 +66,4 @@ public class Item implements Serializable {
     public Double getComprarJa() {
         return comprarJa;
     }
-    
-    
 }
