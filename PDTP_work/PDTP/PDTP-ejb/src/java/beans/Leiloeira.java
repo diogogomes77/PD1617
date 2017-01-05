@@ -310,6 +310,17 @@ public class Leiloeira implements LeiloeiraLocal {
         }
         return false;
     }
+
+    @Override
+    public boolean verificaPassword(String username, String password) {
+        return (utilizadores.get(username).getPassword().equals(password));
+    }
+
+    @Override
+    public boolean alteraPassword(String username, String password) {
+        utilizadores.get(username).setPassword(password);
+        return true;
+    }
     
     
     

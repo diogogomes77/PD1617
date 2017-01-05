@@ -137,6 +137,16 @@ public class ClientUtilizador implements ClientUtilizadorRemote {
         
         return leiloeira.getMensagensUtilizador(myName);
     }
+
+    @Override
+    public boolean verificaPassword(String password) {
+        return leiloeira.verificaPassword(myName,password);
+    }
+
+    @Override
+    public boolean alteraPassword(String password) {
+        return leiloeira.alteraPassword(myName,password);
+    }
     
     
 }

@@ -11,6 +11,7 @@ import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import menus.OpcaoMenu;
 import pdtprcse.ReferenciaVisitante;
 
 public class ControladorUtilizador extends ControladorUserAdmin {
@@ -186,6 +187,25 @@ public String convertTime(long time){
     @Override
     protected void finalize () {
         this.logOff();
+    }
+
+    public void alterarPassword() {
+        String password = "";
+        System.out.print("Antiga password: ");
+        password = sc.next();
+        sc.skip("\n");
+        if (ligacao.verificaPassword(password)){
+             System.out.print("Nova password: ");
+             password = sc.next();
+             sc.skip("\n");
+              if (ligacao.alteraPassword(password)){
+                  System.out.println("Password alterada com sucesso");
+              }else{
+                  System.out.println("ERRO: Password nao alterada");
+              }
+        } else {
+            System.out.println("ERRO: Password antiga incorreta");
+        }
     }
     
 }

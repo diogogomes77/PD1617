@@ -76,8 +76,24 @@ public class ControladorAdministrador extends ControladorUserAdmin{
         }
     }
 
-    public OpcaoMenu mudarPassword() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void mudarPassword() {
+        String password = "";
+        System.out.print("Antiga password: ");
+        password = sc.next();
+        sc.skip("\n");
+        if (ligacao.verificaPassword(password)){
+             System.out.print("Nova password: ");
+             password = sc.next();
+             sc.skip("\n");
+              if (ligacao.alteraPassword(password)){
+                  System.out.println("Password alterada com sucesso");
+              }else{
+                  System.out.println("ERRO: Password nao alterada");
+              }
+        } else {
+            System.out.println("ERRO: Password antiga incorreta");
+        }
+           
     }
 
     public OpcaoMenu enviarMensagens() {

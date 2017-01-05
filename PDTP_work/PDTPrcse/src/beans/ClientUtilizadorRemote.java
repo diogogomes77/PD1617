@@ -41,4 +41,8 @@ public interface ClientUtilizadorRemote extends ClientRemote{
     boolean sendMensagem(String destinatario, String texto,String assunto);
 
     ArrayList<Mensagem> consultarMensagens();
+
+    boolean verificaPassword(String password);
+
+    boolean alteraPassword(String password);
 }
