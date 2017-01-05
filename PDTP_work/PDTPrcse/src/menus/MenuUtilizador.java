@@ -17,13 +17,13 @@ public class MenuUtilizador extends MenuUtilizadorAdmin {
         super(ligacao,controlador);
        titulo="Utilizador ".concat(controlador.getUsername());
         this.controlador =  controlador;
-                opcoes.add(new OpcaoMenu("Minha Conta", () -> controlador.gerirConta()));
-        opcoes.add(new OpcaoMenu("Itens", () -> controlador.gerirItens()));
+                opcoes.add(new OpcaoMenu("> Minha Conta", () -> controlador.subMenuGerirConta()));
+        opcoes.add(new OpcaoMenu("> Itens", () -> controlador.subMenuItens()));
 
         opcoes.add(new OpcaoMenu("Minhas mensagens", () -> controlador.consultarMensagensMinhas()));
         opcoes.add(new OpcaoMenu("Enviar mensagem", () -> controlador.enviarMensagem()));
           opcoes.add(new OpcaoMenu("Concluir transacao", () -> controlador.concluirTransacao()));
-        opcoes.add(new OpcaoMenu("Saldo", () -> controlador.consultarSaldo()));
+        opcoes.add(new OpcaoMenu("> Saldo", () -> controlador.subMenuSaldo()));
      
         //  opcoes.add(new OpcaoMenu("Terminar Sessao", () -> controlador.logOff()));
     }

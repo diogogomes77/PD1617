@@ -92,7 +92,7 @@ public class ControladorAdministrador extends ControladorUserAdmin{
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    public void gerirCategorias() {
+    public void subMenuGerirCategorias() {
         menu = new MenuAdminCategorias(ligacao, (ControladorAdministrador) controlador);
     }
 
@@ -137,7 +137,7 @@ public class ControladorAdministrador extends ControladorUserAdmin{
         System.out.print("\n");
     }
 
-    public void contas() {
+    public void subMenuContas() {
         menu = new MenuAdminContas(ligacao, (ControladorAdministrador) controlador);
     }
 

@@ -40,7 +40,7 @@ public class ControladorUtilizador extends ControladorUserAdmin {
     public String getUsername(){
         return ligacao.getMyName();
     }
-    public void consultarSaldo() {
+    public void subMenuSaldo() {
         controlador = new ControladorUtilizador(ligacao);
         menu = new MenuUtilizadorSaldo(ligacao, (ControladorUtilizador) controlador);
     }
@@ -98,7 +98,7 @@ public String convertTime(long time){
         System.out.println("consultarItensMeus");
     }
 
-    public void gerirConta() {
+    public void subMenuGerirConta() {
         menu = new MenuUtilizadorGerirConta(ligacao, (ControladorUtilizador) controlador);
     }
 
@@ -178,7 +178,7 @@ public String convertTime(long time){
         System.out.println(ligacao.getDados());
     }
 
-    public void gerirItens() {
+    public void subMenuItens() {
         menu = new MenuUtilizadorItens(ligacao, (ControladorUtilizador) controlador);
 
     }
