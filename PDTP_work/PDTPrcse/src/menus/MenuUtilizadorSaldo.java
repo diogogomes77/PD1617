@@ -4,10 +4,10 @@ package menus;
 import controladores.ControladorUtilizador;
 import beans.ClientUtilizadorRemote;
 
-public class MenuUtilizadorSaldo extends Menu {
+public class MenuUtilizadorSaldo extends MenuUtilizadorAdmin {
 
     public MenuUtilizadorSaldo(ClientUtilizadorRemote ligacao, ControladorUtilizador controlador) {
-       super();
+       super(ligacao,controlador);
         titulo="Utilizador - Saldo";
        this.controlador=controlador;
         //opcoes.clear();

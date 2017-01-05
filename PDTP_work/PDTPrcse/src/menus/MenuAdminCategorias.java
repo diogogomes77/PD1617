@@ -4,10 +4,10 @@ package menus;
 import controladores.ControladorAdministrador;
 import beans.ClientAdminRemote;
 
-public class MenuAdminCategorias extends Menu {
+public class MenuAdminCategorias extends MenuUtilizadorAdmin {
 
     public MenuAdminCategorias (ClientAdminRemote ligacao,ControladorAdministrador controlador) {
-        super();
+        super(ligacao,controlador);
         titulo="Administrador - Categorias";
          this.controlador=controlador;
         opcoes.add(new OpcaoMenu("Listar categorias", () -> controlador.consultarCategorias()));

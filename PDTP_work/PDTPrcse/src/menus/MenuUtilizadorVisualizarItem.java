@@ -12,7 +12,7 @@ import beans.ClientUtilizadorRemote;
  *
  * @author diogo
  */
-public class MenuUtilizadorVisualizarItem extends MenuUtilizador {
+public class MenuUtilizadorVisualizarItem extends MenuUtilizadorAdmin {
 
     public MenuUtilizadorVisualizarItem(ClientUtilizadorRemote ligacao, ControladorUtilizador controlador) {
         super(ligacao, controlador);

@@ -4,10 +4,10 @@ package menus;
 import controladores.ControladorAdministrador;
 import beans.ClientAdminRemote;
 
-public class MenuAdminContas extends Menu {
+public class MenuAdminContas extends MenuUtilizadorAdmin {
 
     public MenuAdminContas (ClientAdminRemote ligacao,ControladorAdministrador controlador) {
-        super();
+        super(ligacao,controlador);
         titulo="Administrador - Contas";
          this.controlador=controlador;
         opcoes.add(new OpcaoMenu("Consultar Pedidos de Adesao", () -> controlador.consultarPedidosAtivacao()));
