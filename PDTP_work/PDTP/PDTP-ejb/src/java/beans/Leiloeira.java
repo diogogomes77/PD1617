@@ -25,7 +25,7 @@ public class Leiloeira implements LeiloeiraLocal {
 
     HashMap<String, Utilizador> utilizadores = new HashMap<>();
     List<Leilao> leiloes = new ArrayList<>();
-    List<String> categorias = new ArrayList<>();;
+    List<String> categorias = new ArrayList<>();
     List<Mensagem> mensagens = new ArrayList<>();
     
     public Leiloeira() {
@@ -264,7 +264,7 @@ public class Leiloeira implements LeiloeiraLocal {
 
     @Override
     public boolean adicionarCategoria(String nomeCategoria) {
-        if( categorias.indexOf(nomeCategoria) > 0 )
+        if( categorias.indexOf(nomeCategoria) >= 0 )
             return false;
         else
             categorias.add(nomeCategoria);
@@ -278,15 +278,14 @@ public class Leiloeira implements LeiloeiraLocal {
 
     @Override
     public boolean eliminaCategoria(String nomeCategoria) {
-        if( categorias.indexOf(nomeCategoria) > 0 ){
+        if( categorias.indexOf(nomeCategoria) >= 0 ){
             categorias.remove(nomeCategoria);
-            return false;
+            return true;
             
         }
-        else
-            categorias.add(nomeCategoria);
         return false;
     }
+    
 
     @Override
     public boolean pedirReativacaoUsername(String username,String password) {
@@ -299,6 +298,16 @@ public class Leiloeira implements LeiloeiraLocal {
                 }
             }
         }           
+        return false;
+    }
+
+    @Override
+    public boolean modificaCategoria(String nomeCategoria, String novoNomeCategoria) {
+        int index = categorias.indexOf(nomeCategoria);
+        if( index >= 0 ){
+            categorias.set(index, novoNomeCategoria);
+            return true;
+        }
         return false;
     }
     

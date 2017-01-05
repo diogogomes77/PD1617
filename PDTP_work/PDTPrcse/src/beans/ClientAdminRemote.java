@@ -30,4 +30,5 @@ public interface ClientAdminRemote extends ClientRemote {
 
     ArrayList getUtilizadoresPedidoReAtivacao();
 
+    boolean modificaCategoria(String nomeCategoria, String novoNomeCategoria);
 }

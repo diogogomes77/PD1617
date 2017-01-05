@@ -84,9 +84,10 @@ public class ClientAdmin implements ClientAdminRemote {
         return leiloeira.eliminaCategoria(nomeCategoria);
     }
 
-
-
-
+    @Override
+    public boolean modificaCategoria(String nomeCategoria, String novoNomeCategoria) {
+        return leiloeira.modificaCategoria(nomeCategoria, novoNomeCategoria);
+    }
     
     
     

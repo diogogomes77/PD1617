@@ -174,6 +174,21 @@ public class ControladorAdministrador extends ControladorUserAdmin{
         }
     }
 
+        public void modificaCategoria() {
+        System.out.print("Nome da categoria -> ");
+        String nomecat = sc.next();
+        sc.skip("\n");
+        System.out.print("novo nome da categoria -> ");
+        String novoNomeCat = sc.next();
+        sc.skip("\n");
+        if (ligacao.modificaCategoria(nomecat, novoNomeCat)){
+            System.out.println("Categoria alterada");
+        }else{
+            System.out.println("ERRO: Categoria não alterada");
+        }
+    }
+
+        
     @Override
     protected void finalize () {
         this.logOff();

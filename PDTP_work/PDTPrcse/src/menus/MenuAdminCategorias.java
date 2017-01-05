@@ -12,6 +12,7 @@ public class MenuAdminCategorias extends Menu {
          this.controlador=controlador;
         opcoes.add(new OpcaoMenu("Listar categorias", () -> controlador.consultarCategorias()));
         opcoes.add(new OpcaoMenu("Nova categoria", () -> controlador.novaCategoria()));
+        opcoes.add(new OpcaoMenu("Alterar Categoria", () -> controlador.modificaCategoria()));
         opcoes.add(new OpcaoMenu("Eliminar Categoria", () -> controlador.eliminarCategoria()));
         opcoes.add(new OpcaoMenu("Voltar", () -> controlador.mostrarMenu(new MenuAdmin(ligacao,controlador))));
         
