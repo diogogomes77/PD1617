@@ -35,22 +35,28 @@ public class ClientAdmin implements ClientAdminRemote {
     }
 
     @Override
-    public ArrayList getUtilizadoresPedidos() {
+    public ArrayList getUtilizadoresPedidoAtivacao() {
         setLastAction();
         return leiloeira.getUtilizadoresEstado(UtilizadorEstado.ATIVO_PEDIDO);
     }
-
+    @Override
+    public HashMap<String,String> getPedidosSuspensao() {
+        setLastAction();
+        //return leiloeira.getUtilizadoresEstado(UtilizadorEstado.SUSPENDO_PEDIDO);
+        return leiloeira.getPedidosSuspensao();
+    }
+    @Override
+    public ArrayList getUtilizadoresPedidoReAtivacao() {
+        setLastAction();
+        return leiloeira.getUtilizadoresEstado(UtilizadorEstado.REATIVACAO_PEDIDO);
+    }
+    
     @Override
     public boolean ativaUtilizador(String username) {
         setLastAction();
         return leiloeira.ativaUtilizador(username);
     }
 
-    @Override
-    public HashMap<String,String> getPedidosSuspensao() {
-        setLastAction();
-        return leiloeira.getPedidosSuspensao();
-    }
 
     @Override
     public boolean suspendeUsername(String username) {
@@ -77,6 +83,10 @@ public class ClientAdmin implements ClientAdminRemote {
     public boolean eliminaCategoria(String nomeCategoria) {
         return leiloeira.eliminaCategoria(nomeCategoria);
     }
+
+
+
+
     
     
     

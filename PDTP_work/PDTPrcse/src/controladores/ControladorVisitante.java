@@ -103,14 +103,17 @@ public class ControladorVisitante extends Controlador{
     public void reativarConta() {
       String s;
         String username = "";
+         String password = "";
         System.out.println("Pedido de reativacao de conta");
         System.out.print("Username: ");
         username = sc.next();
+         System.out.print("Password: ");
+        password = sc.next();
         sc.skip("\n");
-        if (ligacao.pedirReativacaoUsername(username)) {
+        if (ligacao.pedirReativacaoUsername(username,password)) {
             System.out.println("Pedido de reativacao efetuado");
         } else {
-            System.out.println("ERRO: Username nao existente ou ja ativado");
+            System.out.println("ERRO: pedido de reativacao invalido");
         }
        
     }

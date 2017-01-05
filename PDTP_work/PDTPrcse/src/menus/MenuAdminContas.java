@@ -10,8 +10,9 @@ public class MenuAdminContas extends Menu {
         super();
         titulo="Administrador - Contas";
          this.controlador=controlador;
-        opcoes.add(new OpcaoMenu("Consultar Adesoes e Reativacoes", () -> controlador.consultarAdesoes()));
+        opcoes.add(new OpcaoMenu("Consultar Pedidos de Adesao", () -> controlador.consultarPedidosAtivacao()));
         opcoes.add(new OpcaoMenu("Activar Contas", () -> controlador.ativarConta()));
+         opcoes.add(new OpcaoMenu("Consultar Pedidos de Reativacao", () -> controlador.consultarReativacoes()));
         opcoes.add(new OpcaoMenu("Reactivar Contas", () -> controlador.reativarContas()));
         opcoes.add(new OpcaoMenu("Consultar Pedidos de Suspensao", () -> controlador.consultarPedidosSuspensao()));
         opcoes.add(new OpcaoMenu("Suspender Contas", () -> controlador.suspenderContas()));
@@ -20,4 +21,4 @@ public class MenuAdminContas extends Menu {
     }
     
     
-}
+}//getUtilizadoresPedidoReAtivacao

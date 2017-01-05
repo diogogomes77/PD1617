@@ -39,7 +39,7 @@ public interface LeiloeiraLocal {
 
     boolean pedirSuspensaoUtilizador(String username,String razao);
 
-    HashMap getPedidosSuspensao();
+    HashMap<String,String> getPedidosSuspensao();
 
     boolean suspendeUtilizador(String username);
 
@@ -55,5 +55,6 @@ public interface LeiloeiraLocal {
 
     boolean eliminaCategoria(String nomeCategoria);
 
-    boolean pedirReativacaoUsername(String username);
+    boolean pedirReativacaoUsername(String username,String password);
+
 }

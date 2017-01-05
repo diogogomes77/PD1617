@@ -2,9 +2,13 @@
 package pdtp;
 
 public enum UtilizadorEstado {
-    ATIVO_PEDIDO,
-    ATIVO,
-    SUSPENDO_PEDIDO,
-    SUSPENSO,
-    REATIVACAO_PEDIDO;
+    ATIVO_PEDIDO("Ativacao pedida"),
+    ATIVO("Ativo"),
+    SUSPENDO_PEDIDO("Suspensao pedida"),
+    SUSPENSO("Suspenso"),
+    REATIVACAO_PEDIDO("Reativacao pedida");
+    
+     private String msg;
+    UtilizadorEstado(String s) { msg = s;};
+    public String msg() {return msg;}
 }

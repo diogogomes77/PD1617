@@ -10,6 +10,7 @@ import menus.OpcaoMenu;
 import beans.ClientAdminRemote;
 //import beans.ClientUtilizadorRemote;
 import beans.ClientVisitanteRemote;
+import java.util.Iterator;
 import java.util.List;
 import menus.MenuAdminCategorias;
 import static pdtprcse.PDTPrcse.controlador;
@@ -40,15 +41,15 @@ public class ControladorAdministrador extends ControladorUserAdmin{
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    public void consultarAdesoes() {
-        ArrayList<String> pedidos = ligacao.getUtilizadoresPedidos();
-        System.out.print("Pedidos de ativacao de Utilizador: ");
+
+    public void consultarReativacoes() {
+        ArrayList<String> pedidos = ligacao.getUtilizadoresPedidoReAtivacao();
+        System.out.print("Pedidos de reativacao de conta: ");
         for (String pedido : pedidos){
             System.out.print(pedido.concat(" "));
         }
-        System.out.print("\n");
+        System.out.print("\n");      
     }
-
     public OpcaoMenu cancelarItens() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
@@ -57,15 +58,22 @@ public class ControladorAdministrador extends ControladorUserAdmin{
         System.out.print("Suspender username -> ");
         String username = sc.next();
         sc.skip("\n");
-        if (ligacao.ativaUtilizador(username)){
+        if (ligacao.suspendeUsername(username)){
             System.out.println("Utilizador suspenso");
         }else{
             System.out.println("ERRO: Utilizador nao suspenso");
         }
     }
 
-    public OpcaoMenu reativarContas() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void reativarContas() {
+      System.out.print("Reativar username -> ");
+        String username = sc.next();
+        sc.skip("\n");
+        if (ligacao.ativaUtilizador(username)){
+            System.out.println("Utilizador reativado");
+        }else{
+            System.out.println("ERRO: Utilizador nao reativado");
+        }
     }
 
     public OpcaoMenu mudarPassword() {
@@ -98,14 +106,34 @@ public class ControladorAdministrador extends ControladorUserAdmin{
             System.out.println("ERRO: Utilizador nao ativado");
         }
     }
-
+    public void consultarPedidosAtivacao() {
+        ArrayList<String> pedidos = ligacao.getUtilizadoresPedidoAtivacao();
+        System.out.print("Pedidos de ativacao de conta: ");
+        for (String pedido : pedidos){
+            System.out.print(pedido.concat(" "));
+        }
+        System.out.print("\n");
+    }
     public void consultarPedidosSuspensao() {
         HashMap<String,String> pedidos = ligacao.getPedidosSuspensao();
-        System.out.print("Pedidos de suspensao de Utilizador: ");
-        for (Map.Entry<String,String> pedido : pedidos.entrySet()){
-            System.out.print(pedido.getKey().concat(": ").concat(pedido.getValue()));
-         System.out.print("\n");
+//        System.out.print("Pedidos de suspensao de Utilizador: ");
+//         for (String pedido : pedidos){
+//            System.out.print(pedido.concat(" "));
+//        }
+        System.out.println("Pedidos de suspensao de conta:");
+        Iterator entries = pedidos.entrySet().iterator();
+        while (entries.hasNext()) {
+            Map.Entry entry = (Map.Entry) entries.next();
+            String key = (String)entry.getKey();
+            String value = (String)entry.getValue();
+            System.out.println("Username: " + key + ", Razao: " + value);
+            //System.out.print("\n");
         }
+
+//        for (Map.Entry<String,String> pedido : pedidos.entrySet()){
+//            System.out.print(pedido.getKey().concat(": ").concat(pedido.getValue()));
+//         System.out.print("\n");
+//        }
         System.out.print("\n");
     }
 
@@ -150,5 +178,7 @@ public class ControladorAdministrador extends ControladorUserAdmin{
     protected void finalize () {
         this.logOff();
     }
+
+
 
 }

@@ -69,7 +69,7 @@ public class Leiloeira implements LeiloeiraLocal {
         if (j != null) {
             // existe
             if (j.getPassword().equalsIgnoreCase(password)) {
-                if (j.getEstado()==UtilizadorEstado.ATIVO){
+                if (j.getEstado()==UtilizadorEstado.ATIVO || j.getEstado()==UtilizadorEstado.SUSPENDO_PEDIDO){
                     if (j.isLogged()) // esta logado -Z nao deixa repetir user
                     {
                         return false;
@@ -196,7 +196,7 @@ public class Leiloeira implements LeiloeiraLocal {
         Collection<Utilizador> todos = utilizadores.values();
         for (Utilizador j : todos) {
             if (j.getEstado()==estado) {
-                users.add(j.getUsername());
+                users.add(j.getUsername());//.concat("-").concat(j.getEstado().msg()));
             }
         }
         return users;
@@ -220,7 +220,7 @@ public class Leiloeira implements LeiloeiraLocal {
     }
 
     @Override
-    public HashMap getPedidosSuspensao() {
+    public HashMap<String,String> getPedidosSuspensao() {
         HashMap<String,String> pedidos = new HashMap<>();
        // ArrayList users = new ArrayList<>();
         Collection<Utilizador> todos = utilizadores.values();
@@ -289,12 +289,14 @@ public class Leiloeira implements LeiloeiraLocal {
     }
 
     @Override
-    public boolean pedirReativacaoUsername(String username) {
+    public boolean pedirReativacaoUsername(String username,String password) {
         if (existeUtilizador(username)){
             Utilizador u = utilizadores.get(username);
-            if (u.getEstado()==UtilizadorEstado.SUSPENSO){
-                u.setEstado(UtilizadorEstado.REATIVACAO_PEDIDO);
-                return true;
+            if (u.getPassword().equals(password)){
+                if (u.getEstado()==UtilizadorEstado.SUSPENSO){
+                    u.setEstado(UtilizadorEstado.REATIVACAO_PEDIDO);
+                    return true;
+                }
             }
         }           
         return false;

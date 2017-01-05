@@ -147,7 +147,10 @@ public String convertTime(long time){
         System.out.print("Indique a razao -> ");
         String razao = sc.next();
         sc.skip("\n");
-        
+        if (ligacao.pedirSuspensao(razao))
+            System.out.println("Pedido suspensao registado");
+        else
+            System.out.println("ERRO: pedido de suspensao nao registado");
     }
 
     public void atualizarDados() {

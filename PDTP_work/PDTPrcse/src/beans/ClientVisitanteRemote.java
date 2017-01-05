@@ -18,6 +18,6 @@ public interface ClientVisitanteRemote extends ClientRemote{
     @Override
     public ArrayList getUsernamesOnline();
 
-    boolean pedirReativacaoUsername(String username);
+    boolean pedirReativacaoUsername(String username,String password);
 
 }
