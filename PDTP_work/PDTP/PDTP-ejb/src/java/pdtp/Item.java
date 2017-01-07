@@ -1,60 +1,121 @@
-
 package pdtp;
+
 
 import java.io.Serializable;
 import java.util.Date;
 import java.util.TreeMap;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 
 public class Item implements Serializable {
-    private TreeMap<Double,Utilizador> licitacoes;
-    private Date dataLimite;
-     private Utilizador vendedor;
+
+    private TreeMap<Double, Utilizador> licitacoes;
+    private Timestamp dataInicio;
+    private Timestamp dataFim;
+    private Utilizador vendedor;
     private String descricao;
     private Double comprarJa;
-    
-    //private Item item;
+    private String categoria;
     private ItemEstados estado;
     private Venda venda;
     private Utilizador comprador;
-
-    public Item(Utilizador vendedor, Double comprarJa,Date dataLimite, String descricao) {
-       this.vendedor = vendedor;
+    private SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+    
+    
+    public Item(Utilizador vendedor, Double comprarJa, Timestamp dataLimite, String descricao) {
+        this.vendedor = vendedor;
         this.descricao = descricao;
         this.comprarJa = comprarJa;
         this.licitacoes = new TreeMap<>();
-        this.dataLimite = dataLimite;
+        this.dataInicio = new Timestamp(new Date().getTime());
+        this.dataFim = dataLimite;
+        //this.dataFim = dataLimite;
 
         this.estado = ItemEstados.INICIADA;
+       
     }
-    public boolean addLicitacao(Utilizador licitador,Double valor){
-        if (!checkLicitador(licitador))
+
+    public SimpleDateFormat getSdf() {
+        return sdf;
+    }
+
+    public String getDataInicio() {
+        return sdf.format(dataInicio);
+    }
+
+    public String getDataFim() {
+         return sdf.format(dataFim);
+    }
+
+
+    public String getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(String categoria) {
+        this.categoria = categoria;
+    }
+
+    public ItemEstados getEstado() {
+        return estado;
+    }
+
+    public void setEstado(ItemEstados estado) {
+        this.estado = estado;
+    }
+
+    public Venda getVenda() {
+        return venda;
+    }
+
+    public void setVenda(Venda venda) {
+        this.venda = venda;
+    }
+
+    public Utilizador getComprador() {
+        return comprador;
+    }
+
+    public void setComprador(Utilizador comprador) {
+        this.comprador = comprador;
+    }
+
+    public boolean addLicitacao(Utilizador licitador, Double valor) {
+        if (!checkLicitador(licitador)) {
             return false;
-        if (!checkValor(valor))
+        }
+        if (!checkValor(valor)) {
             return false;
+        }
         this.licitacoes.put(valor, licitador);
         return true;
     }
-    public boolean comprarJa(Utilizador membro){
-        if (!checkLicitador(membro))
+
+    public boolean comprarJa(Utilizador membro) {
+        if (!checkLicitador(membro)) {
             return false;
+        }
         this.comprador = membro;
         this.estado = ItemEstados.TERMINADA;
         return true;
     }
-    
-    public boolean cancelarVenda(Utilizador membro){
-        if (checkLicitador(membro)){
+
+    public boolean cancelarVenda(Utilizador membro) {
+        if (checkLicitador(membro)) {
             this.estado = ItemEstados.CANCELADA;
             return true;
         }
         return false;
     }
-    private boolean checkLicitador(Utilizador licitador){
-         return licitador != vendedor;
+
+    private boolean checkLicitador(Utilizador licitador) {
+        return licitador != vendedor;
     }
-    private boolean checkValor(Double valor){
-        return (valor<=licitacoes.lastKey());
+
+    private boolean checkValor(Double valor) {
+        return (valor <= licitacoes.lastKey());
     }
+
     public Utilizador getVendedor() {
         return vendedor;
     }

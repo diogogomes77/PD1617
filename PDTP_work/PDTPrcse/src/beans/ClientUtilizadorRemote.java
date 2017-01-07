@@ -1,7 +1,9 @@
 
 package beans;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.List;
 import javax.ejb.Remote;
 
 @Remote
@@ -45,4 +47,9 @@ public interface ClientUtilizadorRemote extends ClientRemote{
     boolean verificaPassword(String password);
 
     boolean alteraPassword(String password);
+
+    boolean addItem(String descricao, Double precoInicial, Double precoComprarJa,Timestamp dataLimite);
+
+    List<String> getCategorias();
+    
 }

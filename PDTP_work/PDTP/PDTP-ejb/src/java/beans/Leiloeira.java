@@ -6,6 +6,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.ArrayList;
@@ -24,7 +25,7 @@ import pdtp.UtilizadorEstado;
 public class Leiloeira implements LeiloeiraLocal {
 
     HashMap<String, Utilizador> utilizadores = new HashMap<>();
-    List<Item> leiloes = new ArrayList<>();
+    List<Item> itens = new ArrayList<>();
     List<String> categorias = new ArrayList<>();
     List<Mensagem> mensagens = new ArrayList<>();
     
@@ -124,6 +125,7 @@ public class Leiloeira implements LeiloeiraLocal {
             utilizadores = (HashMap<String, Utilizador>) ois.readObject();
             mensagens = (ArrayList<Mensagem>) ois.readObject();
             categorias = (ArrayList<String>) ois.readObject();
+            itens = (ArrayList<Item>) ois.readObject();
         } catch (Exception e) {
             //Utilizadors = fica com o objecto vazio criado no construtor
         }
@@ -138,6 +140,7 @@ public class Leiloeira implements LeiloeiraLocal {
             oos.writeObject(utilizadores);
              oos.writeObject(mensagens);
             oos.writeObject(categorias);
+             oos.writeObject(itens);
         } catch (Exception e) {
 
         }
@@ -319,6 +322,15 @@ public class Leiloeira implements LeiloeiraLocal {
     @Override
     public boolean alteraPassword(String username, String password) {
         utilizadores.get(username).setPassword(password);
+        return true;
+    }
+
+    @Override
+     public boolean addItem(String username,String descricao, Double precoInicial, Double precoComprarJa,Timestamp dataLimite) {
+        Utilizador u = utilizadores.get(username);
+        if (u==null)
+            return false;
+        itens.add(new Item(u,precoComprarJa,dataLimite,descricao));
         return true;
     }
     

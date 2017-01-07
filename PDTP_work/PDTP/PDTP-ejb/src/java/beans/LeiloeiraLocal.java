@@ -1,6 +1,7 @@
 
 package beans;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -62,4 +63,5 @@ public interface LeiloeiraLocal {
 
     boolean alteraPassword(String username, String password);
 
+   public boolean addItem(String username,String descricao, Double precoInicial, Double precoComprarJa,Timestamp dataLimite);
 }

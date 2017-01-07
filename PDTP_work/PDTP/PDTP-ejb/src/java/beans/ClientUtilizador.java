@@ -1,6 +1,7 @@
 
 package beans;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
@@ -146,6 +147,16 @@ public class ClientUtilizador implements ClientUtilizadorRemote {
     @Override
     public boolean alteraPassword(String password) {
         return leiloeira.alteraPassword(myName,password);
+    }
+
+    @Override
+    public boolean addItem(String descricao, Double precoInicial, Double precoComprarJa,Timestamp dataLimite) {
+        return leiloeira.addItem(myName,descricao,precoInicial,precoComprarJa,dataLimite);
+    }
+
+    @Override
+    public List<String> getCategorias() {
+        return leiloeira.obterCategorias();
     }
     
     

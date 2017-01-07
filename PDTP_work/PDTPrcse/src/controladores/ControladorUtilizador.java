@@ -7,22 +7,26 @@ import menus.MenuVisitante;
 import beans.ClientUtilizadorRemote;
 import beans.ClientVisitanteRemote;
 import beans.Mensagem;
+import java.sql.Timestamp;
 import java.text.Format;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import menus.OpcaoMenu;
 import pdtprcse.ReferenciaVisitante;
 
 public class ControladorUtilizador extends ControladorUserAdmin {
 
     private ClientUtilizadorRemote ligacao;
-    
+
     public ControladorUtilizador(ClientUtilizadorRemote ligacao) {
         super(ligacao);
         this.ligacao = ligacao;
     }
-    
 
     @Override
     public void logOff() {
@@ -38,9 +42,10 @@ public class ControladorUtilizador extends ControladorUserAdmin {
         }
     }
 
-    public String getUsername(){
+    public String getUsername() {
         return ligacao.getMyName();
     }
+
     public void subMenuSaldo() {
         controlador = new ControladorUtilizador(ligacao);
         menu = new MenuUtilizadorSaldo(ligacao, (ControladorUtilizador) controlador);
@@ -86,15 +91,17 @@ public class ControladorUtilizador extends ControladorUserAdmin {
     public void consultarMensagensMinhas() {
         System.out.println("Minhas mensagems:");
         ArrayList<Mensagem> mensagens = ligacao.consultarMensagens();
-        for(Mensagem msg : mensagens){
+        for (Mensagem msg : mensagens) {
             System.out.println("Enviada: ".concat(convertTime(msg.getData())).concat(" por: ").concat(msg.getDestinatario()).concat(" Assunto: ").concat(msg.getAssunto()));
         }
     }
-public String convertTime(long time){
-    Date date = new Date(time);
-    Format format = new SimpleDateFormat("yyyy MM dd HH:mm:ss");
-    return format.format(date);
-}
+
+    public String convertTime(long time) {
+        Date date = new Date(time);
+        Format format = new SimpleDateFormat("yyyy MM dd HH:mm:ss");
+        return format.format(date);
+    }
+
     public void consultarItensMeus() {
         System.out.println("consultarItensMeus");
     }
@@ -104,18 +111,73 @@ public String convertTime(long time){
     }
 
     public void colocarItemVenda() {
-        System.out.println("colocarItemVenda");
+
+        System.out.println("Colocar Item a venda");
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+        String input;
+
+        String descricao = "";
+        String categoria = "";
+        double precoInicial;
+        double precoComprarJa;
+        Timestamp dataFinal = new Timestamp(new Date().getTime());
+        List<String> categorias = ligacao.getCategorias();
+
+        boolean ok = false;
+        do {
+            System.out.print("Categorias disponiveis: ");
+            for (String cat : categorias) {
+                System.out.print(cat.concat(" "));
+            }
+            System.out.println("");
+            System.out.print("Indique categoria: ");
+            input = sc.nextLine();
+            for (String cat : categorias) {
+                if (input.equals(cat)) {
+                    ok = true;
+                    categoria = input;
+                }
+            }
+            if (!ok){
+                System.out.println("ERRO: categoria invalida");
+            }
+        } while (ok == false);
+
+        System.out.print("Descricao: ");
+        input = sc.nextLine();
+        descricao = input;
+        System.out.print("Preco Inicial: ");
+        input = sc.nextLine();
+        precoInicial = Double.parseDouble(input);
+        System.out.print("Preco Comprar Ja: ");
+        input = sc.nextLine();
+        precoComprarJa = Double.parseDouble(input);
+        System.out.print("Data de fim (dd-MM-yyy HH:mm:ss): ");
+        input = sc.nextLine();
+        Date data;
+        try {
+            data = sdf.parse(input);
+            dataFinal = new Timestamp(data.getTime());
+        } catch (ParseException ex) {
+            Logger.getLogger(ControladorUtilizador.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        if (ligacao.addItem(descricao, precoInicial, precoComprarJa, dataFinal)) {
+            System.out.println("Item adicionado com sucesso");
+        } else {
+            System.out.println("ERRO: item nao adicionado");
+        }
     }
 
-    public void verSaldo() {  
-         System.out.println("Saldo: " + ligacao.getSaldo());
+    public void verSaldo() {
+        System.out.println("Saldo: " + ligacao.getSaldo());
     }
 
     public void carregarSaldo() {
         System.out.print("Valor a carregar (int): ");
-        Double valor;    
+        Double valor;
         valor = sc.nextDouble();
-            sc.skip("\n");
+        sc.skip("\n");
         System.out.println("Saldo atual: " + ligacao.addSaldo(valor));
     }
 
@@ -148,10 +210,11 @@ public String convertTime(long time){
         System.out.print("Indique a razao -> ");
         String razao = sc.next();
         sc.skip("\n");
-        if (ligacao.pedirSuspensao(razao))
+        if (ligacao.pedirSuspensao(razao)) {
             System.out.println("Pedido suspensao registado");
-        else
+        } else {
             System.out.println("ERRO: pedido de suspensao nao registado");
+        }
     }
 
     public void atualizarDados() {
@@ -185,7 +248,7 @@ public String convertTime(long time){
     }
 
     @Override
-    protected void finalize () {
+    protected void finalize() {
         this.logOff();
     }
 
@@ -194,18 +257,18 @@ public String convertTime(long time){
         System.out.print("Antiga password: ");
         password = sc.next();
         sc.skip("\n");
-        if (ligacao.verificaPassword(password)){
-             System.out.print("Nova password: ");
-             password = sc.next();
-             sc.skip("\n");
-              if (ligacao.alteraPassword(password)){
-                  System.out.println("Password alterada com sucesso");
-              }else{
-                  System.out.println("ERRO: Password nao alterada");
-              }
+        if (ligacao.verificaPassword(password)) {
+            System.out.print("Nova password: ");
+            password = sc.next();
+            sc.skip("\n");
+            if (ligacao.alteraPassword(password)) {
+                System.out.println("Password alterada com sucesso");
+            } else {
+                System.out.println("ERRO: Password nao alterada");
+            }
         } else {
             System.out.println("ERRO: Password antiga incorreta");
         }
     }
-    
+
 }
