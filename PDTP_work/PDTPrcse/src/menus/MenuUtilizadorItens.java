@@ -13,10 +13,10 @@ public class MenuUtilizadorItens extends MenuUtilizadorAdmin {
         //opcoes.clear();
         opcoes.add(new OpcaoMenu("Colocar Item a venda", () -> controlador.colocarItemVenda()));
         opcoes.add(new OpcaoMenu("Consultar meus Itens a venda", () -> controlador.consultarItensMeus()));
-         opcoes.add(new OpcaoMenu("Consultar Itens seguidos", () -> controlador.consultarItensSeguidos()));
+        opcoes.add(new OpcaoMenu("Consultar Itens seguidos", () -> controlador.consultarItensSeguidos()));
         opcoes.add(new OpcaoMenu("Historial de Itens", () -> controlador.historialItens()));
-          opcoes.add(new OpcaoMenu("Consultar Itens por...", () -> controlador.consultarItens()));
-  
+        opcoes.add(new OpcaoMenu("Consultar Lista de Itens", () -> controlador.consultarItens()));
+        opcoes.add(new OpcaoMenu("Consultar Item", () -> controlador.consultarItem()));
         
         
         

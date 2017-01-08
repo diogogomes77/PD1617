@@ -69,4 +69,8 @@ public interface LeiloeiraLocal {
     
     int getTotalItens();
     List<String> getItens();
+
+    String mostraItem(int itemId);
+
+    String getVendedorItem(int itemId);
 }

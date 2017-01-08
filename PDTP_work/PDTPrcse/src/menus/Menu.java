@@ -42,7 +42,7 @@ public abstract class Menu extends PDTPrcse {
         }
         menuText = new StringBuilder();
         menuText.setLength(0);
-        menuText.append("******************************\n");
+        menuText.append("_______________________________\n");
         menuText.append("\n Benvindo a Leiloeira PD1617\n\n");
         menuText.append(" Menu de ").append(titulo).append("\n");
         Iterator it = comandos.entrySet().iterator();
@@ -54,14 +54,16 @@ public abstract class Menu extends PDTPrcse {
 
         }
         menuText.append("\n Diogo Gomes & Eugenio Santos ");
-        menuText.append("\n******************************\n");
+        menuText.append("\n_______________________________\n");
     }
 
     private void mostraMenu() {
         geraMenu();
+        System.out.println("_______________________________");
         controlador.printInscritos();
         controlador.printOnline();
         controlador.getTotalItens();
+        System.out.println("_______________________________");
         System.out.println(menuText.toString());
     }
 

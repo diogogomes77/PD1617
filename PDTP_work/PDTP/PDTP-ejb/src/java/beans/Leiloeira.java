@@ -24,17 +24,22 @@ import pdtp.UtilizadorEstado;
 @Singleton
 public class Leiloeira implements LeiloeiraLocal {
 
-    HashMap<String, Utilizador> utilizadores = new HashMap<>();
-    List<Item> itens = new ArrayList<>();
-    List<String> categorias = new ArrayList<>();
-    List<Mensagem> mensagens = new ArrayList<>();
+    private HashMap<String, Utilizador> utilizadores = new HashMap<>();
+    private HashMap<Integer,Item> itens = new HashMap<>();
+    private List<String> categorias = new ArrayList<>();
+    private List<Mensagem> mensagens = new ArrayList<>();
+    private int itemCount;
     
     public Leiloeira() {
         if( !utilizadores.containsKey("admin") )
             utilizadores.put("admin",
                     new Utilizador("Administrador", "Sistema", "admin", "admin",UtilizadorEstado.ATIVO));
+        itemCount = getIntenCount();
     }
 
+    private int getIntenCount(){
+        return itens.size();
+    }
     
     @Override
     public HashMap<String, Utilizador> getUtilizadores() {
@@ -125,7 +130,7 @@ public class Leiloeira implements LeiloeiraLocal {
             utilizadores = (HashMap<String, Utilizador>) ois.readObject();
             mensagens = (ArrayList<Mensagem>) ois.readObject();
             categorias = (ArrayList<String>) ois.readObject();
-            itens = (ArrayList<Item>) ois.readObject();
+            itens = (HashMap<Integer,Item>) ois.readObject();
         } catch (Exception e) {
             //Utilizadors = fica com o objecto vazio criado no construtor
         }
@@ -330,14 +335,16 @@ public class Leiloeira implements LeiloeiraLocal {
         Utilizador u = utilizadores.get(username);
         if (u==null)
             return false;
-        itens.add(new Item(u,precoComprarJa,dataLimite,descricao));
+        itens.put(itemCount,new Item(itemCount,u,precoComprarJa,dataLimite,descricao));
+        itemCount++;
         return true;
     }
     
     @Override
     public List<String> getItensUtilizador(String username) {
        List<String> itensUtilizador = new ArrayList<>();
-       for (Item item:itens){
+       List<Item> listItens = new ArrayList<Item>(itens.values());
+       for (Item item:listItens){
            if (item.getVendedor().getUsername().equals(username)){
                itensUtilizador.add(item.toLineString());
            }
@@ -352,9 +359,21 @@ public class Leiloeira implements LeiloeiraLocal {
     @Override
     public List<String> getItens(){
         List<String> itensResult = new ArrayList<>();
-        for (Item item:itens){
+         List<Item> listItens = new ArrayList<Item>(itens.values());
+       for (Item item:listItens){
             itensResult.add(item.toLineString());
         }
         return itensResult;
     }
+
+    @Override
+    public String mostraItem(int itemId) {
+        return itens.get(itemId).toString();
+    }
+
+    @Override
+    public String getVendedorItem(int itemId) {
+        return itens.get(itemId).getVendedor().getUsername();
+    }
+    
 }

@@ -55,4 +55,7 @@ public interface ClientUtilizadorRemote extends ClientRemote{
     @Override
     int getTotalItens();
     List<String> getItens();
+
+    String mostraItem(int itemId);
+    String getVendedorItem(int itemId);
 }

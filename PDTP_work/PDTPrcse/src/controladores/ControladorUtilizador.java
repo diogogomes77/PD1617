@@ -16,6 +16,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import menus.MenuUtilizadorConsultarItem;
 import menus.OpcaoMenu;
 import pdtprcse.ReferenciaVisitante;
 
@@ -23,6 +24,8 @@ public class ControladorUtilizador extends ControladorUserAdmin {
 
     private ClientUtilizadorRemote ligacao;
 
+    private int currentItemId;
+    
     public ControladorUtilizador(ClientUtilizadorRemote ligacao) {
         super(ligacao);
         this.ligacao = ligacao;
@@ -80,10 +83,10 @@ public class ControladorUtilizador extends ControladorUserAdmin {
         destinatario = sc.next();
         sc.skip("\n");
         System.out.print("Assunto: ");
-        assunto = sc.next();
+        assunto = sc.nextLine();
         sc.skip("\n");
         System.out.print("Texto: ");
-        texto = sc.next();
+        texto = sc.nextLine();
         sc.skip("\n");
         if (ligacao.sendMensagem(destinatario, texto, assunto)) {
             System.out.println("Mensagem enviada");
@@ -130,7 +133,10 @@ public class ControladorUtilizador extends ControladorUserAdmin {
         double precoComprarJa;
         Timestamp dataFinal = new Timestamp(new Date().getTime());
         List<String> categorias = ligacao.getCategorias();
-
+        if (categorias.isEmpty()){
+            System.out.print("Categorias nao disponiveis. Volte mais tarde");
+            return;
+        }
         boolean ok = false;
         do {
             System.out.print("Categorias disponiveis: ");
@@ -211,7 +217,18 @@ public class ControladorUtilizador extends ControladorUserAdmin {
     }
 
     public void enviarMensagemVendedor() {
-        System.out.println("enviarMensagemVendedor");
+        System.out.println("enviar Mensagem ao Vendedor");
+        String destinatario = ligacao.getVendedorItem(currentItemId);
+        String texto = "";
+        String assunto = "ItemID: "+Integer.toString(currentItemId);
+        System.out.print("Mensagem: ");
+        texto = sc.nextLine();
+        sc.skip("\n");
+        if (ligacao.sendMensagem(destinatario, texto, assunto)) {
+            System.out.println("Mensagem enviada");
+        } else {
+            System.out.println("ERRO: mensagem nao enviada");
+        }
     }
 
     public void licitarItem() {
@@ -221,7 +238,7 @@ public class ControladorUtilizador extends ControladorUserAdmin {
     public void pedirSuspensao() {
         System.out.println("Pedido de suspensao");
         System.out.print("Indique a razao -> ");
-        String razao = sc.next();
+        String razao = sc.nextLine();
         sc.skip("\n");
         if (ligacao.pedirSuspensao(razao)) {
             System.out.println("Pedido suspensao registado");
@@ -238,10 +255,10 @@ public class ControladorUtilizador extends ControladorUserAdmin {
         String username = "";
         String password = "";
         System.out.print("Nome: ");
-        nome = sc.next();
+        nome = sc.nextLine();
         sc.skip("\n");
         System.out.print("Morada: ");
-        morada = sc.next();
+        morada = sc.nextLine();
         sc.skip("\n");
         if (ligacao.atualizaDados(nome, morada)) {
             System.out.println("Utilizador atualizado");
@@ -282,6 +299,16 @@ public class ControladorUtilizador extends ControladorUserAdmin {
         } else {
             System.out.println("ERRO: Password antiga incorreta");
         }
+    }
+
+    public void  consultarItem() {
+        System.out.println("Consultar Item");
+        System.out.print("ItemID: ");
+        int itemId = sc.nextInt();
+        sc.skip("\n");
+        System.out.println(ligacao.mostraItem(itemId));
+        currentItemId=itemId;
+        menu = new MenuUtilizadorConsultarItem(ligacao, (ControladorUtilizador) controlador);
     }
 
 }

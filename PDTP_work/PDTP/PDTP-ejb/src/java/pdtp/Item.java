@@ -9,7 +9,7 @@ import java.text.SimpleDateFormat;
 
 public class Item implements Serializable {
 
-    private TreeMap<Double, Utilizador> licitacoes;
+    private TreeMap<Double, Licitacao> licitacoes;
     private Timestamp dataInicio;
     private Timestamp dataFim;
     private Utilizador vendedor;
@@ -20,17 +20,17 @@ public class Item implements Serializable {
     private Venda venda;
     private Utilizador comprador;
     private SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+    private int itemID;
     
-    
-    public Item(Utilizador vendedor, Double comprarJa, Timestamp dataLimite, String descricao) {
+    public Item(int itemID, Utilizador vendedor, Double comprarJa, Timestamp dataLimite, String descricao) {
         this.vendedor = vendedor;
         this.descricao = descricao;
         this.comprarJa = comprarJa;
         this.licitacoes = new TreeMap<>();
         this.dataInicio = new Timestamp(new Date().getTime());
         this.dataFim = dataLimite;
+        this.itemID = itemID;
         //this.dataFim = dataLimite;
-
         this.estado = ItemEstados.INICIADA;
        
     }
@@ -87,7 +87,8 @@ public class Item implements Serializable {
         if (!checkValor(valor)) {
             return false;
         }
-        this.licitacoes.put(valor, licitador);
+        Licitacao lic = new Licitacao(this,licitador,valor);
+        this.licitacoes.put(valor, lic);
         return true;
     }
 
@@ -130,24 +131,30 @@ public class Item implements Serializable {
     @Override
     public String toString(){
         StringBuilder item = new StringBuilder();
-        item.append("descricao: ");
+        item.append("ID: ");
+        item.append(itemID);
+        item.append("\nDescricao: ");
         item.append(descricao);
         item.append("\nData fim: ");
-        
-         item.append(this.getDataFim());
+        item.append(this.getDataFim());
         item.append("\nVendedor: ");
         item.append(vendedor.getUsername());
         item.append("\n");
         return item.toString();
     }
-
+    public int getItemID(){
+        return itemID;
+    }
+    
     public String toLineString(){
         StringBuilder item = new StringBuilder();
-        item.append("descricao: ");
+        item.append("ID: ");
+         item.append(itemID);
+        item.append(" Descricao: ");
         item.append(descricao);
         item.append(" Data fim: ");
         
-         item.append(this.getDataFim());
+        item.append(this.getDataFim());
         item.append(" Vendedor: ");
         item.append(vendedor.getUsername());
         item.append("\n");

@@ -170,4 +170,13 @@ public class ClientUtilizador implements ClientUtilizadorRemote {
     public List<String> getItens(){
         return leiloeira.getItens();
     }
+
+    @Override
+    public String mostraItem(int itemId) {
+        return leiloeira.mostraItem(itemId);
+    }
+    @Override
+    public String getVendedorItem(int itemId) {
+        return leiloeira.getVendedorItem(itemId);
+    }
 }
