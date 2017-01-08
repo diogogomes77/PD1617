@@ -334,6 +334,27 @@ public class Leiloeira implements LeiloeiraLocal {
         return true;
     }
     
+    @Override
+    public List<String> getItensUtilizador(String username) {
+       List<String> itensUtilizador = new ArrayList<>();
+       for (Item item:itens){
+           if (item.getVendedor().getUsername().equals(username)){
+               itensUtilizador.add(item.toLineString());
+           }
+       }
+        return itensUtilizador;
+    }
     
-    
+    @Override
+    public  int getTotalItens(){
+        return itens.size();
+    }
+    @Override
+    public List<String> getItens(){
+        List<String> itensResult = new ArrayList<>();
+        for (Item item:itens){
+            itensResult.add(item.toLineString());
+        }
+        return itensResult;
+    }
 }

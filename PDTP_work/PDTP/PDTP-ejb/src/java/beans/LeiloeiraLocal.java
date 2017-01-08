@@ -63,5 +63,10 @@ public interface LeiloeiraLocal {
 
     boolean alteraPassword(String username, String password);
 
-   public boolean addItem(String username,String descricao, Double precoInicial, Double precoComprarJa,Timestamp dataLimite);
+   boolean addItem(String username,String descricao, Double precoInicial, Double precoComprarJa,Timestamp dataLimite);
+
+    List<String> getItensUtilizador(String username);
+    
+    int getTotalItens();
+    List<String> getItens();
 }

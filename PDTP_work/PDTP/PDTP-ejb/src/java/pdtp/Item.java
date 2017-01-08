@@ -127,4 +127,30 @@ public class Item implements Serializable {
     public Double getComprarJa() {
         return comprarJa;
     }
+    @Override
+    public String toString(){
+        StringBuilder item = new StringBuilder();
+        item.append("descricao: ");
+        item.append(descricao);
+        item.append("\nData fim: ");
+        
+         item.append(this.getDataFim());
+        item.append("\nVendedor: ");
+        item.append(vendedor.getUsername());
+        item.append("\n");
+        return item.toString();
+    }
+
+    public String toLineString(){
+        StringBuilder item = new StringBuilder();
+        item.append("descricao: ");
+        item.append(descricao);
+        item.append(" Data fim: ");
+        
+         item.append(this.getDataFim());
+        item.append(" Vendedor: ");
+        item.append(vendedor.getUsername());
+        item.append("\n");
+        return item.toString();
+    }
 }

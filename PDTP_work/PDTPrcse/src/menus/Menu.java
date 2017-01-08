@@ -61,6 +61,7 @@ public abstract class Menu extends PDTPrcse {
         geraMenu();
         controlador.printInscritos();
         controlador.printOnline();
+        controlador.getTotalItens();
         System.out.println(menuText.toString());
     }
 

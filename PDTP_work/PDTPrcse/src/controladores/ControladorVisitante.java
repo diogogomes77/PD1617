@@ -96,8 +96,9 @@ public class ControladorVisitante extends Controlador{
         }
     }
 
-    public OpcaoMenu vendasRecentes() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void vendasRecentes() {
+         System.out.println("3 ultimas vendas mais recentes");
+        //List itensRecentes = ligacao.
     }
 
     public void reativarConta() {

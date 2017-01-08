@@ -33,7 +33,12 @@ public abstract class Controlador extends PDTPrcse{
         });
         System.out.print("\n");
     }
-    
+    public void getTotalItens() {
+       
+        int total = ligacao.getTotalItens();
+        System.out.print("Total de itens: "+total);
+        System.out.print("\n");
+    }
     public void sair(){
         System.exit(1);
     }

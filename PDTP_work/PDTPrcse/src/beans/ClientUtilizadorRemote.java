@@ -51,5 +51,8 @@ public interface ClientUtilizadorRemote extends ClientRemote{
     boolean addItem(String descricao, Double precoInicial, Double precoComprarJa,Timestamp dataLimite);
 
     List<String> getCategorias();
-    
+    List<String> getMeusItens();
+    @Override
+    int getTotalItens();
+    List<String> getItens();
 }

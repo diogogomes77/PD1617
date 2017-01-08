@@ -64,7 +64,11 @@ public class ControladorUtilizador extends ControladorUserAdmin {
     }
 
     public void consultarItens() {
-        System.out.println("consultarItens");
+        System.out.println("Consultar Itens");
+        List<String> itens = ligacao.getItens();
+        for (String item:itens){
+            System.out.println(item);
+        }
     }
 
     public void enviarMensagem() {
@@ -103,7 +107,11 @@ public class ControladorUtilizador extends ControladorUserAdmin {
     }
 
     public void consultarItensMeus() {
-        System.out.println("consultarItensMeus");
+        System.out.println("Meus itens");
+        List<String> itens = ligacao.getMeusItens();
+        for (String item:itens){
+            System.out.println(item);
+        }
     }
 
     public void subMenuGerirConta() {
@@ -132,6 +140,7 @@ public class ControladorUtilizador extends ControladorUserAdmin {
             System.out.println("");
             System.out.print("Indique categoria: ");
             input = sc.nextLine();
+            if ("x".equals(input)) return;
             for (String cat : categorias) {
                 if (input.equals(cat)) {
                     ok = true;
@@ -145,15 +154,19 @@ public class ControladorUtilizador extends ControladorUserAdmin {
 
         System.out.print("Descricao: ");
         input = sc.nextLine();
+         if ("x".equals(input)) return;
         descricao = input;
         System.out.print("Preco Inicial: ");
         input = sc.nextLine();
+         if ("x".equals(input)) return;
         precoInicial = Double.parseDouble(input);
         System.out.print("Preco Comprar Ja: ");
         input = sc.nextLine();
+         if ("x".equals(input)) return;
         precoComprarJa = Double.parseDouble(input);
         System.out.print("Data de fim (dd-MM-yyy HH:mm:ss): ");
         input = sc.nextLine();
+         if ("x".equals(input)) return;
         Date data;
         try {
             data = sdf.parse(input);

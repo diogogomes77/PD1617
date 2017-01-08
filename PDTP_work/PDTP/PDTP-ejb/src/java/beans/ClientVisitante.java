@@ -37,4 +37,9 @@ public class ClientVisitante implements ClientVisitanteRemote {
         return leiloeira.pedirReativacaoUsername(username,password);
     }
 
+  @Override
+    public int getTotalItens() {
+        return leiloeira.getTotalItens();
+    }
+
 }

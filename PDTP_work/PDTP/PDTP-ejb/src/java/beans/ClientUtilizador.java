@@ -158,6 +158,16 @@ public class ClientUtilizador implements ClientUtilizadorRemote {
     public List<String> getCategorias() {
         return leiloeira.obterCategorias();
     }
-    
-    
+    @Override
+    public List<String> getMeusItens() {
+        return leiloeira.getItensUtilizador(myName);
+    }
+    @Override
+    public int getTotalItens() {
+        return leiloeira.getTotalItens();
+    }
+    @Override
+    public List<String> getItens(){
+        return leiloeira.getItens();
+    }
 }
