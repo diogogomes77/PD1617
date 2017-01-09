@@ -73,4 +73,12 @@ public interface LeiloeiraLocal {
     String mostraItem(int itemId);
 
     String getVendedorItem(int itemId);
+
+    String consultarLicitacoes(int itemid);
+
+    boolean comprarJaItem(int itemId, String comprador);
+
+    boolean licitarItem(int itemId, Double value);
+
+    boolean seguirItem(int itemId);
 }

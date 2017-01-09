@@ -213,7 +213,11 @@ public class ControladorUtilizador extends ControladorUserAdmin {
     }
 
     public void seguirItem() {
-        System.out.println("pedirSuspensao");
+        System.out.println("Seguir Item");
+        if (ligacao.seguirItem(currentItemId))
+            System.out.println("Item a ser seguido");
+        else
+             System.out.println("ERRO: Item nao seguido");
     }
 
     public void enviarMensagemVendedor() {
@@ -232,7 +236,13 @@ public class ControladorUtilizador extends ControladorUserAdmin {
     }
 
     public void licitarItem() {
-        System.out.println("pedirSuspensao");
+        System.out.println("Licitar Item");
+         System.out.print("Valor: ");
+         Double valor = sc.nextDouble();
+         if (ligacao.licitarItem(currentItemId,valor))
+            System.out.println("Licitacao registada");
+        else
+            System.out.println("ERRO: Licitacao nao registada");
     }
 
     public void pedirSuspensao() {
@@ -309,6 +319,18 @@ public class ControladorUtilizador extends ControladorUserAdmin {
         System.out.println(ligacao.mostraItem(itemId));
         currentItemId=itemId;
         menu = new MenuUtilizadorConsultarItem(ligacao, (ControladorUtilizador) controlador);
+    }
+
+    public void comprarJaItem() {
+        if (ligacao.comprarJaItem(currentItemId))
+            System.out.println("Item comprado");
+        else
+            System.out.println("ERRO: item nao comprado");
+    }
+
+    public void consultarLicitacoesItem() {
+        System.out.println("Licitacoes Item:");
+       System.out.println(ligacao.consultarLicitacoes(currentItemId));
     }
 
 }

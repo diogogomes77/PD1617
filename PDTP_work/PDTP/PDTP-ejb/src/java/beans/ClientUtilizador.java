@@ -179,4 +179,25 @@ public class ClientUtilizador implements ClientUtilizadorRemote {
     public String getVendedorItem(int itemId) {
         return leiloeira.getVendedorItem(itemId);
     }
+
+    @Override
+    public String consultarLicitacoes(int itemId) {
+        return leiloeira.consultarLicitacoes(itemId);
+    }
+
+    @Override
+    public boolean comprarJaItem(int itemid) {
+        return leiloeira.comprarJaItem(itemid,myName);
+    }
+
+    @Override
+    public boolean licitarItem(int itemid,Double valor) {
+        return leiloeira.licitarItem(itemid,valor);
+    }
+
+    @Override
+    public boolean seguirItem(int itemId) {
+        return leiloeira.seguirItem(itemId);
+    }
+    
 }

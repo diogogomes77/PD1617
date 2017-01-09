@@ -14,6 +14,7 @@ public class Item implements Serializable {
     private Timestamp dataFim;
     private Utilizador vendedor;
     private String descricao;
+    private Double precoInicial;
     private Double comprarJa;
     private String categoria;
     private ItemEstados estado;
@@ -22,9 +23,10 @@ public class Item implements Serializable {
     private SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
     private int itemID;
     
-    public Item(int itemID, Utilizador vendedor, Double comprarJa, Timestamp dataLimite, String descricao) {
+    public Item(int itemID, Utilizador vendedor, Double precoInicial, Double comprarJa, Timestamp dataLimite, String descricao) {
         this.vendedor = vendedor;
         this.descricao = descricao;
+        this.precoInicial = precoInicial;
         this.comprarJa = comprarJa;
         this.licitacoes = new TreeMap<>();
         this.dataInicio = new Timestamp(new Date().getTime());
@@ -46,7 +48,9 @@ public class Item implements Serializable {
     public String getDataFim() {
          return sdf.format(dataFim);
     }
-
+    public Timestamp getDataFimTimeStamp() {
+         return dataFim;
+    }
 
     public String getCategoria() {
         return categoria;
@@ -97,6 +101,8 @@ public class Item implements Serializable {
             return false;
         }
         this.comprador = membro;
+        this.comprador.decSaldo(comprarJa);
+        this.venda = new Venda(this,membro,this.comprarJa);
         this.estado = ItemEstados.TERMINADA;
         return true;
     }
@@ -140,6 +146,22 @@ public class Item implements Serializable {
         item.append("\nVendedor: ");
         item.append(vendedor.getUsername());
         item.append("\n");
+        item.append("\nComprar Ja: ");
+        item.append(this.comprarJa);
+        item.append("\n");
+        item.append("\nLicitacoes: ");
+        int licitacoesSize=this.licitacoes.size();
+        item.append(licitacoesSize);
+        item.append("\n");
+        Double licAtual =0.00;
+        if (licitacoesSize>0){
+             
+             licAtual = this.licitacoes.lastKey();
+        }else {
+            licAtual = this.precoInicial;
+        }
+        item.append("\nLicitacao Atual: ");
+        item.append(Double.toString(licAtual));
         return item.toString();
     }
     public int getItemID(){
@@ -159,5 +181,9 @@ public class Item implements Serializable {
         item.append(vendedor.getUsername());
         item.append("\n");
         return item.toString();
+    }
+
+    public TreeMap<Double, Licitacao> getLicitacoes() {
+        return licitacoes;
     }
 }

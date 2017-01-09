@@ -58,4 +58,12 @@ public interface ClientUtilizadorRemote extends ClientRemote{
 
     String mostraItem(int itemId);
     String getVendedorItem(int itemId);
+
+    String consultarLicitacoes(int itemId);
+
+    boolean comprarJaItem(int itemid);
+
+    boolean licitarItem(int itemid,Double valor);
+
+    boolean seguirItem(int itemId);
 }

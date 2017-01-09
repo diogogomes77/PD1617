@@ -10,6 +10,7 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -18,6 +19,8 @@ import javax.annotation.PreDestroy;
 import javax.ejb.Schedule;
 import javax.ejb.Singleton;
 import pdtp.Item;
+import pdtp.ItemEstados;
+import pdtp.Licitacao;
 import pdtp.Utilizador;
 import pdtp.UtilizadorEstado;
 
@@ -25,7 +28,8 @@ import pdtp.UtilizadorEstado;
 public class Leiloeira implements LeiloeiraLocal {
 
     private HashMap<String, Utilizador> utilizadores = new HashMap<>();
-    private HashMap<Integer,Item> itens = new HashMap<>();
+    private HashMap<Integer,Item> itensAVenda = new HashMap<>();
+    private HashMap<Integer,Item> itensTerminados = new HashMap<>();
     private List<String> categorias = new ArrayList<>();
     private List<Mensagem> mensagens = new ArrayList<>();
     private int itemCount;
@@ -38,7 +42,7 @@ public class Leiloeira implements LeiloeiraLocal {
     }
 
     private int getIntenCount(){
-        return itens.size();
+        return itensAVenda.size();
     }
     
     @Override
@@ -107,6 +111,21 @@ public class Leiloeira implements LeiloeiraLocal {
         return true;
     }
 
+            
+    @Schedule(second = "*", minute = "*", hour = "*")
+    public void checkItensDataFinal(){
+        Timestamp now = new java.sql.Timestamp(Calendar.getInstance().getTime().getTime());
+        List<Item> list = new ArrayList<Item>(itensAVenda.values());
+        for (Item it:list){
+            if(it.getDataFimTimeStamp().after(now)){
+                    it.setEstado(ItemEstados.TERMINADA);
+                 itensTerminados.put(it.getItemID(), it);
+                itensAVenda.remove(it.getItemID());
+            }
+        }
+         
+    }        
+    
     @Schedule(second = "*/5", minute = "*", hour = "*")
     public void checkInactivity() throws InterruptedException {
         long now = LocalDateTime.now()
@@ -130,7 +149,7 @@ public class Leiloeira implements LeiloeiraLocal {
             utilizadores = (HashMap<String, Utilizador>) ois.readObject();
             mensagens = (ArrayList<Mensagem>) ois.readObject();
             categorias = (ArrayList<String>) ois.readObject();
-            itens = (HashMap<Integer,Item>) ois.readObject();
+            itensAVenda = (HashMap<Integer,Item>) ois.readObject();
         } catch (Exception e) {
             //Utilizadors = fica com o objecto vazio criado no construtor
         }
@@ -145,7 +164,7 @@ public class Leiloeira implements LeiloeiraLocal {
             oos.writeObject(utilizadores);
              oos.writeObject(mensagens);
             oos.writeObject(categorias);
-             oos.writeObject(itens);
+             oos.writeObject(itensAVenda);
         } catch (Exception e) {
 
         }
@@ -335,7 +354,7 @@ public class Leiloeira implements LeiloeiraLocal {
         Utilizador u = utilizadores.get(username);
         if (u==null)
             return false;
-        itens.put(itemCount,new Item(itemCount,u,precoComprarJa,dataLimite,descricao));
+        itensAVenda.put(itemCount,new Item(itemCount,u,precoInicial,precoComprarJa,dataLimite,descricao));
         itemCount++;
         return true;
     }
@@ -343,7 +362,7 @@ public class Leiloeira implements LeiloeiraLocal {
     @Override
     public List<String> getItensUtilizador(String username) {
        List<String> itensUtilizador = new ArrayList<>();
-       List<Item> listItens = new ArrayList<Item>(itens.values());
+       List<Item> listItens = new ArrayList<Item>(itensAVenda.values());
        for (Item item:listItens){
            if (item.getVendedor().getUsername().equals(username)){
                itensUtilizador.add(item.toLineString());
@@ -354,12 +373,12 @@ public class Leiloeira implements LeiloeiraLocal {
     
     @Override
     public  int getTotalItens(){
-        return itens.size();
+        return itensAVenda.size();
     }
     @Override
     public List<String> getItens(){
         List<String> itensResult = new ArrayList<>();
-         List<Item> listItens = new ArrayList<Item>(itens.values());
+         List<Item> listItens = new ArrayList<Item>(itensAVenda.values());
        for (Item item:listItens){
             itensResult.add(item.toLineString());
         }
@@ -368,12 +387,62 @@ public class Leiloeira implements LeiloeiraLocal {
 
     @Override
     public String mostraItem(int itemId) {
-        return itens.get(itemId).toString();
+        return itensAVenda.get(itemId).toString();
     }
 
     @Override
     public String getVendedorItem(int itemId) {
-        return itens.get(itemId).getVendedor().getUsername();
+        return itensAVenda.get(itemId).getVendedor().getUsername();
+    }
+
+    @Override
+    public String consultarLicitacoes(int itemid) {
+        List<Licitacao> licitacoes = new ArrayList<Licitacao>(itensAVenda.get(itemid).getLicitacoes().values());
+        StringBuilder lista = new StringBuilder();
+        for(Licitacao licitacao:licitacoes){
+            lista.append(licitacao.getTimestamp());
+            lista.append("->");
+            lista.append(Double.toString(licitacao.getValor()));
+            lista.append("\n Licitador: ");
+            lista.append(licitacao.getLicitador());
+            lista.append("\n");
+        }
+        return lista.toString();
+    }
+
+    @Override
+    public boolean comprarJaItem(int itemId, String comprador) {
+        Double comprarJa= itensAVenda.get(itemId).getComprarJa();
+        Double saldo = utilizadores.get(comprador).getSaldo();
+        if (saldo < comprarJa){
+            return false;
+        }
+        if (itensAVenda.get(itemId).comprarJa(utilizadores.get(comprador))){
+             itensAVenda.get(itemId).setEstado(ItemEstados.TERMINADA);
+             itensTerminados.put(itemId, itensAVenda.get(itemId));
+             itensAVenda.remove(itemId);
+           
+             return true;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean licitarItem(int itemId, Double value) {
+        Item item = itensAVenda.get(itemId);
+        
+        if (item!=null){
+            Timestamp now = new java.sql.Timestamp(Calendar.getInstance().getTime().getTime());
+            if(item.getDataFimTimeStamp().after(now)){
+                
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public boolean seguirItem(int itemId) {
+        return false;
     }
     
 }
