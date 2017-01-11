@@ -16,12 +16,38 @@ public class Venda implements Serializable {
     private Utilizador comprador;
     private Double valor;
     private VendaEstados estado;
-
+    private VendaTipo tipo;
+    
     public Venda(Item item, Utilizador comprador, Double valor) {
         this.item = item;
         this.comprador = comprador;
         this.valor = valor;
         this.estado = VendaEstados.ESPERA;
+         this.tipo = VendaTipo.COMPRAJA;
+    }
+
+    public Venda(Licitacao lic) {
+        this.item = lic.getItem();
+        this.comprador = lic.getLicitador();
+        this.valor = lic.getValor();
+        this.estado = VendaEstados.ESPERA;
+        this.tipo = VendaTipo.LICITACAO;
+    }
+
+    public Item getItem() {
+        return item;
+    }
+
+    public Double getValor() {
+        return valor;
+    }
+
+    public VendaEstados getEstado() {
+        return estado;
+    }
+
+    public VendaTipo getTipo() {
+        return tipo;
     }
     
 }

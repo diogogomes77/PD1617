@@ -14,6 +14,7 @@ import java.util.Calendar;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map.Entry;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.ejb.Schedule;
@@ -23,6 +24,7 @@ import pdtp.ItemEstados;
 import pdtp.Licitacao;
 import pdtp.Utilizador;
 import pdtp.UtilizadorEstado;
+import pdtp.Venda;
 
 @Singleton
 public class Leiloeira implements LeiloeiraLocal {
@@ -110,17 +112,26 @@ public class Leiloeira implements LeiloeiraLocal {
         j.resetLogged(); //unloga
         return true;
     }
-
+    private void terminaItem(Item it){
+        it.setEstado(ItemEstados.TERMINADA);
+        itensTerminados.put(it.getItemID(), it);
+        itensAVenda.remove(it.getItemID());
+        if (!it.getLicitacoes().isEmpty()){
+            if (it.addVendaLicitacao())
+                this.addMensagem("admin","admin",it.toString(),"Item Terminado com sucesso");
+            else 
+                this.addMensagem("admin","admin",it.toString(),"ERRO: Item nao Terminado com sucesso");
+        }
+        
+    }
             
-    @Schedule(second = "*", minute = "*", hour = "*")
+    @Schedule(second = "*", minute = "1", hour = "*")
     public void checkItensDataFinal(){
         Timestamp now = new java.sql.Timestamp(Calendar.getInstance().getTime().getTime());
         List<Item> list = new ArrayList<Item>(itensAVenda.values());
         for (Item it:list){
             if(it.getDataFimTimeStamp().after(now)){
-                    it.setEstado(ItemEstados.TERMINADA);
-                 itensTerminados.put(it.getItemID(), it);
-                itensAVenda.remove(it.getItemID());
+                    terminaItem(it);
             }
         }
          

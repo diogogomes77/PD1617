@@ -20,7 +20,7 @@ public class Item implements Serializable {
     private ItemEstados estado;
     private Venda venda;
     private Utilizador comprador;
-    private SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+    private SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH");
     private int itemID;
     
     public Item(int itemID, Utilizador vendedor, Double precoInicial, Double comprarJa, Timestamp dataLimite, String descricao) {
@@ -95,7 +95,13 @@ public class Item implements Serializable {
         this.licitacoes.put(valor, lic);
         return true;
     }
-
+    public boolean addVendaLicitacao(){
+        if (this.venda!=null)
+            return false;
+        Licitacao lic=licitacoes.lastEntry().getValue();
+        this.venda = new Venda(lic);
+        return true;
+    }
     public boolean comprarJa(Utilizador membro) {
         if (!checkLicitador(membro)) {
             return false;

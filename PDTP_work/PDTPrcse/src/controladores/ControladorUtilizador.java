@@ -128,9 +128,8 @@ public class ControladorUtilizador extends ControladorUserAdmin {
     public void colocarItemVenda() {
 
         System.out.println("Colocar Item a venda");
-        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH");
         String input;
-
         String descricao = "";
         String categoria = "";
         double precoInicial;
@@ -174,7 +173,7 @@ public class ControladorUtilizador extends ControladorUserAdmin {
         input = sc.nextLine();
          if ("x".equals(input)) return;
         precoComprarJa = Double.parseDouble(input);
-        System.out.print("Data de fim (dd-MM-yyy HH:mm:ss): ");
+        System.out.print("Data e hora de fim (dd-MM-yyy HH): ");
         input = sc.nextLine();
          if ("x".equals(input)) return;
         Date data;
