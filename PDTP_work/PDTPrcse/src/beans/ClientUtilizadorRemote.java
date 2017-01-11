@@ -66,4 +66,6 @@ public interface ClientUtilizadorRemote extends ClientRemote{
     boolean licitarItem(int itemid,Double valor);
 
     boolean seguirItem(int itemId);
+
+    List getItensSeguidos();
 }

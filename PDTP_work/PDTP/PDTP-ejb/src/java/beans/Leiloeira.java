@@ -445,5 +445,10 @@ public class Leiloeira implements LeiloeiraLocal {
         Item item = itensAVenda.get(itemId);      
         return utilizadores.get(username).addItemSeguido(item);
     }
+
+    @Override
+    public List getItensSeguidos(String username) {
+        return utilizadores.get(username).getItemsSeguidos();
+    }
     
 }

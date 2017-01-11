@@ -48,6 +48,15 @@ public class Utilizador implements Serializable {
         this.itemsAVenda.add(item);
         return true;
     }
+
+    public List<Item> getItemsSeguidos() {
+        return itemsSeguidos;
+    }
+
+    public void setItemsSeguidos(List<Item> itemsSeguidos) {
+        this.itemsSeguidos = itemsSeguidos;
+    }
+    
     public boolean addItemSeguido(Item item){
         if (itemsSeguidos.contains(item))
             return false;

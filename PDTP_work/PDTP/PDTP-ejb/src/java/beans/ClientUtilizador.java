@@ -199,5 +199,10 @@ public class ClientUtilizador implements ClientUtilizadorRemote {
     public boolean seguirItem(int itemId) {
         return leiloeira.seguirItem(myName,itemId);
     }
+
+    @Override
+    public List getItensSeguidos() {
+        return leiloeira.getItensSeguidos(myName);
+    }
     
 }

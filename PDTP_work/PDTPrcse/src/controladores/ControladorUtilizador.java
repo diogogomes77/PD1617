@@ -59,7 +59,11 @@ public class ControladorUtilizador extends ControladorUserAdmin {
     }
 
     public void consultarItensSeguidos() {
-        System.out.println("consultarItensSeguidos");
+        System.out.println("Itens Seguidos");
+        List<String> itens = ligacao.getItensSeguidos();
+        for (String item:itens){
+            System.out.println(item);
+        }
     }
 
     public void concluirTransacao() {
