@@ -192,7 +192,7 @@ public class ClientUtilizador implements ClientUtilizadorRemote {
 
     @Override
     public boolean licitarItem(int itemid,Double valor) {
-        return leiloeira.licitarItem(itemid,valor);
+        return leiloeira.licitarItem(itemid,valor,myName);
     }
 
     @Override

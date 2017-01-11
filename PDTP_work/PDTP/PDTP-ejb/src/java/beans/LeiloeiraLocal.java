@@ -78,7 +78,7 @@ public interface LeiloeiraLocal {
 
     boolean comprarJaItem(int itemId, String comprador);
 
-    boolean licitarItem(int itemId, Double value);
+    boolean licitarItem(int itemId, Double value, String username);
 
     boolean seguirItem(String username,int itemId);
 

@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.TreeMap;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 public class Item implements Serializable {
 
@@ -98,6 +99,10 @@ public class Item implements Serializable {
     public boolean addVendaLicitacao(){
         if (this.venda!=null)
             return false;
+        Timestamp now = new java.sql.Timestamp(Calendar.getInstance().getTime().getTime());
+        if(dataFim.after(now)){
+            return false;
+        }
         Licitacao lic=licitacoes.lastEntry().getValue();
         this.venda = new Venda(lic);
         return true;

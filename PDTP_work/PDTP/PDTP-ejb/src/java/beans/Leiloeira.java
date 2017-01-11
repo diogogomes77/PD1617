@@ -440,14 +440,11 @@ public class Leiloeira implements LeiloeiraLocal {
     }
 
     @Override
-    public boolean licitarItem(int itemId, Double value) {
+    public boolean licitarItem(int itemId, Double value, String username) {
         Item item = itensAVenda.get(itemId);
-        
         if (item!=null){
-            Timestamp now = new java.sql.Timestamp(Calendar.getInstance().getTime().getTime());
-            if(item.getDataFimTimeStamp().after(now)){
-                
-            }
+            Utilizador licitador = utilizadores.get(username);
+            return item.addLicitacao(licitador, value);
         }
         return false;
     }
