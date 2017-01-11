@@ -70,4 +70,6 @@ public interface ClientUtilizadorRemote extends ClientRemote{
     List getItensSeguidos();
 
     List getMeusItensPorPagar();
+
+    boolean concluirTransacao(int itemId);
 }

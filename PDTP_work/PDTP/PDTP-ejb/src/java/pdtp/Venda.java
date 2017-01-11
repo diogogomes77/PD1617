@@ -49,5 +49,15 @@ public class Venda implements Serializable {
     public VendaTipo getTipo() {
         return tipo;
     }
-    
+    public boolean concluirVenda(){
+        if (this.tipo==VendaTipo.COMPRAJA){
+            this.comprador.pagarJaItem(item);
+            return true;
+        }
+        if (this.tipo==VendaTipo.LICITACAO){
+            this.comprador.pagarItemLicitacao(item);
+            return true;
+        } 
+        return false;
+    }
 }

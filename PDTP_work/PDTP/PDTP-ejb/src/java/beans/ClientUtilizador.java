@@ -230,4 +230,10 @@ public class ClientUtilizador implements ClientUtilizadorRemote {
         return leiloeira.getIensPorPagarUtilizador(myName);
     }
 
+    @Override
+    public boolean concluirTransacao(int itemId) {
+        
+        return leiloeira.concluirTransacao(myName,itemId);
+    }
+
 }

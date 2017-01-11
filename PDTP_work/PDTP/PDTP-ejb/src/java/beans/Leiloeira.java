@@ -515,4 +515,15 @@ public class Leiloeira implements LeiloeiraLocal {
         return u.getItemsPorPagar();
     }
 
+    @Override
+    public boolean concluirTransacao(String username, int itemId) {
+        Item i = this.itensTerminados.get(itemId);
+        if (i==null)
+            return false;
+        Venda v = i.getVenda();
+        if (v==null)
+            return false;
+        return v.concluirVenda();
+    }
+
 }

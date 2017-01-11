@@ -68,7 +68,7 @@ public class ControladorUtilizador extends ControladorUserAdmin {
 
     public void concluirTransacao() {
         System.out.println("concluir Transacao");
-        
+        if (ligacao.)
     }
 
     public void consultarItens() {
