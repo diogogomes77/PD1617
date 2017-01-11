@@ -80,5 +80,5 @@ public interface LeiloeiraLocal {
 
     boolean licitarItem(int itemId, Double value);
 
-    boolean seguirItem(int itemId);
+    boolean seguirItem(String username,int itemId);
 }

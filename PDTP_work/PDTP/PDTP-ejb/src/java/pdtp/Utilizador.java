@@ -14,7 +14,8 @@ public class Utilizador implements Serializable {
     private String username;
     private String password;
     private Double saldo;
-    private List<Item> items;
+    private List<Item> itemsAVenda;
+    private List<Item> itemsSeguidos;
     private List<Item> leiloes;
     private UtilizadorEstado estado;
     private String razaoPedidoSuspensao;
@@ -41,8 +42,17 @@ public class Utilizador implements Serializable {
         this.estado = estado;
     }
 
-    public void addItem(Item item){
-        this.items.add(item);
+    public boolean addItem(Item item){
+        if (itemsAVenda.contains(item))
+            return false;
+        this.itemsAVenda.add(item);
+        return true;
+    }
+    public boolean addItemSeguido(Item item){
+        if (itemsSeguidos.contains(item))
+            return false;
+        this.itemsSeguidos.add(item);
+        return true;
     }
     public void addLeilao(Item leilao){
         this.leiloes.add(leilao);
@@ -91,7 +101,7 @@ public class Utilizador implements Serializable {
     }
 
     public List<Item> getItems() {
-        return items;
+        return itemsAVenda;
     }
 
     public List<Item> getLeiloes() {

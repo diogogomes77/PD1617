@@ -217,7 +217,7 @@ public class ControladorUtilizador extends ControladorUserAdmin {
         if (ligacao.seguirItem(currentItemId))
             System.out.println("Item a ser seguido");
         else
-             System.out.println("ERRO: Item nao seguido");
+            System.out.println("ERRO: Item nao seguido");
     }
 
     public void enviarMensagemVendedor() {

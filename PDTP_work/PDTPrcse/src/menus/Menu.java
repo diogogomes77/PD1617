@@ -53,8 +53,8 @@ public abstract class Menu extends PDTPrcse {
             menuText.append(par.getKey()).append(" - ").append(opcao.getOpcao()).append("\n");
 
         }
-        menuText.append("\n Diogo Gomes & Eugenio Santos ");
-        menuText.append("\n_______________________________\n");
+        //menuText.append("\n Diogo Gomes & Eugenio Santos ");
+        //menuText.append("\n_______________________________\n");
     }
 
     private void mostraMenu() {
@@ -63,7 +63,7 @@ public abstract class Menu extends PDTPrcse {
         controlador.printInscritos();
         controlador.printOnline();
         controlador.getTotalItens();
-        System.out.println("_______________________________");
+        //System.out.println("_______________________________");
         System.out.println(menuText.toString());
     }
 

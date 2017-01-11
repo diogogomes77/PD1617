@@ -441,8 +441,9 @@ public class Leiloeira implements LeiloeiraLocal {
     }
 
     @Override
-    public boolean seguirItem(int itemId) {
-        return false;
+    public boolean seguirItem(String username,int itemId) {
+        Item item = itensAVenda.get(itemId);      
+        return utilizadores.get(username).addItemSeguido(item);
     }
     
 }

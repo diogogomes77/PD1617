@@ -197,7 +197,7 @@ public class ClientUtilizador implements ClientUtilizadorRemote {
 
     @Override
     public boolean seguirItem(int itemId) {
-        return leiloeira.seguirItem(itemId);
+        return leiloeira.seguirItem(myName,itemId);
     }
     
 }
