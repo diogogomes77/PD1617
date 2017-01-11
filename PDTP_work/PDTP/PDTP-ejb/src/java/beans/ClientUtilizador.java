@@ -224,4 +224,10 @@ public class ClientUtilizador implements ClientUtilizadorRemote {
         return leiloeira.getItensSeguidos(myName);
     }
 
+    @Override
+    public List getMeusItensPorPagar() {
+        setLastAction();
+        return leiloeira.getIensPorPagarUtilizador(myName);
+    }
+
 }

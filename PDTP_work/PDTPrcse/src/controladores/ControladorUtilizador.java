@@ -67,7 +67,8 @@ public class ControladorUtilizador extends ControladorUserAdmin {
     }
 
     public void concluirTransacao() {
-        System.out.println("concluirTransacao");
+        System.out.println("concluir Transacao");
+        
     }
 
     public void consultarItens() {
@@ -334,6 +335,18 @@ public class ControladorUtilizador extends ControladorUserAdmin {
     public void consultarLicitacoesItem() {
         System.out.println("Licitacoes Item:");
        System.out.println(ligacao.consultarLicitacoes(currentItemId));
+    }
+
+    public OpcaoMenu consultarItensComprados() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public void consultarItensPorPagar() {
+        System.out.println("Itens por pagar");
+        List<String> itens = ligacao.getMeusItensPorPagar();
+        for (String item:itens){
+            System.out.println(item);
+        }
     }
 
 }

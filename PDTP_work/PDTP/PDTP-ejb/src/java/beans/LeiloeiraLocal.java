@@ -83,4 +83,6 @@ public interface LeiloeiraLocal {
     boolean seguirItem(String username,int itemId);
 
     List getItensSeguidos(String username);
+
+    List getIensPorPagarUtilizador(String username);
 }

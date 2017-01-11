@@ -16,6 +16,8 @@ public class Utilizador implements Serializable {
     private Double saldo;
     private List<Item> itemsAVenda;
     private List<Item> itemsSeguidos;
+    private List<Item> itemsPorPagar;
+    private List<Item> itemsJaPagos;
     private List<Item> leiloes;
     private UtilizadorEstado estado;
     private String razaoPedidoSuspensao;
@@ -34,6 +36,61 @@ public class Utilizador implements Serializable {
         this.estado=estado;
     }
 
+    public List<Item> getItemsAVenda() {
+        return itemsAVenda;
+    }
+
+
+
+    public boolean addItemAVenda(Item item) {
+        if (itemsAVenda.contains(item))
+            return false;
+        itemsAVenda.add(item);
+        return true;
+    }
+
+    public List<Item> getItemsPorPagar() {
+        return itemsPorPagar;
+    }
+
+    public boolean addItemPorPagar(Item item) {
+        if (this.itemsPorPagar.contains(item))
+            return false;
+        this.itemsPorPagar.add(item);
+        return true;
+    }
+
+    public List<Item> getItemsJaPagos() {
+        return itemsJaPagos;
+    }
+
+    public boolean pagarItemLicitacao(Item item) {
+        if (!this.itemsPorPagar.contains(item))
+            return false;
+        Double custo =item.getLicitacoes().pollLastEntry().getKey();
+        if (this.saldo<custo){
+            this.saldo-=custo;
+            this.itemsPorPagar.remove(item);
+            this.itemsJaPagos.add(item);
+        }
+        return false;
+    }
+    public boolean pagarJaItem(Item item) {
+        if (!this.itemsPorPagar.contains(item))
+            return false;
+        Double custo = item.getComprarJa();
+        return pagarItem(item,custo);
+        
+    }
+    private boolean pagarItem(Item item,Double custo){
+        if (this.saldo < custo){
+            this.saldo -= custo;
+            this.itemsPorPagar.remove(item);
+            this.itemsJaPagos.add(item);
+            return true;
+        }
+        return false;
+    }
     public UtilizadorEstado getEstado() {
         return estado;
     }
@@ -85,10 +142,7 @@ public class Utilizador implements Serializable {
         this.saldo += valor;
         return this.saldo;
     }
-    public Double decSaldo(Double valor) {
-        this.saldo -= valor;
-        return this.saldo;
-    }
+
     public String getNome() {
         return nome;
     }

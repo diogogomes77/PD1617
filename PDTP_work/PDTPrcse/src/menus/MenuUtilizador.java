@@ -22,7 +22,7 @@ public class MenuUtilizador extends MenuUtilizadorAdmin {
 
         opcoes.add(new OpcaoMenu("Minhas mensagens", () -> controlador.consultarMensagensMinhas()));
         opcoes.add(new OpcaoMenu("Enviar mensagem", () -> controlador.enviarMensagem()));
-          opcoes.add(new OpcaoMenu("Concluir transacao", () -> controlador.concluirTransacao()));
+
         opcoes.add(new OpcaoMenu("> Saldo", () -> controlador.subMenuSaldo()));
      
         //  opcoes.add(new OpcaoMenu("Terminar Sessao", () -> controlador.logOff()));

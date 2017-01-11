@@ -68,4 +68,6 @@ public interface ClientUtilizadorRemote extends ClientRemote{
     boolean seguirItem(int itemId);
 
     List getItensSeguidos();
+
+    List getMeusItensPorPagar();
 }

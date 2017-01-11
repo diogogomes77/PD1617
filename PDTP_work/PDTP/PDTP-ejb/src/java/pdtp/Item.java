@@ -65,17 +65,11 @@ public class Item implements Serializable {
         return estado;
     }
 
-    public void setEstado(ItemEstados estado) {
-        this.estado = estado;
-    }
-
     public Venda getVenda() {
         return venda;
     }
 
-    public void setVenda(Venda venda) {
-        this.venda = venda;
-    }
+
 
     public Utilizador getComprador() {
         return comprador;
@@ -86,15 +80,18 @@ public class Item implements Serializable {
     }
 
     public boolean addLicitacao(Utilizador licitador, Double valor) {
-        if (!checkLicitador(licitador)) {
+        if (!proprioVendedor(licitador)) {
             return false;
         }
-        if (!checkValor(valor)) {
+        if (!licitacaoValorValido(valor)) {
             return false;
         }
         Licitacao lic = new Licitacao(this,licitador,valor);
         this.licitacoes.put(valor, lic);
         return true;
+    }
+    public void terminaItemSemLicitacoes(){
+        this.estado = ItemEstados.TERMINADA;
     }
     public boolean addVendaLicitacao(){
         if (this.venda!=null)
@@ -104,33 +101,37 @@ public class Item implements Serializable {
             return false;
         }
         Licitacao lic=licitacoes.lastEntry().getValue();
+        Utilizador vencedor = lic.getLicitador();
+        this.comprador = vencedor;
+        this.comprador.addItemPorPagar(this);
         this.venda = new Venda(lic);
+        this.estado = ItemEstados.TERMINADA;
         return true;
     }
-    public boolean comprarJa(Utilizador membro) {
-        if (!checkLicitador(membro)) {
+    public boolean addVendacomprarJa(Utilizador membro) {
+        if (!proprioVendedor(membro)) {
             return false;
         }
         this.comprador = membro;
-        this.comprador.decSaldo(comprarJa);
+        this.comprador.addItemPorPagar(this);   
         this.venda = new Venda(this,membro,this.comprarJa);
         this.estado = ItemEstados.TERMINADA;
         return true;
     }
 
-    public boolean cancelarVenda(Utilizador membro) {
-        if (checkLicitador(membro)) {
+    public boolean cancelarItem(Utilizador membro) {
+        if (proprioVendedor(membro)) {
             this.estado = ItemEstados.CANCELADA;
             return true;
         }
         return false;
     }
 
-    private boolean checkLicitador(Utilizador licitador) {
+    private boolean proprioVendedor(Utilizador licitador) {
         return licitador != vendedor;
     }
 
-    private boolean checkValor(Double valor) {
+    private boolean licitacaoValorValido(Double valor) {
         return (valor <= licitacoes.lastKey());
     }
 
