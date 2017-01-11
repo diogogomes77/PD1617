@@ -344,6 +344,10 @@ public class ControladorUtilizador extends ControladorUserAdmin {
     public void consultarItensPorPagar() {
         System.out.println("Itens por pagar");
         List<String> itens = ligacao.getMeusItensPorPagar();
+        if (itens==null){
+             System.out.println("Lista vazia");
+             return;
+        }
         for (String item:itens){
             System.out.println(item);
         }

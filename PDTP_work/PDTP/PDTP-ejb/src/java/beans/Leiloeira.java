@@ -432,17 +432,29 @@ public class Leiloeira implements LeiloeiraLocal {
 
     @Override
     public String mostraItem(int itemId) {
-        return itensAVenda.get(itemId).toString();
+        Item item =  itensAVenda.get(itemId);
+        if (item==null){
+            return "ERRO: Item invalido";
+        }
+        return item.toString();
     }
 
     @Override
     public String getVendedorItem(int itemId) {
-        return itensAVenda.get(itemId).getVendedor().getUsername();
+        Item item =  itensAVenda.get(itemId);
+        if (item==null){
+            return "ERRO: Item invalido";
+        }
+        return item.getVendedor().getUsername();
     }
 
     @Override
     public String consultarLicitacoes(int itemid) {
-        List<Licitacao> licitacoes = new ArrayList<Licitacao>(itensAVenda.get(itemid).getLicitacoes().values());
+         Item item =  itensAVenda.get(itemid);
+        if (item==null){
+            return "ERRO: Item invalido";
+        }
+        List<Licitacao> licitacoes = new ArrayList<Licitacao>(item.getLicitacoes().values());
         StringBuilder lista = new StringBuilder();
         for (Licitacao licitacao : licitacoes) {
             lista.append(licitacao.getTimestamp());
@@ -457,7 +469,10 @@ public class Leiloeira implements LeiloeiraLocal {
 
     @Override
     public boolean comprarJaItem(int itemId, String comprador) {
-        Item item = itensAVenda.get(itemId);   
+        Item item =  itensAVenda.get(itemId);
+        if (item==null){
+            return false;
+        }  
         if (item == null)
             return false;
         Utilizador u = utilizadoresOk.get(comprador);
@@ -482,6 +497,9 @@ public class Leiloeira implements LeiloeiraLocal {
     @Override
     public boolean seguirItem(String username, int itemId) {
         Item item = itensAVenda.get(itemId);
+         if (item==null){
+            return false;
+        }
         return utilizadoresOk.get(username).addItemSeguido(item);
     }
 
@@ -492,7 +510,9 @@ public class Leiloeira implements LeiloeiraLocal {
 
     @Override
     public List getIensPorPagarUtilizador(String username) {
-        return null;
+        Utilizador u = utilizadoresOk.get(username);
+        
+        return u.getItemsPorPagar();
     }
 
 }
