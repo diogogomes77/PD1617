@@ -1,4 +1,3 @@
-
 package beans;
 
 import java.sql.Timestamp;
@@ -9,14 +8,13 @@ import javax.ejb.Stateful;
 
 @Stateful
 public class ClientUtilizador implements ClientUtilizadorRemote {
-    
-    @EJB LeiloeiraLocal leiloeira;
-    
+
+    @EJB
+    LeiloeiraLocal leiloeira;
+
     String myName;
     boolean admin;
 
-
-    
 //    @Override
 //    public boolean loginUtilizador(String username, String password) {
 //        if (myName != null)
@@ -30,31 +28,31 @@ public class ClientUtilizador implements ClientUtilizadorRemote {
 //        }
 //        return false;
 //    }
-
     @Override
     public boolean setMyName(String username, String password) {
         //verifica se foi previamente logado atraves do ClientVisitance
-        if (leiloeira.getUtilizadores().get(username).isLogged()){
-             myName=username;
-             if ("admin".equals(username))
-                 admin=true;
-             return true;
+        if (leiloeira.getUtilizadores().get(username).isLogged()) {
+            myName = username;
+            if ("admin".equals(username)) {
+                admin = true;
+            }
+            return true;
         }
-                setLastAction();
+        setLastAction();
 
         return false;
-           
+
         //return !leiloeira.loginUtilizador(username,password);
     }
 
     @Override
     public boolean logOff() {
-        if (leiloeira.logOff(myName)){ // Singleeton testa MyName == null
-             myName = null;
-             admin = false;
-             return true;
+        if (leiloeira.logOff(myName)) { // Singleeton testa MyName == null
+            myName = null;
+            admin = false;
+            return true;
         }
-                setLastAction();
+        setLastAction();
 
         return false;
     }
@@ -70,26 +68,28 @@ public class ClientUtilizador implements ClientUtilizadorRemote {
         setLastAction();
         return leiloeira.getUsernameInscritos();
     }
-   
+
     @Override
     public ArrayList getUsernamesOnline() {
         setLastAction();
-         return leiloeira.getUsernamesOnline();
+        return leiloeira.getUsernamesOnline();
     }
 
     @Override
     public Double addSaldo(Double valor) {
         setLastAction();
-        if (admin)
+        if (admin) {
             return null;
+        }
         return leiloeira.addSaldo(valor, myName);
     }
 
     @Override
     public Double getSaldo() {
         setLastAction();
-        if (admin)
+        if (admin) {
             return null;
+        }
         return leiloeira.getSaldo(myName);
     }
 
@@ -103,17 +103,16 @@ public class ClientUtilizador implements ClientUtilizadorRemote {
 //    public String toString() {
 //        return leiloeira.getDadosUtilizador(myName);
 //    }
-
     @Override
     public String getDados() {
         setLastAction();
-         return leiloeira.getDadosUtilizador(myName);
+        return leiloeira.getDadosUtilizador(myName);
     }
 
     @Override
     public boolean atualizaDados(String nome, String morada) {
         setLastAction();
-        return leiloeira.atualizaDadosUtilizador(myName,nome,morada);
+        return leiloeira.atualizaDadosUtilizador(myName, nome, morada);
     }
 
     @Override
@@ -121,88 +120,108 @@ public class ClientUtilizador implements ClientUtilizadorRemote {
         setLastAction();
         return leiloeira.pedirSuspensaoUtilizador(myName, razao);
     }
-   
-    private void setLastAction(){
+
+    private void setLastAction() {
         leiloeira.setLastAction(myName);
     }
 
     @Override
-    public boolean sendMensagem(String destinatario, String texto,String assunto) {
-        if (leiloeira.existeUtilizador(destinatario))
+    public boolean sendMensagem(String destinatario, String texto, String assunto) {
+        setLastAction();
+        if (leiloeira.existeUtilizador(destinatario)) {
             return leiloeira.addMensagem(myName, destinatario, texto, assunto);
+        }
         return false;
     }
 
     @Override
     public ArrayList<Mensagem> consultarMensagens() {
-        
+        setLastAction();
         return leiloeira.getMensagensUtilizador(myName);
     }
 
     @Override
     public boolean verificaPassword(String password) {
-        return leiloeira.verificaPassword(myName,password);
+        setLastAction();
+        return leiloeira.verificaPassword(myName, password);
     }
 
     @Override
     public boolean alteraPassword(String password) {
-        return leiloeira.alteraPassword(myName,password);
+        setLastAction();
+        return leiloeira.alteraPassword(myName, password);
     }
 
     @Override
-    public boolean addItem(String descricao, Double precoInicial, Double precoComprarJa,Timestamp dataLimite) {
-        return leiloeira.addItem(myName,descricao,precoInicial,precoComprarJa,dataLimite);
+    public boolean addItem(String descricao, Double precoInicial, Double precoComprarJa, Timestamp dataLimite) {
+        setLastAction();
+        return leiloeira.addItem(myName, descricao, precoInicial, precoComprarJa, dataLimite);
     }
 
     @Override
     public List<String> getCategorias() {
+        setLastAction();
         return leiloeira.obterCategorias();
     }
+
     @Override
     public List<String> getMeusItens() {
+        setLastAction();
         return leiloeira.getItensUtilizador(myName);
     }
+
     @Override
     public int getTotalItens() {
+        setLastAction();
         return leiloeira.getTotalItens();
     }
+
     @Override
-    public List<String> getItens(){
+    public List<String> getItens() {
+        setLastAction();
         return leiloeira.getItens();
     }
 
     @Override
     public String mostraItem(int itemId) {
+        setLastAction();
         return leiloeira.mostraItem(itemId);
     }
+
     @Override
     public String getVendedorItem(int itemId) {
+        setLastAction();
         return leiloeira.getVendedorItem(itemId);
     }
 
     @Override
     public String consultarLicitacoes(int itemId) {
+        setLastAction();
         return leiloeira.consultarLicitacoes(itemId);
     }
 
     @Override
     public boolean comprarJaItem(int itemid) {
-        return leiloeira.comprarJaItem(itemid,myName);
+        setLastAction();
+        return leiloeira.comprarJaItem(itemid, myName);
     }
 
     @Override
-    public boolean licitarItem(int itemid,Double valor) {
-        return leiloeira.licitarItem(itemid,valor,myName);
+    public boolean licitarItem(int itemid, Double valor) {
+        setLastAction();
+        return leiloeira.licitarItem(itemid, valor, myName);
     }
 
     @Override
     public boolean seguirItem(int itemId) {
-        return leiloeira.seguirItem(myName,itemId);
+        setLastAction();
+        return leiloeira.seguirItem(myName, itemId);
     }
 
     @Override
     public List getItensSeguidos() {
+        setLastAction();
         return leiloeira.getItensSeguidos(myName);
     }
-    
+
 }
