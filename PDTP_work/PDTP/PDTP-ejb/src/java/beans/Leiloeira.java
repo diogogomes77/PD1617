@@ -161,6 +161,7 @@ public class Leiloeira implements LeiloeiraLocal {
             mensagens = (ArrayList<Mensagem>) ois.readObject();
             categorias = (ArrayList<String>) ois.readObject();
             itensAVenda = (HashMap<Integer,Item>) ois.readObject();
+            
         } catch (Exception e) {
             //Utilizadors = fica com o objecto vazio criado no construtor
         }
