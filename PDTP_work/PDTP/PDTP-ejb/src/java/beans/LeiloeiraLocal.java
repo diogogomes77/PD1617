@@ -87,4 +87,6 @@ public interface LeiloeiraLocal {
     List getIensPorPagarUtilizador(String username);
 
     boolean concluirTransacao(String username, int itemId);
+
+    boolean denunciarItem(int itemId,String denunciador,String razao);
 }

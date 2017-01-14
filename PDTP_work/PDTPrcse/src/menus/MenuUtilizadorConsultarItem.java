@@ -15,10 +15,12 @@ public class MenuUtilizadorConsultarItem extends MenuUtilizadorAdmin {
         opcoes.add(new OpcaoMenu("Ver licitacoes", () -> controlador.consultarLicitacoesItem()));
         opcoes.add(new OpcaoMenu("Comprar Ja", () -> controlador.comprarJaItem()));
         opcoes.add(new OpcaoMenu("Enviar mensagem", () -> controlador.enviarMensagemVendedor()));
-         opcoes.add(new OpcaoMenu("Seguir Item", () -> controlador.seguirItem()));
-     
+        opcoes.add(new OpcaoMenu("Seguir Item", () -> controlador.seguirItem()));
+        opcoes.add(new OpcaoMenu("Cancelar Seguir Item", () -> controlador.seguirItem()));
+        opcoes.add(new OpcaoMenu("Denunciar Item", () -> controlador.denunciarItem()));
+        opcoes.add(new OpcaoMenu("Denunciar vendedor", () -> controlador.denunciarVendedor()));
+
         
-        
-        opcoes.add(new OpcaoMenu("Voltar", () -> controlador.mostrarMenu(new MenuUtilizador(ligacao,controlador))));
+        //opcoes.add(new OpcaoMenu("Voltar", () -> controlador.mostrarMenu(new MenuUtilizador(ligacao,controlador))));
     }
 }

@@ -19,6 +19,8 @@ import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.ejb.Schedule;
 import javax.ejb.Singleton;
+import pdtp.DenunciaItem;
+import pdtp.DenunciaVendedor;
 import pdtp.Item;
 import pdtp.ItemEstados;
 import pdtp.Licitacao;
@@ -33,6 +35,8 @@ public class Leiloeira implements LeiloeiraLocal {
     private HashMap<String, Utilizador> utilizadoresNotOk = new HashMap<>();
     private HashMap<Integer, Item> itensAVenda = new HashMap<>();
     private HashMap<Integer, Item> itensTerminados = new HashMap<>();
+    private List<DenunciaItem> denunciasItens = new ArrayList<>();
+    private List<DenunciaVendedor> denunciasVendedores = new ArrayList<>();
     private List<String> categorias = new ArrayList<>();
     private List<Mensagem> mensagens = new ArrayList<>();
     private int itemCount;
@@ -524,6 +528,19 @@ public class Leiloeira implements LeiloeiraLocal {
         if (v==null)
             return false;
         return v.concluirVenda();
+    }
+
+    @Override
+    public boolean denunciarItem(int itemId,String denunciador,String razao) {
+        Item i = this.itensAVenda.get(itemId);
+        if (i==null)
+            return false;
+        Utilizador u = utilizadoresOk.get(denunciador);
+        if (u==null)
+            return false;
+        DenunciaItem d = new DenunciaItem(i,u,razao);
+        denunciasItens.add(d);
+        return true;
     }
 
 }

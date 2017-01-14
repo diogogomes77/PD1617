@@ -213,11 +213,19 @@ public class ControladorUtilizador extends ControladorUserAdmin {
     }
 
     public void denunciarVendedor() {
-        System.out.println("denunciarVendedor");
+        System.out.println("Denunciar Vendedor");
     }
 
     public void denunciarItem() {
-        System.out.println("denunciarItem");
+        System.out.println("Denunciar Item");
+        System.out.print("Razao: ");
+        String razao = sc.nextLine();
+        sc.skip("\n");
+        if (!"".equals(razao) && ligacao.denunciarItem(currentItemId,razao)){
+             System.out.println("Denuncia registada");
+        }else{
+            System.out.println("ERRO: Denuncia naoregistada");
+        }
     }
 
     public void seguirItemCancelar() {
