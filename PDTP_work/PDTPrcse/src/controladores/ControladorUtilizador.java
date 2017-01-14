@@ -67,8 +67,16 @@ public class ControladorUtilizador extends ControladorUserAdmin {
     }
 
     public void concluirTransacao() {
+        
         System.out.println("concluir Transacao");
-        if (ligacao.)
+        System.out.print("ItemID: ");
+        int itemId = sc.nextInt();
+        sc.skip("\n");
+        if (ligacao.concluirTransacao(itemId)){
+            System.out.println("Transacao Concluida");
+        }else{
+            System.out.println("ERRO: Transacao nao concluida");
+        }
     }
 
     public void consultarItens() {
