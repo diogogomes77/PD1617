@@ -74,4 +74,6 @@ public interface ClientUtilizadorRemote extends ClientRemote{
     boolean concluirTransacao(int itemId);
 
     boolean denunciarItem(int itemId, String razao);
+
+    boolean denunciarVendedor(String username, String razao);
 }

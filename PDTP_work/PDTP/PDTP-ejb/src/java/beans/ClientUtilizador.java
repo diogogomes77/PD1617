@@ -241,4 +241,9 @@ public class ClientUtilizador implements ClientUtilizadorRemote {
         return leiloeira.denunciarItem(itemId,myName,razao);
     }
 
+    @Override
+    public boolean denunciarVendedor(String vendedor, String razao) {
+        return leiloeira.denunciarVendedor(myName,vendedor,razao);
+    }
+
 }

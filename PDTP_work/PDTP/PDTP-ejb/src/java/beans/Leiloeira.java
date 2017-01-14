@@ -550,12 +550,29 @@ public class Leiloeira implements LeiloeiraLocal {
         for (Denuncia denuncia : denunciasVendedores){
             result.add(denuncia.toString());
         }
-        return null;
+        return result;
     }
 
     @Override
     public List obtemDenunciasItens() {
-        return null;
+        List<String> result = new ArrayList<>();
+        for (Denuncia denuncia : denunciasItens){
+            result.add(denuncia.toString());
+        }
+        return result;
+    }
+
+    @Override
+    public boolean denunciarVendedor(String username, String vendedor, String razao) {
+        Utilizador d = utilizadoresOk.get(username);
+        if (d==null)
+            return false;
+        Utilizador v = utilizadoresOk.get(vendedor);
+        if (v==null)
+            return false;
+        DenunciaVendedor den = new DenunciaVendedor(d,v,razao);
+        denunciasVendedores.add(den);
+        return true;
     }
 
 }

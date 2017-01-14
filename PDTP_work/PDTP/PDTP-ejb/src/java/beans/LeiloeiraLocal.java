@@ -93,4 +93,6 @@ public interface LeiloeiraLocal {
     List obtemDenunciasVendedores();
 
     List obtemDenunciasItens();
+
+    boolean denunciarVendedor(String username, String vendedor, String razao);
 }
