@@ -99,9 +99,19 @@ public class ClientAdmin implements ClientAdminRemote {
         return leiloeira.alteraPassword("admin",password);
     }
 
-  @Override
+    @Override
     public int getTotalItens() {
         return leiloeira.getTotalItens();
+    }
+
+    @Override
+    public List obtemDenunciasVendedores() {
+        return leiloeira.obtemDenunciasVendedores();
+    }
+
+    @Override
+    public List obtemDenunciasItens() {
+        return leiloeira.obtemDenunciasItens();
     }
     
 }

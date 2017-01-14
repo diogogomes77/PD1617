@@ -1,6 +1,7 @@
 
 package controladores;
 
+import menus.MenuAdminDenuncias;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -37,8 +38,8 @@ public class ControladorAdministrador extends ControladorUserAdmin{
             System.out.println("ERRO: accao nao aceite");
         }
     }
-    public OpcaoMenu consultarDenuncias() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void consultarDenuncias() {
+        menu = new MenuAdminDenuncias(ligacao, (ControladorAdministrador) controlador);       
     }
 
 
@@ -208,6 +209,25 @@ public class ControladorAdministrador extends ControladorUserAdmin{
     @Override
     protected void finalize () {
         this.logOff();
+    }
+
+    public void consultarDenunciasVendedores() {
+        System.out.print("Denuncias de Vendedores");
+        List<String> denunciasvendedores = ligacao.obtemDenunciasVendedores();
+        
+        for (String denuncia : denunciasvendedores){
+            System.out.println(denuncia);
+        }       
+    }
+
+    public void consultarDenunciasItens() {
+        System.out.print("Denuncias de Itens");
+        List<String> denunciasItens = ligacao.obtemDenunciasItens();
+        
+        for (String denuncia : denunciasItens){
+            System.out.println(denuncia);
+        }
+
     }
 
 

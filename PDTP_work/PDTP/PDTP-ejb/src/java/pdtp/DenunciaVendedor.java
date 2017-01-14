@@ -28,5 +28,15 @@ public class DenunciaVendedor extends Denuncia  {
     public Utilizador getVendedor() {
         return vendedor;
     }
-    
+        @Override
+    public String toString(){
+        StringBuilder result = new StringBuilder();
+        result.append("Vendedor: ");
+        result.append(vendedor.getUsername());
+        result.append(" Denuncia: ");
+        result.append(razao);
+         result.append(" Por: ");
+          result.append(denunciador.getUsername());
+        return result.toString();
+    }
 }

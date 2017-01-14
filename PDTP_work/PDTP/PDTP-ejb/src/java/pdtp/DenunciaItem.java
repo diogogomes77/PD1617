@@ -26,5 +26,15 @@ public class DenunciaItem extends Denuncia{
     public String getRazao() {
         return razao;
     }
-    
+    @Override
+    public String toString(){
+        StringBuilder result = new StringBuilder();
+        result.append("Item: ");
+        result.append(item.getItemID());
+        result.append(" Denuncia: ");
+        result.append(razao);
+         result.append(" Por: ");
+          result.append(denunciador.getUsername());
+        return result.toString();
+    }
 }

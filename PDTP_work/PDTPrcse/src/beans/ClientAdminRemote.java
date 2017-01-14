@@ -35,4 +35,8 @@ public interface ClientAdminRemote extends ClientRemote {
         boolean verificaPassword(String password);
 
     boolean alteraPassword(String password);
+
+    List obtemDenunciasVendedores();
+
+    List obtemDenunciasItens();
 }

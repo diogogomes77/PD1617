@@ -22,4 +22,6 @@ public abstract class Denuncia {
 
     public abstract String getRazao() ;
     
+    @Override
+    public abstract String toString();
 }

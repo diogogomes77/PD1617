@@ -19,6 +19,7 @@ import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.ejb.Schedule;
 import javax.ejb.Singleton;
+import pdtp.Denuncia;
 import pdtp.DenunciaItem;
 import pdtp.DenunciaVendedor;
 import pdtp.Item;
@@ -541,6 +542,20 @@ public class Leiloeira implements LeiloeiraLocal {
         DenunciaItem d = new DenunciaItem(i,u,razao);
         denunciasItens.add(d);
         return true;
+    }
+
+    @Override
+    public List obtemDenunciasVendedores(){
+        List<String> result = new ArrayList<>();
+        for (Denuncia denuncia : denunciasVendedores){
+            result.add(denuncia.toString());
+        }
+        return null;
+    }
+
+    @Override
+    public List obtemDenunciasItens() {
+        return null;
     }
 
 }
