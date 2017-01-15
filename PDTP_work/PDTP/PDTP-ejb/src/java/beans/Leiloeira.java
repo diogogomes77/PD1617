@@ -541,6 +541,7 @@ public class Leiloeira implements LeiloeiraLocal {
             return false;
         DenunciaItem d = new DenunciaItem(i,u,razao);
         denunciasItens.add(d);
+        addMensagem(denunciador, "admin", d.toString(), "denuncia item "+i.getItemID());
         return true;
     }
 
@@ -563,8 +564,8 @@ public class Leiloeira implements LeiloeiraLocal {
     }
 
     @Override
-    public boolean denunciarVendedor(String username, String vendedor, String razao) {
-        Utilizador d = utilizadoresOk.get(username);
+    public boolean denunciarVendedor(String denunciador, String vendedor, String razao) {
+        Utilizador d = utilizadoresOk.get(denunciador);
         if (d==null)
             return false;
         Utilizador v = utilizadoresOk.get(vendedor);
@@ -572,6 +573,7 @@ public class Leiloeira implements LeiloeiraLocal {
             return false;
         DenunciaVendedor den = new DenunciaVendedor(d,v,razao);
         denunciasVendedores.add(den);
+        addMensagem(denunciador, "admin", d.toString(), "denuncia vendedor "+v.getUsername());
         return true;
     }
 

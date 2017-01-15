@@ -11,6 +11,7 @@ import menus.OpcaoMenu;
 import beans.ClientAdminRemote;
 //import beans.ClientUtilizadorRemote;
 import beans.ClientVisitanteRemote;
+import beans.Mensagem;
 import java.util.Iterator;
 import java.util.List;
 import menus.MenuAdminCategorias;
@@ -97,10 +98,34 @@ public class ControladorAdministrador extends ControladorUserAdmin{
            
     }
 
-    public OpcaoMenu enviarMensagens() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void enviarMensagens() {
+        System.out.println("enviar Mensagem a utilizador");
+        String destinatario = "";
+        String texto = "";
+        String assunto = "";
+        System.out.print("Destinatario: ");
+        destinatario = sc.next();
+        sc.skip("\n");
+        System.out.print("Assunto: ");
+        assunto = sc.nextLine();
+        sc.skip("\n");
+        System.out.print("Texto: ");
+        texto = sc.nextLine();
+        sc.skip("\n");
+        if (ligacao.sendMensagem(destinatario, texto, assunto)) {
+            System.out.println("Mensagem enviada");
+        } else {
+            System.out.println("ERRO: mensagem nao enviada");
+        }
     }
-
+    public void consultarMensagensMinhas() {
+        System.out.println("Minhas mensagems:");
+        ArrayList<Mensagem> mensagens = ligacao.consultarMensagens();
+        for (Mensagem msg : mensagens) {
+            System.out.println("Enviada: ".concat(convertTime(msg.getData())).concat(" por: ").concat(msg.getDestinatario()).concat(" Assunto: ").concat(msg.getAssunto()));
+        }
+    }
+    
     public OpcaoMenu consultarUtilizador() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }

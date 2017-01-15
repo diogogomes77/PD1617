@@ -39,4 +39,7 @@ public interface ClientAdminRemote extends ClientRemote {
     List obtemDenunciasVendedores();
 
     List obtemDenunciasItens();
+        boolean sendMensagem(String destinatario, String texto,String assunto);
+
+    ArrayList<Mensagem> consultarMensagens();
 }

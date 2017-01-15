@@ -116,11 +116,7 @@ public class ControladorUtilizador extends ControladorUserAdmin {
         }
     }
 
-    public String convertTime(long time) {
-        Date date = new Date(time);
-        Format format = new SimpleDateFormat("yyyy MM dd HH:mm:ss");
-        return format.format(date);
-    }
+
 
     public void consultarItensMeus() {
         System.out.println("Meus itens");

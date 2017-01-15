@@ -232,17 +232,19 @@ public class ClientUtilizador implements ClientUtilizadorRemote {
 
     @Override
     public boolean concluirTransacao(int itemId) {
-        
+        setLastAction();
         return leiloeira.concluirTransacao(myName,itemId);
     }
 
     @Override
     public boolean denunciarItem(int itemId, String razao) {
+        setLastAction();
         return leiloeira.denunciarItem(itemId,myName,razao);
     }
 
     @Override
     public boolean denunciarVendedor(String vendedor, String razao) {
+        setLastAction();
         return leiloeira.denunciarVendedor(myName,vendedor,razao);
     }
 

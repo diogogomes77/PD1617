@@ -113,5 +113,17 @@ public class ClientAdmin implements ClientAdminRemote {
     public List obtemDenunciasItens() {
         return leiloeira.obtemDenunciasItens();
     }
-    
+        @Override
+    public boolean sendMensagem(String destinatario, String texto, String assunto) {
+        setLastAction();
+        if (leiloeira.existeUtilizador(destinatario)) {
+            return leiloeira.addMensagem("admin", destinatario, texto, assunto);
+        }
+        return false;
+    }
+        @Override
+    public ArrayList<Mensagem> consultarMensagens() {
+        setLastAction();
+        return leiloeira.getMensagensUtilizador("admin");
+    }
 }
