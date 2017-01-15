@@ -45,4 +45,8 @@ public interface ClientAdminRemote extends ClientRemote {
     ArrayList<Mensagem> consultarMensagens();
 
     String mostraItem(int itemId);
+
+    public String getDados(String username);
+
+    boolean cancelarItem(int itemId);
 }

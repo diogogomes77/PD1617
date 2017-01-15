@@ -147,4 +147,15 @@ public class ClientAdmin implements ClientAdminRemote {
         setLastAction();
         return leiloeira.mostraItem(itemId);
     }
+    @Override
+    public String getDados(String username) {
+        setLastAction();
+        return leiloeira.getDadosUtilizador(username);
+    }
+
+    @Override
+    public boolean cancelarItem(int itemId) {
+        setLastAction();
+        return leiloeira.cancelarItem(itemId);
+    }
 }

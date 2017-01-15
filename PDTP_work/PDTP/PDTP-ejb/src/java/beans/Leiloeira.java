@@ -577,4 +577,12 @@ public class Leiloeira implements LeiloeiraLocal {
         return true;
     }
 
+    @Override
+    public boolean cancelarItem(int itemId) {
+        Item i= itensAVenda.get(itemId);
+        if (i==null)
+            return false;
+        return i.cancelarItem(i.getVendedor());
+    }
+
 }

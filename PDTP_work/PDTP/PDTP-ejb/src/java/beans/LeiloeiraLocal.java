@@ -95,4 +95,6 @@ public interface LeiloeiraLocal {
     List obtemDenunciasItens();
 
     boolean denunciarVendedor(String username, String vendedor, String razao);
+
+    boolean cancelarItem(int itemId);
 }
