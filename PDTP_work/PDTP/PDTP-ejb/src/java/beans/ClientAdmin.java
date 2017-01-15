@@ -1,4 +1,3 @@
-
 package beans;
 
 import java.util.ArrayList;
@@ -10,28 +9,32 @@ import pdtp.UtilizadorEstado;
 
 @Singleton
 public class ClientAdmin implements ClientAdminRemote {
- @EJB LeiloeiraLocal leiloeira;
+
+    @EJB
+    LeiloeiraLocal leiloeira;
+
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")
     @Override
     public boolean logOff() {
 
-        if (leiloeira.logOff("admin")){ // Singleeton testa MyName == null
-             return true;
+        if (leiloeira.logOff("admin")) { // Singleeton testa MyName == null
+            return true;
         }
         setLastAction();
         return false;
     }
+
     @Override
-        public ArrayList getUsernameInscritos() {
-            setLastAction();
+    public ArrayList getUsernameInscritos() {
+        setLastAction();
         return leiloeira.getUsernameInscritos();
     }
-   
+
     @Override
     public ArrayList getUsernamesOnline() {
         setLastAction();
-         return leiloeira.getUsernamesOnline();
+        return leiloeira.getUsernamesOnline();
     }
 
     @Override
@@ -39,24 +42,25 @@ public class ClientAdmin implements ClientAdminRemote {
         setLastAction();
         return leiloeira.getUtilizadoresEstado(UtilizadorEstado.ATIVO_PEDIDO);
     }
+
     @Override
-    public HashMap<String,String> getPedidosSuspensao() {
+    public HashMap<String, String> getPedidosSuspensao() {
         setLastAction();
         //return leiloeira.getUtilizadoresEstado(UtilizadorEstado.SUSPENDO_PEDIDO);
         return leiloeira.getPedidosSuspensao();
     }
+
     @Override
     public ArrayList getUtilizadoresPedidoReAtivacao() {
         setLastAction();
         return leiloeira.getUtilizadoresEstado(UtilizadorEstado.REATIVACAO_PEDIDO);
     }
-    
+
     @Override
     public boolean ativaUtilizador(String username) {
         setLastAction();
         return leiloeira.ativaUtilizador(username);
     }
-
 
     @Override
     public boolean suspendeUsername(String username) {
@@ -64,56 +68,66 @@ public class ClientAdmin implements ClientAdminRemote {
 
         return leiloeira.suspendeUtilizador(username);
     }
-       private void setLastAction(){
+
+    private void setLastAction() {
         leiloeira.setLastAction("admin");
     }
 
     @Override
     public boolean adicionarCategoria(String nomeCategoria) {
-        
+        setLastAction();
         return leiloeira.adicionarCategoria(nomeCategoria);
     }
 
     @Override
     public List<String> obtemCategorias() {
+        setLastAction();
         return leiloeira.obterCategorias();
     }
 
     @Override
     public boolean eliminaCategoria(String nomeCategoria) {
+        setLastAction();
         return leiloeira.eliminaCategoria(nomeCategoria);
     }
 
     @Override
     public boolean modificaCategoria(String nomeCategoria, String novoNomeCategoria) {
+        setLastAction();
         return leiloeira.modificaCategoria(nomeCategoria, novoNomeCategoria);
     }
-    
-        @Override
+
+    @Override
     public boolean verificaPassword(String password) {
-        return leiloeira.verificaPassword("admin",password);
+        setLastAction();
+        return leiloeira.verificaPassword("admin", password);
     }
 
     @Override
     public boolean alteraPassword(String password) {
-        return leiloeira.alteraPassword("admin",password);
+        setLastAction();
+        return leiloeira.alteraPassword("admin", password);
     }
 
     @Override
     public int getTotalItens() {
+        setLastAction();
         return leiloeira.getTotalItens();
     }
 
     @Override
     public List obtemDenunciasVendedores() {
+        setLastAction();
         return leiloeira.obtemDenunciasVendedores();
     }
 
     @Override
     public List obtemDenunciasItens() {
+        setLastAction();
         return leiloeira.obtemDenunciasItens();
     }
-        @Override
+
+    @Override
     public boolean sendMensagem(String destinatario, String texto, String assunto) {
         setLastAction();
         if (leiloeira.existeUtilizador(destinatario)) {
@@ -121,9 +135,16 @@ public class ClientAdmin implements ClientAdminRemote {
         }
         return false;
     }
-        @Override
+
+    @Override
     public ArrayList<Mensagem> consultarMensagens() {
         setLastAction();
         return leiloeira.getMensagensUtilizador("admin");
+    }
+
+    @Override
+    public String mostraItem(int itemId) {
+        setLastAction();
+        return leiloeira.mostraItem(itemId);
     }
 }

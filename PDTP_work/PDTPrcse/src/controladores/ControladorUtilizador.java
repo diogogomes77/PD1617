@@ -24,8 +24,6 @@ public class ControladorUtilizador extends ControladorUserAdmin {
 
     private ClientUtilizadorRemote ligacao;
 
-    private int currentItemId;
-    
     public ControladorUtilizador(ClientUtilizadorRemote ligacao) {
         super(ligacao);
         this.ligacao = ligacao;
@@ -61,20 +59,20 @@ public class ControladorUtilizador extends ControladorUserAdmin {
     public void consultarItensSeguidos() {
         System.out.println("Itens Seguidos");
         List<String> itens = ligacao.getItensSeguidos();
-        for (String item:itens){
+        for (String item : itens) {
             System.out.println(item);
         }
     }
 
     public void concluirTransacao() {
-        
+
         System.out.println("concluir Transacao");
         System.out.print("ItemID: ");
         int itemId = sc.nextInt();
         sc.skip("\n");
-        if (ligacao.concluirTransacao(itemId)){
+        if (ligacao.concluirTransacao(itemId)) {
             System.out.println("Transacao Concluida");
-        }else{
+        } else {
             System.out.println("ERRO: Transacao nao concluida");
         }
     }
@@ -82,7 +80,7 @@ public class ControladorUtilizador extends ControladorUserAdmin {
     public void consultarItens() {
         System.out.println("Consultar Itens");
         List<String> itens = ligacao.getItens();
-        for (String item:itens){
+        for (String item : itens) {
             System.out.println(item);
         }
     }
@@ -116,12 +114,10 @@ public class ControladorUtilizador extends ControladorUserAdmin {
         }
     }
 
-
-
     public void consultarItensMeus() {
         System.out.println("Meus itens");
         List<String> itens = ligacao.getMeusItens();
-        for (String item:itens){
+        for (String item : itens) {
             System.out.println(item);
         }
     }
@@ -141,7 +137,7 @@ public class ControladorUtilizador extends ControladorUserAdmin {
         double precoComprarJa;
         Timestamp dataFinal = new Timestamp(new Date().getTime());
         List<String> categorias = ligacao.getCategorias();
-        if (categorias.isEmpty()){
+        if (categorias.isEmpty()) {
             System.out.print("Categorias nao disponiveis. Volte mais tarde");
             return;
         }
@@ -154,33 +150,43 @@ public class ControladorUtilizador extends ControladorUserAdmin {
             System.out.println("");
             System.out.print("Indique categoria: ");
             input = sc.nextLine();
-            if ("x".equals(input)) return;
+            if ("x".equals(input)) {
+                return;
+            }
             for (String cat : categorias) {
                 if (input.equals(cat)) {
                     ok = true;
                     categoria = input;
                 }
             }
-            if (!ok){
+            if (!ok) {
                 System.out.println("ERRO: categoria invalida");
             }
         } while (ok == false);
 
         System.out.print("Descricao: ");
         input = sc.nextLine();
-         if ("x".equals(input)) return;
+        if ("x".equals(input)) {
+            return;
+        }
         descricao = input;
         System.out.print("Preco Inicial: ");
         input = sc.nextLine();
-         if ("x".equals(input)) return;
+        if ("x".equals(input)) {
+            return;
+        }
         precoInicial = Double.parseDouble(input);
         System.out.print("Preco Comprar Ja: ");
         input = sc.nextLine();
-         if ("x".equals(input)) return;
+        if ("x".equals(input)) {
+            return;
+        }
         precoComprarJa = Double.parseDouble(input);
         System.out.print("Data e hora de fim (dd-MM-yyy HH): ");
         input = sc.nextLine();
-         if ("x".equals(input)) return;
+        if ("x".equals(input)) {
+            return;
+        }
         Date data;
         try {
             data = sdf.parse(input);
@@ -217,9 +223,9 @@ public class ControladorUtilizador extends ControladorUserAdmin {
         System.out.print("Razao: ");
         String razao = sc.nextLine();
         sc.skip("\n");
-        if (!"".equals(razao) && ligacao.denunciarItem(currentItemId,razao)){
-             System.out.println("Denuncia registada");
-        }else{
+        if (!"".equals(razao) && ligacao.denunciarItem(currentItemId, razao)) {
+            System.out.println("Denuncia registada");
+        } else {
             System.out.println("ERRO: Denuncia naoregistada");
         }
     }
@@ -230,17 +236,18 @@ public class ControladorUtilizador extends ControladorUserAdmin {
 
     public void seguirItem() {
         System.out.println("Seguir Item");
-        if (ligacao.seguirItem(currentItemId))
+        if (ligacao.seguirItem(currentItemId)) {
             System.out.println("Item a ser seguido");
-        else
+        } else {
             System.out.println("ERRO: Item nao seguido");
+        }
     }
 
     public void enviarMensagemVendedor() {
         System.out.println("enviar Mensagem ao Vendedor");
         String destinatario = ligacao.getVendedorItem(currentItemId);
         String texto = "";
-        String assunto = "ItemID: "+Integer.toString(currentItemId);
+        String assunto = "ItemID: " + Integer.toString(currentItemId);
         System.out.print("Mensagem: ");
         texto = sc.nextLine();
         sc.skip("\n");
@@ -253,12 +260,13 @@ public class ControladorUtilizador extends ControladorUserAdmin {
 
     public void licitarItem() {
         System.out.println("Licitar Item");
-         System.out.print("Valor: ");
-         Double valor = sc.nextDouble();
-         if (ligacao.licitarItem(currentItemId,valor))
+        System.out.print("Valor: ");
+        Double valor = sc.nextDouble();
+        if (ligacao.licitarItem(currentItemId, valor)) {
             System.out.println("Licitacao registada");
-        else
+        } else {
             System.out.println("ERRO: Licitacao nao registada");
+        }
     }
 
     public void pedirSuspensao() {
@@ -327,26 +335,27 @@ public class ControladorUtilizador extends ControladorUserAdmin {
         }
     }
 
-    public void  consultarItem() {
+    public void consultarItem() {
         System.out.println("Consultar Item");
         System.out.print("ItemID: ");
         int itemId = sc.nextInt();
         sc.skip("\n");
         System.out.println(ligacao.mostraItem(itemId));
-        currentItemId=itemId;
+        currentItemId = itemId;
         menu = new MenuUtilizadorConsultarItem(ligacao, (ControladorUtilizador) controlador);
     }
 
     public void comprarJaItem() {
-        if (ligacao.comprarJaItem(currentItemId))
+        if (ligacao.comprarJaItem(currentItemId)) {
             System.out.println("Item comprado");
-        else
+        } else {
             System.out.println("ERRO: item nao comprado");
+        }
     }
 
     public void consultarLicitacoesItem() {
         System.out.println("Licitacoes Item:");
-       System.out.println(ligacao.consultarLicitacoes(currentItemId));
+        System.out.println(ligacao.consultarLicitacoes(currentItemId));
     }
 
     public OpcaoMenu consultarItensComprados() {
@@ -356,11 +365,11 @@ public class ControladorUtilizador extends ControladorUserAdmin {
     public void consultarItensPorPagar() {
         System.out.println("Itens por pagar");
         List<String> itens = ligacao.getMeusItensPorPagar();
-        if (itens==null){
-             System.out.println("Lista vazia");
-             return;
+        if (itens == null) {
+            System.out.println("Lista vazia");
+            return;
         }
-        for (String item:itens){
+        for (String item : itens) {
             System.out.println(item);
         }
     }

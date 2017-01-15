@@ -12,9 +12,11 @@ import beans.ClientAdminRemote;
 //import beans.ClientUtilizadorRemote;
 import beans.ClientVisitanteRemote;
 import beans.Mensagem;
+import static controladores.Controlador.sc;
 import java.util.Iterator;
 import java.util.List;
 import menus.MenuAdminCategorias;
+import menus.MenuUtilizadorConsultarItem;
 import static pdtprcse.PDTPrcse.controlador;
 import static pdtprcse.PDTPrcse.menu;
 import pdtprcse.ReferenciaVisitante;
@@ -130,8 +132,15 @@ public class ControladorAdministrador extends ControladorUserAdmin{
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    public OpcaoMenu consultarItem() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void consultarItem() {
+         System.out.println("Consultar Item");
+        System.out.print("ItemID: ");
+        int itemId = sc.nextInt();
+        sc.skip("\n");
+        System.out.println(ligacao.mostraItem(itemId));
+        currentItemId=itemId;
+        //menu = new MenuUtilizadorConsultarItem(ligacao, (ControladorUtilizador) controlador);
+
     }
 
     public void subMenuGerirCategorias() {

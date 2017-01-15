@@ -8,7 +8,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public abstract class ControladorUserAdmin extends Controlador{
-  
+   protected int currentItemId;
     public ControladorUserAdmin(ClientRemote ligacao) {
         super(ligacao);
         this.ligacao = ligacao;

@@ -26,20 +26,23 @@ public interface ClientAdminRemote extends ClientRemote {
 
     ArrayList getUtilizadoresPedidoAtivacao();
 
-    HashMap<String,String> getPedidosSuspensao();
+    HashMap<String, String> getPedidosSuspensao();
 
     ArrayList getUtilizadoresPedidoReAtivacao();
 
     boolean modificaCategoria(String nomeCategoria, String novoNomeCategoria);
-    
-        boolean verificaPassword(String password);
+
+    boolean verificaPassword(String password);
 
     boolean alteraPassword(String password);
 
     List obtemDenunciasVendedores();
 
     List obtemDenunciasItens();
-        boolean sendMensagem(String destinatario, String texto,String assunto);
+
+    boolean sendMensagem(String destinatario, String texto, String assunto);
 
     ArrayList<Mensagem> consultarMensagens();
+
+    String mostraItem(int itemId);
 }
