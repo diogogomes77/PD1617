@@ -9,20 +9,52 @@ import java.util.Map;
 import java.util.Scanner;
 import pdtprcse.PDTPrcse;
 
+/**
+ *
+ * @author diogo
+ */
 public abstract class Menu extends PDTPrcse {
 
+    /**
+     *
+     */
     protected static HashMap<Integer, String> menuMap;
+
+    /**
+     *
+     */
     protected static StringBuilder menuText;
     //public abstract int getMenu();
+
+    /**
+     *
+     */
     protected HashMap<Integer, OpcaoMenu> comandos;
+
+    /**
+     *
+     */
     protected static Scanner sc = new Scanner(System.in);
+
+    /**
+     *
+     */
     protected ArrayList<OpcaoMenu> opcoes;
     private Integer numOpcoes;
 
+    /**
+     *
+     */
     protected Controlador controlador;
 
+    /**
+     *
+     */
     protected String titulo;
 
+    /**
+     *
+     */
     protected Menu() {
         opcoes = new ArrayList<OpcaoMenu>();
         OpcaoMenu newsletter = new OpcaoMenu("Newsletter", () -> controlador.printInscritos());
@@ -67,6 +99,10 @@ public abstract class Menu extends PDTPrcse {
         System.out.println(menuText.toString());
     }
 
+    /**
+     *
+     * @return
+     */
     public boolean escolheOpcao() {
         mostraMenu();
         int opcao;
@@ -102,8 +138,10 @@ public abstract class Menu extends PDTPrcse {
             return true;
         }  
 
-    
-
+    /**
+     *
+     * @return
+     */
     public Controlador getControlador() {
         return controlador;
     }

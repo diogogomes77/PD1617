@@ -7,6 +7,10 @@ import javax.ejb.EJB;
 import javax.ejb.Stateful;
 import pdtp.Item;
 
+/**
+ *
+ * @author diogo
+ */
 @Stateful
 public class ClientUtilizador implements ClientUtilizadorRemote {
 

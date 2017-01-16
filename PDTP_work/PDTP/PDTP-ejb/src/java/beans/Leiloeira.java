@@ -29,6 +29,10 @@ import pdtp.Utilizador;
 import pdtp.UtilizadorEstado;
 import pdtp.Venda;
 
+/**
+ *
+ * @author diogo
+ */
 @Singleton
 public class Leiloeira implements LeiloeiraLocal {
 
@@ -42,6 +46,9 @@ public class Leiloeira implements LeiloeiraLocal {
     private List<Mensagem> mensagens = new ArrayList<>();
     private int itemCount;
 
+    /**
+     *
+     */
     public Leiloeira() {
         if (!utilizadoresOk.containsKey("admin")) {
             utilizadoresOk.put("admin",
@@ -54,11 +61,20 @@ public class Leiloeira implements LeiloeiraLocal {
         return itensAVenda.size();
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public HashMap<String, Utilizador> getUtilizadores() {
         return utilizadoresOk;
     }
 
+    /**
+     *
+     * @param username
+     * @return
+     */
     @Override
     public boolean existeUtilizador(String username) {
         if (username == null) {
@@ -74,6 +90,14 @@ public class Leiloeira implements LeiloeiraLocal {
         return true;
     }
 
+    /**
+     *
+     * @param nome
+     * @param morada
+     * @param username
+     * @param password
+     * @return
+     */
     @Override
     public boolean registaUtilizador(String nome, String morada, String username, String password) {
         if (!existeUtilizador(username)) {
@@ -84,6 +108,12 @@ public class Leiloeira implements LeiloeiraLocal {
         return false;
     }
 
+    /**
+     *
+     * @param username
+     * @param password
+     * @return
+     */
     @Override
     public boolean loginUtilizador(String username, String password) {
         Utilizador j = utilizadoresOk.get(username);
@@ -105,6 +135,11 @@ public class Leiloeira implements LeiloeiraLocal {
         return false;
     }
 
+    /**
+     *
+     * @param username
+     * @return
+     */
     @Override
     public boolean logOff(String username) {
         if (username == null) //quem?
@@ -140,7 +175,9 @@ public class Leiloeira implements LeiloeiraLocal {
 
     }
 
-
+    /**
+     *
+     */
     @Schedule(second = "*", minute = "1", hour = "*")
     @Override
     public void checkItensDataFinal() {
@@ -154,6 +191,10 @@ public class Leiloeira implements LeiloeiraLocal {
 
     }
 
+    /**
+     *
+     * @throws InterruptedException
+     */
     @Schedule(second = "*/5", minute = "*", hour = "*")
     public void checkInactivity() throws InterruptedException {
         long now = LocalDateTime.now()
@@ -168,6 +209,9 @@ public class Leiloeira implements LeiloeiraLocal {
         }
     }
 
+    /**
+     *
+     */
     @PostConstruct
     public void loadstate() {
         try (ObjectInputStream ois
@@ -185,6 +229,9 @@ public class Leiloeira implements LeiloeiraLocal {
         }
     }
 
+    /**
+     *
+     */
     @PreDestroy
     public void saveState() {
         try (ObjectOutputStream oos
@@ -201,6 +248,10 @@ public class Leiloeira implements LeiloeiraLocal {
         }
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public ArrayList<String> getUsernameInscritos() {
         ArrayList<String> inscritos = new ArrayList<String>();
@@ -215,6 +266,10 @@ public class Leiloeira implements LeiloeiraLocal {
         return inscritos;
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public ArrayList<String> getUsernamesOnline() {
         ArrayList<String> logados = new ArrayList<String>();
@@ -227,6 +282,12 @@ public class Leiloeira implements LeiloeiraLocal {
         return logados;
     }
 
+    /**
+     *
+     * @param valor
+     * @param username
+     * @return
+     */
     @Override
     public Double addSaldo(Double valor, String username) {
         if (utilizadoresOk.get(username).isLogged()) {
@@ -235,6 +296,11 @@ public class Leiloeira implements LeiloeiraLocal {
         return null;
     }
 
+    /**
+     *
+     * @param username
+     * @return
+     */
     @Override
     public Double getSaldo(String username) {
         if (utilizadoresOk.get(username).isLogged()) {
@@ -244,6 +310,11 @@ public class Leiloeira implements LeiloeiraLocal {
 
     }
 
+    /**
+     *
+     * @param username
+     * @return
+     */
     @Override
     public boolean ativaUtilizador(String username) {
         Utilizador u = utilizadoresNotOk.get(username);
@@ -256,6 +327,11 @@ public class Leiloeira implements LeiloeiraLocal {
         return false;
     }
 
+    /**
+     *
+     * @param estado
+     * @return
+     */
     @Override
     public ArrayList<String> getUtilizadoresEstado(UtilizadorEstado estado) {
         ArrayList<String> users = new ArrayList<String>();
@@ -274,16 +350,34 @@ public class Leiloeira implements LeiloeiraLocal {
         return users;
     }
 
+    /**
+     *
+     * @param username
+     * @return
+     */
     @Override
     public String getDadosUtilizador(String username) {
         return utilizadoresOk.get(username).getDados();
     }
 
+    /**
+     *
+     * @param username
+     * @param nome
+     * @param morada
+     * @return
+     */
     @Override
     public boolean atualizaDadosUtilizador(String username, String nome, String morada) {
         return utilizadoresOk.get(username).aualizaDados(nome, morada);
     }
 
+    /**
+     *
+     * @param username
+     * @param razao
+     * @return
+     */
     @Override
     public boolean pedirSuspensaoUtilizador(String username, String razao) {
         utilizadoresOk.get(username).setEstado(UtilizadorEstado.SUSPENDO_PEDIDO);
@@ -291,6 +385,10 @@ public class Leiloeira implements LeiloeiraLocal {
         return true;
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public HashMap<String, String> getPedidosSuspensao() {
         HashMap<String, String> pedidos = new HashMap<>();
@@ -305,6 +403,11 @@ public class Leiloeira implements LeiloeiraLocal {
 
     }
 
+    /**
+     *
+     * @param username
+     * @return
+     */
     @Override
     public boolean suspendeUtilizador(String username) {
         Utilizador u = utilizadoresOk.get(username);
@@ -314,11 +417,23 @@ public class Leiloeira implements LeiloeiraLocal {
         return true;
     }
 
+    /**
+     *
+     * @param username
+     */
     @Override
     public void setLastAction(String username) {
         utilizadoresOk.get(username).setLastAction();
     }
 
+    /**
+     *
+     * @param remetente
+     * @param destinatario
+     * @param texto
+     * @param assunto
+     * @return
+     */
     @Override
     public boolean addMensagem(String remetente, String destinatario, String texto, String assunto) {
         Mensagem msg = new Mensagem(remetente, destinatario, texto, assunto, MensagemEstado.ENVIADA);
@@ -326,6 +441,11 @@ public class Leiloeira implements LeiloeiraLocal {
         return true;
     }
 
+    /**
+     *
+     * @param username
+     * @return
+     */
     @Override
     public ArrayList<Mensagem> getMensagensUtilizador(String username) {
         ArrayList<Mensagem> myMsg = new ArrayList<>();
@@ -337,6 +457,11 @@ public class Leiloeira implements LeiloeiraLocal {
         return myMsg;
     }
 
+    /**
+     *
+     * @param nomeCategoria
+     * @return
+     */
     @Override
     public boolean adicionarCategoria(String nomeCategoria) {
         if (categorias.indexOf(nomeCategoria) >= 0) {
@@ -347,11 +472,20 @@ public class Leiloeira implements LeiloeiraLocal {
         return true;
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public List<String> obterCategorias() {
         return categorias;
     }
 
+    /**
+     *
+     * @param nomeCategoria
+     * @return
+     */
     @Override
     public boolean eliminaCategoria(String nomeCategoria) {
         if (categorias.indexOf(nomeCategoria) >= 0) {
@@ -362,6 +496,12 @@ public class Leiloeira implements LeiloeiraLocal {
         return false;
     }
 
+    /**
+     *
+     * @param username
+     * @param password
+     * @return
+     */
     @Override
     public boolean pedirReativacaoUsername(String username, String password) {
         if (existeUtilizador(username)) {
@@ -378,6 +518,12 @@ public class Leiloeira implements LeiloeiraLocal {
         return false;
     }
 
+    /**
+     *
+     * @param nomeCategoria
+     * @param novoNomeCategoria
+     * @return
+     */
     @Override
     public boolean modificaCategoria(String nomeCategoria, String novoNomeCategoria) {
         int index = categorias.indexOf(nomeCategoria);
@@ -388,17 +534,38 @@ public class Leiloeira implements LeiloeiraLocal {
         return false;
     }
 
+    /**
+     *
+     * @param username
+     * @param password
+     * @return
+     */
     @Override
     public boolean verificaPassword(String username, String password) {
         return (utilizadoresOk.get(username).getPassword().equals(password));
     }
 
+    /**
+     *
+     * @param username
+     * @param password
+     * @return
+     */
     @Override
     public boolean alteraPassword(String username, String password) {
         utilizadoresOk.get(username).setPassword(password);
         return true;
     }
 
+    /**
+     *
+     * @param username
+     * @param descricao
+     * @param precoInicial
+     * @param precoComprarJa
+     * @param dataLimite
+     * @return
+     */
     @Override
     public boolean addItem(String username, String descricao, Double precoInicial, Double precoComprarJa, Timestamp dataLimite) {
         Utilizador u = utilizadoresOk.get(username);
@@ -410,6 +577,11 @@ public class Leiloeira implements LeiloeiraLocal {
         return true;
     }
 
+    /**
+     *
+     * @param username
+     * @return
+     */
     @Override
     public List<String> getItensUtilizador(String username) {
         List<String> itensUtilizador = new ArrayList<>();
@@ -422,11 +594,19 @@ public class Leiloeira implements LeiloeiraLocal {
         return itensUtilizador;
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public int getTotalItens() {
         return itensAVenda.size();
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public List<String> getItens() {
         List<String> itensResult = new ArrayList<>();
@@ -437,6 +617,11 @@ public class Leiloeira implements LeiloeiraLocal {
         return itensResult;
     }
 
+    /**
+     *
+     * @param itemId
+     * @return
+     */
     @Override
     public String mostraItem(int itemId) {
         Item item =  itensAVenda.get(itemId);
@@ -446,6 +631,11 @@ public class Leiloeira implements LeiloeiraLocal {
         return item.toString();
     }
 
+    /**
+     *
+     * @param itemId
+     * @return
+     */
     @Override
     public String getVendedorItem(int itemId) {
         Item item =  itensAVenda.get(itemId);
@@ -455,6 +645,11 @@ public class Leiloeira implements LeiloeiraLocal {
         return item.getVendedor().getUsername();
     }
 
+    /**
+     *
+     * @param itemid
+     * @return
+     */
     @Override
     public String consultarLicitacoes(int itemid) {
          Item item =  itensAVenda.get(itemid);
@@ -474,6 +669,12 @@ public class Leiloeira implements LeiloeiraLocal {
         return lista.toString();
     }
 
+    /**
+     *
+     * @param itemId
+     * @param comprador
+     * @return
+     */
     @Override
     public boolean comprarJaItem(int itemId, String comprador) {
         Item item =  itensAVenda.get(itemId);
@@ -491,6 +692,13 @@ public class Leiloeira implements LeiloeiraLocal {
         return false;
     }
 
+    /**
+     *
+     * @param itemId
+     * @param value
+     * @param username
+     * @return
+     */
     @Override
     public boolean licitarItem(int itemId, Double value, String username) {
         Item item = itensAVenda.get(itemId);
@@ -501,6 +709,12 @@ public class Leiloeira implements LeiloeiraLocal {
         return false;
     }
 
+    /**
+     *
+     * @param username
+     * @param itemId
+     * @return
+     */
     @Override
     public boolean seguirItem(String username, int itemId) {
         Item item = itensAVenda.get(itemId);
@@ -510,11 +724,21 @@ public class Leiloeira implements LeiloeiraLocal {
         return utilizadoresOk.get(username).addItemSeguido(item);
     }
 
+    /**
+     *
+     * @param username
+     * @return
+     */
     @Override
     public List<String> getItensSeguidos(String username) {
         return utilizadoresOk.get(username).getItemsSeguidos();
     }
 
+    /**
+     *
+     * @param username
+     * @return
+     */
     @Override
     public List<String> getIensPorPagarUtilizador(String username) {
         Utilizador u = utilizadoresOk.get(username);
@@ -522,6 +746,12 @@ public class Leiloeira implements LeiloeiraLocal {
         return u.getItemsPorPagar();
     }
 
+    /**
+     *
+     * @param username
+     * @param itemId
+     * @return
+     */
     @Override
     public boolean concluirTransacao(String username, int itemId) {
         Item i = this.itensTerminados.get(itemId);
@@ -533,6 +763,13 @@ public class Leiloeira implements LeiloeiraLocal {
         return v.concluirVenda();
     }
 
+    /**
+     *
+     * @param itemId
+     * @param denunciador
+     * @param razao
+     * @return
+     */
     @Override
     public boolean denunciarItem(int itemId,String denunciador,String razao) {
         Item i = this.itensAVenda.get(itemId);
@@ -547,6 +784,10 @@ public class Leiloeira implements LeiloeiraLocal {
         return true;
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public List<String> obtemDenunciasVendedores(){
         List<String> result = new ArrayList<>();
@@ -556,6 +797,10 @@ public class Leiloeira implements LeiloeiraLocal {
         return result;
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public List<String> obtemDenunciasItens() {
         List<String> result = new ArrayList<>();
@@ -565,6 +810,13 @@ public class Leiloeira implements LeiloeiraLocal {
         return result;
     }
 
+    /**
+     *
+     * @param denunciador
+     * @param vendedor
+     * @param razao
+     * @return
+     */
     @Override
     public boolean denunciarVendedor(String denunciador, String vendedor, String razao) {
         Utilizador d = utilizadoresOk.get(denunciador);
@@ -579,6 +831,11 @@ public class Leiloeira implements LeiloeiraLocal {
         return true;
     }
 
+    /**
+     *
+     * @param itemId
+     * @return
+     */
     @Override
     public boolean cancelarItem(int itemId) {
         Item i= itensAVenda.get(itemId);

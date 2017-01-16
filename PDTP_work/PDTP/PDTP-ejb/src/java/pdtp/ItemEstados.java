@@ -5,8 +5,24 @@
  */
 package pdtp;
 
+/**
+ *
+ * @author diogo
+ */
 public enum ItemEstados {
+
+    /**
+     *
+     */
     INICIADA,
+
+    /**
+     *
+     */
     TERMINADA,
+
+    /**
+     *
+     */
     CANCELADA
 }

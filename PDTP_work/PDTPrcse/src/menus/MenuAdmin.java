@@ -6,8 +6,17 @@ import controladores.ControladorAdministrador;
 import beans.ClientAdminRemote;
 ;
 
+/**
+ *
+ * @author diogo
+ */
 public class MenuAdmin extends MenuUtilizadorAdmin{
     
+    /**
+     *
+     * @param ligacao
+     * @param controlador
+     */
     public MenuAdmin(ClientAdminRemote ligacao,ControladorAdministrador controlador) {
          super(ligacao,controlador);
          titulo="Administrador";

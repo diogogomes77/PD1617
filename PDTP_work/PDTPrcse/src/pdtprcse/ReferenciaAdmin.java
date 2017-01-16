@@ -5,8 +5,15 @@ import javax.naming.NamingException;
 import beans.ClientAdminRemote;
 import static pdtprcse.Referencias.ctx;
 
+/**
+ *
+ * @author diogo
+ */
 public class ReferenciaAdmin extends Referencias{
 
+    /**
+     *
+     */
     public ReferenciaAdmin() {
          super();
         String advremote
@@ -22,6 +29,10 @@ public class ReferenciaAdmin extends Referencias{
         }
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public ClientAdminRemote getLigacao() {
         return (ClientAdminRemote) ligacao;

@@ -5,6 +5,10 @@ import java.util.ArrayList;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
+/**
+ *
+ * @author diogo
+ */
 @Stateless
 public class ClientVisitante implements ClientVisitanteRemote {
     

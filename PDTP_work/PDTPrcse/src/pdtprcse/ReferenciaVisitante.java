@@ -5,8 +5,15 @@ import javax.naming.NamingException;
 import beans.ClientVisitanteRemote;
 import static pdtprcse.PDTPrcse.ctx;
 
+/**
+ *
+ * @author diogo
+ */
 public class ReferenciaVisitante extends Referencias{
 
+    /**
+     *
+     */
     public ReferenciaVisitante() {
          super();
         String advremote
@@ -23,6 +30,10 @@ public class ReferenciaVisitante extends Referencias{
       //  System.out.println("JNDI Visitante lookup concluido");
     }
     
+    /**
+     *
+     * @return
+     */
     @Override
     public ClientVisitanteRemote getLigacao(){
         return (ClientVisitanteRemote) ligacao;

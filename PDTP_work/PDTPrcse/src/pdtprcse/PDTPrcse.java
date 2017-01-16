@@ -8,14 +8,30 @@ import menus.MenuVisitante;
 import beans.ClientRemote;
 import beans.ClientVisitanteRemote;
 
+/**
+ *
+ * @author diogo
+ */
 public class PDTPrcse {
+
+    /**
+     *
+     */
     public static Controlador controlador;
+
+    /**
+     *
+     */
     public static Menu menu;
     static ClientRemote ligacao;
     static InitialContext ctx;
 
     static Referencias referencia;
 
+    /**
+     *
+     * @param args
+     */
     public static void main(String[] args) {
         ReferenciaVisitante refVisitante = new ReferenciaVisitante();
         referencia = refVisitante;

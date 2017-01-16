@@ -20,15 +20,26 @@ import static pdtprcse.PDTPrcse.controlador;
 import static pdtprcse.PDTPrcse.menu;
 import pdtprcse.ReferenciaVisitante;
 
+/**
+ *
+ * @author diogo
+ */
 public class ControladorAdministrador extends ControladorUserAdmin {
 
     private ClientAdminRemote ligacao;
 
+    /**
+     *
+     * @param ligacao
+     */
     public ControladorAdministrador(ClientAdminRemote ligacao) {
         super(ligacao);
         this.ligacao = ligacao;
     }
 
+    /**
+     *
+     */
     @Override
     public void logOff() {
         if (ligacao.logOff()) {
@@ -43,10 +54,16 @@ public class ControladorAdministrador extends ControladorUserAdmin {
         }
     }
 
+    /**
+     *
+     */
     public void consultarDenuncias() {
         menu = new MenuAdminDenuncias(ligacao, (ControladorAdministrador) controlador);
     }
 
+    /**
+     *
+     */
     public void consultarReativacoes() {
         ArrayList<String> pedidos = ligacao.getUtilizadoresPedidoReAtivacao();
         System.out.print("Pedidos de reativacao de conta: ");
@@ -56,6 +73,9 @@ public class ControladorAdministrador extends ControladorUserAdmin {
         System.out.print("\n");
     }
 
+    /**
+     *
+     */
     public void cancelarItens() {
         System.out.println("Cancelar item");
         System.out.print("Item ID: ");
@@ -68,6 +88,9 @@ public class ControladorAdministrador extends ControladorUserAdmin {
         
     }
 
+    /**
+     *
+     */
     public void suspenderContas() {
         System.out.print("Suspender username -> ");
         String username = sc.next();
@@ -79,6 +102,9 @@ public class ControladorAdministrador extends ControladorUserAdmin {
         }
     }
 
+    /**
+     *
+     */
     public void reativarContas() {
         System.out.print("Reativar username -> ");
         String username = sc.next();
@@ -90,6 +116,9 @@ public class ControladorAdministrador extends ControladorUserAdmin {
         }
     }
 
+    /**
+     *
+     */
     public void mudarPassword() {
         String password = "";
         System.out.print("Antiga password: ");
@@ -110,6 +139,9 @@ public class ControladorAdministrador extends ControladorUserAdmin {
 
     }
 
+    /**
+     *
+     */
     public void enviarMensagens() {
         System.out.println("enviar Mensagem a utilizador");
         String destinatario = "";
@@ -131,6 +163,9 @@ public class ControladorAdministrador extends ControladorUserAdmin {
         }
     }
 
+    /**
+     *
+     */
     public void consultarMensagensMinhas() {
         System.out.println("Minhas mensagems:");
         ArrayList<Mensagem> mensagens = ligacao.consultarMensagens();
@@ -139,6 +174,9 @@ public class ControladorAdministrador extends ControladorUserAdmin {
         }
     }
 
+    /**
+     *
+     */
     public void consultarUtilizador() {
         System.out.println("Dados do utilizador:");
         String username = "";
@@ -149,6 +187,9 @@ public class ControladorAdministrador extends ControladorUserAdmin {
 
     }
 
+    /**
+     *
+     */
     public void consultarItem() {
         System.out.println("Consultar Item");
         System.out.print("ItemID: ");
@@ -160,10 +201,16 @@ public class ControladorAdministrador extends ControladorUserAdmin {
 
     }
 
+    /**
+     *
+     */
     public void subMenuGerirCategorias() {
         menu = new MenuAdminCategorias(ligacao, (ControladorAdministrador) controlador);
     }
 
+    /**
+     *
+     */
     public void ativarConta() {
         System.out.print("Ativar username -> ");
         String username = sc.next();
@@ -175,6 +222,9 @@ public class ControladorAdministrador extends ControladorUserAdmin {
         }
     }
 
+    /**
+     *
+     */
     public void consultarPedidosAtivacao() {
         ArrayList<String> pedidos = ligacao.getUtilizadoresPedidoAtivacao();
         System.out.print("Pedidos de ativacao de conta: ");
@@ -184,6 +234,9 @@ public class ControladorAdministrador extends ControladorUserAdmin {
         System.out.print("\n");
     }
 
+    /**
+     *
+     */
     public void consultarPedidosSuspensao() {
         HashMap<String, String> pedidos = ligacao.getPedidosSuspensao();
         System.out.println("Pedidos de suspensao de conta:");
@@ -198,10 +251,16 @@ public class ControladorAdministrador extends ControladorUserAdmin {
         System.out.print("\n");
     }
 
+    /**
+     *
+     */
     public void subMenuContas() {
         menu = new MenuAdminContas(ligacao, (ControladorAdministrador) controlador);
     }
 
+    /**
+     *
+     */
     public void consultarCategorias() {
         //Obter o servidor as categorias
         List<String> categorias = ligacao.obtemCategorias();
@@ -213,6 +272,9 @@ public class ControladorAdministrador extends ControladorUserAdmin {
         //Listar o resultados
     }
 
+    /**
+     *
+     */
     public void novaCategoria() {
         System.out.print("Nome da categoria -> ");
         String nomecat = sc.next();
@@ -224,6 +286,9 @@ public class ControladorAdministrador extends ControladorUserAdmin {
         }
     }
 
+    /**
+     *
+     */
     public void eliminarCategoria() {
         System.out.print("Nome da categoria -> ");
         String nomecat = sc.next();
@@ -235,6 +300,9 @@ public class ControladorAdministrador extends ControladorUserAdmin {
         }
     }
 
+    /**
+     *
+     */
     public void modificaCategoria() {
         System.out.print("Nome da categoria -> ");
         String nomecat = sc.next();
@@ -254,6 +322,9 @@ public class ControladorAdministrador extends ControladorUserAdmin {
         this.logOff();
     }
 
+    /**
+     *
+     */
     public void consultarDenunciasVendedores() {
         System.out.print("Denuncias de Vendedores");
         List<String> denunciasvendedores = ligacao.obtemDenunciasVendedores();
@@ -263,6 +334,9 @@ public class ControladorAdministrador extends ControladorUserAdmin {
         }
     }
 
+    /**
+     *
+     */
     public void consultarDenunciasItens() {
         System.out.print("Denuncias de Itens");
         List<String> denunciasItens = ligacao.obtemDenunciasItens();

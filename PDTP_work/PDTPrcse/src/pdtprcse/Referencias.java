@@ -6,12 +6,17 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import beans.ClientRemote;
 
-
-
+/**
+ *
+ * @author diogo
+ */
 public abstract class Referencias {
     static InitialContext ctx;
     static ClientRemote ligacao;
 
+    /**
+     *
+     */
     public Referencias() {
         ctx = null;
         Properties prop = new Properties();
@@ -33,5 +38,10 @@ public abstract class Referencias {
         }
        // System.out.println("InitialContxt Criado");
     }
+
+    /**
+     *
+     * @return
+     */
     public abstract ClientRemote getLigacao();
 }

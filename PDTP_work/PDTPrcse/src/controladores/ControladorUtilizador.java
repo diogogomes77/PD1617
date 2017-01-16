@@ -19,15 +19,26 @@ import menus.MenuUtilizadorConsultarItem;
 import menus.OpcaoMenu;
 import pdtprcse.ReferenciaVisitante;
 
+/**
+ *
+ * @author diogo
+ */
 public class ControladorUtilizador extends ControladorUserAdmin {
 
     private ClientUtilizadorRemote ligacao;
 
+    /**
+     *
+     * @param ligacao
+     */
     public ControladorUtilizador(ClientUtilizadorRemote ligacao) {
         super(ligacao);
         this.ligacao = ligacao;
     }
 
+    /**
+     *
+     */
     @Override
     public void logOff() {
         if (ligacao.logOff()) {
@@ -42,19 +53,32 @@ public class ControladorUtilizador extends ControladorUserAdmin {
         }
     }
 
+    /**
+     *
+     * @return
+     */
     public String getUsername() {
         return ligacao.getMyName();
     }
 
+    /**
+     *
+     */
     public void subMenuSaldo() {
         controlador = new ControladorUtilizador(ligacao);
         menu = new MenuUtilizadorSaldo(ligacao, (ControladorUtilizador) controlador);
     }
 
+    /**
+     *
+     */
     public void historialItens() {
         System.out.println("historialItens");
     }
 
+    /**
+     *
+     */
     public void consultarItensSeguidos() {
         System.out.println("Itens Seguidos");
         List<String> itens = ligacao.getItensSeguidos();
@@ -63,6 +87,9 @@ public class ControladorUtilizador extends ControladorUserAdmin {
         }
     }
 
+    /**
+     *
+     */
     public void concluirTransacao() {
 
         System.out.println("concluir Transacao");
@@ -76,6 +103,9 @@ public class ControladorUtilizador extends ControladorUserAdmin {
         }
     }
 
+    /**
+     *
+     */
     public void consultarItens() {
         System.out.println("Consultar Itens");
         List<String> itens = ligacao.getItens();
@@ -84,6 +114,9 @@ public class ControladorUtilizador extends ControladorUserAdmin {
         }
     }
 
+    /**
+     *
+     */
     public void enviarMensagem() {
         System.out.println("enviar Mensagem a utilizador");
         String destinatario = "";
@@ -105,6 +138,9 @@ public class ControladorUtilizador extends ControladorUserAdmin {
         }
     }
 
+    /**
+     *
+     */
     public void consultarMensagensMinhas() {
         System.out.println("Minhas mensagems:");
         ArrayList<Mensagem> mensagens = ligacao.consultarMensagens();
@@ -113,6 +149,9 @@ public class ControladorUtilizador extends ControladorUserAdmin {
         }
     }
 
+    /**
+     *
+     */
     public void consultarItensMeus() {
         System.out.println("Meus itens");
         List<String> itens = ligacao.getMeusItens();
@@ -121,10 +160,16 @@ public class ControladorUtilizador extends ControladorUserAdmin {
         }
     }
 
+    /**
+     *
+     */
     public void subMenuGerirConta() {
         menu = new MenuUtilizadorGerirConta(ligacao, (ControladorUtilizador) controlador);
     }
 
+    /**
+     *
+     */
     public void colocarItemVenda() {
 
         System.out.println("Colocar Item a venda");
@@ -201,10 +246,16 @@ public class ControladorUtilizador extends ControladorUserAdmin {
         }
     }
 
+    /**
+     *
+     */
     public void verSaldo() {
         System.out.println("Saldo: " + ligacao.getSaldo());
     }
 
+    /**
+     *
+     */
     public void carregarSaldo() {
         System.out.print("Valor a carregar (int): ");
         Double valor;
@@ -213,10 +264,16 @@ public class ControladorUtilizador extends ControladorUserAdmin {
         System.out.println("Saldo atual: " + ligacao.addSaldo(valor));
     }
 
+    /**
+     *
+     */
     public void denunciarVendedor() {
         System.out.println("Denunciar Vendedor");
     }
 
+    /**
+     *
+     */
     public void denunciarItem() {
         System.out.println("Denunciar Item");
         System.out.print("Razao: ");
@@ -229,10 +286,16 @@ public class ControladorUtilizador extends ControladorUserAdmin {
         }
     }
 
+    /**
+     *
+     */
     public void seguirItemCancelar() {
         System.out.println("seguirItemCancelar");
     }
 
+    /**
+     *
+     */
     public void seguirItem() {
         System.out.println("Seguir Item");
         if (ligacao.seguirItem(currentItemId)) {
@@ -242,6 +305,9 @@ public class ControladorUtilizador extends ControladorUserAdmin {
         }
     }
 
+    /**
+     *
+     */
     public void enviarMensagemVendedor() {
         System.out.println("enviar Mensagem ao Vendedor");
         String destinatario = ligacao.getVendedorItem(currentItemId);
@@ -257,6 +323,9 @@ public class ControladorUtilizador extends ControladorUserAdmin {
         }
     }
 
+    /**
+     *
+     */
     public void licitarItem() {
         System.out.println("Licitar Item");
         System.out.print("Valor: ");
@@ -268,6 +337,9 @@ public class ControladorUtilizador extends ControladorUserAdmin {
         }
     }
 
+    /**
+     *
+     */
     public void pedirSuspensao() {
         System.out.println("Pedido de suspensao");
         System.out.print("Indique a razao -> ");
@@ -280,6 +352,9 @@ public class ControladorUtilizador extends ControladorUserAdmin {
         }
     }
 
+    /**
+     *
+     */
     public void atualizarDados() {
         System.out.println("Atualizar Dados do utilizador:");
         String s;
@@ -300,11 +375,17 @@ public class ControladorUtilizador extends ControladorUserAdmin {
         }
     }
 
+    /**
+     *
+     */
     public void consultarDados() {
         System.out.println("Dados do utilizador:");
         System.out.println(ligacao.getDados());
     }
 
+    /**
+     *
+     */
     public void subMenuItens() {
         menu = new MenuUtilizadorItens(ligacao, (ControladorUtilizador) controlador);
 
@@ -315,6 +396,9 @@ public class ControladorUtilizador extends ControladorUserAdmin {
         this.logOff();
     }
 
+    /**
+     *
+     */
     public void alterarPassword() {
         String password = "";
         System.out.print("Antiga password: ");
@@ -334,6 +418,9 @@ public class ControladorUtilizador extends ControladorUserAdmin {
         }
     }
 
+    /**
+     *
+     */
     public void consultarItem() {
         System.out.println("Consultar Item");
         System.out.print("ItemID: ");
@@ -344,6 +431,9 @@ public class ControladorUtilizador extends ControladorUserAdmin {
         menu = new MenuUtilizadorConsultarItem(ligacao, (ControladorUtilizador) controlador);
     }
 
+    /**
+     *
+     */
     public void comprarJaItem() {
         if (ligacao.comprarJaItem(currentItemId)) {
             System.out.println("Item comprado");
@@ -352,15 +442,25 @@ public class ControladorUtilizador extends ControladorUserAdmin {
         }
     }
 
+    /**
+     *
+     */
     public void consultarLicitacoesItem() {
         System.out.println("Licitacoes Item:");
         System.out.println(ligacao.consultarLicitacoes(currentItemId));
     }
 
+    /**
+     *
+     * @return
+     */
     public OpcaoMenu consultarItensComprados() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    /**
+     *
+     */
     public void consultarItensPorPagar() {
         System.out.println("Itens por pagar");
         List<String> itens = ligacao.getMeusItensPorPagar();

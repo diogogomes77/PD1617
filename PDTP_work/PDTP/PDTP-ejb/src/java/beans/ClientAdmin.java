@@ -7,14 +7,16 @@ import javax.ejb.EJB;
 import javax.ejb.Singleton;
 import pdtp.UtilizadorEstado;
 
+/**
+ *
+ * @author diogo
+ */
 @Singleton
 public class ClientAdmin implements ClientAdminRemote {
 
     @EJB
     LeiloeiraLocal leiloeira;
 
-    // Add business logic below. (Right-click in editor and choose
-    // "Insert Code > Add Business Method")
     @Override
     public boolean logOff() {
 

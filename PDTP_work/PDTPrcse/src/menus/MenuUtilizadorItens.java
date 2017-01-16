@@ -4,8 +4,17 @@ package menus;
 import controladores.ControladorUtilizador;
 import beans.ClientUtilizadorRemote;
 
+/**
+ *
+ * @author diogo
+ */
 public class MenuUtilizadorItens extends MenuUtilizadorAdmin {
 
+    /**
+     *
+     * @param ligacao
+     * @param controlador
+     */
     public MenuUtilizadorItens(ClientUtilizadorRemote ligacao, ControladorUtilizador controlador) {
        super(ligacao,controlador);
         titulo="Utilizador - Itens";

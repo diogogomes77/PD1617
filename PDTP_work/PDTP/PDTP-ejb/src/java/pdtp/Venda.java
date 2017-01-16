@@ -18,6 +18,12 @@ public class Venda implements Serializable {
     private VendaEstados estado;
     private VendaTipo tipo;
     
+    /**
+     *
+     * @param item
+     * @param comprador
+     * @param valor
+     */
     public Venda(Item item, Utilizador comprador, Double valor) {
         this.item = item;
         this.comprador = comprador;
@@ -26,6 +32,10 @@ public class Venda implements Serializable {
          this.tipo = VendaTipo.COMPRAJA;
     }
 
+    /**
+     *
+     * @param lic
+     */
     public Venda(Licitacao lic) {
         this.item = lic.getItem();
         this.comprador = lic.getLicitador();
@@ -34,21 +44,42 @@ public class Venda implements Serializable {
         this.tipo = VendaTipo.LICITACAO;
     }
 
+    /**
+     *
+     * @return
+     */
     public Item getItem() {
         return item;
     }
 
+    /**
+     *
+     * @return
+     */
     public Double getValor() {
         return valor;
     }
 
+    /**
+     *
+     * @return
+     */
     public VendaEstados getEstado() {
         return estado;
     }
 
+    /**
+     *
+     * @return
+     */
     public VendaTipo getTipo() {
         return tipo;
     }
+
+    /**
+     *
+     * @return
+     */
     public boolean concluirVenda(){
         if (this.tipo==VendaTipo.COMPRAJA){
             this.comprador.pagarJaItem(item);

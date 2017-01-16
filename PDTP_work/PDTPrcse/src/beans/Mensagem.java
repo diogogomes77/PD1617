@@ -7,6 +7,10 @@ import static java.time.LocalDateTime.now;
 import java.time.ZoneOffset;
 import java.util.Date;
 
+/**
+ *
+ * @author diogo
+ */
 public class Mensagem implements Serializable {
    private String remetente;
    private String destinatario;
@@ -14,6 +18,15 @@ public class Mensagem implements Serializable {
    private String texto;
    private String assunto;
    private long data;
+
+    /**
+     *
+     * @param remetente
+     * @param destinatario
+     * @param texto
+     * @param assunto
+     * @param estado
+     */
     public Mensagem(String remetente, String destinatario, String texto,String assunto, MensagemEstado estado) {
         this.remetente = remetente;
         this.destinatario = destinatario;
@@ -24,26 +37,50 @@ public class Mensagem implements Serializable {
                 .toInstant(ZoneOffset.UTC).getEpochSecond();
     }
 
+    /**
+     *
+     * @return
+     */
     public String getTexto() {
         return texto;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getAssunto() {
         return assunto;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getRemetente() {
         return remetente;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getDestinatario() {
         return destinatario;
     }
 
+    /**
+     *
+     * @return
+     */
     public MensagemEstado getEstado() {
         return estado;
     }
 
+    /**
+     *
+     * @return
+     */
     public long getData() {
         return data;
     }

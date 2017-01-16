@@ -4,8 +4,17 @@ package menus;
 import controladores.ControladorAdministrador;
 import beans.ClientAdminRemote;
 
+/**
+ *
+ * @author diogo
+ */
 public class MenuAdminCategorias extends MenuUtilizadorAdmin {
 
+    /**
+     *
+     * @param ligacao
+     * @param controlador
+     */
     public MenuAdminCategorias (ClientAdminRemote ligacao,ControladorAdministrador controlador) {
         super(ligacao,controlador);
         titulo="Administrador - Categorias";

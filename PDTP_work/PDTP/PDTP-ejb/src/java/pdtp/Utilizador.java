@@ -7,7 +7,10 @@ import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.List;
 
-
+/**
+ *
+ * @author diogo
+ */
 public class Utilizador implements Serializable {
     private String nome;
     private String morada;
@@ -24,6 +27,14 @@ public class Utilizador implements Serializable {
     private boolean logged;
     long lastAction;
     
+    /**
+     *
+     * @param nome
+     * @param morada
+     * @param username
+     * @param password
+     * @param estado
+     */
     public Utilizador(String nome, String morada, String username, String password,UtilizadorEstado estado) {
         this.nome = nome;
         this.morada = morada;
@@ -36,12 +47,19 @@ public class Utilizador implements Serializable {
         this.estado=estado;
     }
 
+    /**
+     *
+     * @return
+     */
     public List<Item> getItemsAVenda() {
         return itemsAVenda;
     }
 
-
-
+    /**
+     *
+     * @param item
+     * @return
+     */
     public boolean addItemAVenda(Item item) {
         if (itemsAVenda.contains(item))
             return false;
@@ -49,6 +67,10 @@ public class Utilizador implements Serializable {
         return true;
     }
 
+    /**
+     *
+     * @return
+     */
     public List<String> getItemsPorPagar() {
         List<String> result = new ArrayList<>();
         for (Item i : itemsPorPagar){
@@ -57,6 +79,11 @@ public class Utilizador implements Serializable {
         return result;
     }
 
+    /**
+     *
+     * @param item
+     * @return
+     */
     public boolean addItemPorPagar(Item item) {
         if (this.itemsPorPagar.contains(item))
             return false;
@@ -64,10 +91,19 @@ public class Utilizador implements Serializable {
         return true;
     }
 
+    /**
+     *
+     * @return
+     */
     public List<Item> getItemsJaPagos() {
         return itemsJaPagos;
     }
 
+    /**
+     *
+     * @param item
+     * @return
+     */
     public boolean pagarItemLicitacao(Item item) {
         if (!this.itemsPorPagar.contains(item))
             return false;
@@ -79,6 +115,12 @@ public class Utilizador implements Serializable {
         }
         return false;
     }
+
+    /**
+     *
+     * @param item
+     * @return
+     */
     public boolean pagarJaItem(Item item) {
         if (!this.itemsPorPagar.contains(item))
             return false;
@@ -95,14 +137,28 @@ public class Utilizador implements Serializable {
         }
         return false;
     }
+
+    /**
+     *
+     * @return
+     */
     public UtilizadorEstado getEstado() {
         return estado;
     }
 
+    /**
+     *
+     * @param estado
+     */
     public void setEstado(UtilizadorEstado estado) {
         this.estado = estado;
     }
 
+    /**
+     *
+     * @param item
+     * @return
+     */
     public boolean addItem(Item item){
         if (itemsAVenda.contains(item))
             return false;
@@ -110,6 +166,10 @@ public class Utilizador implements Serializable {
         return true;
     }
 
+    /**
+     *
+     * @return
+     */
     public List<String> getItemsSeguidos() {
         List<String> result =  new ArrayList<>();
          for (Item i : itemsSeguidos){
@@ -119,88 +179,185 @@ public class Utilizador implements Serializable {
         return result;
     }
 
+    /**
+     *
+     * @param itemsSeguidos
+     */
     public void setItemsSeguidos(List<Item> itemsSeguidos) {
         this.itemsSeguidos = itemsSeguidos;
     }
     
+    /**
+     *
+     * @param item
+     * @return
+     */
     public boolean addItemSeguido(Item item){
         if (itemsSeguidos.contains(item))
             return false;
         this.itemsSeguidos.add(item);
         return true;
     }
+
+    /**
+     *
+     * @param leilao
+     */
     public void addLeilao(Item leilao){
         this.leiloes.add(leilao);
     }
+
+    /**
+     *
+     * @param nome
+     */
     public void setNome(String nome) {
         this.nome = nome;
     }
 
+    /**
+     *
+     * @param morada
+     */
     public void setMorada(String morada) {
         this.morada = morada;
     }
 
+    /**
+     *
+     * @param username
+     */
     public void setUsername(String username) {
         this.username = username;
     }
 
+    /**
+     *
+     * @param password
+     */
     public void setPassword(String password) {
         this.password = password;
     }
+
+    /**
+     *
+     * @param valor
+     * @return
+     */
     public Double addSaldo(Double valor) {
         this.saldo += valor;
         return this.saldo;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getNome() {
         return nome;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getMorada() {
         return morada;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getUsername() {
         return username;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getPassword() {
         return password;
     }
 
+    /**
+     *
+     * @return
+     */
     public Double getSaldo() {
         return saldo;
     }
 
+    /**
+     *
+     * @return
+     */
     public List<Item> getItems() {
         return itemsAVenda;
     }
 
+    /**
+     *
+     * @return
+     */
     public List<Item> getLeiloes() {
         return leiloes;
     }
 
+    /**
+     *
+     */
     public void setLastAction(){
         lastAction=LocalDateTime.now()
                 .toInstant(ZoneOffset.UTC).getEpochSecond();
     }
+
+    /**
+     *
+     * @param seconds
+     * @return
+     */
     public boolean lastActionMoreThan(long seconds){
         return LocalDateTime.now().toInstant(ZoneOffset.UTC).getEpochSecond()
         - lastAction < seconds;
     }
+
+    /**
+     *
+     * @param now
+     * @return
+     */
     public long fromLastActionFromNoew(long now) {
         return now - lastAction;
     }
+
+    /**
+     *
+     * @return
+     */
     public boolean isLogged() {
         return logged;
     }
+
+    /**
+     *
+     */
     public void setLogged() {
         logged = true;
     }
+
+    /**
+     *
+     */
     public void resetLogged() {
         logged = false;
     }
     
+    /**
+     *
+     * @return
+     */
     public String getDados(){
         StringBuilder dados = new StringBuilder();
         dados.append("\n");
@@ -224,16 +381,30 @@ public class Utilizador implements Serializable {
         return username.hashCode();
     }
 
+    /**
+     *
+     * @param nome
+     * @param morada
+     * @return
+     */
     public boolean aualizaDados(String nome, String morada) {
          this.nome = nome;
         this.morada = morada;
         return true;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getRazaoPedidoSuspensao() {
         return razaoPedidoSuspensao;
     }
 
+    /**
+     *
+     * @param razaoPedidoSuspensao
+     */
     public void setRazaoPedidoSuspensao(String razaoPedidoSuspensao) {
         this.razaoPedidoSuspensao = razaoPedidoSuspensao;
     }

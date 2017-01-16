@@ -5,6 +5,10 @@ import controladores.ControladorUtilizador;
 
 import beans.ClientUtilizadorRemote;
 
+/**
+ *
+ * @author diogo
+ */
 public class MenuUtilizador extends MenuUtilizadorAdmin {
 
 //    private static final MenuUtilizador instancia = new MenuUtilizador();
@@ -12,6 +16,12 @@ public class MenuUtilizador extends MenuUtilizadorAdmin {
 //    public static MenuUtilizador getInstance() {
 //        return instancia;
 //    }
+
+    /**
+     *
+     * @param ligacao
+     * @param controlador
+     */
     public MenuUtilizador(ClientUtilizadorRemote ligacao, ControladorUtilizador controlador) {
         super(ligacao, controlador);
         titulo = "Utilizador ".concat(controlador.getUsername());

@@ -6,15 +6,33 @@ import menus.Menu;
 import pdtprcse.PDTPrcse;
 import beans.ClientRemote;
 
+/**
+ *
+ * @author diogo
+ */
 public abstract class Controlador extends PDTPrcse{
     
+    /**
+     *
+     */
     protected ClientRemote ligacao;
+
+    /**
+     *
+     */
     protected static Scanner sc = new Scanner(System.in);
     
+    /**
+     *
+     * @param ligacao
+     */
     protected Controlador(ClientRemote ligacao) {
       this.ligacao=ligacao;
     }
 
+    /**
+     *
+     */
     public void printInscritos() {
         ArrayList<String> insccritos = ligacao.getUsernameInscritos( );
         int total = insccritos.size();
@@ -24,6 +42,10 @@ public abstract class Controlador extends PDTPrcse{
         });
         System.out.print("\n");
     }
+
+    /**
+     *
+     */
     public void printOnline() {
         ArrayList<String> logados = ligacao.getUsernamesOnline();
         int total = logados.size();
@@ -33,21 +55,36 @@ public abstract class Controlador extends PDTPrcse{
         });
         System.out.print("\n");
     }
+
+    /**
+     *
+     */
     public void getTotalItens() {
        
         int total = ligacao.getTotalItens();
         System.out.print("Total de itens: "+total);
         System.out.print("\n");
     }
+
+    /**
+     *
+     */
     public void sair(){
         System.exit(1);
     }
     
+    /**
+     *
+     * @param newmenu
+     */
     public void mostrarMenu(Menu newmenu) {
         menu=newmenu;
         controlador=newmenu.getControlador();
     }
     
+    /**
+     *
+     */
     public abstract void logOff();
 
 }

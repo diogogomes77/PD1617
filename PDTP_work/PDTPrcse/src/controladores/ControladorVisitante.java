@@ -9,14 +9,26 @@ import beans.ClientVisitanteRemote;
 import pdtprcse.ReferenciaAdmin;
 import pdtprcse.ReferenciaUtilizador;
 
+/**
+ *
+ * @author diogo
+ */
 public class ControladorVisitante extends Controlador{
 
     private ClientVisitanteRemote ligacao;
+
+    /**
+     *
+     * @param ligacao
+     */
     public ControladorVisitante(ClientVisitanteRemote ligacao) {
         super(ligacao);
        this.ligacao= ligacao;
     }
 
+    /**
+     *
+     */
     public void registarUtilizador() {
 
         String s;
@@ -65,6 +77,9 @@ public class ControladorVisitante extends Controlador{
         }
     }
 
+    /**
+     *
+     */
     public void loginUtilizador() {
         String username;
         String password;
@@ -96,11 +111,17 @@ public class ControladorVisitante extends Controlador{
         }
     }
 
+    /**
+     *
+     */
     public void vendasRecentes() {
          System.out.println("3 ultimas vendas mais recentes");
         //List itensRecentes = ligacao.
     }
 
+    /**
+     *
+     */
     public void reativarConta() {
       String s;
         String username = "";
@@ -119,6 +140,9 @@ public class ControladorVisitante extends Controlador{
        
     }
     
+    /**
+     *
+     */
     @Override
     public void logOff() {
         return;

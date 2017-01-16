@@ -7,8 +7,15 @@ import beans.ClientVisitanteRemote;
 import static pdtprcse.PDTPrcse.ctx;
 import static pdtprcse.Referencias.ligacao;
 
+/**
+ *
+ * @author diogo
+ */
 public class ReferenciaUtilizador extends Referencias{
 
+    /**
+     *
+     */
     public ReferenciaUtilizador() {
         super();
         String advremote
@@ -24,6 +31,11 @@ public class ReferenciaUtilizador extends Referencias{
         }
         
     }
+
+    /**
+     *
+     * @return
+     */
     @Override
     public ClientUtilizadorRemote getLigacao(){
         return (ClientUtilizadorRemote) ligacao;

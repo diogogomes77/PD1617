@@ -9,12 +9,22 @@ import controladores.ControladorVisitante;
 
 import beans.ClientVisitanteRemote;
 
+/**
+ *
+ * @author diogo
+ */
 public class MenuVisitante extends Menu {
 
 //    private static MenuVisitante instancia =  new MenuVisitante();
 //    public static MenuVisitante getInstance() {
 //        return instancia;
 //    }
+
+    /**
+     *
+     * @param ligacao
+     * @param controlador
+     */
     
     public MenuVisitante(ClientVisitanteRemote ligacao,ControladorVisitante controlador) {
         this.controlador = controlador;
