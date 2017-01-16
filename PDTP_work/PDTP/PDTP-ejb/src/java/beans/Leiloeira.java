@@ -511,12 +511,12 @@ public class Leiloeira implements LeiloeiraLocal {
     }
 
     @Override
-    public List<Item> getItensSeguidos(String username) {
+    public List<String> getItensSeguidos(String username) {
         return utilizadoresOk.get(username).getItemsSeguidos();
     }
 
     @Override
-    public List<Item> getIensPorPagarUtilizador(String username) {
+    public List<String> getIensPorPagarUtilizador(String username) {
         Utilizador u = utilizadoresOk.get(username);
         
         return u.getItemsPorPagar();

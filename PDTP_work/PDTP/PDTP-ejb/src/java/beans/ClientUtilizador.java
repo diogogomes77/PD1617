@@ -16,19 +16,6 @@ public class ClientUtilizador implements ClientUtilizadorRemote {
     String myName;
     boolean admin;
 
-//    @Override
-//    public boolean loginUtilizador(String username, String password) {
-//        if (myName != null)
-//            return false;
-//        if (leiloeira.loginUtilizador(username,password)){
-//            myName = username; // faz login
-//            if ("admin".equals(username)){
-//                admin=true;
-//            }
-//            return true;
-//        }
-//        return false;
-//    }
     @Override
     public boolean setMyName(String username, String password) {
         //verifica se foi previamente logado atraves do ClientVisitance
@@ -43,7 +30,6 @@ public class ClientUtilizador implements ClientUtilizadorRemote {
 
         return false;
 
-        //return !leiloeira.loginUtilizador(username,password);
     }
 
     @Override
@@ -220,13 +206,13 @@ public class ClientUtilizador implements ClientUtilizadorRemote {
     }
 
     @Override
-    public List<Item> getItensSeguidos() {
+    public List<String> getItensSeguidos() {
         setLastAction();
         return leiloeira.getItensSeguidos(myName);
     }
 
     @Override
-    public List<Item> getMeusItensPorPagar() {
+    public List<String> getMeusItensPorPagar() {
         setLastAction();
         return leiloeira.getIensPorPagarUtilizador(myName);
     }

@@ -49,8 +49,12 @@ public class Utilizador implements Serializable {
         return true;
     }
 
-    public List<Item> getItemsPorPagar() {
-        return itemsPorPagar;
+    public List<String> getItemsPorPagar() {
+        List<String> result = new ArrayList<>();
+        for (Item i : itemsPorPagar){
+            result.add(i.toLineString());
+        }
+        return result;
     }
 
     public boolean addItemPorPagar(Item item) {
@@ -106,8 +110,13 @@ public class Utilizador implements Serializable {
         return true;
     }
 
-    public List<Item> getItemsSeguidos() {
-        return itemsSeguidos;
+    public List<String> getItemsSeguidos() {
+        List<String> result =  new ArrayList<>();
+         for (Item i : itemsSeguidos){
+             result.add(i.toLineString());
+         }
+
+        return result;
     }
 
     public void setItemsSeguidos(List<Item> itemsSeguidos) {
