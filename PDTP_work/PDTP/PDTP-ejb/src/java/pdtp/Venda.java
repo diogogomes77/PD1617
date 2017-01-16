@@ -17,6 +17,7 @@ public class Venda implements Serializable {
     private Double valor;
     private VendaEstados estado;
     private VendaTipo tipo;
+    private int vendaId;
     
     /**
      *

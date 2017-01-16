@@ -6,6 +6,8 @@ import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
 /**
  *
@@ -21,7 +23,7 @@ public class Utilizador implements Serializable {
     private List<Item> itemsSeguidos;
     private List<Item> itemsPorPagar;
     private List<Item> itemsJaPagos;
-    private List<Item> leiloes;
+    //private List<Item> leiloes;
     private UtilizadorEstado estado;
     private String razaoPedidoSuspensao;
     private boolean logged;
@@ -42,7 +44,12 @@ public class Utilizador implements Serializable {
         this.password = password;
         this.saldo = 0.0;
        // this.items = new ArrayList<>();
-        this.leiloes = new ArrayList<>();
+        //this.leiloes = new ArrayList<>();
+        this.itemsAVenda = new ArrayList<>();
+        this.itemsSeguidos = new ArrayList<>();
+        this.itemsPorPagar = new ArrayList<>();
+        this.itemsJaPagos = new ArrayList<>();
+        
         this.logged=false;
         this.estado=estado;
     }
@@ -199,13 +206,6 @@ public class Utilizador implements Serializable {
         return true;
     }
 
-    /**
-     *
-     * @param leilao
-     */
-    public void addLeilao(Item leilao){
-        this.leiloes.add(leilao);
-    }
 
     /**
      *
@@ -297,13 +297,7 @@ public class Utilizador implements Serializable {
         return itemsAVenda;
     }
 
-    /**
-     *
-     * @return
-     */
-    public List<Item> getLeiloes() {
-        return leiloes;
-    }
+ 
 
     /**
      *
