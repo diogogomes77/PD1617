@@ -8,7 +8,6 @@ import beans.ClientUtilizadorRemote;
 import beans.ClientVisitanteRemote;
 import beans.Mensagem;
 import java.sql.Timestamp;
-import java.text.Format;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;

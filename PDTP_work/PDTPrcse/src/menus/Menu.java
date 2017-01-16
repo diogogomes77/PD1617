@@ -24,7 +24,7 @@ public abstract class Menu extends PDTPrcse {
     protected String titulo;
 
     protected Menu() {
-        opcoes = new ArrayList();
+        opcoes = new ArrayList<OpcaoMenu>();
         OpcaoMenu newsletter = new OpcaoMenu("Newsletter", () -> controlador.printInscritos());
         OpcaoMenu sair = new OpcaoMenu("Sair", () -> controlador.sair());
         opcoes.add(sair);

@@ -6,7 +6,6 @@
 package beans;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -14,7 +13,6 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import pdtprcse.ReferenciaAdmin;
-import pdtprcse.ReferenciaVisitante;
 
 /**
  *

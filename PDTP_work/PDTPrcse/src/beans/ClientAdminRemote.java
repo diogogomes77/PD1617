@@ -10,9 +10,11 @@ public interface ClientAdminRemote extends ClientRemote {
 
     boolean logOff();
 
-    ArrayList getUsernameInscritos();
+    @Override
+    ArrayList<String> getUsernameInscritos();
 
-    public ArrayList getUsernamesOnline();
+    @Override
+    public ArrayList<String> getUsernamesOnline();
 
     boolean ativaUtilizador(String username);
 
@@ -24,11 +26,11 @@ public interface ClientAdminRemote extends ClientRemote {
 
     boolean eliminaCategoria(String nomeCategoria);
 
-    ArrayList getUtilizadoresPedidoAtivacao();
+    ArrayList<String> getUtilizadoresPedidoAtivacao();
 
     HashMap<String, String> getPedidosSuspensao();
 
-    ArrayList getUtilizadoresPedidoReAtivacao();
+    ArrayList<String> getUtilizadoresPedidoReAtivacao();
 
     boolean modificaCategoria(String nomeCategoria, String novoNomeCategoria);
 
@@ -36,9 +38,9 @@ public interface ClientAdminRemote extends ClientRemote {
 
     boolean alteraPassword(String password);
 
-    List obtemDenunciasVendedores();
+    List<String> obtemDenunciasVendedores();
 
-    List obtemDenunciasItens();
+    List<String> obtemDenunciasItens();
 
     boolean sendMensagem(String destinatario, String texto, String assunto);
 
@@ -49,4 +51,6 @@ public interface ClientAdminRemote extends ClientRemote {
     public String getDados(String username);
 
     boolean cancelarItem(int itemId);
+
+    public ArrayList<String> getUtilizadoresPedidos();
 }

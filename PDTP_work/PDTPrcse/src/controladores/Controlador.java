@@ -16,7 +16,7 @@ public abstract class Controlador extends PDTPrcse{
     }
 
     public void printInscritos() {
-        ArrayList<String> insccritos = ligacao.getUsernameInscritos();
+        ArrayList<String> insccritos = ligacao.getUsernameInscritos( );
         int total = insccritos.size();
         System.out.print("Utilizadores inscritos("+total+"): ");
         insccritos.forEach((user) -> {

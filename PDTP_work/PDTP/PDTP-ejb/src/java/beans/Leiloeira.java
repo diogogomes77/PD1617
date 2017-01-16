@@ -140,7 +140,9 @@ public class Leiloeira implements LeiloeiraLocal {
 
     }
 
+
     @Schedule(second = "*", minute = "1", hour = "*")
+    @Override
     public void checkItensDataFinal() {
         Timestamp now = new java.sql.Timestamp(Calendar.getInstance().getTime().getTime());
         List<Item> list = new ArrayList<Item>(itensAVenda.values());
@@ -200,8 +202,8 @@ public class Leiloeira implements LeiloeiraLocal {
     }
 
     @Override
-    public ArrayList getUsernameInscritos() {
-        ArrayList inscritos = new ArrayList<>();
+    public ArrayList<String> getUsernameInscritos() {
+        ArrayList<String> inscritos = new ArrayList<String>();
         Collection<Utilizador> ok = utilizadoresOk.values();
         for (Utilizador j : ok) {
             inscritos.add(j.getUsername());
@@ -214,8 +216,8 @@ public class Leiloeira implements LeiloeiraLocal {
     }
 
     @Override
-    public ArrayList getUsernamesOnline() {
-        ArrayList logados = new ArrayList<>();
+    public ArrayList<String> getUsernamesOnline() {
+        ArrayList<String> logados = new ArrayList<String>();
         Collection<Utilizador> todos = utilizadoresOk.values();
         for (Utilizador j : todos) {
             if (j.isLogged()) {
@@ -255,8 +257,8 @@ public class Leiloeira implements LeiloeiraLocal {
     }
 
     @Override
-    public ArrayList getUtilizadoresEstado(UtilizadorEstado estado) {
-        ArrayList users = new ArrayList<>();
+    public ArrayList<String> getUtilizadoresEstado(UtilizadorEstado estado) {
+        ArrayList<String> users = new ArrayList<String>();
         Collection<Utilizador> ok = utilizadoresOk.values();
         for (Utilizador j : ok) {
             if (j.getEstado() == estado) {
@@ -509,12 +511,12 @@ public class Leiloeira implements LeiloeiraLocal {
     }
 
     @Override
-    public List getItensSeguidos(String username) {
+    public List<Item> getItensSeguidos(String username) {
         return utilizadoresOk.get(username).getItemsSeguidos();
     }
 
     @Override
-    public List getIensPorPagarUtilizador(String username) {
+    public List<Item> getIensPorPagarUtilizador(String username) {
         Utilizador u = utilizadoresOk.get(username);
         
         return u.getItemsPorPagar();
@@ -546,7 +548,7 @@ public class Leiloeira implements LeiloeiraLocal {
     }
 
     @Override
-    public List obtemDenunciasVendedores(){
+    public List<String> obtemDenunciasVendedores(){
         List<String> result = new ArrayList<>();
         for (Denuncia denuncia : denunciasVendedores){
             result.add(denuncia.toString());
@@ -555,7 +557,7 @@ public class Leiloeira implements LeiloeiraLocal {
     }
 
     @Override
-    public List obtemDenunciasItens() {
+    public List<String> obtemDenunciasItens() {
         List<String> result = new ArrayList<>();
         for (Denuncia denuncia : denunciasItens){
             result.add(denuncia.toString());

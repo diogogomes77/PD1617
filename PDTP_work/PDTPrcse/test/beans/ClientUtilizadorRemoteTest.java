@@ -5,7 +5,9 @@
  */
 package beans;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.List;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -232,56 +234,159 @@ public class ClientUtilizadorRemoteTest {
 
     public class ClientUtilizadorRemoteImpl implements ClientUtilizadorRemote {
 
+        @Override
         public boolean logOff() {
             return false;
         }
 
+        @Override
         public boolean existeUsername(String username) {
             return false;
         }
 
+        @Override
         public Double addSaldo(Double valor) {
             return null;
         }
 
+        @Override
         public Double getSaldo() {
             return null;
         }
 
+        @Override
         public ArrayList getUsernameInscritos() {
             return null;
         }
 
+        @Override
         public ArrayList getUsernamesOnline() {
             return null;
         }
 
+        @Override
         public boolean setMyName(String username, String password) {
             return false;
         }
 
+        @Override
         public String getMyName() {
             return "";
         }
 
+        @Override
         public String getDados() {
             return "";
         }
 
+        @Override
         public boolean atualizaDados(String nome, String morada) {
             return false;
         }
 
+        @Override
         public boolean pedirSuspensao(String razao) {
             return false;
         }
 
+        @Override
         public boolean sendMensagem(String destinatario, String texto, String assunto) {
             return false;
         }
 
+        @Override
         public ArrayList<Mensagem> consultarMensagens() {
             return null;
+        }
+
+        @Override
+        public boolean verificaPassword(String password) {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
+        public boolean alteraPassword(String password) {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
+        public boolean addItem(String descricao, Double precoInicial, Double precoComprarJa, Timestamp dataLimite) {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
+        public List<String> getCategorias() {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
+        public List<String> getMeusItens() {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
+        public int getTotalItens() {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
+        public List<String> getItens() {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
+        public String mostraItem(int itemId) {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
+        public String getVendedorItem(int itemId) {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
+        public String consultarLicitacoes(int itemId) {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
+        public boolean comprarJaItem(int itemid) {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
+        public boolean licitarItem(int itemid, Double valor) {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
+        public boolean seguirItem(int itemId) {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
+        public List getItensSeguidos() {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
+        public List getMeusItensPorPagar() {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
+        public boolean concluirTransacao(int itemId) {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
+        public boolean denunciarItem(int itemId, String razao) {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
+        public boolean denunciarVendedor(String username, String razao) {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         }
     }
     

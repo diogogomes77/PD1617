@@ -26,19 +26,19 @@ public class ClientAdmin implements ClientAdminRemote {
     }
 
     @Override
-    public ArrayList getUsernameInscritos() {
+    public ArrayList<String> getUsernameInscritos() {
         setLastAction();
         return leiloeira.getUsernameInscritos();
     }
 
     @Override
-    public ArrayList getUsernamesOnline() {
+    public ArrayList<String> getUsernamesOnline() {
         setLastAction();
         return leiloeira.getUsernamesOnline();
     }
 
     @Override
-    public ArrayList getUtilizadoresPedidoAtivacao() {
+    public ArrayList<String> getUtilizadoresPedidoAtivacao() {
         setLastAction();
         return leiloeira.getUtilizadoresEstado(UtilizadorEstado.ATIVO_PEDIDO);
     }
@@ -51,7 +51,7 @@ public class ClientAdmin implements ClientAdminRemote {
     }
 
     @Override
-    public ArrayList getUtilizadoresPedidoReAtivacao() {
+    public ArrayList<String> getUtilizadoresPedidoReAtivacao() {
         setLastAction();
         return leiloeira.getUtilizadoresEstado(UtilizadorEstado.REATIVACAO_PEDIDO);
     }
@@ -116,13 +116,13 @@ public class ClientAdmin implements ClientAdminRemote {
     }
 
     @Override
-    public List obtemDenunciasVendedores() {
+    public List<String> obtemDenunciasVendedores() {
         setLastAction();
         return leiloeira.obtemDenunciasVendedores();
     }
 
     @Override
-    public List obtemDenunciasItens() {
+    public List<String> obtemDenunciasItens() {
         setLastAction();
         return leiloeira.obtemDenunciasItens();
     }
@@ -157,5 +157,10 @@ public class ClientAdmin implements ClientAdminRemote {
     public boolean cancelarItem(int itemId) {
         setLastAction();
         return leiloeira.cancelarItem(itemId);
+    }
+
+    @Override
+    public ArrayList<String> getUtilizadoresPedidos() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

@@ -14,9 +14,9 @@ public interface ClientVisitanteRemote extends ClientRemote{
     boolean existeUsername(String username);
 
     @Override
-   public ArrayList getUsernameInscritos();
+   public ArrayList<String> getUsernameInscritos();
     @Override
-    public ArrayList getUsernamesOnline();
+    public ArrayList<String> getUsernamesOnline();
 
     @Override
     public int getTotalItens();

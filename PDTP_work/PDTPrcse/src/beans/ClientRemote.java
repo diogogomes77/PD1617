@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 
 public interface ClientRemote {
-   public ArrayList getUsernameInscritos();
-    public ArrayList getUsernamesOnline();
+   public ArrayList<String> getUsernameInscritos();
+    public ArrayList<String> getUsernamesOnline();
     public int getTotalItens();
 }

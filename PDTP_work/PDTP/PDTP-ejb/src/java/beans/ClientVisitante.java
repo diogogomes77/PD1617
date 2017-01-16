@@ -23,12 +23,12 @@ public class ClientVisitante implements ClientVisitanteRemote {
         return leiloeira.existeUtilizador(username);
     }
     @Override
-    public ArrayList getUsernameInscritos() {
+    public ArrayList<String> getUsernameInscritos() {
         return leiloeira.getUsernameInscritos();
     }
    
     @Override
-    public ArrayList getUsernamesOnline() {
+    public ArrayList<String> getUsernamesOnline() {
          return leiloeira.getUsernamesOnline();
     }
 

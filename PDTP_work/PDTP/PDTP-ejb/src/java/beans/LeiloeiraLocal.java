@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import javax.ejb.Local;
+import pdtp.Item;
 import pdtp.Utilizador;
 import pdtp.UtilizadorEstado;
 
@@ -20,9 +21,9 @@ public interface LeiloeiraLocal {
 
     boolean loginUtilizador(String username, String password);
 
-    ArrayList getUsernameInscritos();
+    ArrayList<String> getUsernameInscritos();
 
-    ArrayList getUsernamesOnline();
+    ArrayList<String> getUsernamesOnline();
 
     Double addSaldo(Double valor,String username);
 
@@ -32,7 +33,7 @@ public interface LeiloeiraLocal {
 
     boolean ativaUtilizador(String username);
 
-    ArrayList getUtilizadoresEstado(UtilizadorEstado estado);
+    ArrayList<String> getUtilizadoresEstado(UtilizadorEstado estado);
 
     String getDadosUtilizador(String username);
 
@@ -82,19 +83,21 @@ public interface LeiloeiraLocal {
 
     boolean seguirItem(String username,int itemId);
 
-    List getItensSeguidos(String username);
+    List<Item> getItensSeguidos(String username);
 
-    List getIensPorPagarUtilizador(String username);
+    List<Item> getIensPorPagarUtilizador(String username);
 
     boolean concluirTransacao(String username, int itemId);
 
     boolean denunciarItem(int itemId,String denunciador,String razao);
 
-    List obtemDenunciasVendedores();
+    List<String> obtemDenunciasVendedores();
 
-    List obtemDenunciasItens();
+    List<String> obtemDenunciasItens();
 
     boolean denunciarVendedor(String username, String vendedor, String razao);
 
     boolean cancelarItem(int itemId);
+
+    public void checkItensDataFinal();
 }

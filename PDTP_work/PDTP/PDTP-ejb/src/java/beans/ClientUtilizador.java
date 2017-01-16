@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateful;
+import pdtp.Item;
 
 @Stateful
 public class ClientUtilizador implements ClientUtilizadorRemote {
@@ -64,13 +65,13 @@ public class ClientUtilizador implements ClientUtilizadorRemote {
     }
 
     @Override
-    public ArrayList getUsernameInscritos() {
+    public ArrayList<String> getUsernameInscritos() {
         setLastAction();
         return leiloeira.getUsernameInscritos();
     }
 
     @Override
-    public ArrayList getUsernamesOnline() {
+    public ArrayList<String> getUsernamesOnline() {
         setLastAction();
         return leiloeira.getUsernamesOnline();
     }
@@ -219,13 +220,13 @@ public class ClientUtilizador implements ClientUtilizadorRemote {
     }
 
     @Override
-    public List getItensSeguidos() {
+    public List<Item> getItensSeguidos() {
         setLastAction();
         return leiloeira.getItensSeguidos(myName);
     }
 
     @Override
-    public List getMeusItensPorPagar() {
+    public List<Item> getMeusItensPorPagar() {
         setLastAction();
         return leiloeira.getIensPorPagarUtilizador(myName);
     }

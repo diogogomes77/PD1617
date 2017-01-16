@@ -24,9 +24,9 @@ public interface ClientUtilizadorRemote extends ClientRemote{
     
         
     @Override
-    public ArrayList getUsernameInscritos();
+    public ArrayList<String> getUsernameInscritos();
     @Override
-    public ArrayList getUsernamesOnline();
+    public ArrayList<String> getUsernamesOnline();
 
     boolean setMyName(String username, String password);
 
