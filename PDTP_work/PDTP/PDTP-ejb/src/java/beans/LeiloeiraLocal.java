@@ -114,11 +114,12 @@ public interface LeiloeiraLocal {
 
     /**
      *
-     * @param username
+     * @param denunciador
+     * @param denunciado
      * @param razao
      * @return
      */
-    boolean pedirSuspensaoUtilizador(String username,String razao);
+    boolean pedirSuspensaoUtilizador(String denunciador,String denunciado,String razao);
 
     /**
      *

@@ -88,6 +88,7 @@ public interface ClientUtilizadorRemote extends ClientRemote {
 
     /**
      *
+     * @param username
      * @param razao
      * @return
      */

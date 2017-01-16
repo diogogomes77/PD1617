@@ -63,7 +63,7 @@ public class Leiloeira implements LeiloeiraLocal {
 
     /**
      *
-     * @return
+     * @return Lista de utilizadores ativados
      */
     @Override
     public HashMap<String, Utilizador> getUtilizadores() {
@@ -73,7 +73,7 @@ public class Leiloeira implements LeiloeiraLocal {
     /**
      *
      * @param username
-     * @return
+     * @return true se o userame ja existe
      */
     @Override
     public boolean existeUtilizador(String username) {
@@ -96,7 +96,7 @@ public class Leiloeira implements LeiloeiraLocal {
      * @param morada
      * @param username
      * @param password
-     * @return
+     * @return true se o utilizador ficar registado
      */
     @Override
     public boolean registaUtilizador(String nome, String morada, String username, String password) {
@@ -112,7 +112,7 @@ public class Leiloeira implements LeiloeiraLocal {
      *
      * @param username
      * @param password
-     * @return
+     * @return true se o utilizador ficar logado
      */
     @Override
     public boolean loginUtilizador(String username, String password) {
@@ -138,7 +138,7 @@ public class Leiloeira implements LeiloeiraLocal {
     /**
      *
      * @param username
-     * @return
+     * @return true se o utilizador fizer loggoff
      */
     @Override
     public boolean logOff(String username) {
@@ -176,7 +176,7 @@ public class Leiloeira implements LeiloeiraLocal {
     }
 
     /**
-     *
+     * termina os itens nas respetivas horas de fim
      */
     @Schedule(second = "*", minute = "1", hour = "*")
     @Override
@@ -194,6 +194,7 @@ public class Leiloeira implements LeiloeiraLocal {
     /**
      *
      * @throws InterruptedException
+     * faz logout aos utilizadodres com 4 minutos de inatividade
      */
     @Schedule(second = "*/5", minute = "*", hour = "*")
     public void checkInactivity() throws InterruptedException {
@@ -210,7 +211,7 @@ public class Leiloeira implements LeiloeiraLocal {
     }
 
     /**
-     *
+     * Le dados do disco quando inicia
      */
     @PostConstruct
     public void loadstate() {
@@ -230,7 +231,7 @@ public class Leiloeira implements LeiloeiraLocal {
     }
 
     /**
-     *
+     * Grava dados em disco antes de sair
      */
     @PreDestroy
     public void saveState() {
@@ -249,8 +250,8 @@ public class Leiloeira implements LeiloeiraLocal {
     }
 
     /**
-     *
-     * @return
+     * 
+     * @return Lista de utilizadores inscritos, ativos e nao ativos
      */
     @Override
     public ArrayList<String> getUsernameInscritos() {
@@ -267,8 +268,8 @@ public class Leiloeira implements LeiloeiraLocal {
     }
 
     /**
-     *
-     * @return
+     * 
+     * @return lista de utilizadores online
      */
     @Override
     public ArrayList<String> getUsernamesOnline() {
@@ -283,10 +284,10 @@ public class Leiloeira implements LeiloeiraLocal {
     }
 
     /**
-     *
+     * Adiciona saldo a utilizador
      * @param valor
      * @param username
-     * @return
+     * @return valor de saldo se o utilizador estiver logado
      */
     @Override
     public Double addSaldo(Double valor, String username) {
@@ -299,11 +300,11 @@ public class Leiloeira implements LeiloeiraLocal {
     /**
      *
      * @param username
-     * @return
+     * @return valor de saldo do utilizador
      */
     @Override
     public Double getSaldo(String username) {
-        if (utilizadoresOk.get(username).isLogged()) {
+        if (utilizadoresOk.get(username)!=null) {
             return utilizadoresOk.get(username).getSaldo();
         }
         return null;
@@ -313,7 +314,7 @@ public class Leiloeira implements LeiloeiraLocal {
     /**
      *
      * @param username
-     * @return
+     * @return true se o utilizador ficar ativo
      */
     @Override
     public boolean ativaUtilizador(String username) {
@@ -328,9 +329,9 @@ public class Leiloeira implements LeiloeiraLocal {
     }
 
     /**
-     *
+     * 
      * @param estado
-     * @return
+     * @return lista de utilizadores em determinado estado
      */
     @Override
     public ArrayList<String> getUtilizadoresEstado(UtilizadorEstado estado) {
@@ -353,7 +354,7 @@ public class Leiloeira implements LeiloeiraLocal {
     /**
      *
      * @param username
-     * @return
+     * @return dados pessoais de utilizador
      */
     @Override
     public String getDadosUtilizador(String username) {
@@ -365,7 +366,7 @@ public class Leiloeira implements LeiloeiraLocal {
      * @param username
      * @param nome
      * @param morada
-     * @return
+     * @return true se os dados forem atualizados
      */
     @Override
     public boolean atualizaDadosUtilizador(String username, String nome, String morada) {
@@ -373,15 +374,18 @@ public class Leiloeira implements LeiloeiraLocal {
     }
 
     /**
-     *
-     * @param username
+     * Pedido de suspensao
+     * @param denunciador
+     * @param denunciado
      * @param razao
-     * @return
+     * @return true 
      */
     @Override
-    public boolean pedirSuspensaoUtilizador(String username, String razao) {
-        utilizadoresOk.get(username).setEstado(UtilizadorEstado.SUSPENDO_PEDIDO);
-        utilizadoresOk.get(username).setRazaoPedidoSuspensao(razao);
+    public boolean pedirSuspensaoUtilizador(String denunciador,String denunciado, String razao) {
+        utilizadoresOk.get(denunciado).setEstado(UtilizadorEstado.SUSPENDO_PEDIDO);
+        utilizadoresOk.get(denunciado).setRazaoPedidoSuspensao(razao);
+        Mensagem msg = new Mensagem(denunciador, "admin", razao, "pedido de suspensao", MensagemEstado.ENVIADA);
+        mensagens.add(msg);
         return true;
     }
 

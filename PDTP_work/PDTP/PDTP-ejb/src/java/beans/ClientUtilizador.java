@@ -109,7 +109,7 @@ public class ClientUtilizador implements ClientUtilizadorRemote {
     @Override
     public boolean pedirSuspensao(String razao) {
         setLastAction();
-        return leiloeira.pedirSuspensaoUtilizador(myName, razao);
+        return leiloeira.pedirSuspensaoUtilizador(myName,myName, razao);
     }
 
     private void setLastAction() {
