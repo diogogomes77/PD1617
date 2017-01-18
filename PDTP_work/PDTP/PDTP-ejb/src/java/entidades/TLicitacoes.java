@@ -9,12 +9,14 @@ import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.MappedSuperclass;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -25,9 +27,14 @@ import javax.xml.bind.annotation.XmlRootElement;
  *
  * @author diogo
  */
-@MappedSuperclass
+@Entity
 @Table(name = "t_licitacoes")
 @XmlRootElement
+@NamedQueries({
+    @NamedQuery(name = "TLicitacoes.findAll", query = "SELECT t FROM TLicitacoes t")
+    , @NamedQuery(name = "TLicitacoes.findByTimestamp", query = "SELECT t FROM TLicitacoes t WHERE t.timestamp = :timestamp")
+    , @NamedQuery(name = "TLicitacoes.findByValor", query = "SELECT t FROM TLicitacoes t WHERE t.valor = :valor")
+    , @NamedQuery(name = "TLicitacoes.findByIdLicitacao", query = "SELECT t FROM TLicitacoes t WHERE t.idLicitacao = :idLicitacao")})
 public class TLicitacoes implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -127,7 +134,7 @@ public class TLicitacoes implements Serializable {
 
     @Override
     public String toString() {
-        return "entidades.TLicitacoes[ idLicitacao=" + idLicitacao + " ]";
+        return "entidades2.TLicitacoes[ idLicitacao=" + idLicitacao + " ]";
     }
     
 }

@@ -8,12 +8,14 @@ package entidades;
 import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.MappedSuperclass;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -21,9 +23,12 @@ import javax.xml.bind.annotation.XmlRootElement;
  *
  * @author diogo
  */
-@MappedSuperclass
+@Entity
 @Table(name = "t_itemsAVenda")
 @XmlRootElement
+@NamedQueries({
+    @NamedQuery(name = "TitemsAVenda.findAll", query = "SELECT t FROM TitemsAVenda t")
+    , @NamedQuery(name = "TitemsAVenda.findById", query = "SELECT t FROM TitemsAVenda t WHERE t.id = :id")})
 public class TitemsAVenda implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -92,7 +97,7 @@ public class TitemsAVenda implements Serializable {
 
     @Override
     public String toString() {
-        return "entidades.TitemsAVenda[ id=" + id + " ]";
+        return "entidades2.TitemsAVenda[ id=" + id + " ]";
     }
     
 }

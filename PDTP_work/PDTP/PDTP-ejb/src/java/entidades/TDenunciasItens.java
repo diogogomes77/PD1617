@@ -9,12 +9,14 @@ import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.MappedSuperclass;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -26,9 +28,14 @@ import javax.xml.bind.annotation.XmlRootElement;
  *
  * @author diogo
  */
-@MappedSuperclass
+@Entity
 @Table(name = "t_denuncias_itens")
 @XmlRootElement
+@NamedQueries({
+    @NamedQuery(name = "TDenunciasItens.findAll", query = "SELECT t FROM TDenunciasItens t")
+    , @NamedQuery(name = "TDenunciasItens.findByData", query = "SELECT t FROM TDenunciasItens t WHERE t.data = :data")
+    , @NamedQuery(name = "TDenunciasItens.findByRazao", query = "SELECT t FROM TDenunciasItens t WHERE t.razao = :razao")
+    , @NamedQuery(name = "TDenunciasItens.findByIdDenunciaItem", query = "SELECT t FROM TDenunciasItens t WHERE t.idDenunciaItem = :idDenunciaItem")})
 public class TDenunciasItens implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -129,7 +136,7 @@ public class TDenunciasItens implements Serializable {
 
     @Override
     public String toString() {
-        return "entidades.TDenunciasItens[ idDenunciaItem=" + idDenunciaItem + " ]";
+        return "entidades2.TDenunciasItens[ idDenunciaItem=" + idDenunciaItem + " ]";
     }
     
 }

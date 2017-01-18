@@ -6,13 +6,15 @@
 package entidades;
 
 import java.io.Serializable;
-import java.util.Collection;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.MappedSuperclass;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -24,9 +26,16 @@ import javax.xml.bind.annotation.XmlTransient;
  *
  * @author diogo
  */
-@MappedSuperclass
+@Entity
 @Table(name = "t_vendas")
 @XmlRootElement
+@NamedQueries({
+    @NamedQuery(name = "TVendas.findAll", query = "SELECT t FROM TVendas t")
+    , @NamedQuery(name = "TVendas.findByComprador", query = "SELECT t FROM TVendas t WHERE t.comprador = :comprador")
+    , @NamedQuery(name = "TVendas.findByValor", query = "SELECT t FROM TVendas t WHERE t.valor = :valor")
+    , @NamedQuery(name = "TVendas.findByEstado", query = "SELECT t FROM TVendas t WHERE t.estado = :estado")
+    , @NamedQuery(name = "TVendas.findByTipo", query = "SELECT t FROM TVendas t WHERE t.tipo = :tipo")
+    , @NamedQuery(name = "TVendas.findByVendaId", query = "SELECT t FROM TVendas t WHERE t.vendaId = :vendaId")})
 public class TVendas implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -56,7 +65,7 @@ public class TVendas implements Serializable {
     @ManyToOne(optional = false)
     private TItens item;
     @OneToMany(mappedBy = "venda")
-    private Collection<TItens> tItensCollection;
+    private List<TItens> tItensList;
 
     public TVendas() {
     }
@@ -121,12 +130,12 @@ public class TVendas implements Serializable {
     }
 
     @XmlTransient
-    public Collection<TItens> getTItensCollection() {
-        return tItensCollection;
+    public List<TItens> getTItensList() {
+        return tItensList;
     }
 
-    public void setTItensCollection(Collection<TItens> tItensCollection) {
-        this.tItensCollection = tItensCollection;
+    public void setTItensList(List<TItens> tItensList) {
+        this.tItensList = tItensList;
     }
 
     @Override
@@ -151,7 +160,7 @@ public class TVendas implements Serializable {
 
     @Override
     public String toString() {
-        return "entidades.TVendas[ vendaId=" + vendaId + " ]";
+        return "entidades2.TVendas[ vendaId=" + vendaId + " ]";
     }
     
 }

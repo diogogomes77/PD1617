@@ -9,12 +9,14 @@ import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.MappedSuperclass;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -26,9 +28,16 @@ import javax.xml.bind.annotation.XmlRootElement;
  *
  * @author diogo
  */
-@MappedSuperclass
+@Entity
 @Table(name = "t_mensagens")
 @XmlRootElement
+@NamedQueries({
+    @NamedQuery(name = "TMensagens.findAll", query = "SELECT t FROM TMensagens t")
+    , @NamedQuery(name = "TMensagens.findByEstado", query = "SELECT t FROM TMensagens t WHERE t.estado = :estado")
+    , @NamedQuery(name = "TMensagens.findByTexto", query = "SELECT t FROM TMensagens t WHERE t.texto = :texto")
+    , @NamedQuery(name = "TMensagens.findByAssunto", query = "SELECT t FROM TMensagens t WHERE t.assunto = :assunto")
+    , @NamedQuery(name = "TMensagens.findByData", query = "SELECT t FROM TMensagens t WHERE t.data = :data")
+    , @NamedQuery(name = "TMensagens.findByIdMensagem", query = "SELECT t FROM TMensagens t WHERE t.idMensagem = :idMensagem")})
 public class TMensagens implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -154,7 +163,7 @@ public class TMensagens implements Serializable {
 
     @Override
     public String toString() {
-        return "entidades.TMensagens[ idMensagem=" + idMensagem + " ]";
+        return "entidades2.TMensagens[ idMensagem=" + idMensagem + " ]";
     }
     
 }

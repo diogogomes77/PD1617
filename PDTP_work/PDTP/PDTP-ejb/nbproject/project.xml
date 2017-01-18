@@ -6,7 +6,8 @@
             <name>PDTP-ejb</name>
             <minimum-ant-version>1.6.5</minimum-ant-version>
             <included-library dirs="200">reference.PDTPrcse.jar</included-library>
-            <included-library dirs="200">libs.eclipselink.classpath</included-library>
+            <included-library dirs="200">libs.PostgreSQLDriver.classpath</included-library>
+            <included-library dirs="200">file.reference.PDTP-web.war</included-library>
             <source-roots>
                 <root id="src.dir" name="Source Packages"/>
             </source-roots>

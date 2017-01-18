@@ -6,15 +6,17 @@
 package entidades;
 
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.MappedSuperclass;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -28,9 +30,21 @@ import javax.xml.bind.annotation.XmlTransient;
  *
  * @author diogo
  */
-@MappedSuperclass
+@Entity
 @Table(name = "t_itens")
 @XmlRootElement
+@NamedQueries({
+    @NamedQuery(name = "TItens.findAll", query = "SELECT t FROM TItens t")
+    , @NamedQuery(name = "TItens.findByDataInicio", query = "SELECT t FROM TItens t WHERE t.dataInicio = :dataInicio")
+    , @NamedQuery(name = "TItens.findByDataFim", query = "SELECT t FROM TItens t WHERE t.dataFim = :dataFim")
+    , @NamedQuery(name = "TItens.findByVendedor", query = "SELECT t FROM TItens t WHERE t.vendedor = :vendedor")
+    , @NamedQuery(name = "TItens.findByDescricao", query = "SELECT t FROM TItens t WHERE t.descricao = :descricao")
+    , @NamedQuery(name = "TItens.findByPrecoInicial", query = "SELECT t FROM TItens t WHERE t.precoInicial = :precoInicial")
+    , @NamedQuery(name = "TItens.findByComprarJa", query = "SELECT t FROM TItens t WHERE t.comprarJa = :comprarJa")
+    , @NamedQuery(name = "TItens.findByCategoria", query = "SELECT t FROM TItens t WHERE t.categoria = :categoria")
+    , @NamedQuery(name = "TItens.findByEstado", query = "SELECT t FROM TItens t WHERE t.estado = :estado")
+    , @NamedQuery(name = "TItens.findByComprador", query = "SELECT t FROM TItens t WHERE t.comprador = :comprador")
+    , @NamedQuery(name = "TItens.findByItemID", query = "SELECT t FROM TItens t WHERE t.itemID = :itemID")})
 public class TItens implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -66,15 +80,15 @@ public class TItens implements Serializable {
     @Column(name = "itemID")
     private Long itemID;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "item")
-    private Collection<TDenunciasItens> tDenunciasItensCollection;
+    private List<TDenunciasItens> tDenunciasItensList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "item")
-    private Collection<TLicitacoes> tLicitacoesCollection;
+    private List<TLicitacoes> tLicitacoesList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "item")
-    private Collection<TitemsAVenda> titemsAVendaCollection;
+    private List<TitemsAVenda> titemsAVendaList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "item")
-    private Collection<TitemsSeguidos> titemsSeguidosCollection;
+    private List<TitemsSeguidos> titemsSeguidosList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "item")
-    private Collection<TVendas> tVendasCollection;
+    private List<TVendas> tVendasList;
     @JoinColumn(name = "venda", referencedColumnName = "vendaId")
     @ManyToOne
     private TVendas venda;
@@ -167,48 +181,48 @@ public class TItens implements Serializable {
     }
 
     @XmlTransient
-    public Collection<TDenunciasItens> getTDenunciasItensCollection() {
-        return tDenunciasItensCollection;
+    public List<TDenunciasItens> getTDenunciasItensList() {
+        return tDenunciasItensList;
     }
 
-    public void setTDenunciasItensCollection(Collection<TDenunciasItens> tDenunciasItensCollection) {
-        this.tDenunciasItensCollection = tDenunciasItensCollection;
-    }
-
-    @XmlTransient
-    public Collection<TLicitacoes> getTLicitacoesCollection() {
-        return tLicitacoesCollection;
-    }
-
-    public void setTLicitacoesCollection(Collection<TLicitacoes> tLicitacoesCollection) {
-        this.tLicitacoesCollection = tLicitacoesCollection;
+    public void setTDenunciasItensList(List<TDenunciasItens> tDenunciasItensList) {
+        this.tDenunciasItensList = tDenunciasItensList;
     }
 
     @XmlTransient
-    public Collection<TitemsAVenda> getTitemsAVendaCollection() {
-        return titemsAVendaCollection;
+    public List<TLicitacoes> getTLicitacoesList() {
+        return tLicitacoesList;
     }
 
-    public void setTitemsAVendaCollection(Collection<TitemsAVenda> titemsAVendaCollection) {
-        this.titemsAVendaCollection = titemsAVendaCollection;
-    }
-
-    @XmlTransient
-    public Collection<TitemsSeguidos> getTitemsSeguidosCollection() {
-        return titemsSeguidosCollection;
-    }
-
-    public void setTitemsSeguidosCollection(Collection<TitemsSeguidos> titemsSeguidosCollection) {
-        this.titemsSeguidosCollection = titemsSeguidosCollection;
+    public void setTLicitacoesList(List<TLicitacoes> tLicitacoesList) {
+        this.tLicitacoesList = tLicitacoesList;
     }
 
     @XmlTransient
-    public Collection<TVendas> getTVendasCollection() {
-        return tVendasCollection;
+    public List<TitemsAVenda> getTitemsAVendaList() {
+        return titemsAVendaList;
     }
 
-    public void setTVendasCollection(Collection<TVendas> tVendasCollection) {
-        this.tVendasCollection = tVendasCollection;
+    public void setTitemsAVendaList(List<TitemsAVenda> titemsAVendaList) {
+        this.titemsAVendaList = titemsAVendaList;
+    }
+
+    @XmlTransient
+    public List<TitemsSeguidos> getTitemsSeguidosList() {
+        return titemsSeguidosList;
+    }
+
+    public void setTitemsSeguidosList(List<TitemsSeguidos> titemsSeguidosList) {
+        this.titemsSeguidosList = titemsSeguidosList;
+    }
+
+    @XmlTransient
+    public List<TVendas> getTVendasList() {
+        return tVendasList;
+    }
+
+    public void setTVendasList(List<TVendas> tVendasList) {
+        this.tVendasList = tVendasList;
     }
 
     public TVendas getVenda() {
@@ -241,7 +255,7 @@ public class TItens implements Serializable {
 
     @Override
     public String toString() {
-        return "entidades.TItens[ itemID=" + itemID + " ]";
+        return "entidades2.TItens[ itemID=" + itemID + " ]";
     }
     
 }

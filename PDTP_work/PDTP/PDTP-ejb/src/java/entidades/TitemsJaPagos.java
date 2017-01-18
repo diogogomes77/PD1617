@@ -8,10 +8,12 @@ package entidades;
 import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -21,9 +23,14 @@ import javax.xml.bind.annotation.XmlRootElement;
  *
  * @author diogo
  */
-@MappedSuperclass
+@Entity
 @Table(name = "t_itemsJaPagos")
 @XmlRootElement
+@NamedQueries({
+    @NamedQuery(name = "TitemsJaPagos.findAll", query = "SELECT t FROM TitemsJaPagos t")
+    , @NamedQuery(name = "TitemsJaPagos.findByUtilizador", query = "SELECT t FROM TitemsJaPagos t WHERE t.utilizador = :utilizador")
+    , @NamedQuery(name = "TitemsJaPagos.findByItem", query = "SELECT t FROM TitemsJaPagos t WHERE t.item = :item")
+    , @NamedQuery(name = "TitemsJaPagos.findById", query = "SELECT t FROM TitemsJaPagos t WHERE t.id = :id")})
 public class TitemsJaPagos implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -101,7 +108,7 @@ public class TitemsJaPagos implements Serializable {
 
     @Override
     public String toString() {
-        return "entidades.TitemsJaPagos[ id=" + id + " ]";
+        return "entidades2.TitemsJaPagos[ id=" + id + " ]";
     }
     
 }
