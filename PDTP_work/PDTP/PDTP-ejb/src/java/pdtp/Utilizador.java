@@ -1,7 +1,7 @@
 
 package pdtp;
 
-import entidades.TUtilizadores;
+//import entidades.TUtilizadores;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
@@ -14,7 +14,7 @@ import javax.persistence.Table;
  *
  * @author diogo
  */
-public class Utilizador extends TUtilizadores implements Serializable {
+public class Utilizador implements Serializable {
     private String nome;
     private String morada;
     private String username;

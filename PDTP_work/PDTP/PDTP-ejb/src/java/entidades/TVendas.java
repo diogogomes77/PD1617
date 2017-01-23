@@ -6,7 +6,7 @@
 package entidades;
 
 import java.io.Serializable;
-import java.util.List;
+import java.util.Collection;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -65,7 +65,7 @@ public class TVendas implements Serializable {
     @ManyToOne(optional = false)
     private TItens item;
     @OneToMany(mappedBy = "venda")
-    private List<TItens> tItensList;
+    private Collection<TItens> tItensCollection;
 
     public TVendas() {
     }
@@ -130,12 +130,12 @@ public class TVendas implements Serializable {
     }
 
     @XmlTransient
-    public List<TItens> getTItensList() {
-        return tItensList;
+    public Collection<TItens> getTItensCollection() {
+        return tItensCollection;
     }
 
-    public void setTItensList(List<TItens> tItensList) {
-        this.tItensList = tItensList;
+    public void setTItensCollection(Collection<TItens> tItensCollection) {
+        this.tItensCollection = tItensCollection;
     }
 
     @Override
@@ -160,7 +160,7 @@ public class TVendas implements Serializable {
 
     @Override
     public String toString() {
-        return "entidades2.TVendas[ vendaId=" + vendaId + " ]";
+        return "entidades.TVendas[ vendaId=" + vendaId + " ]";
     }
     
 }

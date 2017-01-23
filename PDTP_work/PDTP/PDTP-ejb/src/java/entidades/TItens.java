@@ -6,8 +6,8 @@
 package entidades;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Date;
-import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -37,7 +37,6 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "TItens.findAll", query = "SELECT t FROM TItens t")
     , @NamedQuery(name = "TItens.findByDataInicio", query = "SELECT t FROM TItens t WHERE t.dataInicio = :dataInicio")
     , @NamedQuery(name = "TItens.findByDataFim", query = "SELECT t FROM TItens t WHERE t.dataFim = :dataFim")
-    , @NamedQuery(name = "TItens.findByVendedor", query = "SELECT t FROM TItens t WHERE t.vendedor = :vendedor")
     , @NamedQuery(name = "TItens.findByDescricao", query = "SELECT t FROM TItens t WHERE t.descricao = :descricao")
     , @NamedQuery(name = "TItens.findByPrecoInicial", query = "SELECT t FROM TItens t WHERE t.precoInicial = :precoInicial")
     , @NamedQuery(name = "TItens.findByComprarJa", query = "SELECT t FROM TItens t WHERE t.comprarJa = :comprarJa")
@@ -54,9 +53,6 @@ public class TItens implements Serializable {
     @Column(name = "dataFim")
     @Temporal(TemporalType.TIMESTAMP)
     private Date dataFim;
-    @Size(max = 15)
-    @Column(name = "vendedor")
-    private String vendedor;
     @Size(max = 100)
     @Column(name = "descricao")
     private String descricao;
@@ -80,15 +76,18 @@ public class TItens implements Serializable {
     @Column(name = "itemID")
     private Long itemID;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "item")
-    private List<TDenunciasItens> tDenunciasItensList;
+    private Collection<TDenunciasItens> tDenunciasItensCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "item")
-    private List<TLicitacoes> tLicitacoesList;
+    private Collection<TLicitacoes> tLicitacoesCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "item")
-    private List<TitemsAVenda> titemsAVendaList;
+    private Collection<TitemsAVenda> titemsAVendaCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "item")
-    private List<TitemsSeguidos> titemsSeguidosList;
+    private Collection<TitemsSeguidos> titemsSeguidosCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "item")
-    private List<TVendas> tVendasList;
+    private Collection<TVendas> tVendasCollection;
+    @JoinColumn(name = "vendedor", referencedColumnName = "username")
+    @ManyToOne
+    private TUtilizadores vendedor;
     @JoinColumn(name = "venda", referencedColumnName = "vendaId")
     @ManyToOne
     private TVendas venda;
@@ -114,14 +113,6 @@ public class TItens implements Serializable {
 
     public void setDataFim(Date dataFim) {
         this.dataFim = dataFim;
-    }
-
-    public String getVendedor() {
-        return vendedor;
-    }
-
-    public void setVendedor(String vendedor) {
-        this.vendedor = vendedor;
     }
 
     public String getDescricao() {
@@ -181,48 +172,56 @@ public class TItens implements Serializable {
     }
 
     @XmlTransient
-    public List<TDenunciasItens> getTDenunciasItensList() {
-        return tDenunciasItensList;
+    public Collection<TDenunciasItens> getTDenunciasItensCollection() {
+        return tDenunciasItensCollection;
     }
 
-    public void setTDenunciasItensList(List<TDenunciasItens> tDenunciasItensList) {
-        this.tDenunciasItensList = tDenunciasItensList;
-    }
-
-    @XmlTransient
-    public List<TLicitacoes> getTLicitacoesList() {
-        return tLicitacoesList;
-    }
-
-    public void setTLicitacoesList(List<TLicitacoes> tLicitacoesList) {
-        this.tLicitacoesList = tLicitacoesList;
+    public void setTDenunciasItensCollection(Collection<TDenunciasItens> tDenunciasItensCollection) {
+        this.tDenunciasItensCollection = tDenunciasItensCollection;
     }
 
     @XmlTransient
-    public List<TitemsAVenda> getTitemsAVendaList() {
-        return titemsAVendaList;
+    public Collection<TLicitacoes> getTLicitacoesCollection() {
+        return tLicitacoesCollection;
     }
 
-    public void setTitemsAVendaList(List<TitemsAVenda> titemsAVendaList) {
-        this.titemsAVendaList = titemsAVendaList;
-    }
-
-    @XmlTransient
-    public List<TitemsSeguidos> getTitemsSeguidosList() {
-        return titemsSeguidosList;
-    }
-
-    public void setTitemsSeguidosList(List<TitemsSeguidos> titemsSeguidosList) {
-        this.titemsSeguidosList = titemsSeguidosList;
+    public void setTLicitacoesCollection(Collection<TLicitacoes> tLicitacoesCollection) {
+        this.tLicitacoesCollection = tLicitacoesCollection;
     }
 
     @XmlTransient
-    public List<TVendas> getTVendasList() {
-        return tVendasList;
+    public Collection<TitemsAVenda> getTitemsAVendaCollection() {
+        return titemsAVendaCollection;
     }
 
-    public void setTVendasList(List<TVendas> tVendasList) {
-        this.tVendasList = tVendasList;
+    public void setTitemsAVendaCollection(Collection<TitemsAVenda> titemsAVendaCollection) {
+        this.titemsAVendaCollection = titemsAVendaCollection;
+    }
+
+    @XmlTransient
+    public Collection<TitemsSeguidos> getTitemsSeguidosCollection() {
+        return titemsSeguidosCollection;
+    }
+
+    public void setTitemsSeguidosCollection(Collection<TitemsSeguidos> titemsSeguidosCollection) {
+        this.titemsSeguidosCollection = titemsSeguidosCollection;
+    }
+
+    @XmlTransient
+    public Collection<TVendas> getTVendasCollection() {
+        return tVendasCollection;
+    }
+
+    public void setTVendasCollection(Collection<TVendas> tVendasCollection) {
+        this.tVendasCollection = tVendasCollection;
+    }
+
+    public TUtilizadores getVendedor() {
+        return vendedor;
+    }
+
+    public void setVendedor(TUtilizadores vendedor) {
+        this.vendedor = vendedor;
     }
 
     public TVendas getVenda() {
@@ -255,7 +254,7 @@ public class TItens implements Serializable {
 
     @Override
     public String toString() {
-        return "entidades2.TItens[ itemID=" + itemID + " ]";
+        return "entidades.TItens[ itemID=" + itemID + " ]";
     }
     
 }

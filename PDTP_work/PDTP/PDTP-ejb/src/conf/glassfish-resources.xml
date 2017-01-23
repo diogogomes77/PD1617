@@ -10,5 +10,5 @@
         <property name="URL" value="jdbc:postgresql://glassfixe:5432/tp_pd1617"/>
         <property name="driverClass" value="org.postgresql.Driver"/>
     </jdbc-connection-pool>
-    <jdbc-resource enabled="true" jndi-name="java:module/tp_pd1617" object-type="user" pool-name="post-gre-sql_tp_pd1617_u1617Pool"/>
+    <jdbc-resource enabled="true" jndi-name="java:module/tp_pdjNDI" object-type="user" pool-name="post-gre-sql_tp_pd1617_u1617Pool"/>
 </resources>

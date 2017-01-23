@@ -134,7 +134,7 @@ public class TLicitacoes implements Serializable {
 
     @Override
     public String toString() {
-        return "entidades2.TLicitacoes[ idLicitacao=" + idLicitacao + " ]";
+        return "entidades.TLicitacoes[ idLicitacao=" + idLicitacao + " ]";
     }
     
 }

@@ -108,7 +108,7 @@ public class TitemsJaPagos implements Serializable {
 
     @Override
     public String toString() {
-        return "entidades2.TitemsJaPagos[ id=" + id + " ]";
+        return "entidades.TitemsJaPagos[ id=" + id + " ]";
     }
     
 }

@@ -163,7 +163,7 @@ public class TMensagens implements Serializable {
 
     @Override
     public String toString() {
-        return "entidades2.TMensagens[ idMensagem=" + idMensagem + " ]";
+        return "entidades.TMensagens[ idMensagem=" + idMensagem + " ]";
     }
     
 }

@@ -136,7 +136,7 @@ public class TDenunciasVendedores implements Serializable {
 
     @Override
     public String toString() {
-        return "entidades2.TDenunciasVendedores[ idDenunciaVendedor=" + idDenunciaVendedor + " ]";
+        return "entidades.TDenunciasVendedores[ idDenunciaVendedor=" + idDenunciaVendedor + " ]";
     }
     
 }

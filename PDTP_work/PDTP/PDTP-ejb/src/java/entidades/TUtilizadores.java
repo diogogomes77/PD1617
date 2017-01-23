@@ -6,7 +6,7 @@
 package entidades;
 
 import java.io.Serializable;
-import java.util.List;
+import java.util.Collection;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -74,21 +74,23 @@ public class TUtilizadores implements Serializable {
     @Column(name = "logged")
     private Boolean logged;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "denunciador")
-    private List<TDenunciasItens> tDenunciasItensList;
+    private Collection<TDenunciasItens> tDenunciasItensCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "licitador")
-    private List<TLicitacoes> tLicitacoesList;
+    private Collection<TLicitacoes> tLicitacoesCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "destinatario")
-    private List<TMensagens> tMensagensList;
+    private Collection<TMensagens> tMensagensCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "remetente")
-    private List<TMensagens> tMensagensList1;
+    private Collection<TMensagens> tMensagensCollection1;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "utilizador")
-    private List<TitemsAVenda> titemsAVendaList;
+    private Collection<TitemsAVenda> titemsAVendaCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "utilizador")
-    private List<TitemsSeguidos> titemsSeguidosList;
+    private Collection<TitemsSeguidos> titemsSeguidosCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "denunciador")
-    private List<TDenunciasVendedores> tDenunciasVendedoresList;
+    private Collection<TDenunciasVendedores> tDenunciasVendedoresCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "vendedor")
-    private List<TDenunciasVendedores> tDenunciasVendedoresList1;
+    private Collection<TDenunciasVendedores> tDenunciasVendedoresCollection1;
+    @OneToMany(mappedBy = "vendedor")
+    private Collection<TItens> tItensCollection;
 
     public TUtilizadores() {
     }
@@ -144,7 +146,7 @@ public class TUtilizadores implements Serializable {
         this.saldo = saldo;
     }
 
-    public String getEstado_() {
+    public String getEstado() {
         return estado;
     }
 
@@ -169,75 +171,84 @@ public class TUtilizadores implements Serializable {
     }
 
     @XmlTransient
-    public List<TDenunciasItens> getTDenunciasItensList() {
-        return tDenunciasItensList;
+    public Collection<TDenunciasItens> getTDenunciasItensCollection() {
+        return tDenunciasItensCollection;
     }
 
-    public void setTDenunciasItensList(List<TDenunciasItens> tDenunciasItensList) {
-        this.tDenunciasItensList = tDenunciasItensList;
-    }
-
-    @XmlTransient
-    public List<TLicitacoes> getTLicitacoesList() {
-        return tLicitacoesList;
-    }
-
-    public void setTLicitacoesList(List<TLicitacoes> tLicitacoesList) {
-        this.tLicitacoesList = tLicitacoesList;
+    public void setTDenunciasItensCollection(Collection<TDenunciasItens> tDenunciasItensCollection) {
+        this.tDenunciasItensCollection = tDenunciasItensCollection;
     }
 
     @XmlTransient
-    public List<TMensagens> getTMensagensList() {
-        return tMensagensList;
+    public Collection<TLicitacoes> getTLicitacoesCollection() {
+        return tLicitacoesCollection;
     }
 
-    public void setTMensagensList(List<TMensagens> tMensagensList) {
-        this.tMensagensList = tMensagensList;
-    }
-
-    @XmlTransient
-    public List<TMensagens> getTMensagensList1() {
-        return tMensagensList1;
-    }
-
-    public void setTMensagensList1(List<TMensagens> tMensagensList1) {
-        this.tMensagensList1 = tMensagensList1;
+    public void setTLicitacoesCollection(Collection<TLicitacoes> tLicitacoesCollection) {
+        this.tLicitacoesCollection = tLicitacoesCollection;
     }
 
     @XmlTransient
-    public List<TitemsAVenda> getTitemsAVendaList() {
-        return titemsAVendaList;
+    public Collection<TMensagens> getTMensagensCollection() {
+        return tMensagensCollection;
     }
 
-    public void setTitemsAVendaList(List<TitemsAVenda> titemsAVendaList) {
-        this.titemsAVendaList = titemsAVendaList;
-    }
-
-    @XmlTransient
-    public List<TitemsSeguidos> getTitemsSeguidosList() {
-        return titemsSeguidosList;
-    }
-
-    public void setTitemsSeguidosList(List<TitemsSeguidos> titemsSeguidosList) {
-        this.titemsSeguidosList = titemsSeguidosList;
+    public void setTMensagensCollection(Collection<TMensagens> tMensagensCollection) {
+        this.tMensagensCollection = tMensagensCollection;
     }
 
     @XmlTransient
-    public List<TDenunciasVendedores> getTDenunciasVendedoresList() {
-        return tDenunciasVendedoresList;
+    public Collection<TMensagens> getTMensagensCollection1() {
+        return tMensagensCollection1;
     }
 
-    public void setTDenunciasVendedoresList(List<TDenunciasVendedores> tDenunciasVendedoresList) {
-        this.tDenunciasVendedoresList = tDenunciasVendedoresList;
+    public void setTMensagensCollection1(Collection<TMensagens> tMensagensCollection1) {
+        this.tMensagensCollection1 = tMensagensCollection1;
     }
 
     @XmlTransient
-    public List<TDenunciasVendedores> getTDenunciasVendedoresList1() {
-        return tDenunciasVendedoresList1;
+    public Collection<TitemsAVenda> getTitemsAVendaCollection() {
+        return titemsAVendaCollection;
     }
 
-    public void setTDenunciasVendedoresList1(List<TDenunciasVendedores> tDenunciasVendedoresList1) {
-        this.tDenunciasVendedoresList1 = tDenunciasVendedoresList1;
+    public void setTitemsAVendaCollection(Collection<TitemsAVenda> titemsAVendaCollection) {
+        this.titemsAVendaCollection = titemsAVendaCollection;
+    }
+
+    @XmlTransient
+    public Collection<TitemsSeguidos> getTitemsSeguidosCollection() {
+        return titemsSeguidosCollection;
+    }
+
+    public void setTitemsSeguidosCollection(Collection<TitemsSeguidos> titemsSeguidosCollection) {
+        this.titemsSeguidosCollection = titemsSeguidosCollection;
+    }
+
+    @XmlTransient
+    public Collection<TDenunciasVendedores> getTDenunciasVendedoresCollection() {
+        return tDenunciasVendedoresCollection;
+    }
+
+    public void setTDenunciasVendedoresCollection(Collection<TDenunciasVendedores> tDenunciasVendedoresCollection) {
+        this.tDenunciasVendedoresCollection = tDenunciasVendedoresCollection;
+    }
+
+    @XmlTransient
+    public Collection<TDenunciasVendedores> getTDenunciasVendedoresCollection1() {
+        return tDenunciasVendedoresCollection1;
+    }
+
+    public void setTDenunciasVendedoresCollection1(Collection<TDenunciasVendedores> tDenunciasVendedoresCollection1) {
+        this.tDenunciasVendedoresCollection1 = tDenunciasVendedoresCollection1;
+    }
+
+    @XmlTransient
+    public Collection<TItens> getTItensCollection() {
+        return tItensCollection;
+    }
+
+    public void setTItensCollection(Collection<TItens> tItensCollection) {
+        this.tItensCollection = tItensCollection;
     }
 
     @Override
@@ -262,7 +273,7 @@ public class TUtilizadores implements Serializable {
 
     @Override
     public String toString() {
-        return "entidades2.TUtilizadores[ username=" + username + " ]";
+        return "entidades.TUtilizadores[ username=" + username + " ]";
     }
     
 }

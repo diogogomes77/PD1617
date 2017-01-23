@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="TUtilizadoresViewDlg" widgetVar="TUtilizadoresViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.ViewTUtilizadoresTitle}">
+            <h:form id="TUtilizadoresViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{tUtilizadoresController.selected != null}">
+                        <h:outputText value="#{bundle.ViewTUtilizadoresLabel_nome}"/>
+                        <h:outputText value="#{tUtilizadoresController.selected.nome}" title="#{bundle.ViewTUtilizadoresTitle_nome}"/>
+                        <h:outputText value="#{bundle.ViewTUtilizadoresLabel_morada}"/>
+                        <h:outputText value="#{tUtilizadoresController.selected.morada}" title="#{bundle.ViewTUtilizadoresTitle_morada}"/>
+                        <h:outputText value="#{bundle.ViewTUtilizadoresLabel_username}"/>
+                        <h:outputText value="#{tUtilizadoresController.selected.username}" title="#{bundle.ViewTUtilizadoresTitle_username}"/>
+                        <h:outputText value="#{bundle.ViewTUtilizadoresLabel_password}"/>
+                        <h:outputText value="#{tUtilizadoresController.selected.password}" title="#{bundle.ViewTUtilizadoresTitle_password}"/>
+                        <h:outputText value="#{bundle.ViewTUtilizadoresLabel_saldo}"/>
+                        <h:outputText value="#{tUtilizadoresController.selected.saldo}" title="#{bundle.ViewTUtilizadoresTitle_saldo}"/>
+                        <h:outputText value="#{bundle.ViewTUtilizadoresLabel_estado}"/>
+                        <h:outputText value="#{tUtilizadoresController.selected.estado}" title="#{bundle.ViewTUtilizadoresTitle_estado}"/>
+                        <h:outputText value="#{bundle.ViewTUtilizadoresLabel_razaoPedidoSuspensao}"/>
+                        <h:outputText value="#{tUtilizadoresController.selected.razaoPedidoSuspensao}" title="#{bundle.ViewTUtilizadoresTitle_razaoPedidoSuspensao}"/>
+                        <h:outputText value="#{bundle.ViewTUtilizadoresLabel_logged}"/>
+                        <p:selectBooleanCheckbox value="#{tUtilizadoresController.selected.logged}" disabled="true"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="TUtilizadoresViewDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>
