@@ -1,4 +1,4 @@
-package entidades.util;
+package cenas.util;
 
 import java.util.List;
 import javax.faces.application.FacesMessage;

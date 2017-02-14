@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import javax.ejb.Local;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import pdtp.Item;
 import pdtp.Utilizador;
 import pdtp.UtilizadorEstado;
@@ -348,4 +350,6 @@ public interface LeiloeiraLocal {
      *
      */
     public void checkItensDataFinal();
+    
+
 }

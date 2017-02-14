@@ -1,7 +1,8 @@
-package entidades;
+package cenas;
 
-import entidades.util.JsfUtil;
-import entidades.util.PaginationHelper;
+import jpaentidades.Messages;
+import cenas.util.JsfUtil;
+import cenas.util.PaginationHelper;
 
 import java.io.Serializable;
 import java.util.ResourceBundle;
@@ -15,30 +16,33 @@ import javax.faces.convert.FacesConverter;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 import javax.faces.model.SelectItem;
+import jpaentidades.MessagesFacade;
 
-@Named("tUtilizadoresController")
+@Named("messagesController")
 @SessionScoped
-public class TUtilizadoresController implements Serializable {
+public class MessagesController implements Serializable {
 
-    private TUtilizadores current;
-    private DataModel items = null;
     @EJB
-    private entidades.TUtilizadoresFacade ejbFacade;
+    private MessagesFacade ejbFacade;
+
+    private Messages current;
+    private DataModel items = null;
+
     private PaginationHelper pagination;
     private int selectedItemIndex;
 
-    public TUtilizadoresController() {
+    public MessagesController() {
     }
 
-    public TUtilizadores getSelected() {
+    public Messages getSelected() {
         if (current == null) {
-            current = new TUtilizadores();
+            current = new Messages();
             selectedItemIndex = -1;
         }
         return current;
     }
 
-    private TUtilizadoresFacade getFacade() {
+    private MessagesFacade getFacade() {
         return ejbFacade;
     }
 
@@ -66,13 +70,13 @@ public class TUtilizadoresController implements Serializable {
     }
 
     public String prepareView() {
-        current = (TUtilizadores) getItems().getRowData();
+        current = (Messages) getItems().getRowData();
         selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
         return "View";
     }
 
     public String prepareCreate() {
-        current = new TUtilizadores();
+        current = new Messages();
         selectedItemIndex = -1;
         return "Create";
     }
@@ -80,7 +84,7 @@ public class TUtilizadoresController implements Serializable {
     public String create() {
         try {
             getFacade().create(current);
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("TUtilizadoresCreated"));
+            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("MessagesCreated"));
             return prepareCreate();
         } catch (Exception e) {
             JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
@@ -89,7 +93,7 @@ public class TUtilizadoresController implements Serializable {
     }
 
     public String prepareEdit() {
-        current = (TUtilizadores) getItems().getRowData();
+        current = (Messages) getItems().getRowData();
         selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
         return "Edit";
     }
@@ -97,7 +101,7 @@ public class TUtilizadoresController implements Serializable {
     public String update() {
         try {
             getFacade().edit(current);
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("TUtilizadoresUpdated"));
+            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("MessagesUpdated"));
             return "View";
         } catch (Exception e) {
             JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
@@ -106,7 +110,7 @@ public class TUtilizadoresController implements Serializable {
     }
 
     public String destroy() {
-        current = (TUtilizadores) getItems().getRowData();
+        current = (Messages) getItems().getRowData();
         selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
         performDestroy();
         recreatePagination();
@@ -130,7 +134,7 @@ public class TUtilizadoresController implements Serializable {
     private void performDestroy() {
         try {
             getFacade().remove(current);
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("TUtilizadoresDeleted"));
+            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("MessagesDeleted"));
         } catch (Exception e) {
             JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
         }
@@ -186,30 +190,30 @@ public class TUtilizadoresController implements Serializable {
         return JsfUtil.getSelectItems(ejbFacade.findAll(), true);
     }
 
-    public TUtilizadores getTUtilizadores(java.lang.String id) {
+    public Messages getMessages(java.lang.Integer id) {
         return ejbFacade.find(id);
     }
 
-    @FacesConverter(forClass = TUtilizadores.class)
-    public static class TUtilizadoresControllerConverter implements Converter {
+    @FacesConverter(forClass = Messages.class)
+    public static class MessagesControllerConverter implements Converter {
 
         @Override
         public Object getAsObject(FacesContext facesContext, UIComponent component, String value) {
             if (value == null || value.length() == 0) {
                 return null;
             }
-            TUtilizadoresController controller = (TUtilizadoresController) facesContext.getApplication().getELResolver().
-                    getValue(facesContext.getELContext(), null, "tUtilizadoresController");
-            return controller.getTUtilizadores(getKey(value));
+            MessagesController controller = (MessagesController) facesContext.getApplication().getELResolver().
+                    getValue(facesContext.getELContext(), null, "messagesController");
+            return controller.getMessages(getKey(value));
         }
 
-        java.lang.String getKey(String value) {
-            java.lang.String key;
-            key = value;
+        java.lang.Integer getKey(String value) {
+            java.lang.Integer key;
+            key = Integer.valueOf(value);
             return key;
         }
 
-        String getStringKey(java.lang.String value) {
+        String getStringKey(java.lang.Integer value) {
             StringBuilder sb = new StringBuilder();
             sb.append(value);
             return sb.toString();
@@ -220,11 +224,11 @@ public class TUtilizadoresController implements Serializable {
             if (object == null) {
                 return null;
             }
-            if (object instanceof TUtilizadores) {
-                TUtilizadores o = (TUtilizadores) object;
-                return getStringKey(o.getUsername());
+            if (object instanceof Messages) {
+                Messages o = (Messages) object;
+                return getStringKey(o.getId());
             } else {
-                throw new IllegalArgumentException("object " + object + " is of type " + object.getClass().getName() + "; expected type: " + TUtilizadores.class.getName());
+                throw new IllegalArgumentException("object " + object + " is of type " + object.getClass().getName() + "; expected type: " + Messages.class.getName());
             }
         }
 

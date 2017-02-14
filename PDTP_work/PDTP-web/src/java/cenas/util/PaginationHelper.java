@@ -1,4 +1,4 @@
-package entidades.util;
+package cenas.util;
 
 import javax.faces.model.DataModel;
 

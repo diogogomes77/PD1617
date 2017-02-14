@@ -14,16 +14,24 @@ import java.util.Calendar;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map.Entry;
+
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
+import javax.ejb.EJB;
+
 import javax.ejb.Schedule;
 import javax.ejb.Singleton;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import jpaentidades.Users;
+import jpaentidades.UsersFacade;
+
+
 import pdtp.Denuncia;
 import pdtp.DenunciaItem;
 import pdtp.DenunciaVendedor;
 import pdtp.Item;
-import pdtp.ItemEstados;
+
 import pdtp.Licitacao;
 import pdtp.Utilizador;
 import pdtp.UtilizadorEstado;
@@ -45,7 +53,11 @@ public class Leiloeira implements LeiloeiraLocal {
     private List<String> categorias = new ArrayList<>();
     private List<Mensagem> mensagens = new ArrayList<>();
     private int itemCount;
-
+    
+    @EJB
+    private UsersFacade ufEjb;
+   
+    
     /**
      *
      */
@@ -55,6 +67,7 @@ public class Leiloeira implements LeiloeiraLocal {
                     new Utilizador("Administrador", "Sistema", "admin", "admin", UtilizadorEstado.ATIVO));
         }
         itemCount = getIntenCount();
+        
     }
 
     private int getIntenCount() {
@@ -103,6 +116,17 @@ public class Leiloeira implements LeiloeiraLocal {
         if (!existeUtilizador(username)) {
             utilizadoresNotOk.put(username,
                     new Utilizador(nome, morada, username, password, UtilizadorEstado.ATIVO_PEDIDO));
+            
+            Users u = new Users();
+            u.setName(nome);
+            u.setId(1);
+            ufEjb.create(u);
+//            
+//            em.getTransaction().begin();
+//            em.persist(u);
+//             em.getTransaction().commit();
+       
+        
             return true;
         }
         return false;
