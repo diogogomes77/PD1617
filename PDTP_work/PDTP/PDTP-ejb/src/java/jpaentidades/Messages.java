@@ -12,6 +12,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -40,6 +42,12 @@ public class Messages implements Serializable {
     @Size(max = 255)
     @Column(name = "text")
     private String text;
+    @JoinColumn(name = "user1", referencedColumnName = "id")
+    @ManyToOne
+    private Users user1;
+    @JoinColumn(name = "user2", referencedColumnName = "id")
+    @ManyToOne
+    private Users user2;
 
     public Messages() {
     }
@@ -64,6 +72,22 @@ public class Messages implements Serializable {
         this.text = text;
     }
 
+    public Users getUser1() {
+        return user1;
+    }
+
+    public void setUser1(Users user1) {
+        this.user1 = user1;
+    }
+
+    public Users getUser2() {
+        return user2;
+    }
+
+    public void setUser2(Users user2) {
+        this.user2 = user2;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -86,7 +110,7 @@ public class Messages implements Serializable {
 
     @Override
     public String toString() {
-        return "jpaentidades.Messages[ id=" + id + " ]";
+        return "entidades.Messages[ id=" + id + " ]";
     }
     
 }

@@ -18,7 +18,15 @@
                     <h:outputLabel value="#{bundle.EditMessagesLabel_id}" for="id" />
                     <h:inputText id="id" value="#{messagesController.selected.id}" title="#{bundle.EditMessagesTitle_id}" required="true" requiredMessage="#{bundle.EditMessagesRequiredMessage_id}"/>
                     <h:outputLabel value="#{bundle.EditMessagesLabel_text}" for="text" />
-                    <h:inputText id="text" value="#{messagesController.selected.text}" title="#{bundle.EditMessagesTitle_text}" />
+                    <h:inputText id="text" value="#{messagesController.selected.text}" title="#{bundle.EditMessagesTitle_text}" required="true" requiredMessage="#{bundle.EditMessagesRequiredMessage_text}"/>
+                    <h:outputLabel value="#{bundle.EditMessagesLabel_user1}" for="user1" />
+                    <h:selectOneMenu id="user1" value="#{messagesController.selected.user1}" title="#{bundle.EditMessagesTitle_user1}" required="true" requiredMessage="#{bundle.EditMessagesRequiredMessage_user1}">
+                        <f:selectItems value="#{usersController.itemsAvailableSelectOne}"/>
+                    </h:selectOneMenu>
+                    <h:outputLabel value="#{bundle.EditMessagesLabel_user2}" for="user2" />
+                    <h:selectOneMenu id="user2" value="#{messagesController.selected.user2}" title="#{bundle.EditMessagesTitle_user2}" required="true" requiredMessage="#{bundle.EditMessagesRequiredMessage_user2}">
+                        <f:selectItems value="#{usersController.itemsAvailableSelectOne}"/>
+                    </h:selectOneMenu>
                 </h:panelGrid>
                 <h:commandLink action="#{messagesController.update}" value="#{bundle.EditMessagesSaveLink}"/>
                 <br />

@@ -1,4 +1,4 @@
-package cenas.util;
+package jsfclasses.util;
 
 import java.util.List;
 import javax.faces.application.FacesMessage;

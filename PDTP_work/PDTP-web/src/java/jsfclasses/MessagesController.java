@@ -1,8 +1,10 @@
-package cenas;
+package jsfclasses;
 
-import jpaentidades.Messages;
-import cenas.util.JsfUtil;
-import cenas.util.PaginationHelper;
+
+
+
+import jsfclasses.util.JsfUtil;
+import jsfclasses.util.PaginationHelper;
 
 import java.io.Serializable;
 import java.util.ResourceBundle;
@@ -16,7 +18,10 @@ import javax.faces.convert.FacesConverter;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 import javax.faces.model.SelectItem;
-import jpaentidades.MessagesFacade;
+import jpaentidades.Messages;
+import jpafacades.MessagesFacade;
+
+
 
 @Named("messagesController")
 @SessionScoped
@@ -27,7 +32,8 @@ public class MessagesController implements Serializable {
 
     private Messages current;
     private DataModel items = null;
-
+//    @EJB
+//    private MessagesFacade ejbFacade;
     private PaginationHelper pagination;
     private int selectedItemIndex;
 

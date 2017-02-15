@@ -1,4 +1,4 @@
-package cenas.util;
+package jsfclasses.util;
 
 import javax.faces.model.DataModel;
 

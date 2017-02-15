@@ -18,7 +18,15 @@
                     <h:outputLabel value="#{bundle.CreateMessagesLabel_id}" for="id" />
                     <h:inputText id="id" value="#{messagesController.selected.id}" title="#{bundle.CreateMessagesTitle_id}" required="true" requiredMessage="#{bundle.CreateMessagesRequiredMessage_id}"/>
                     <h:outputLabel value="#{bundle.CreateMessagesLabel_text}" for="text" />
-                    <h:inputText id="text" value="#{messagesController.selected.text}" title="#{bundle.CreateMessagesTitle_text}" />
+                    <h:inputText id="text" value="#{messagesController.selected.text}" title="#{bundle.CreateMessagesTitle_text}" required="true" requiredMessage="#{bundle.CreateMessagesRequiredMessage_text}"/>
+                    <h:outputLabel value="#{bundle.CreateMessagesLabel_user1}" for="user1" />
+                    <h:selectOneMenu id="user1" value="#{messagesController.selected.user1}" title="#{bundle.CreateMessagesTitle_user1}" required="true" requiredMessage="#{bundle.CreateMessagesRequiredMessage_user1}">
+                        <f:selectItems value="#{usersController.itemsAvailableSelectOne}"/>
+                    </h:selectOneMenu>
+                    <h:outputLabel value="#{bundle.CreateMessagesLabel_user2}" for="user2" />
+                    <h:selectOneMenu id="user2" value="#{messagesController.selected.user2}" title="#{bundle.CreateMessagesTitle_user2}" required="true" requiredMessage="#{bundle.CreateMessagesRequiredMessage_user2}">
+                        <f:selectItems value="#{usersController.itemsAvailableSelectOne}"/>
+                    </h:selectOneMenu>
                 </h:panelGrid>
                 <br />
                 <h:commandLink action="#{messagesController.create}" value="#{bundle.CreateMessagesSaveLink}" />

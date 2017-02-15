@@ -8,7 +8,6 @@ package jpaentidades;
 import java.io.Serializable;
 import java.util.Collection;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -18,7 +17,6 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -42,14 +40,12 @@ public class Users implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 128)
+    @Size(max = 255)
     @Column(name = "name")
     private String name;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user1")
+    @OneToMany(mappedBy = "user1")
     private Collection<Messages> messagesCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user2")
+    @OneToMany(mappedBy = "user2")
     private Collection<Messages> messagesCollection1;
 
     public Users() {
@@ -57,11 +53,6 @@ public class Users implements Serializable {
 
     public Users(Integer id) {
         this.id = id;
-    }
-
-    public Users(Integer id, String name) {
-        this.id = id;
-        this.name = name;
     }
 
     public Integer getId() {

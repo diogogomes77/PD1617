@@ -23,8 +23,7 @@ import javax.ejb.Schedule;
 import javax.ejb.Singleton;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import jpaentidades.Users;
-import jpaentidades.UsersFacade;
+
 
 
 import pdtp.Denuncia;
@@ -54,8 +53,8 @@ public class Leiloeira implements LeiloeiraLocal {
     private List<Mensagem> mensagens = new ArrayList<>();
     private int itemCount;
     
-    @EJB
-    private UsersFacade ufEjb;
+   // @EJB
+  //  private UsersFacade ufEjb;
    
     
     /**
@@ -117,10 +116,10 @@ public class Leiloeira implements LeiloeiraLocal {
             utilizadoresNotOk.put(username,
                     new Utilizador(nome, morada, username, password, UtilizadorEstado.ATIVO_PEDIDO));
             
-            Users u = new Users();
-            u.setName(nome);
-            u.setId(1);
-            ufEjb.create(u);
+//            Users u = new Users();
+//            u.setName(nome);
+//            u.setId(1);
+//            ufEjb.create(u);
 //            
 //            em.getTransaction().begin();
 //            em.persist(u);

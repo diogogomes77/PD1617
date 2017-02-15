@@ -19,6 +19,10 @@
                     <h:outputText value="#{messagesController.selected.id}" title="#{bundle.ViewMessagesTitle_id}"/>
                     <h:outputText value="#{bundle.ViewMessagesLabel_text}"/>
                     <h:outputText value="#{messagesController.selected.text}" title="#{bundle.ViewMessagesTitle_text}"/>
+                    <h:outputText value="#{bundle.ViewMessagesLabel_user1}"/>
+                    <h:outputText value="#{messagesController.selected.user1}" title="#{bundle.ViewMessagesTitle_user1}"/>
+                    <h:outputText value="#{bundle.ViewMessagesLabel_user2}"/>
+                    <h:outputText value="#{messagesController.selected.user2}" title="#{bundle.ViewMessagesTitle_user2}"/>
                 </h:panelGrid>
                 <br />
                 <h:commandLink action="#{messagesController.destroyAndView}" value="#{bundle.ViewMessagesDestroyLink}"/>

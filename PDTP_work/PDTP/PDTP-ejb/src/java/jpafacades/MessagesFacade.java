@@ -3,13 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package jpaentidades;
+package jpafacades;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-import javax.persistence.PersistenceContext;
+import jpaentidades.Messages;
 
 /**
  *
@@ -18,20 +18,11 @@ import javax.persistence.PersistenceContext;
 @Stateless
 public class MessagesFacade extends AbstractFacade<Messages> {
 
-    private EntityManagerFactory emf ;
-    private EntityManager em;
-
-    public MessagesFacade(Class<Messages> entityClass) {
-        super(entityClass);
-        emf = Persistence.createEntityManagerFactory("PDTP-ejbPU");
-        em =  emf.createEntityManager();
-    }
-    
-
+    private EntityManagerFactory  emf = Persistence.createEntityManagerFactory("PDTP-ejbPU");
 
     @Override
     protected EntityManager getEntityManager() {
-        return em;
+        return emf.createEntityManager();
     }
 
     public MessagesFacade() {

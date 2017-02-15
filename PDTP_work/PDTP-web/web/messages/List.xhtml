@@ -34,6 +34,18 @@
                         </h:column>
                         <h:column>
                             <f:facet name="header">
+                                <h:outputText value="#{bundle.ListMessagesTitle_user1}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.user1}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListMessagesTitle_user2}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.user2}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
                                 <h:outputText value="&nbsp;"/>
                             </f:facet>
                             <h:commandLink action="#{messagesController.prepareView}" value="#{bundle.ListMessagesViewLink}"/>

@@ -1,9 +1,10 @@
-package cenas;
+package jsfclasses;
 
-import jpaentidades.Users;
-import jpaentidades.UsersFacade;
-import cenas.util.JsfUtil;
-import cenas.util.PaginationHelper;
+
+
+import jsfclasses.util.JsfUtil;
+import jsfclasses.util.PaginationHelper;
+
 
 import java.io.Serializable;
 import java.util.ResourceBundle;
@@ -17,18 +18,17 @@ import javax.faces.convert.FacesConverter;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 import javax.faces.model.SelectItem;
+import jpaentidades.Users;
+import jpafacades.UsersFacade;
 
 @Named("usersController")
 @SessionScoped
 public class UsersController implements Serializable {
 
-    @EJB
-    private UsersFacade ejbFacade;
-
     private Users current;
     private DataModel items = null;
-   // @EJB
-   // private cenas.UsersFacade ejbFacade;
+    @EJB
+    private UsersFacade ejbFacade;
     private PaginationHelper pagination;
     private int selectedItemIndex;
 
