@@ -5,11 +5,10 @@
  */
 package jpafacades;
 
+import jpafacades.AbstractFacade;
 import javax.ejb.Stateless;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-import javax.persistence.PersistenceContext;
+
+import jpaentidades.TUtilizadores;
 import jpaentidades.TUtilizadores;
 
 /**
@@ -19,12 +18,11 @@ import jpaentidades.TUtilizadores;
 @Stateless
 public class TUtilizadoresFacade extends AbstractFacade<TUtilizadores> {
 
-    private EntityManagerFactory emf = Persistence.createEntityManagerFactory("PDTP-ejbPU");
-
-    @Override
-    protected EntityManager getEntityManager() {
-        return emf.createEntityManager();
-    }
+  
+//    @Override
+//    protected EntityManager getEntityManager() {
+//        return emf.createEntityManager();
+//    }
 
     public TUtilizadoresFacade() {
         super(TUtilizadores.class);

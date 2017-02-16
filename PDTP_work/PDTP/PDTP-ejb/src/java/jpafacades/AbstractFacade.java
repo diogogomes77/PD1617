@@ -7,6 +7,8 @@ package jpafacades;
 
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 
 /**
  *
@@ -14,14 +16,19 @@ import javax.persistence.EntityManager;
  */
 public abstract class AbstractFacade<T> {
 
+    EntityManagerFactory emf = Persistence.createEntityManagerFactory("PDTP-ejbPU");
+
     private Class<T> entityClass;
 
     public AbstractFacade(Class<T> entityClass) {
         this.entityClass = entityClass;
     }
 
-    protected abstract EntityManager getEntityManager();
-
+    //protected abstract EntityManager getEntityManager();
+    public EntityManager getEntityManager() {
+        return emf.createEntityManager();
+    }
+    
     public void create(T entity) {
         getEntityManager().persist(entity);
     }
