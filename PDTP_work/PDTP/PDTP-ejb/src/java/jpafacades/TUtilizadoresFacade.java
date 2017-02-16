@@ -5,11 +5,12 @@
  */
 package jpafacades;
 
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-import javax.persistence.PersistenceContext;
+import jpaentidades.DAOLocal;
 import jpaentidades.TUtilizadores;
 
 /**
@@ -19,11 +20,12 @@ import jpaentidades.TUtilizadores;
 @Stateless
 public class TUtilizadoresFacade extends AbstractFacade<TUtilizadores> {
 
-    private EntityManagerFactory emf = Persistence.createEntityManagerFactory("PDTP-ejbPU");
+    @EJB
+    private DAOLocal DAO;
 
     @Override
     protected EntityManager getEntityManager() {
-        return emf.createEntityManager();
+        return DAO.getEntityManager();
     }
 
     public TUtilizadoresFacade() {
