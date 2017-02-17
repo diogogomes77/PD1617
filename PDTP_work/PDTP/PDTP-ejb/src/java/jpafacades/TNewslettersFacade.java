@@ -9,14 +9,14 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import jpaentidades.DAOLocal;
-import jpaentidades.TUtilizadores;
+import jpaentidades.TNewsletters;
 
 /**
  *
- * @author diogo
+ * @author eugenio
  */
 @Stateless
-public class TUtilizadoresFacade extends AbstractFacade<TUtilizadores> {
+public class TNewslettersFacade extends AbstractFacade<TNewsletters> {
 
     @EJB
     private DAOLocal DAO;
@@ -26,8 +26,8 @@ public class TUtilizadoresFacade extends AbstractFacade<TUtilizadores> {
         return DAO.getEntityManager();
     }
 
-    public TUtilizadoresFacade() {
-        super(TUtilizadores.class);
+    public TNewslettersFacade() {
+        super(TNewsletters.class);
     }
     
 }

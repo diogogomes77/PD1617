@@ -8,8 +8,6 @@ package jpafacades;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import jpaentidades.DAOLocal;
 import jpaentidades.TMensagens;
 
