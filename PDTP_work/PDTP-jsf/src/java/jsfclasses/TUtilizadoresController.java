@@ -17,6 +17,8 @@ import javax.faces.convert.FacesConverter;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 import javax.faces.model.SelectItem;
+import javax.persistence.EntityTransaction;
+import jpaentidades.DAOLocal;
 
 @Named("tUtilizadoresController")
 @SessionScoped
@@ -26,6 +28,10 @@ public class TUtilizadoresController implements Serializable {
     private DataModel items = null;
     @EJB
     private jpafacades.TUtilizadoresFacade ejbFacade;
+
+    @EJB
+    private DAOLocal DAO;
+
     private PaginationHelper pagination;
     private int selectedItemIndex;
 
@@ -81,7 +87,10 @@ public class TUtilizadoresController implements Serializable {
 
     public String create() {
         try {
+            EntityTransaction trans = DAO.getEntityManager().getTransaction();
+            trans.begin();
             getFacade().create(current);
+            trans.commit();
             JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("TUtilizadoresCreated"));
             return prepareCreate();
         } catch (Exception e) {
