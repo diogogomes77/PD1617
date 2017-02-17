@@ -11,6 +11,7 @@ import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.ejb.Singleton;
+import javax.management.Query;
 //import javax.ejb.TransactionManagement;
 //import static javax.ejb.TransactionManagementType.BEAN;
 import javax.naming.Context;
@@ -18,6 +19,7 @@ import javax.naming.InitialContext;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.persistence.TypedQuery;
 import javax.transaction.UserTransaction;
 
 /**
@@ -32,8 +34,6 @@ public class DAO implements DAOLocal {
 
     //@PersistenceContext(unitName = "PDTP-ejbPU")
     private EntityManager em = null;//emf.createEntityManager();
-
-
 
 //    @Resource
 //    private UserTransaction utx;
@@ -68,7 +68,7 @@ public class DAO implements DAOLocal {
     }
 
     @Override
-    public Object find(Class s,Object id) {
+    public Object find(Class s, Object id) {
         Logger.getLogger(getClass().getName()).log(Level.INFO, "Find Entity " + id);
         return getEntityManager().find(s, id);
     }
@@ -82,7 +82,16 @@ public class DAO implements DAOLocal {
     }
 
     @Override
-    public List<Object> findRange( Class s, int[] range) {
+    public List<Object> findByNamedQuery(Class s, String nameQuery, String nameParam, Object valeu) {
+        Logger.getLogger(getClass().getName()).log(Level.INFO, "Find All Entity by namedQuery");
+        TypedQuery q = getEntityManager().createNamedQuery(nameQuery,s);
+        if( ! nameParam.isEmpty()) //Por enquando suporta um parametro
+            q.setParameter(nameParam, valeu);
+        return q.getResultList();
+    }
+
+    @Override
+    public List<Object> findRange(Class s, int[] range) {
         Logger.getLogger(getClass().getName()).log(Level.INFO, "Find Range of Entity");
         javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
         cq.select(cq.from(s));

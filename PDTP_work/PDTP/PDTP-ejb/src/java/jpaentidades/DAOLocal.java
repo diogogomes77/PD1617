@@ -32,6 +32,8 @@ public interface DAOLocal {
 
     public List<Object> findAll(Class s);
 
+    public List<Object> findByNamedQuery(Class s, String nameQuery, String nameParam, Object valeu);
+
     public List<Object> findRange(Class s,int[] range);
 
     public int count(Class s);
