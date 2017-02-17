@@ -7,6 +7,7 @@ package jpaentidades;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.ejb.Singleton;
 //import javax.ejb.TransactionManagement;
@@ -26,7 +27,7 @@ import javax.transaction.UserTransaction;
 @Singleton
 public class DAO implements DAOLocal {
 
-    EntityManagerFactory emf = null;//Persistence.createEntityManagerFactory("PDTP-ejbPU");
+    EntityManagerFactory emf = Persistence.createEntityManagerFactory("PDTP-ejbPU");
 
     //@PersistenceContext(unitName = "PDTP-ejbPU")
     
@@ -45,10 +46,17 @@ public class DAO implements DAOLocal {
         }
         return em;
     }
+    
+    @PostConstruct
+     public void loadstate() {
+         Logger.getLogger(getClass().getName()).log(Level.INFO, "A abrir as ligações");
+         this.getEntityManager();
+     }
 
     @PreDestroy
     public void destruct() {
         Logger.getLogger(getClass().getName()).log(Level.INFO, "Fechar as ligações");
+        //em.getTransaction().commit();
         em.close();
         emf.close();
         em = null;

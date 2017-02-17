@@ -14,6 +14,8 @@ import java.util.Calendar;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -23,8 +25,10 @@ import javax.ejb.Schedule;
 import javax.ejb.Singleton;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-
-
+import javax.persistence.EntityTransaction;
+import jpaentidades.DAOLocal;
+import jpaentidades.TNewsletters;
+import jpaentidades.TUtilizadores;
 
 import pdtp.Denuncia;
 import pdtp.DenunciaItem;
@@ -43,6 +47,15 @@ import pdtp.Venda;
 @Singleton
 public class Leiloeira implements LeiloeiraLocal {
 
+    @EJB
+    private DAOLocal DAO;
+
+    @EJB
+    private jpafacades.TNewslettersFacade newslettersFacade;
+
+    @EJB
+    private jpafacades.TUtilizadoresFacade utilizadoresFacade;
+
     private HashMap<String, Utilizador> utilizadoresOk = new HashMap<>();
     private HashMap<String, Utilizador> utilizadoresNotOk = new HashMap<>();
     private HashMap<Integer, Item> itensAVenda = new HashMap<>();
@@ -52,11 +65,9 @@ public class Leiloeira implements LeiloeiraLocal {
     private List<String> categorias = new ArrayList<>();
     private List<Mensagem> mensagens = new ArrayList<>();
     private int itemCount;
-    
-   // @EJB
-  //  private UsersFacade ufEjb;
-   
-    
+
+    // @EJB
+    //  private UsersFacade ufEjb;
     /**
      *
      */
@@ -66,7 +77,7 @@ public class Leiloeira implements LeiloeiraLocal {
                     new Utilizador("Administrador", "Sistema", "admin", "admin", UtilizadorEstado.ATIVO));
         }
         itemCount = getIntenCount();
-        
+
     }
 
     private int getIntenCount() {
@@ -96,8 +107,9 @@ public class Leiloeira implements LeiloeiraLocal {
         if (j == null) // sera que nao fica null?
         {
             j = utilizadoresNotOk.get(username);
-            if (j==null)
+            if (j == null) {
                 return false;
+            }
         }
         return true;
     }
@@ -115,17 +127,29 @@ public class Leiloeira implements LeiloeiraLocal {
         if (!existeUtilizador(username)) {
             utilizadoresNotOk.put(username,
                     new Utilizador(nome, morada, username, password, UtilizadorEstado.ATIVO_PEDIDO));
-            
-//            Users u = new Users();
-//            u.setName(nome);
-//            u.setId(1);
-//            ufEjb.create(u);
-//            
-//            em.getTransaction().begin();
-//            em.persist(u);
-//             em.getTransaction().commit();
-       
-        
+
+            TUtilizadores user = new TUtilizadores();
+            user.setUsername(username);
+            user.setPassword(password);
+            user.setMorada(morada);
+            user.setNome(nome);
+
+            TNewsletters news = new TNewsletters();
+            news.setAssunto("Novo Utilizador Inscrito");
+            news.setNewsletter("O " + nome + " está inscrito.");
+
+            if(utilizadoresFacade.find(username) == null ){
+                Logger.getLogger(getClass().getName()).log(Level.INFO, "O Utilizador Já existe");
+                EntityTransaction trans = DAO.getEntityManager().getTransaction();
+                trans.begin();
+                utilizadoresFacade.create(user);
+                newslettersFacade.create(news);
+                trans.commit();
+            }
+            else{
+                Logger.getLogger(getClass().getName()).log(Level.INFO, "O Utilizador Já existe");
+            }
+
             return true;
         }
         return false;
@@ -181,14 +205,13 @@ public class Leiloeira implements LeiloeiraLocal {
     }
 
     private void terminaItem(Item it) {
-        
+
         itensTerminados.put(it.getItemID(), it);
         itensAVenda.remove(it.getItemID());
         if (it.getLicitacoes().isEmpty()) {
             it.terminaItemSemLicitacoes();
             this.addMensagem("admin", "admin", it.toString(), "Item Terminado sem comprador");
-        }
-        else{
+        } else {
             if (it.addVendaLicitacao()) {
                 this.addMensagem("admin", "admin", it.toString(), "Item Terminado com comprador");
             } else {
@@ -216,8 +239,8 @@ public class Leiloeira implements LeiloeiraLocal {
 
     /**
      *
-     * @throws InterruptedException
-     * faz logout aos utilizadodres com 4 minutos de inatividade
+     * @throws InterruptedException faz logout aos utilizadodres com 4 minutos
+     * de inatividade
      */
     @Schedule(second = "*/5", minute = "*", hour = "*")
     public void checkInactivity() throws InterruptedException {
@@ -238,6 +261,9 @@ public class Leiloeira implements LeiloeiraLocal {
      */
     @PostConstruct
     public void loadstate() {
+
+        DAO.getEntityManager();
+
         try (ObjectInputStream ois
                 = new ObjectInputStream(
                         new BufferedInputStream(
@@ -273,7 +299,7 @@ public class Leiloeira implements LeiloeiraLocal {
     }
 
     /**
-     * 
+     *
      * @return Lista de utilizadores inscritos, ativos e nao ativos
      */
     @Override
@@ -291,7 +317,7 @@ public class Leiloeira implements LeiloeiraLocal {
     }
 
     /**
-     * 
+     *
      * @return lista de utilizadores online
      */
     @Override
@@ -308,6 +334,7 @@ public class Leiloeira implements LeiloeiraLocal {
 
     /**
      * Adiciona saldo a utilizador
+     *
      * @param valor
      * @param username
      * @return valor de saldo se o utilizador estiver logado
@@ -327,7 +354,7 @@ public class Leiloeira implements LeiloeiraLocal {
      */
     @Override
     public Double getSaldo(String username) {
-        if (utilizadoresOk.get(username)!=null) {
+        if (utilizadoresOk.get(username) != null) {
             return utilizadoresOk.get(username).getSaldo();
         }
         return null;
@@ -352,7 +379,7 @@ public class Leiloeira implements LeiloeiraLocal {
     }
 
     /**
-     * 
+     *
      * @param estado
      * @return lista de utilizadores em determinado estado
      */
@@ -398,13 +425,14 @@ public class Leiloeira implements LeiloeiraLocal {
 
     /**
      * Pedido de suspensao
+     *
      * @param denunciador
      * @param denunciado
      * @param razao
-     * @return true 
+     * @return true
      */
     @Override
-    public boolean pedirSuspensaoUtilizador(String denunciador,String denunciado, String razao) {
+    public boolean pedirSuspensaoUtilizador(String denunciador, String denunciado, String razao) {
         utilizadoresOk.get(denunciado).setEstado(UtilizadorEstado.SUSPENDO_PEDIDO);
         utilizadoresOk.get(denunciado).setRazaoPedidoSuspensao(razao);
         Mensagem msg = new Mensagem(denunciador, "admin", razao, "pedido de suspensao", MensagemEstado.ENVIADA);
@@ -533,8 +561,9 @@ public class Leiloeira implements LeiloeiraLocal {
     public boolean pedirReativacaoUsername(String username, String password) {
         if (existeUtilizador(username)) {
             Utilizador u = utilizadoresNotOk.get(username);
-            if (u==null)
+            if (u == null) {
                 return false;
+            }
             if (u.getPassword().equals(password)) {
                 if (u.getEstado() == UtilizadorEstado.SUSPENSO) {
                     u.setEstado(UtilizadorEstado.REATIVACAO_PEDIDO);
@@ -651,8 +680,8 @@ public class Leiloeira implements LeiloeiraLocal {
      */
     @Override
     public String mostraItem(int itemId) {
-        Item item =  itensAVenda.get(itemId);
-        if (item==null){
+        Item item = itensAVenda.get(itemId);
+        if (item == null) {
             return "ERRO: Item invalido";
         }
         return item.toString();
@@ -665,8 +694,8 @@ public class Leiloeira implements LeiloeiraLocal {
      */
     @Override
     public String getVendedorItem(int itemId) {
-        Item item =  itensAVenda.get(itemId);
-        if (item==null){
+        Item item = itensAVenda.get(itemId);
+        if (item == null) {
             return "ERRO: Item invalido";
         }
         return item.getVendedor().getUsername();
@@ -679,8 +708,8 @@ public class Leiloeira implements LeiloeiraLocal {
      */
     @Override
     public String consultarLicitacoes(int itemid) {
-         Item item =  itensAVenda.get(itemid);
-        if (item==null){
+        Item item = itensAVenda.get(itemid);
+        if (item == null) {
             return "ERRO: Item invalido";
         }
         List<Licitacao> licitacoes = new ArrayList<Licitacao>(item.getLicitacoes().values());
@@ -704,12 +733,13 @@ public class Leiloeira implements LeiloeiraLocal {
      */
     @Override
     public boolean comprarJaItem(int itemId, String comprador) {
-        Item item =  itensAVenda.get(itemId);
-        if (item==null){
+        Item item = itensAVenda.get(itemId);
+        if (item == null) {
             return false;
-        }  
-        if (item == null)
+        }
+        if (item == null) {
             return false;
+        }
         Utilizador u = utilizadoresOk.get(comprador);
         if (item.addVendacomprarJa(u)) {
             itensTerminados.put(itemId, item);
@@ -745,7 +775,7 @@ public class Leiloeira implements LeiloeiraLocal {
     @Override
     public boolean seguirItem(String username, int itemId) {
         Item item = itensAVenda.get(itemId);
-         if (item==null){
+        if (item == null) {
             return false;
         }
         return utilizadoresOk.get(username).addItemSeguido(item);
@@ -769,7 +799,7 @@ public class Leiloeira implements LeiloeiraLocal {
     @Override
     public List<String> getIensPorPagarUtilizador(String username) {
         Utilizador u = utilizadoresOk.get(username);
-        
+
         return u.getItemsPorPagar();
     }
 
@@ -782,11 +812,13 @@ public class Leiloeira implements LeiloeiraLocal {
     @Override
     public boolean concluirTransacao(String username, int itemId) {
         Item i = this.itensTerminados.get(itemId);
-        if (i==null)
+        if (i == null) {
             return false;
+        }
         Venda v = i.getVenda();
-        if (v==null)
+        if (v == null) {
             return false;
+        }
         return v.concluirVenda();
     }
 
@@ -798,16 +830,18 @@ public class Leiloeira implements LeiloeiraLocal {
      * @return
      */
     @Override
-    public boolean denunciarItem(int itemId,String denunciador,String razao) {
+    public boolean denunciarItem(int itemId, String denunciador, String razao) {
         Item i = this.itensAVenda.get(itemId);
-        if (i==null)
+        if (i == null) {
             return false;
+        }
         Utilizador u = utilizadoresOk.get(denunciador);
-        if (u==null)
+        if (u == null) {
             return false;
-        DenunciaItem d = new DenunciaItem(i,u,razao);
+        }
+        DenunciaItem d = new DenunciaItem(i, u, razao);
         denunciasItens.add(d);
-        addMensagem(denunciador, "admin", d.toString(), "denuncia item "+i.getItemID());
+        addMensagem(denunciador, "admin", d.toString(), "denuncia item " + i.getItemID());
         return true;
     }
 
@@ -816,9 +850,9 @@ public class Leiloeira implements LeiloeiraLocal {
      * @return
      */
     @Override
-    public List<String> obtemDenunciasVendedores(){
+    public List<String> obtemDenunciasVendedores() {
         List<String> result = new ArrayList<>();
-        for (Denuncia denuncia : denunciasVendedores){
+        for (Denuncia denuncia : denunciasVendedores) {
             result.add(denuncia.toString());
         }
         return result;
@@ -831,7 +865,7 @@ public class Leiloeira implements LeiloeiraLocal {
     @Override
     public List<String> obtemDenunciasItens() {
         List<String> result = new ArrayList<>();
-        for (Denuncia denuncia : denunciasItens){
+        for (Denuncia denuncia : denunciasItens) {
             result.add(denuncia.toString());
         }
         return result;
@@ -847,14 +881,16 @@ public class Leiloeira implements LeiloeiraLocal {
     @Override
     public boolean denunciarVendedor(String denunciador, String vendedor, String razao) {
         Utilizador d = utilizadoresOk.get(denunciador);
-        if (d==null)
+        if (d == null) {
             return false;
+        }
         Utilizador v = utilizadoresOk.get(vendedor);
-        if (v==null)
+        if (v == null) {
             return false;
-        DenunciaVendedor den = new DenunciaVendedor(d,v,razao);
+        }
+        DenunciaVendedor den = new DenunciaVendedor(d, v, razao);
         denunciasVendedores.add(den);
-        addMensagem(denunciador, "admin", d.toString(), "denuncia vendedor "+v.getUsername());
+        addMensagem(denunciador, "admin", d.toString(), "denuncia vendedor " + v.getUsername());
         return true;
     }
 
@@ -865,9 +901,10 @@ public class Leiloeira implements LeiloeiraLocal {
      */
     @Override
     public boolean cancelarItem(int itemId) {
-        Item i= itensAVenda.get(itemId);
-        if (i==null)
+        Item i = itensAVenda.get(itemId);
+        if (i == null) {
             return false;
+        }
         return i.cancelarItem(i.getVendedor());
     }
 
