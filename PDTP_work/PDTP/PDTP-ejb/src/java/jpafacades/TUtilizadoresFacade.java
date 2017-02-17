@@ -5,10 +5,12 @@
  */
 package jpafacades;
 
-import jpafacades.AbstractFacade;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
-
-import jpaentidades.TUtilizadores;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+import jpaentidades.DAOLocal;
 import jpaentidades.TUtilizadores;
 
 /**
@@ -18,11 +20,13 @@ import jpaentidades.TUtilizadores;
 @Stateless
 public class TUtilizadoresFacade extends AbstractFacade<TUtilizadores> {
 
-  
-//    @Override
-//    protected EntityManager getEntityManager() {
-//        return emf.createEntityManager();
-//    }
+    @EJB
+    private DAOLocal DAO;
+
+    @Override
+    protected EntityManager getEntityManager() {
+        return DAO.getEntityManager();
+    }
 
     public TUtilizadoresFacade() {
         super(TUtilizadores.class);

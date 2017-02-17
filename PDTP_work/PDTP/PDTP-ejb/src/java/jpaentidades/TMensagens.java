@@ -149,7 +149,7 @@ public class TMensagens implements Serializable {
 
     @Override
     public String toString() {
-        return "jpaentidades.TMensagens[ idMensagem=" + idMensagem + " ]";
+        return "jpaentidades.TMensagens[ idMensagem=" + idMensagem + " assunto = '"+assunto+"']";
     }
     
 }

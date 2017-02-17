@@ -5,10 +5,12 @@
  */
 package jpafacades;
 
-import jpafacades.AbstractFacade;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
-import jpaentidades.TMensagens;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+import jpaentidades.DAOLocal;
 import jpaentidades.TMensagens;
 
 /**
@@ -18,12 +20,13 @@ import jpaentidades.TMensagens;
 @Stateless
 public class TMensagensFacade extends AbstractFacade<TMensagens> {
 
-   
-//    @Override
-//    protected EntityManager getEntityManager() {
-//        return emf.createEntityManager();
-//    }
+    @EJB
+    private DAOLocal DAO;
 
+    @Override
+    protected EntityManager getEntityManager() {
+        return DAO.getEntityManager();
+    }
 
     public TMensagensFacade() {
         super(TMensagens.class);
