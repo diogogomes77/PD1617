@@ -29,8 +29,8 @@ public class TUtilizadoresController implements Serializable {
     @EJB
     private jpafacades.TUtilizadoresFacade ejbFacade;
 
-    @EJB
-    private DAOLocal DAO;
+//    @EJB
+//    private DAOLocal DAO;
 
     private PaginationHelper pagination;
     private int selectedItemIndex;
@@ -87,10 +87,10 @@ public class TUtilizadoresController implements Serializable {
 
     public String create() {
         try {
-            EntityTransaction trans = DAO.getEntityManager().getTransaction();
-            trans.begin();
+//            EntityTransaction trans = DAO.getEntityManager().getTransaction();
+//            trans.begin();
             getFacade().create(current);
-            trans.commit();
+//            trans.commit();
             JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("TUtilizadoresCreated"));
             return prepareCreate();
         } catch (Exception e) {
@@ -158,7 +158,7 @@ public class TUtilizadoresController implements Serializable {
             }
         }
         if (selectedItemIndex >= 0) {
-            current = getFacade().findRange(new int[]{selectedItemIndex, selectedItemIndex + 1}).get(0);
+            current = (TUtilizadores) getFacade().findRange(new int[]{selectedItemIndex, selectedItemIndex + 1}).get(0);
         }
     }
 

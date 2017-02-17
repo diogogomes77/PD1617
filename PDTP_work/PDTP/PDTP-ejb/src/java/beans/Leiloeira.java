@@ -36,6 +36,7 @@ import pdtp.DenunciaVendedor;
 import pdtp.Item;
 
 import pdtp.Licitacao;
+import pdtp.Newsletters;
 import pdtp.Utilizador;
 import pdtp.UtilizadorEstado;
 import pdtp.Venda;
@@ -50,11 +51,11 @@ public class Leiloeira implements LeiloeiraLocal {
     @EJB
     private DAOLocal DAO;
 
-    @EJB
-    private jpafacades.TNewslettersFacade newslettersFacade;
-
-    @EJB
-    private jpafacades.TUtilizadoresFacade utilizadoresFacade;
+//    @EJB
+//    private jpafacades.TNewslettersFacade newslettersFacade;
+//
+//    @EJB
+//    private jpafacades.TUtilizadoresFacade utilizadoresFacade;
 
     private HashMap<String, Utilizador> utilizadoresOk = new HashMap<>();
     private HashMap<String, Utilizador> utilizadoresNotOk = new HashMap<>();
@@ -66,16 +67,13 @@ public class Leiloeira implements LeiloeiraLocal {
     private List<Mensagem> mensagens = new ArrayList<>();
     private int itemCount;
 
-    // @EJB
-    //  private UsersFacade ufEjb;
-    /**
-     *
-     */
+    private List<Newsletters> newsletters = new ArrayList<>();
+
     public Leiloeira() {
-        if (!utilizadoresOk.containsKey("admin")) {
-            utilizadoresOk.put("admin",
-                    new Utilizador("Administrador", "Sistema", "admin", "admin", UtilizadorEstado.ATIVO));
-        }
+//        if (!utilizadoresOk.containsKey("admin")) {
+//            utilizadoresOk.put("admin",
+//                    new Utilizador("Administrador", "Sistema", "admin", "admin", UtilizadorEstado.ATIVO));
+//        }
         itemCount = getIntenCount();
 
     }
@@ -83,7 +81,12 @@ public class Leiloeira implements LeiloeiraLocal {
     private int getIntenCount() {
         return itensAVenda.size();
     }
-
+    
+    
+    @Override
+    public DAOLocal getDAO() {
+        return DAO;
+    }
     /**
      *
      * @return Lista de utilizadores ativados
@@ -133,17 +136,16 @@ public class Leiloeira implements LeiloeiraLocal {
             user.setPassword(password);
             user.setMorada(morada);
             user.setNome(nome);
+            Newsletters news = new Newsletters("novo utilizador","O " + nome + " está inscrito.");
+            newsletters.add(news);
+            
 
-            TNewsletters news = new TNewsletters();
-            news.setAssunto("Novo Utilizador Inscrito");
-            news.setNewsletter("O " + nome + " está inscrito.");
-
-            if(utilizadoresFacade.find(username) == null ){
+            if(DAO.find(TUtilizadores.class,username) == null ){
                 Logger.getLogger(getClass().getName()).log(Level.INFO, "O Utilizador Já existe");
                 EntityTransaction trans = DAO.getEntityManager().getTransaction();
                 trans.begin();
-                utilizadoresFacade.create(user);
-                newslettersFacade.create(news);
+                DAO.create(user);
+                DAO.create(news);
                 trans.commit();
             }
             else{
@@ -262,7 +264,7 @@ public class Leiloeira implements LeiloeiraLocal {
     @PostConstruct
     public void loadstate() {
 
-        DAO.getEntityManager();
+        //DAO.getEntityManager();
 
         try (ObjectInputStream ois
                 = new ObjectInputStream(

@@ -2,13 +2,18 @@
 package pdtp;
 
 //import entidades.TUtilizadores;
+import beans.LeiloeiraLocal;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.List;
+import javax.ejb.EJB;
 import javax.persistence.Entity;
+import javax.persistence.EntityTransaction;
 import javax.persistence.Table;
+import jpaentidades.DAOLocal;
+import jpaentidades.TUtilizadores;
 
 /**
  *
@@ -30,6 +35,12 @@ public class Utilizador implements Serializable {
     private boolean logged;
     long lastAction;
     
+    @EJB
+    private DAOLocal DAO;
+
+
+//    @EJB
+//    private jpafacades.TUtilizadoresFacade utilizadoresFacade;
     /**
      *
      * @param nome
@@ -53,6 +64,28 @@ public class Utilizador implements Serializable {
         
         this.logged=false;
         this.estado=estado;
+      //   System.out.println("----------Persistir Utilizador");
+    //    TUtilizadores newuser =  new TUtilizadores(nome,morada,username,password,saldo,logged,estado);
+
+//       try {
+//            
+//            DAO.getEntityManager().getTransaction().begin();
+//            System.out.println("----------begin ok");
+//            DAO.create(newuser);
+//            System.out.println("----------create ok");
+//            DAO.getEntityManager().getTransaction().commit();
+//            System.out.println("----------commit ok");
+//        } catch (Exception e) {
+//            System.out.println(e.toString());
+//             DAO.getEntityManager().getTransaction().rollback();
+//             System.out.println("----------rollaback ok");
+//             try{
+//                  DAO.persist(newuser);
+//                  System.out.println("----------persist ok");
+//             } catch (Exception e2) {
+//                 System.out.println(e2.toString());
+//             }
+//        }
     }
 
     /**

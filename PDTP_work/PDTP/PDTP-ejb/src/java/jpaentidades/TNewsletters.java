@@ -6,6 +6,9 @@
 package jpaentidades;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -15,6 +18,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -38,9 +42,12 @@ public class TNewsletters implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    @Basic(optional = false)
-    @Column(name = "id_newsletter")
+    @SequenceGenerator(name = "addressGen",sequenceName = "t_newsletters_id_seq")
+                    //   allocationSize=1)
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "addressGen")
+    
+   // @Basic(optional = false)
+    @Column(name = "id_newsletter", updatable = false, nullable = false)
     private Integer idNewsletter;
     @Size(max = 255)
     @Column(name = "assunto")
@@ -53,6 +60,14 @@ public class TNewsletters implements Serializable {
     private String newsletter;
 
     public TNewsletters() {
+    }
+
+    public TNewsletters(String assunto, String newsletter) {
+        this.assunto = assunto;
+        this.newsletter = newsletter;
+        Date in = new Date();
+        LocalDateTime ldt = LocalDateTime.ofInstant(in.toInstant(), ZoneId.systemDefault());
+        this.data = Date.from(ldt.atZone(ZoneId.systemDefault()).toInstant());
     }
 
     public TNewsletters(Integer idNewsletter) {

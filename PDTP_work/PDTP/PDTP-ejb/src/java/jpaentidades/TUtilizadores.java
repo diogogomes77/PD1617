@@ -19,6 +19,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import pdtp.UtilizadorEstado;
 
 /**
  *
@@ -88,6 +89,16 @@ public class TUtilizadores implements Serializable {
 
     public TUtilizadores(String username) {
         this.username = username;
+    }
+
+    public TUtilizadores(String nome, String morada, String username, String password, Double saldo, boolean logged, UtilizadorEstado estado) {
+        this.username = username;
+        this.estado = estado.msg();
+        this.logged = logged;
+        this.morada = morada;
+        this.nome = nome;
+        this.password = password;
+        this.saldo = saldo;
     }
 
     public String getUsername() {

@@ -6,6 +6,7 @@
 package jpafacades;
 
 import javax.ejb.EJB;
+import javax.ejb.Singleton;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import jpaentidades.DAOLocal;
@@ -15,16 +16,16 @@ import jpaentidades.TMensagens;
  *
  * @author diogo
  */
-@Stateless
+@Singleton
 public class TMensagensFacade extends AbstractFacade<TMensagens> {
 
-    @EJB
-    private DAOLocal DAO;
-
-    @Override
-    protected EntityManager getEntityManager() {
-        return DAO.getEntityManager();
-    }
+//    @EJB
+//    private DAOLocal DAO;
+//
+//    @Override
+//    public EntityManager getEntityManager() {
+//        return DAO.getEntityManager();
+//    }
 
     public TMensagensFacade() {
         super(TMensagens.class);
