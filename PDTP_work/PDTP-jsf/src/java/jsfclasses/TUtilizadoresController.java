@@ -1,5 +1,6 @@
 package jsfclasses;
 
+import beans.ClientVisitanteRemote;
 import jpaentidades.TUtilizadores;
 import jsfclasses.util.JsfUtil;
 import jsfclasses.util.PaginationHelper;
@@ -28,9 +29,8 @@ public class TUtilizadoresController implements Serializable {
     private DataModel items = null;
     @EJB
     private jpafacades.TUtilizadoresFacade ejbFacade;
-
-//    @EJB
-//    private DAOLocal DAO;
+    @EJB
+    private ClientVisitanteRemote clientVisitante;
 
     private PaginationHelper pagination;
     private int selectedItemIndex;
@@ -70,31 +70,30 @@ public class TUtilizadoresController implements Serializable {
 
     public String prepareList() {
         recreateModel();
-        return "List";
+        return "/tUtilizadores/List";
     }
 
     public String prepareView() {
         current = (TUtilizadores) getItems().getRowData();
         selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
-        return "View";
+        return "/tUtilizadores/View";
     }
 
     public String prepareCreate() {
         current = new TUtilizadores();
         selectedItemIndex = -1;
-        return "Create";
+        return "/tUtilizadores/Create";
     }
 
     public String create() {
-        try {
-//            EntityTransaction trans = DAO.getEntityManager().getTransaction();
-//            trans.begin();
-            getFacade().create(current);
-//            trans.commit();
+        boolean ok = clientVisitante.inscreveUtilizador(current.getNome(), current.getMorada(),current.getUsername(), current.getPassword());
+        System.out.println("-----" + ok);
+        if (ok) {
             JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("TUtilizadoresCreated"));
             return prepareCreate();
-        } catch (Exception e) {
-            JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
+         
+        } else {
+           JsfUtil.addErrorMessage(ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
             return null;
         }
     }
@@ -102,7 +101,7 @@ public class TUtilizadoresController implements Serializable {
     public String prepareEdit() {
         current = (TUtilizadores) getItems().getRowData();
         selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
-        return "Edit";
+        return "/tUtilizadores/Edit";
     }
 
     public String update() {
@@ -122,7 +121,7 @@ public class TUtilizadoresController implements Serializable {
         performDestroy();
         recreatePagination();
         recreateModel();
-        return "List";
+        return "/tUtilizadores/List";
     }
 
     public String destroyAndView() {
@@ -130,11 +129,11 @@ public class TUtilizadoresController implements Serializable {
         recreateModel();
         updateCurrentItem();
         if (selectedItemIndex >= 0) {
-            return "View";
+            return "/tUtilizadores/View";
         } else {
             // all items were removed - go back to list
             recreateModel();
-            return "List";
+            return "/tUtilizadores/List";
         }
     }
 
@@ -180,13 +179,13 @@ public class TUtilizadoresController implements Serializable {
     public String next() {
         getPagination().nextPage();
         recreateModel();
-        return "List";
+        return "/tUtilizadores/List";
     }
 
     public String previous() {
         getPagination().previousPage();
         recreateModel();
-        return "List";
+        return "/tUtilizadores/List";
     }
 
     public SelectItem[] getItemsAvailableSelectMany() {
@@ -206,6 +205,7 @@ public class TUtilizadoresController implements Serializable {
 
         @Override
         public Object getAsObject(FacesContext facesContext, UIComponent component, String value) {
+             System.out.println("----- getAsObject");
             if (value == null || value.length() == 0) {
                 return null;
             }

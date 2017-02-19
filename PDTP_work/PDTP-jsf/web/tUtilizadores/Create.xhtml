@@ -6,6 +6,9 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <ui:composition template="/templates/main.xhtml">
+         <ui:define name="left">
+            <ui:include src="/Visitante/leftMenu.xhtml" />
+        </ui:define>
         <ui:define name="title">
             <h1 class="page-header "> <i class="fa fa-handshake-o"></i> 
                 <h:outputText value="#{bundle.CreateTUtilizadoresTitle}"></h:outputText>
@@ -19,20 +22,12 @@
                 <h:panelGrid columns="2">
                     <h:outputLabel value="#{bundle.CreateTUtilizadoresLabel_username}" for="username" />
                     <h:inputText id="username" value="#{tUtilizadoresController.selected.username}" title="#{bundle.CreateTUtilizadoresTitle_username}" required="true" requiredMessage="#{bundle.CreateTUtilizadoresRequiredMessage_username}"/>
-                    <h:outputLabel value="#{bundle.CreateTUtilizadoresLabel_estado}" for="estado" />
-                    <h:inputText id="estado" value="#{tUtilizadoresController.selected.estado}" title="#{bundle.CreateTUtilizadoresTitle_estado}" />
-                    <h:outputLabel value="#{bundle.CreateTUtilizadoresLabel_logged}" for="logged" />
-                    <h:inputText id="logged" value="#{tUtilizadoresController.selected.logged}" title="#{bundle.CreateTUtilizadoresTitle_logged}" />
                     <h:outputLabel value="#{bundle.CreateTUtilizadoresLabel_morada}" for="morada" />
                     <h:inputText id="morada" value="#{tUtilizadoresController.selected.morada}" title="#{bundle.CreateTUtilizadoresTitle_morada}" />
                     <h:outputLabel value="#{bundle.CreateTUtilizadoresLabel_nome}" for="nome" />
                     <h:inputText id="nome" value="#{tUtilizadoresController.selected.nome}" title="#{bundle.CreateTUtilizadoresTitle_nome}" />
                     <h:outputLabel value="#{bundle.CreateTUtilizadoresLabel_password}" for="password" />
                     <h:inputText id="password" value="#{tUtilizadoresController.selected.password}" title="#{bundle.CreateTUtilizadoresTitle_password}" />
-                    <h:outputLabel value="#{bundle.CreateTUtilizadoresLabel_razaopedidosuspensao}" for="razaopedidosuspensao" />
-                    <h:inputText id="razaopedidosuspensao" value="#{tUtilizadoresController.selected.razaopedidosuspensao}" title="#{bundle.CreateTUtilizadoresTitle_razaopedidosuspensao}" />
-                    <h:outputLabel value="#{bundle.CreateTUtilizadoresLabel_saldo}" for="saldo" />
-                    <h:inputText id="saldo" value="#{tUtilizadoresController.selected.saldo}" title="#{bundle.CreateTUtilizadoresTitle_saldo}" />
                 </h:panelGrid>
                 <br />
                 <h:commandLink action="#{tUtilizadoresController.create}" value="#{bundle.CreateTUtilizadoresSaveLink}" />

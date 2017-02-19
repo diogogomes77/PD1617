@@ -5,20 +5,18 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 
-    <ui:composition template="/templates/main.xhtml">
+<ui:composition template="/templates/main.xhtml">
+     <ui:define name="left">
+            <ui:include src="/Visitante/leftMenu.xhtml" />
+        </ui:define>
         <ui:define name="title">
-            <h:outputText value="#{bundle.VisitanteLogin}"></h:outputText>
+            <h1 class="page-header "> <i class="fa fa-handshake-o"></i> 
+                <h:outputText value="#{bundle.CreateTUtilizadoresTitle}"></h:outputText>
+            </h1>
         </ui:define>
         <ui:define name="content">
-            <h:form id="loginForm">
-		<h:outputLabel value="username " />
-		<h:inputText value="#{VisitanteController.username}" />
-		<br />
-		<h:outputLabel value="password" />
-		<h:inputSecret value="#{VisitanteController.password}"></h:inputSecret>
-		<h:commandButton value="Login" action="#{VisitanteController.login}"></h:commandButton>
-	</h:form>
+            reativar conta visitante
         </ui:define>
-    </ui:composition>
+</ui:composition>
 
 </html>
