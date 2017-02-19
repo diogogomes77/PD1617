@@ -20,7 +20,7 @@ public interface DAOLocal {
 
     EntityManager getEntityManager();
 
-    public void persist(Object object);
+    public void editWithCommit(Object object);
 
     public void create(Object entity);
 
