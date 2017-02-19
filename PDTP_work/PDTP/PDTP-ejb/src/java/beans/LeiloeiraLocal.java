@@ -6,11 +6,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import javax.ejb.Local;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import jpaentidades.DAOLocal;
-import pdtp.Item;
-import pdtp.Utilizador;
+import jpaentidades.TUtilizadores;
 import pdtp.UtilizadorEstado;
 
 /**
@@ -83,7 +80,7 @@ public interface LeiloeiraLocal {
      *
      * @return
      */
-    public HashMap<String, Utilizador> getUtilizadores();
+    public HashMap<String, TUtilizadores> getUtilizadores();
 
     /**
      *
@@ -353,4 +350,6 @@ public interface LeiloeiraLocal {
     public void checkItensDataFinal();
     
     public DAOLocal getDAO() ;
+
+    boolean isLogged(String username);
 }

@@ -11,7 +11,6 @@ import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
@@ -34,7 +33,7 @@ import pdtp.DenunciaVendedor;
 import pdtp.Item;
 
 import pdtp.Licitacao;
-import pdtp.Utilizador;
+//import pdtp.Utilizador;
 import pdtp.UtilizadorEstado;
 import pdtp.Venda;
 
@@ -48,8 +47,6 @@ public class Leiloeira implements LeiloeiraLocal {
     @EJB
     private DAOLocal DAO;
 
-    private HashMap<String, Utilizador> utilizadoresOk = new HashMap<>();
-    private HashMap<String, Utilizador> utilizadoresNotOk = new HashMap<>();
     private HashMap<Integer, Item> itensAVenda = new HashMap<>();
     private HashMap<Integer, Item> itensTerminados = new HashMap<>();
     private List<DenunciaItem> denunciasItens = new ArrayList<>();
@@ -77,8 +74,9 @@ public class Leiloeira implements LeiloeiraLocal {
      * @return Lista de utilizadores ativados
      */
     @Override
-    public HashMap<String, Utilizador> getUtilizadores() {
-        return utilizadoresOk;
+    public HashMap<String, TUtilizadores> getUtilizadores() {
+        //TODO: Refacturing para passar a user a entidade dos utilizadores
+        return null;//utilizadoresOk;
     }
 
     /**
@@ -253,7 +251,6 @@ public class Leiloeira implements LeiloeiraLocal {
                 = new ObjectInputStream(
                         new BufferedInputStream(
                                 new FileInputStream("/tmp/LeiloeiraDados")))) {
-            utilizadoresOk = (HashMap<String, Utilizador>) ois.readObject();
             mensagens = (ArrayList<Mensagem>) ois.readObject();
             categorias = (ArrayList<String>) ois.readObject();
             itensAVenda = (HashMap<Integer, Item>) ois.readObject();
@@ -273,7 +270,6 @@ public class Leiloeira implements LeiloeiraLocal {
                 = new ObjectOutputStream(
                         new BufferedOutputStream(
                                 new FileOutputStream("/tmp/LeiloeiraDados")))) {
-            oos.writeObject(utilizadoresOk);
             oos.writeObject(mensagens);
             oos.writeObject(categorias);
             oos.writeObject(itensAVenda);
@@ -553,8 +549,8 @@ public class Leiloeira implements LeiloeiraLocal {
     public boolean pedirReativacaoUsername(String username, String password) {
         TUtilizadores util = (TUtilizadores) DAO.find(TUtilizadores.class, username);
         if (util != null) {
-            if (util.getPassword().equals(password)){
-                if (UtilizadorEstado.SUSPENSO.msg().equals(util.getEstado())){
+            if (util.getPassword().equals(password)) {
+                if (UtilizadorEstado.SUSPENSO.msg().equals(util.getEstado())) {
                     util.setEstado(UtilizadorEstado.REATIVACAO_PEDIDO.msg());
                     DAO.editWithCommit(util);
                     return true;
@@ -624,13 +620,14 @@ public class Leiloeira implements LeiloeiraLocal {
      */
     @Override
     public boolean addItem(String username, String descricao, Double precoInicial, Double precoComprarJa, Timestamp dataLimite) {
-        Utilizador u = utilizadoresOk.get(username);
-        if (u == null) {
-            return false;
+        TUtilizadores u = (TUtilizadores) DAO.find(TUtilizadores.class, username);
+        if (u != null) {
+            //TODO: Refacturing para passar a usar a entidade dos utilizadores
+            itensAVenda.put(itemCount, new Item(itemCount, /*u*/null, precoInicial, precoComprarJa, dataLimite, descricao));
+            itemCount++;
+            return true;
         }
-        itensAVenda.put(itemCount, new Item(itemCount, u, precoInicial, precoComprarJa, dataLimite, descricao));
-        itemCount++;
-        return true;
+        return false;
     }
 
     /**
@@ -734,17 +731,16 @@ public class Leiloeira implements LeiloeiraLocal {
     @Override
     public boolean comprarJaItem(int itemId, String comprador) {
         Item item = itensAVenda.get(itemId);
-        if (item == null) {
-            return false;
-        }
-        if (item == null) {
-            return false;
-        }
-        Utilizador u = utilizadoresOk.get(comprador);
-        if (item.addVendacomprarJa(u)) {
-            itensTerminados.put(itemId, item);
-            itensAVenda.remove(itemId);
-            return true;
+        if (item != null) {
+            TUtilizadores u = (TUtilizadores) DAO.find(TUtilizadores.class, comprador);
+            if (u != null) {
+                //TODO: Refacturing para usar as entidades dos utilizadores
+                if (item.addVendacomprarJa(/*u*/null)) {
+                    itensTerminados.put(itemId, item);
+                    itensAVenda.remove(itemId);
+                    return true;
+                }
+            }
         }
         return false;
     }
@@ -760,8 +756,11 @@ public class Leiloeira implements LeiloeiraLocal {
     public boolean licitarItem(int itemId, Double value, String username) {
         Item item = itensAVenda.get(itemId);
         if (item != null) {
-            Utilizador licitador = utilizadoresOk.get(username);
-            return item.addLicitacao(licitador, value);
+            TUtilizadores licitador = (TUtilizadores) DAO.find(TUtilizadores.class, username);
+            if (licitador != null) {
+                //TODO: Refacturing para passar a usar e entidade dos utilizadores
+                return true;//item.addLicitacao(licitador, value);
+            }
         }
         return false;
     }
@@ -778,7 +777,12 @@ public class Leiloeira implements LeiloeiraLocal {
         if (item == null) {
             return false;
         }
-        return utilizadoresOk.get(username).addItemSeguido(item);
+        TUtilizadores u = (TUtilizadores) DAO.find(TUtilizadores.class, username);
+        if (u != null) {
+            //TODO: Refacturing para passar a user a entidade dos utlizadores
+            return true;//u.addItemSeguido(item);
+        }
+        return false;
     }
 
     /**
@@ -788,7 +792,12 @@ public class Leiloeira implements LeiloeiraLocal {
      */
     @Override
     public List<String> getItensSeguidos(String username) {
-        return utilizadoresOk.get(username).getItemsSeguidos();
+        TUtilizadores u = (TUtilizadores) DAO.find(TUtilizadores.class, username);
+        if (u != null) {
+            //TODO: Refacturing para passar a user a entidade dos utlizadores
+            return null;//u.getItemsSeguidos();
+        }
+        return null;
     }
 
     /**
@@ -798,9 +807,12 @@ public class Leiloeira implements LeiloeiraLocal {
      */
     @Override
     public List<String> getIensPorPagarUtilizador(String username) {
-        Utilizador u = utilizadoresOk.get(username);
-
-        return u.getItemsPorPagar();
+        TUtilizadores u = (TUtilizadores) DAO.find(TUtilizadores.class, username);
+        if (u != null) {
+            //TODO: Refacturing para passar a user a entidade dos utlizadores
+            return null;//u.getItemsPorPagar();
+        }
+        return null;
     }
 
     /**
@@ -835,11 +847,12 @@ public class Leiloeira implements LeiloeiraLocal {
         if (i == null) {
             return false;
         }
-        Utilizador u = utilizadoresOk.get(denunciador);
+        TUtilizadores u = (TUtilizadores) DAO.find(TUtilizadores.class, denunciador);
         if (u == null) {
             return false;
         }
-        DenunciaItem d = new DenunciaItem(i, u, razao);
+        //TODO: refacturing para usar a entidade utilizador
+        DenunciaItem d = new DenunciaItem(i, /*u*/ null, razao);
         denunciasItens.add(d);
         addMensagem(denunciador, "admin", d.toString(), "denuncia item " + i.getItemID());
         return true;
@@ -880,15 +893,16 @@ public class Leiloeira implements LeiloeiraLocal {
      */
     @Override
     public boolean denunciarVendedor(String denunciador, String vendedor, String razao) {
-        Utilizador d = utilizadoresOk.get(denunciador);
+        TUtilizadores d = (TUtilizadores) DAO.find(TUtilizadores.class, denunciador);
         if (d == null) {
             return false;
         }
-        Utilizador v = utilizadoresOk.get(vendedor);
+        TUtilizadores v = (TUtilizadores) DAO.find(TUtilizadores.class, vendedor);
         if (v == null) {
             return false;
         }
-        DenunciaVendedor den = new DenunciaVendedor(d, v, razao);
+        //TODO:Refacturing para usar a entidade utilizador
+        DenunciaVendedor den = new DenunciaVendedor(/*d*/null, /*v*/ null, razao);
         denunciasVendedores.add(den);
         addMensagem(denunciador, "admin", d.toString(), "denuncia vendedor " + v.getUsername());
         return true;
@@ -906,6 +920,15 @@ public class Leiloeira implements LeiloeiraLocal {
             return false;
         }
         return i.cancelarItem(i.getVendedor());
+    }
+
+    @Override
+    public boolean isLogged(String username) {
+        TUtilizadores u = (TUtilizadores) DAO.find(TUtilizadores.class, username);
+        if (u != null) {
+            return u.isLogged();
+        }
+        return false;
     }
 
 }
