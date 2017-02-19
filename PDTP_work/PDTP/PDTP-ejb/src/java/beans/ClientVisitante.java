@@ -15,8 +15,8 @@ public class ClientVisitante implements ClientVisitanteRemote {
     @EJB LeiloeiraLocal leiloeira;
     
     @Override
-    public boolean loginUtilizador(String username, String password) {
-        return (leiloeira.loginUtilizador(username,password));
+    public boolean loginUtilizador(String username, String password) {     
+        return leiloeira.loginUtilizador(username,password);
     }
     @Override
     public boolean inscreveUtilizador(String nome, String morada, String username, String password) {

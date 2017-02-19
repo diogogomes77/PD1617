@@ -10,6 +10,7 @@ import java.io.Serializable;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
+import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 
@@ -23,7 +24,7 @@ public class VisitanteController implements Serializable {
 
     @EJB
     private ClientVisitanteRemote clientVisitante;
-    
+    private UIComponent loginButton;
     private String username;
     private String password;
 
@@ -47,14 +48,28 @@ public class VisitanteController implements Serializable {
     }
     
     public String login(){
-        if (username.equals("admin") && password.equals("admin")) {
-            return "Utilizador/Inicio";
+        boolean ok = clientVisitante.loginUtilizador(username, password);
+        System.out.println("-----"+ok);
+        if (ok){
+            if ("admin".equals(username)){
+                return "/Admin/Inicio";
+            }
+            return "/Utilizador/Inicio";
+            
         } else {
             FacesContext ctx = FacesContext.getCurrentInstance();
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Login invalido", "Login invalido");
-            ctx.addMessage(null, msg);
+            ctx.addMessage(loginButton.getClientId(ctx), msg);
             return "";  
         }
+    }
+
+    public UIComponent getLoginButton() {
+        return loginButton;
+    }
+
+    public void setLoginButton(UIComponent loginButton) {
+        this.loginButton = loginButton;
     }
     
 }

@@ -70,14 +70,17 @@ public class Leiloeira implements LeiloeiraLocal {
     private List<Newsletters> newsletters = new ArrayList<>();
 
     public Leiloeira() {
-//        if (!utilizadoresOk.containsKey("admin")) {
-//            utilizadoresOk.put("admin",
-//                    new Utilizador("Administrador", "Sistema", "admin", "admin", UtilizadorEstado.ATIVO));
-//        }
+        
         itemCount = getIntenCount();
 
     }
-
+    private void addAdmin(){
+        if (!utilizadoresOk.containsKey("admin")) {
+            utilizadoresOk.put("admin",
+                    new Utilizador("Administrador", "Sistema", "admin", "admin", UtilizadorEstado.ATIVO));
+        }
+    }
+    
     private int getIntenCount() {
         return itensAVenda.size();
     }
@@ -167,6 +170,7 @@ public class Leiloeira implements LeiloeiraLocal {
     public boolean loginUtilizador(String username, String password) {
         Utilizador j = utilizadoresOk.get(username);
         if (j != null) {
+            System.out.println("---Existe");
             // existe
             if (j.getPassword().equalsIgnoreCase(password)) {
                 if (j.getEstado() == UtilizadorEstado.ATIVO || j.getEstado() == UtilizadorEstado.SUSPENDO_PEDIDO) {
@@ -181,6 +185,7 @@ public class Leiloeira implements LeiloeiraLocal {
                 }
             }
         }
+         System.out.println("---Nao Existe");
         return false;
     }
 
@@ -279,6 +284,7 @@ public class Leiloeira implements LeiloeiraLocal {
         } catch (Exception e) {
             //Utilizadors = fica com o objecto vazio criado no construtor
         }
+        this.addAdmin();
     }
 
     /**
