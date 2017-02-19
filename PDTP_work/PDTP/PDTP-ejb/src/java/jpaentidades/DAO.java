@@ -18,6 +18,7 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
 import javax.transaction.UserTransaction;
@@ -129,7 +130,7 @@ public class DAO implements DAOLocal {
     }
 
     @Override
-    public void persist(Object object) {
+    public void editWithCommit(Object object) {
         /* Add this to the deployment descriptor of this module (e.g. web.xml, ejb-jar.xml):
          * <persistence-context-ref>
          * <persistence-context-ref-name>persistence/LogicalName</persistence-context-ref-name>
@@ -141,15 +142,12 @@ public class DAO implements DAOLocal {
          * <res-auth>Container</res-auth>
          * </resource-ref> */
         try {
-            Logger.getLogger(getClass().getName()).log(Level.INFO, "A persistir um novo registo");
-            Context ctx = new InitialContext();
-            UserTransaction utx = (UserTransaction) ctx.lookup("java:comp/env/UserTransaction");
-            utx.begin();
-            em.joinTransaction();
-            //em.getTransaction().begin();
+            Logger.getLogger(getClass().getName()).log(Level.INFO, "Alterar e faz commmit a registo");
+            EntityTransaction trans = getEntityManager().getTransaction();
+            trans.begin();
             em.persist(object);
-            utx.commit();
-            //em.getTransaction().commit();
+            trans.commit();
+
         } catch (Exception e) {
             Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", e);
             throw new RuntimeException(e);
