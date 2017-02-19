@@ -23,7 +23,7 @@ public class ClientUtilizador implements ClientUtilizadorRemote {
     @Override
     public boolean setMyName(String username, String password) {
         //verifica se foi previamente logado atraves do ClientVisitance
-        if (leiloeira.getUtilizadores().get(username).isLogged()) {
+        if (leiloeira.isLogged(username) ) {
             myName = username;
             if ("admin".equals(username)) {
                 admin = true;

@@ -39,8 +39,6 @@ public class Utilizador implements Serializable {
     private DAOLocal DAO;
 
 
-//    @EJB
-//    private jpafacades.TUtilizadoresFacade utilizadoresFacade;
     /**
      *
      * @param nome
@@ -64,28 +62,6 @@ public class Utilizador implements Serializable {
         
         this.logged=false;
         this.estado=estado;
-      //   System.out.println("----------Persistir Utilizador");
-    //    TUtilizadores newuser =  new TUtilizadores(nome,morada,username,password,saldo,logged,estado);
-
-//       try {
-//            
-//            DAO.getEntityManager().getTransaction().begin();
-//            System.out.println("----------begin ok");
-//            DAO.create(newuser);
-//            System.out.println("----------create ok");
-//            DAO.getEntityManager().getTransaction().commit();
-//            System.out.println("----------commit ok");
-//        } catch (Exception e) {
-//            System.out.println(e.toString());
-//             DAO.getEntityManager().getTransaction().rollback();
-//             System.out.println("----------rollaback ok");
-//             try{
-//                  DAO.persist(newuser);
-//                  System.out.println("----------persist ok");
-//             } catch (Exception e2) {
-//                 System.out.println(e2.toString());
-//             }
-//        }
     }
 
     /**
