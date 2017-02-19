@@ -36,8 +36,6 @@ public class Utilizador implements Serializable {
     long lastAction;
 
 
-//    @EJB
-//    private jpafacades.TUtilizadoresFacade utilizadoresFacade;
     /**
      *
      * @param nome
@@ -61,7 +59,6 @@ public class Utilizador implements Serializable {
         
         this.logged=false;
         this.estado=estado;
-
     }
 
     /**

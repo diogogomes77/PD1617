@@ -6,6 +6,8 @@
 package jpaentidades;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.Collection;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -67,6 +69,8 @@ public class TUtilizadores implements Serializable {
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "saldo")
     private Double saldo;
+    @Column(name = "lastAction")
+    private long lastAction;
     @OneToMany(mappedBy = "denunciador")
     private Collection<TDenunciasItens> tDenunciasItensCollection;
     @OneToMany(mappedBy = "licitador")
@@ -165,6 +169,14 @@ public class TUtilizadores implements Serializable {
         this.saldo = saldo;
     }
 
+    public long getLastAction() {
+        return lastAction;
+    }
+
+    public void setLastAction(long lastAction) {
+        this.lastAction = lastAction;
+    }
+
     @XmlTransient
     public Collection<TDenunciasItens> getTDenunciasItensCollection() {
         return tDenunciasItensCollection;
@@ -261,5 +273,56 @@ public class TUtilizadores implements Serializable {
     public String toString() {
         return "jpaentidades.TUtilizadores[ username=" + username + " ]";
     }
-    
+
+    /**
+     *
+     */
+    public void setLastActionNow() {
+        lastAction = LocalDateTime.now()
+                .toInstant(ZoneOffset.UTC).getEpochSecond();
+    }
+
+    /**
+     *
+     * @param seconds
+     * @return
+     */
+    public boolean lastActionMoreThan(long seconds) {
+        return LocalDateTime.now().toInstant(ZoneOffset.UTC).getEpochSecond()
+                - lastAction < seconds;
+    }
+
+    /**
+     *
+     * @param now
+     * @return
+     */
+    public long fromLastActionFromNow(long now) {
+        return now - lastAction;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public boolean isLogged() {
+        if (logged != null) {
+            return logged;
+        }
+        return false;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public String getDados() {
+        StringBuilder dados = new StringBuilder();
+        dados.append("\n");
+        dados.append("Nome: ").append(nome).append("\n");
+        dados.append("Morada: ").append(morada).append("\n");
+        dados.append("Username: ").append(username).append("\n");
+        dados.append("\n");
+        return dados.toString();
+    }
 }
