@@ -11,17 +11,17 @@ import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.ejb.Singleton;
-import javax.management.Query;
+//import javax.management.Query;
 //import javax.ejb.TransactionManagement;
 //import static javax.ejb.TransactionManagementType.BEAN;
-import javax.naming.Context;
-import javax.naming.InitialContext;
+//import javax.naming.Context;
+//import javax.naming.InitialContext;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
-import javax.transaction.UserTransaction;
+//import javax.transaction.UserTransaction;
 
 /**
  *
@@ -130,7 +130,7 @@ public class DAO implements DAOLocal {
     }
 
     @Override
-    public void editWithCommit(Object object) {
+    public void editWithCommit(Object entity) {
         /* Add this to the deployment descriptor of this module (e.g. web.xml, ejb-jar.xml):
          * <persistence-context-ref>
          * <persistence-context-ref-name>persistence/LogicalName</persistence-context-ref-name>
@@ -142,10 +142,25 @@ public class DAO implements DAOLocal {
          * <res-auth>Container</res-auth>
          * </resource-ref> */
         try {
-            Logger.getLogger(getClass().getName()).log(Level.INFO, "Alterar e faz commmit a registo");
+            Logger.getLogger(getClass().getName()).log(Level.INFO, "Alterar e faz commmit ao registo");
             EntityTransaction trans = getEntityManager().getTransaction();
             trans.begin();
-            em.persist(object);
+            em.merge(entity);
+            trans.commit();
+
+        } catch (Exception e) {
+            Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", e);
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public void createWithCommit(Object entity) {
+        try {
+            Logger.getLogger(getClass().getName()).log(Level.INFO, "Cria e faz commmit ao registo");
+            EntityTransaction trans = getEntityManager().getTransaction();
+            trans.begin();
+            em.persist(entity);
             trans.commit();
 
         } catch (Exception e) {

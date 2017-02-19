@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import javax.ejb.Local;
 import jpaentidades.DAOLocal;
+import jpaentidades.TMensagens;
 import jpaentidades.TUtilizadores;
 import pdtp.UtilizadorEstado;
 

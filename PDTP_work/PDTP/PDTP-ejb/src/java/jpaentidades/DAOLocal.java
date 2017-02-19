@@ -20,12 +20,14 @@ public interface DAOLocal {
 
     EntityManager getEntityManager();
 
-    public void editWithCommit(Object object);
-
     public void create(Object entity);
+
+    void createWithCommit(Object entity);
 
     public void edit(Object entity);
 
+    public void editWithCommit(Object entity);
+    
     public void remove(Object entity);
 
     public Object find(Class s,Object id);
@@ -37,4 +39,5 @@ public interface DAOLocal {
     public List<Object> findRange(Class s,int[] range);
 
     public int count(Class s);
+
 }
