@@ -73,7 +73,7 @@ public class Leiloeira implements LeiloeiraLocal {
             TUtilizadores user = new TUtilizadores();
             user.setUsername("admin");
             user.setPassword("admin");
-            user.setMorada("Sistema");
+            user.setMorada("Morada do Sistema");
             user.setNome("Administrador");
             user.setEstado(UtilizadorEstado.ATIVO);
             TNewsletters news = new TNewsletters("Registo do Administrador", "O Administrador foi inserido no sistema.");
@@ -526,7 +526,7 @@ public class Leiloeira implements LeiloeiraLocal {
     public ArrayList<Mensagem> getMensagensUtilizador(String username) {
         ArrayList<Mensagem> myMsg = new ArrayList<>();
         //TODO: Verificar se isto funciona
-        for (Object msg : DAO.findByNamedQuery(TMensagens.class, "TMensagens.findByDestinatario", "username", username )) {
+        for (Object msg : DAO.findByNamedQuery(TMensagens.class, "TMensagens.findByDestinatario", "username", new TUtilizadores(username) )) {
             Mensagem msgRef = new Mensagem(((TMensagens) msg).getRemetente().getUsername(),
                                            ((TMensagens) msg).getDestinatario().getUsername(),
                                            ((TMensagens) msg).getTexto(),
