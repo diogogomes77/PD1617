@@ -49,9 +49,8 @@ public class TUtilizadores implements Serializable {
     @Size(min = 1, max = 255)
     @Column(name = "username")
     private String username;
-    @Size(max = 255)
     @Column(name = "estado")
-    private String estado;
+    private UtilizadorEstado estado;
     @Column(name = "logged")
     private Boolean logged;
     @Size(max = 255)
@@ -97,7 +96,7 @@ public class TUtilizadores implements Serializable {
 
     public TUtilizadores(String nome, String morada, String username, String password, Double saldo, boolean logged, UtilizadorEstado estado) {
         this.username = username;
-        this.estado = estado.msg();
+        this.estado = estado;
         this.logged = logged;
         this.morada = morada;
         this.nome = nome;
@@ -113,11 +112,11 @@ public class TUtilizadores implements Serializable {
         this.username = username;
     }
 
-    public String getEstado() {
+    public UtilizadorEstado getEstado() {
         return estado;
     }
 
-    public void setEstado(String estado) {
+    public void setEstado(UtilizadorEstado estado) {
         this.estado = estado;
     }
 
@@ -263,10 +262,11 @@ public class TUtilizadores implements Serializable {
             return false;
         }
         TUtilizadores other = (TUtilizadores) object;
-        if ((this.username == null && other.username != null) || (this.username != null && !this.username.equals(other.username))) {
+        if (this.username.equals(other.username)) {
+            return true;
+        } else {
             return false;
         }
-        return true;
     }
 
     @Override

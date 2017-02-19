@@ -5,6 +5,7 @@
  */
 package jpaentidades;
 
+import beans.MensagemEstado;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Basic;
@@ -33,6 +34,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "TMensagens.findAll", query = "SELECT t FROM TMensagens t")
     , @NamedQuery(name = "TMensagens.findByIdMensagem", query = "SELECT t FROM TMensagens t WHERE t.idMensagem = :idMensagem")
+    , @NamedQuery(name = "TMensagens.findByDestinatario", query = "SELECT t FROM TMensagens t WHERE t.destinatario = :username")
     , @NamedQuery(name = "TMensagens.findByAssunto", query = "SELECT t FROM TMensagens t WHERE t.assunto = :assunto")
     , @NamedQuery(name = "TMensagens.findByData", query = "SELECT t FROM TMensagens t WHERE t.data = :data")
     , @NamedQuery(name = "TMensagens.findByEstado", query = "SELECT t FROM TMensagens t WHERE t.estado = :estado")
@@ -51,9 +53,8 @@ public class TMensagens implements Serializable {
     @Column(name = "data")
     @Temporal(TemporalType.TIMESTAMP)
     private Date data;
-    @Size(max = 255)
     @Column(name = "estado")
-    private String estado;
+    private MensagemEstado estado;
     @Size(max = 255)
     @Column(name = "texto")
     private String texto;
@@ -95,11 +96,11 @@ public class TMensagens implements Serializable {
         this.data = data;
     }
 
-    public String getEstado() {
+    public MensagemEstado getEstado() {
         return estado;
     }
 
-    public void setEstado(String estado) {
+    public void setEstado(MensagemEstado estado) {
         this.estado = estado;
     }
 
