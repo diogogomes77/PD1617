@@ -65,10 +65,25 @@ public class Leiloeira implements LeiloeiraLocal {
         itemCount = getIntenCount();
 
     }
+    
     private void addAdmin(){
-        if (!utilizadoresOk.containsKey("admin")) {
-            utilizadoresOk.put("admin",
-                    new Utilizador("Administrador", "Sistema", "admin", "admin", UtilizadorEstado.ATIVO));
+        //Registar o ADMIN se ainda não exist
+        if (!existeUtilizador("admin")) {
+            Logger.getLogger(getClass().getName()).log(Level.INFO, "A registar o administrador");
+            TUtilizadores user = new TUtilizadores();
+            user.setUsername("admin");
+            user.setPassword("admin");
+            user.setMorada("Sistema");
+            user.setNome("Administrador");
+            user.setEstado(UtilizadorEstado.ATIVO);
+            TNewsletters news = new TNewsletters("Registo do Administrador", "O Administrador foi inserido no sistema.");
+
+            EntityTransaction trans = DAO.getEntityManager().getTransaction();
+            trans.begin();
+            DAO.create(user);
+            DAO.create(news);
+            trans.commit();
+
         }
     }
     
@@ -245,26 +260,8 @@ public class Leiloeira implements LeiloeiraLocal {
      */
     @PostConstruct
     public void loadstate() {
-
-        //Registar o ADMIN se ainda não exist
-        if (!existeUtilizador("admin")) {
-            Logger.getLogger(getClass().getName()).log(Level.INFO, "A registar o administrador");
-            TUtilizadores user = new TUtilizadores();
-            user.setUsername("admin");
-            user.setPassword("admin");
-            user.setMorada("Sistema");
-            user.setNome("Administrador");
-            user.setEstado(UtilizadorEstado.ATIVO);
-            TNewsletters news = new TNewsletters("Registo do Administrador", "O Administrador foi inserido no sistema.");
-
-            EntityTransaction trans = DAO.getEntityManager().getTransaction();
-            trans.begin();
-            DAO.create(user);
-            DAO.create(news);
-            trans.commit();
-
-        }
-
+        this.addAdmin();
+        
         //DAO.getEntityManager();
         try (ObjectInputStream ois
                 = new ObjectInputStream(
@@ -277,7 +274,6 @@ public class Leiloeira implements LeiloeiraLocal {
         } catch (Exception e) {
             //Utilizadors = fica com o objecto vazio criado no construtor
         }
-        this.addAdmin();
     }
 
     /**
