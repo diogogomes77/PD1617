@@ -7,6 +7,7 @@ package jsfclasses;
 
 import beans.ClientVisitanteRemote;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
@@ -41,6 +42,8 @@ public class VisitanteController extends TUtilizadoresController implements Seri
     private String nome;
     private String morada;
     private boolean usernameCheck = true;
+    private ArrayList<Menu> pages;
+    
     public String getNome() {
         return nome;
     }
@@ -127,6 +130,19 @@ public class VisitanteController extends TUtilizadoresController implements Seri
          if (usernameCheck==true)
             return super.create();
         else return null;        
+    }
+
+    public ArrayList<Menu> getPages() {
+        
+        ArrayList menus= new ArrayList<Menu>();
+        menus.add(new Menu("/index.xhtml","Inicio"));
+        menus.add(new Menu("/Visitante/Login.xhtml","Login"));
+        menus.add(new Menu("/Visitante/Registo.xhtml","Registo"));
+        menus.add(new Menu("/Visitante/VendasRecentes.xhtml","Vendas Recentes"));
+        menus.add(new Menu("/Visitante/ReativarConta.xhtml","Reativar Conta"));
+        menus.add(new Menu("/Visitante/Newsletter.xhtml","Newsletter"));
+        this.pages=menus;
+        return pages;
     }
 
 }

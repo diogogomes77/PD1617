@@ -6,15 +6,13 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <ui:composition>
+   
         <ul class="nav nav-sidebar">
-            <li class="active"><h:link outcome="/Visitante/Login" value="Login"/></li>
-            <li><h:link outcome="/Visitante/Registo" value="Registo"/></li>
-            <li><h:link outcome="/Visitante/VendasRecentes" value="Vendas recentes"/></li>
-            <li><h:link outcome="/Visitante/ReativarConta" value="Reativar Conta"/></li>
-            <li><h:link outcome="/Visitante/Newsletter" value="Newsletter"/></li>
-
+            <ui:repeat value="#{VisitanteController.pages}" var="page">
+                <li class="#{view.viewId == page.viewId ? 'active' : ''}"><h:link value="#{page.title}" outcome="#{page.viewId}" /></li>
+            </ui:repeat>
         </ul>
-       
+
     </ui:composition>
 </html>
 

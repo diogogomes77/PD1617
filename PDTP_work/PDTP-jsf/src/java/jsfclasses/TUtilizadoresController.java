@@ -7,6 +7,7 @@ import jsfclasses.util.PaginationHelper;
 import jpafacades.TUtilizadoresFacade;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 import javax.ejb.EJB;
 import javax.inject.Named;
@@ -199,6 +200,8 @@ public class TUtilizadoresController implements Serializable {
     public TUtilizadores getTUtilizadores(java.lang.String id) {
         return ejbFacade.find(id);
     }
+
+
 
     @FacesConverter(forClass = TUtilizadores.class)
     public static class TUtilizadoresControllerConverter implements Converter {
