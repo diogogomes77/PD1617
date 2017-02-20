@@ -5,25 +5,46 @@
  */
 package jsfclasses;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author diogo
  */
 public class Menu {
-    String viewId;
-    String title;
+    private ArrayList<MenuPage> menuPages;
+    private String tituloMenu;
+    private String id;
 
-    public Menu(String viewId, String title) {
-        this.viewId = viewId;
-        this.title = title;
+    public String getTituloMenu() {
+        return tituloMenu;
     }
 
-    public String getViewId() {
-        return viewId;
+    public String getId() {
+        return id;
     }
 
-    public String getTitle() {
-        return title;
+    public void setId(String id) {
+        this.id = id;
     }
-    
+
+    public void setTituloMenu(String tituloMenu) {
+        this.tituloMenu = tituloMenu;
+    }
+    public Menu(String id) {
+        menuPages = new ArrayList<MenuPage>();
+        this.id=id;
+    }
+
+    public ArrayList<MenuPage> getMenuPages() {
+        return menuPages;
+    }
+
+    public void setMenuPages(ArrayList<MenuPage> menuPages) {
+        this.menuPages = menuPages;
+    }
+     
+    public void addMenuPage(MenuPage page){
+         menuPages.add(page);
+    }
 }

@@ -6,17 +6,16 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <ui:composition template="main.xhtml">
-         <ui:define name="left">
+        <ui:define name="left">
             <ui:include src="leftMenu.xhtml" />
         </ui:define>
         <ui:define name="title">
-            <h1 class="page-header "> <i class="fa fa-handshake-o"></i> 
-                <h:outputText value="#{bundle.UtilizadorInicio}"></h:outputText>
+            <h1 class="page-header "> <i class="fa fa-handshake-o"></i>  
+                <h:outputText value="#{bundle.VisitanteLogin}"></h:outputText>
             </h1>
-  
         </ui:define>
         <ui:define name="content">
-           Inicio Utilizador
+Login Visitante
         </ui:define>
     </ui:composition>
 

@@ -3,17 +3,29 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core" 
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
-    <ui:composition>
-        <ul class="nav nav-sidebar">
-            <li class="active"><h:link outcome="/Visitante/Login" value="Login"/></li>
-            <li><h:link outcome="/Visitante/Registo" value="Registo"/></li>
-            <li><h:link outcome="/Visitante/VendasRecentes" value="Vendas recentes"/></li>
-            <li><h:link outcome="/Visitante/ReativarConta" value="Reativar Conta"/></li>
-            <li><h:link outcome="/Visitante/Newsletter" value="Newsletter"/></li>
+        <ui:composition>
+        <div class="nav-side-menu">
+<!--            <i class="fa fa-bars fa-2x toggle-btn" data-toggle="collapse" data-target="#menu-content"></i>-->
+            <div class="menu-list">
+                <ul id="menu-content" class="menu-content out collapse in">
+                    <c:forEach var="menu" items="#{UtilizadorController.menus}">
+                        <li data-toggle="collapse" data-target="##{menu.id}" class="collapsed active">
+                            <a href="#"><i class="fa fa-lg"></i> #{menu.tituloMenu} <span class="arrow"></span></a>
+                        </li>
+                        <ul class="sub-menu collapse" id="#{menu.id}">
+                            <ui:repeat value="#{menu.menuPages}" var="page">
+                                <li class="#{view.viewId == page.viewId ? 'active' : ''}"><h:link value="#{page.title}" outcome="#{page.viewId}" /></li>
+                            </ui:repeat>
 
-        </ul>       
+                        </ul>
+                    </c:forEach>
+
+                </ul>
+            </div>
+        </div>     
     </ui:composition>
 </html>
 

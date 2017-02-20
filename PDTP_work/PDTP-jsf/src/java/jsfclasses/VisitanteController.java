@@ -8,23 +8,13 @@ package jsfclasses;
 import beans.ClientVisitanteRemote;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.ResourceBundle;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
-import javax.faces.convert.Converter;
-import javax.faces.convert.FacesConverter;
-import javax.faces.model.DataModel;
-import javax.faces.model.ListDataModel;
-import javax.faces.model.SelectItem;
 import javax.inject.Named;
 import javax.servlet.http.HttpSession;
-import jpaentidades.TUtilizadores;
-import jpafacades.TUtilizadoresFacade;
-import jsfclasses.util.JsfUtil;
-import jsfclasses.util.PaginationHelper;
 
 /**
  *
@@ -35,15 +25,32 @@ import jsfclasses.util.PaginationHelper;
 public class VisitanteController extends TUtilizadoresController implements Serializable {
 
     @EJB
-    private ClientVisitanteRemote clientVisitante;
+    private ClientVisitanteRemote client;
     private UIComponent loginButton;
     private String username;
     private String password;
     private String nome;
     private String morada;
     private boolean usernameCheck = true;
-    private ArrayList<Menu> pages;
+    private ArrayList<Menu> menus;
     
+    public VisitanteController() {
+        super();
+        menus = new ArrayList<Menu>();
+        Menu menuVisitante = new Menu("menu1");
+        menuVisitante.setTituloMenu("Visitante");
+        menuVisitante.addMenuPage(new MenuPage("/index.xhtml", "Inicio"));
+        menuVisitante.addMenuPage(new MenuPage("/Visitante/Login.xhtml", "Minhas mensagens"));
+        menuVisitante.addMenuPage(new MenuPage("/Visitante/Registo.xhtml", "Registo"));
+        menuVisitante.addMenuPage(new MenuPage("/Visitante/VendasRecentes.xhtml", "VendasRecentes"));
+        menuVisitante.addMenuPage(new MenuPage("/Visitante/ReativarConta.xhtml", "ReativarConta"));
+        menuVisitante.addMenuPage(new MenuPage("/Visitante/Newsletter.xhtml", "Newsletter"));
+        menus.add(menuVisitante);
+    }
+    public ArrayList<Menu> getMenus() {
+
+        return menus;
+    }
     public String getNome() {
         return nome;
     }
@@ -60,9 +67,7 @@ public class VisitanteController extends TUtilizadoresController implements Seri
         this.morada = morada;
     }
 
-    public VisitanteController() {
-        super();
-    }
+
 
     public void setUsername(String username) {
         this.username = username;
@@ -81,13 +86,12 @@ public class VisitanteController extends TUtilizadoresController implements Seri
     }
 
     public String login() {
-        boolean ok = clientVisitante.loginUtilizador(username, password);
-        System.out.println("-----" + ok);
+        boolean ok = client.loginUtilizador(username, password);
         if (ok) {
             HttpSession session = SessionUtils.getSession();
-            if ("admin".equals(username)) {
-                return "/Admin/Inicio";
-            }
+//            if ("admin".equals(username)) {
+//                return "/Admin/Inicio";
+//            }
             return "/Utilizador/Inicio";
 
         } else {
@@ -120,7 +124,7 @@ public class VisitanteController extends TUtilizadoresController implements Seri
 
     public void checkUsername() {
         //System.out.println("-------" + current.getUsername());
-        if (clientVisitante.existeUsername(current.getUsername())) {
+        if (client.existeUsername(current.getUsername())) {
             usernameCheck =false;
         } else usernameCheck = true;
     }
@@ -132,17 +136,5 @@ public class VisitanteController extends TUtilizadoresController implements Seri
         else return null;        
     }
 
-    public ArrayList<Menu> getPages() {
-        
-        ArrayList menus= new ArrayList<Menu>();
-        menus.add(new Menu("/index.xhtml","Inicio"));
-        menus.add(new Menu("/Visitante/Login.xhtml","Login"));
-        menus.add(new Menu("/Visitante/Registo.xhtml","Registo"));
-        menus.add(new Menu("/Visitante/VendasRecentes.xhtml","Vendas Recentes"));
-        menus.add(new Menu("/Visitante/ReativarConta.xhtml","Reativar Conta"));
-        menus.add(new Menu("/Visitante/Newsletter.xhtml","Newsletter"));
-        this.pages=menus;
-        return pages;
-    }
 
 }
