@@ -25,7 +25,7 @@ import jpaentidades.DAOLocal;
 @SessionScoped
 public class TUtilizadoresController implements Serializable {
 
-    private TUtilizadores current;
+    protected TUtilizadores current;
     private DataModel items = null;
     @EJB
     private jpafacades.TUtilizadoresFacade ejbFacade;
@@ -82,7 +82,7 @@ public class TUtilizadoresController implements Serializable {
     public String prepareCreate() {
         current = new TUtilizadores();
         selectedItemIndex = -1;
-        return "/tUtilizadores/Create";
+        return "/Visitante/Registo";
     }
 
     public String create() {

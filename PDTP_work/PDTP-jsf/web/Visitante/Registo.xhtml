@@ -17,17 +17,28 @@
         <ui:define name="content">
             <h:panelGroup id="messagePanel" layout="block">
                 <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+                <h:outputText id="result" value="#{VisitanteController.usernameCheck}" 
+                              style="color: red" />
             </h:panelGroup>
             <h:form>
                 <h:panelGrid columns="2">
                     <h:outputLabel value="#{bundle.CreateTUtilizadoresLabel_username}" for="username" />
-                    <h:inputText id="username" value="#{VisitanteController.selected.username}" title="#{bundle.CreateTUtilizadoresTitle_username}" required="true" requiredMessage="#{bundle.CreateTUtilizadoresRequiredMessage_username}"/>
+                    <h:inputText id="username" value="#{VisitanteController.selected.username}" 
+                                 title="#{bundle.CreateTUtilizadoresTitle_username}" 
+                                 required="true" requiredMessage="#{bundle.CreateTUtilizadoresRequiredMessage_username}">
+                        
+                        <f:ajax event="blur" render="result" listener="#{VisitanteController.checkUsername}"></f:ajax>
+                    </h:inputText>
+                       
                     <h:outputLabel value="#{bundle.CreateTUtilizadoresLabel_morada}" for="morada" />
-                    <h:inputText id="morada" value="#{VisitanteController.selected.morada}" title="#{bundle.CreateTUtilizadoresTitle_morada}" />
+                    <h:inputText id="morada" value="#{VisitanteController.selected.morada}" title="#{bundle.CreateTUtilizadoresTitle_morada}"
+                                  required="true" requiredMessage="#{bundle.CreateTUtilizadoresRequiredMessage_username}" />
                     <h:outputLabel value="#{bundle.CreateTUtilizadoresLabel_nome}" for="nome" />
-                    <h:inputText id="nome" value="#{VisitanteController.selected.nome}" title="#{bundle.CreateTUtilizadoresTitle_nome}" />
+                    <h:inputText id="nome" value="#{VisitanteController.selected.nome}" title="#{bundle.CreateTUtilizadoresTitle_nome}" 
+                                  required="true" requiredMessage="#{bundle.CreateTUtilizadoresRequiredMessage_username}" />
                     <h:outputLabel value="#{bundle.CreateTUtilizadoresLabel_password}" for="password" />
-                    <h:inputText id="password" value="#{VisitanteController.selected.password}" title="#{bundle.CreateTUtilizadoresTitle_password}" />
+                    <h:inputText id="password" value="#{VisitanteController.selected.password}" title="#{bundle.CreateTUtilizadoresTitle_password}" 
+                                  required="true" requiredMessage="#{bundle.CreateTUtilizadoresRequiredMessage_username}" />
                 </h:panelGrid>
                 <br />
                 <h:commandLink action="#{VisitanteController.create}" value="#{bundle.CreateTUtilizadoresSaveLink}" />
