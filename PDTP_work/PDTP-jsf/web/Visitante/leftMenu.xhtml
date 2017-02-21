@@ -12,7 +12,7 @@
             <div class="menu-list">
                 <ul id="menu-content" class="menu-content out collapse in">
                     <c:forEach var="menu" items="#{VisitanteController.menus}">
-                        <li data-toggle="collapse" data-target="##{menu.id}" class="collapsed active">
+                        <li data-toggle="collapse" data-target="##{menu.id}" class="active #{!view.viewId.contains(menu.tituloMenu) ? 'collapsed' : ''}">
                             <a href="#"><i class="fa fa-lg"></i> #{menu.tituloMenu} <span class="arrow"></span></a>
                         </li>
                         <ul class="sub-menu collapse" id="#{menu.id}">

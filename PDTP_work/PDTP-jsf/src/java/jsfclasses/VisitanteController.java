@@ -33,18 +33,18 @@ public class VisitanteController extends TUtilizadoresController implements Seri
     private String morada;
     private boolean usernameCheck = true;
     private ArrayList<Menu> menus;
-    
+    private String seccao;
     public VisitanteController() {
         super();
+        this.seccao = "Visitante";
         menus = new ArrayList<Menu>();
-        Menu menuVisitante = new Menu("menu1");
+        Menu menuVisitante = new Menu("menu1","");
         menuVisitante.setTituloMenu("Visitante");
-        menuVisitante.addMenuPage(new MenuPage("/index.xhtml", "Inicio"));
-        menuVisitante.addMenuPage(new MenuPage("/Visitante/Login.xhtml", "Minhas mensagens"));
-        menuVisitante.addMenuPage(new MenuPage("/Visitante/Registo.xhtml", "Registo"));
-        menuVisitante.addMenuPage(new MenuPage("/Visitante/VendasRecentes.xhtml", "VendasRecentes"));
-        menuVisitante.addMenuPage(new MenuPage("/Visitante/ReativarConta.xhtml", "ReativarConta"));
-        menuVisitante.addMenuPage(new MenuPage("/Visitante/Newsletter.xhtml", "Newsletter"));
+        menuVisitante.addMenuPage("Inicio");
+        menuVisitante.addMenuPage("Registo");
+        menuVisitante.addMenuPage("Vendas Recentes");
+        menuVisitante.addMenuPage("Reativar Conta");
+        menuVisitante.addMenuPage("Newsletter");
         menus.add(menuVisitante);
     }
     public ArrayList<Menu> getMenus() {

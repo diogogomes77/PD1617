@@ -8,6 +8,9 @@ package jsfclasses;
 import beans.ClientUtilizadorRemote;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Map;
+
+import java.util.TreeMap;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
@@ -23,39 +26,45 @@ public class UtilizadorController extends VisitanteController implements Seriali
     @EJB
     private ClientUtilizadorRemote client;
     private ArrayList<Menu> menus;
+    private String seccao;
+
 
     public UtilizadorController() {
         super();
+        seccao="Utilizador";
+        String subseccao = new String();
+        ArrayList<String> paginas = new ArrayList<>();
         menus = new ArrayList<Menu>();
-        Menu menuUtilizador = new Menu("menu1");
+        
+        Menu menuUtilizador = new Menu("menu1","");
         menuUtilizador.setTituloMenu("Utilizador");
-        menuUtilizador.addMenuPage(new MenuPage("/Utilizador/Inicio.xhtml", "Inicio"));
-        menuUtilizador.addMenuPage(new MenuPage("/Utilizador/Login.xhtml", "Minhas mensagens"));
-        menuUtilizador.addMenuPage(new MenuPage("/Utilizador/Login.xhtml", "Enviar mensagens"));
+        menuUtilizador.addMenuPage("Inicio");
+        menuUtilizador.addMenuPage("Minhas Mensagens");
+        menuUtilizador.addMenuPage("Enviar Mensagem");
         menus.add(menuUtilizador);
-        Menu menuUtilizadorConta = new Menu("menu2");
-        menuUtilizadorConta.setTituloMenu("Minha Conta");
-        menuUtilizadorConta.addMenuPage(new MenuPage("/Utilizador/Login.xhtml", "Consultar dados"));
-        menuUtilizadorConta.addMenuPage(new MenuPage("/Utilizador/Login.xhtml", "Atualizar dados"));
-        menuUtilizadorConta.addMenuPage(new MenuPage("/Utilizador/Login.xhtml", "Alterar password"));
-        menuUtilizadorConta.addMenuPage(new MenuPage("/Utilizador/Login.xhtml", "Pedir Suspensao"));
+        Menu menuUtilizadorConta = new Menu("menu2",seccao);
+        menuUtilizadorConta.setTituloMenu("Conta");
+        menuUtilizadorConta.addMenuPage("Consultar dados");
+        menuUtilizadorConta.addMenuPage("Atualizar dados");
+        menuUtilizadorConta.addMenuPage("Alterar password");
+        menuUtilizadorConta.addMenuPage("Pedir Suspensao");
         menus.add(menuUtilizadorConta);
-        Menu menuUtilizadorSaldo = new Menu("menu3");
+        Menu menuUtilizadorSaldo = new Menu("menu3",seccao);
         menuUtilizadorSaldo.setTituloMenu("Itens");
-        menuUtilizadorSaldo.addMenuPage(new MenuPage("/Utilizador/Login.xhtml", "Colocar Item a venda"));
-        menuUtilizadorSaldo.addMenuPage(new MenuPage("/Utilizador/Login.xhtml", "Consultar meus Itens a venda"));
-        menuUtilizadorSaldo.addMenuPage(new MenuPage("/Utilizador/Login.xhtml", "Consultar Itens seguidos"));
-        menuUtilizadorSaldo.addMenuPage(new MenuPage("/Utilizador/Login.xhtml", "Historial de Itens"));
-        menuUtilizadorSaldo.addMenuPage(new MenuPage("/Utilizador/Login.xhtml", "Consultar Lista de Itens"));
-        menuUtilizadorSaldo.addMenuPage(new MenuPage("/Utilizador/Login.xhtml", "Consultar Item"));
-        menuUtilizadorSaldo.addMenuPage(new MenuPage("/Utilizador/Login.xhtml", "Consultar Itens comprados"));
-        menuUtilizadorSaldo.addMenuPage(new MenuPage("/Utilizador/Login.xhtml", "Consultar Itens por pagar"));
-        menuUtilizadorSaldo.addMenuPage(new MenuPage("/Utilizador/Login.xhtml", "Concluir transacao"));
+        menuUtilizadorSaldo.addMenuPage("Colocar Item a venda");
+        menuUtilizadorSaldo.addMenuPage("Meus Itens a venda");
+        menuUtilizadorSaldo.addMenuPage("Itens seguidos");
+        menuUtilizadorSaldo.addMenuPage("Historial");
+        menuUtilizadorSaldo.addMenuPage("Lista de Itens");
+        menuUtilizadorSaldo.addMenuPage("Consultar Item");
+        menuUtilizadorSaldo.addMenuPage("Itens comprados");
+        menuUtilizadorSaldo.addMenuPage("Itens por pagar");
+        menuUtilizadorSaldo.addMenuPage("Concluir transacao");
         menus.add(menuUtilizadorSaldo);
-        Menu menuUtilizadorItens = new Menu("menu4");
+        Menu menuUtilizadorItens = new Menu("menu4",seccao);
         menuUtilizadorItens.setTituloMenu("Saldo");
-        menuUtilizadorItens.addMenuPage(new MenuPage("/Utilizador/Login.xhtml", "Ver Saldo"));
-        menuUtilizadorItens.addMenuPage(new MenuPage("/Utilizador/Login.xhtml", "Carregar Saldo"));
+        menuUtilizadorItens.addMenuPage("Ver Saldo");
+        menuUtilizadorItens.addMenuPage("Carregar Saldo");
         menus.add(menuUtilizadorItens);
     }
 
