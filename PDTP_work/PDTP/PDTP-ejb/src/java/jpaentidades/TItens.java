@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -77,11 +78,11 @@ public class TItens implements Serializable {
     private ItemEstados estado;
     @Column(name = "precoinicial")
     private Double precoinicial;
-    @OneToMany(mappedBy = "item")
+    @OneToMany(mappedBy = "item", cascade = CascadeType.ALL )
     private Collection<TDenunciasItens> tDenunciasItensCollection;
-    @OneToMany(mappedBy = "item")
+    @OneToMany(mappedBy = "item", cascade = CascadeType.ALL )
     private Collection<TLicitacoes> tLicitacoesCollection;
-    @OneToMany(mappedBy = "item")
+    @OneToMany(mappedBy = "item", cascade = CascadeType.ALL)
     private Collection<TVendas> tVendasCollection;
     @JoinColumn(name = "vendedor", referencedColumnName = "username")
     @ManyToOne
@@ -246,6 +247,24 @@ public class TItens implements Serializable {
     @Override
     public String toString() {
         return "jpaentidades.TItens[ itemid=" + itemid + " ]";
+    }
+    /**
+     *
+     * @return
+     */
+    public String toLineString(){
+        StringBuilder item = new StringBuilder();
+        item.append("ID: ");
+         item.append(itemid);
+        item.append(" Descricao: ");
+        item.append(descricao);
+        item.append(" Data fim: ");
+        
+        item.append(datafim);
+        item.append(" Vendedor: ");
+        item.append(vendedor.getUsername());
+        item.append("\n");
+        return item.toString();
     }
 
 }

@@ -12,6 +12,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -36,13 +38,13 @@ public class TitemsPorPagar implements Serializable {
     private static final long serialVersionUID = 1L;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 2147483647)
-    @Column(name = "utilizador")
-    private String utilizador;
+    @JoinColumn(name = "utilizador", referencedColumnName = "username")
+    @ManyToOne
+    private TUtilizadores utilizador;
     @Basic(optional = false)
-    @NotNull
-    @Column(name = "item")
-    private long item;
+    @JoinColumn(name = "item", referencedColumnName = "itemid")
+    @ManyToOne
+    private TItens item;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
@@ -56,25 +58,24 @@ public class TitemsPorPagar implements Serializable {
         this.id = id;
     }
 
-    public TitemsPorPagar(Integer id, String utilizador, long item) {
-        this.id = id;
+    public TitemsPorPagar(TUtilizadores utilizador, TItens item) {
         this.utilizador = utilizador;
         this.item = item;
     }
 
-    public String getUtilizador() {
+    public TUtilizadores getUtilizador() {
         return utilizador;
     }
 
-    public void setUtilizador(String utilizador) {
+    public void setUtilizador(TUtilizadores utilizador) {
         this.utilizador = utilizador;
     }
 
-    public long getItem() {
+    public TItens getItem() {
         return item;
     }
 
-    public void setItem(long item) {
+    public void setItem(TItens item) {
         this.item = item;
     }
 

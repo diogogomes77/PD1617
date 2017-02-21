@@ -12,11 +12,12 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -30,51 +31,48 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "TitemsSeguidos.findAll", query = "SELECT t FROM TitemsSeguidos t")
     , @NamedQuery(name = "TitemsSeguidos.findByUtilizador", query = "SELECT t FROM TitemsSeguidos t WHERE t.utilizador = :utilizador")
     , @NamedQuery(name = "TitemsSeguidos.findByItem", query = "SELECT t FROM TitemsSeguidos t WHERE t.item = :item")
+    , @NamedQuery(name = "TitemsSeguidos.findByItemUtilizador", query = "SELECT t FROM TitemsSeguidos t WHERE t.item = :item AND t.utilizador = :utilizador")
     , @NamedQuery(name = "TitemsSeguidos.findById", query = "SELECT t FROM TitemsSeguidos t WHERE t.id = :id")})
 public class TitemsSeguidos implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 15)
-    @Column(name = "utilizador")
-    private String utilizador;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "item")
-    private long item;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
+    @Basic(optional = false)
+    @NotNull
+    @JoinColumn(name = "utilizador", referencedColumnName = "username")
+    @ManyToOne
+    private TUtilizadores utilizador;
+    @Basic(optional = false)
+    @NotNull
+    @JoinColumn(name = "item", referencedColumnName = "itemid")
+    @ManyToOne
+    private TItens item;
 
     public TitemsSeguidos() {
     }
 
-    public TitemsSeguidos(Integer id) {
-        this.id = id;
-    }
-
-    public TitemsSeguidos(Integer id, String utilizador, long item) {
-        this.id = id;
+    public TitemsSeguidos( TUtilizadores utilizador, TItens item) {
         this.utilizador = utilizador;
         this.item = item;
     }
 
-    public String getUtilizador() {
+    public TUtilizadores getUtilizador() {
         return utilizador;
     }
 
-    public void setUtilizador(String utilizador) {
+    public void setUtilizador(TUtilizadores utilizador) {
         this.utilizador = utilizador;
     }
 
-    public long getItem() {
+    public TItens getItem() {
         return item;
     }
 
-    public void setItem(long item) {
+    public void setItem(TItens item) {
         this.item = item;
     }
 
