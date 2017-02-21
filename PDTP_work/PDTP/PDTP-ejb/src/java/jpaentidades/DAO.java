@@ -11,17 +11,11 @@ import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.ejb.Singleton;
-//import javax.management.Query;
-//import javax.ejb.TransactionManagement;
-//import static javax.ejb.TransactionManagementType.BEAN;
-//import javax.naming.Context;
-//import javax.naming.InitialContext;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
-//import javax.transaction.UserTransaction;
 
 /**
  *
@@ -84,10 +78,21 @@ public class DAO implements DAOLocal {
 
     @Override
     public List<Object> findByNamedQuery(Class s, String nameQuery, String nameParam, Object valeu) {
-        Logger.getLogger(getClass().getName()).log(Level.INFO, "Find All Entity by namedQuery");
+        Logger.getLogger(getClass().getName()).log(Level.INFO, "Find All Entity by namedQuery 1 arg");
         TypedQuery q = getEntityManager().createNamedQuery(nameQuery,s);
         if( ! nameParam.isEmpty()) //Por enquando suporta um parametro
             q.setParameter(nameParam, valeu);
+        return q.getResultList();
+    }
+
+    @Override
+    public List<Object> findByNamedQuery(Class s, String nameQuery, String nameParam1, Object valeu1, String nameParam2, Object valeu2) {
+        Logger.getLogger(getClass().getName()).log(Level.INFO, "Find All Entity by namedQuery 2 args");
+        TypedQuery q = getEntityManager().createNamedQuery(nameQuery,s);
+        if( ! nameParam1.isEmpty()) //Por enquando suporta um parametro
+            q.setParameter(nameParam1, valeu1);
+        if( ! nameParam2.isEmpty()) //Por enquando suporta um parametro
+            q.setParameter(nameParam2, valeu2);
         return q.getResultList();
     }
 
