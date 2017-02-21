@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.Collection;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -70,21 +71,21 @@ public class TUtilizadores implements Serializable {
     private Double saldo;
     @Column(name = "lastAction")
     private long lastAction;
-    @OneToMany(mappedBy = "denunciador")
+    @OneToMany(mappedBy = "denunciador", cascade = CascadeType.ALL )
     private Collection<TDenunciasItens> tDenunciasItensCollection;
-    @OneToMany(mappedBy = "licitador")
+    @OneToMany(mappedBy = "licitador", cascade = CascadeType.ALL )
     private Collection<TLicitacoes> tLicitacoesCollection;
-    @OneToMany(mappedBy = "destinatario")
+    @OneToMany(mappedBy = "destinatario", cascade = CascadeType.ALL )
     private Collection<TMensagens> tMensagensCollection;
-    @OneToMany(mappedBy = "remetente")
+    @OneToMany(mappedBy = "remetente", cascade = CascadeType.ALL )
     private Collection<TMensagens> tMensagensCollection1;
-    @OneToMany(mappedBy = "comprador")
+    @OneToMany(mappedBy = "comprador", cascade = CascadeType.ALL)
     private Collection<TVendas> tVendasCollection;
-    @OneToMany(mappedBy = "denunciador")
+    @OneToMany(mappedBy = "denunciador", cascade = CascadeType.ALL)
     private Collection<TDenunciasVendedores> tDenunciasVendedoresCollection;
-    @OneToMany(mappedBy = "vendedor")
+    @OneToMany(mappedBy = "vendedor", cascade = CascadeType.ALL)
     private Collection<TDenunciasVendedores> tDenunciasVendedoresCollection1;
-    @OneToMany(mappedBy = "vendedor")
+    @OneToMany(mappedBy = "vendedor", cascade = CascadeType.ALL)
     private Collection<TItens> tItensCollection;
 
     public TUtilizadores() {

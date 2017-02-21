@@ -11,6 +11,8 @@ import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -24,6 +26,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import pdtp.ItemEstados;
 
 /**
  *
@@ -47,6 +50,7 @@ public class TItens implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @NotNull
     @Column(name = "itemid")
@@ -54,12 +58,11 @@ public class TItens implements Serializable {
     @Size(max = 255)
     @Column(name = "categoria")
     private String categoria;
-    @Size(max = 255)
-    @Column(name = "comprador")
-    private String comprador;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "comprarja")
     private Double comprarja;
+    @Column(name = "licitacaomaxima")
+    private Double licitacaomaxima;
     @Column(name = "datafim")
     @Temporal(TemporalType.TIMESTAMP)
     private Date datafim;
@@ -71,7 +74,7 @@ public class TItens implements Serializable {
     private String descricao;
     @Size(max = 255)
     @Column(name = "estado")
-    private String estado;
+    private ItemEstados estado;
     @Column(name = "precoinicial")
     private Double precoinicial;
     @OneToMany(mappedBy = "item")
@@ -83,6 +86,9 @@ public class TItens implements Serializable {
     @JoinColumn(name = "vendedor", referencedColumnName = "username")
     @ManyToOne
     private TUtilizadores vendedor;
+    @JoinColumn(name = "comprador", referencedColumnName = "username")
+    @ManyToOne
+    private TUtilizadores comprador;
     @JoinColumn(name = "venda", referencedColumnName = "vendaid")
     @ManyToOne
     private TVendas venda;
@@ -110,11 +116,11 @@ public class TItens implements Serializable {
         this.categoria = categoria;
     }
 
-    public String getComprador() {
+    public TUtilizadores getComprador() {
         return comprador;
     }
 
-    public void setComprador(String comprador) {
+    public void setComprador(TUtilizadores comprador) {
         this.comprador = comprador;
     }
 
@@ -124,6 +130,14 @@ public class TItens implements Serializable {
 
     public void setComprarja(Double comprarja) {
         this.comprarja = comprarja;
+    }
+
+    public Double getLicitacaomaxima() {
+        return licitacaomaxima;
+    }
+
+    public void setLicitacaomaxima(Double licitacaomaxima) {
+        this.licitacaomaxima = licitacaomaxima;
     }
 
     public Date getDatafim() {
@@ -150,11 +164,11 @@ public class TItens implements Serializable {
         this.descricao = descricao;
     }
 
-    public String getEstado() {
+    public ItemEstados getEstado() {
         return estado;
     }
 
-    public void setEstado(String estado) {
+    public void setEstado(ItemEstados estado) {
         this.estado = estado;
     }
 
@@ -233,5 +247,5 @@ public class TItens implements Serializable {
     public String toString() {
         return "jpaentidades.TItens[ itemid=" + itemid + " ]";
     }
-    
+
 }

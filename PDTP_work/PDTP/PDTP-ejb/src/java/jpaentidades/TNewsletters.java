@@ -71,6 +71,9 @@ public class TNewsletters implements Serializable {
     }
 
     public TNewsletters(Integer idNewsletter) {
+        Date in = new Date();
+        LocalDateTime ldt = LocalDateTime.ofInstant(in.toInstant(), ZoneId.systemDefault());
+        this.data = Date.from(ldt.atZone(ZoneId.systemDefault()).toInstant());
         this.idNewsletter = idNewsletter;
     }
 

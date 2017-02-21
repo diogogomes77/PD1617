@@ -7,10 +7,12 @@ import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.sql.Timestamp;
+import java.time.Clock;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
@@ -24,14 +26,18 @@ import javax.ejb.Schedule;
 import javax.ejb.Singleton;
 import javax.persistence.EntityTransaction;
 import jpaentidades.DAOLocal;
+import jpaentidades.TDenunciasItens;
+import jpaentidades.TItens;
 import jpaentidades.TMensagens;
 import jpaentidades.TNewsletters;
 import jpaentidades.TUtilizadores;
+import jpaentidades.TitemsAVenda;
 
 import pdtp.Denuncia;
 import pdtp.DenunciaItem;
 import pdtp.DenunciaVendedor;
 import pdtp.Item;
+import pdtp.ItemEstados;
 
 import pdtp.Licitacao;
 //import pdtp.Utilizador;
@@ -41,6 +47,10 @@ import pdtp.Venda;
 --Tabela alteradas que tem de ser recriadas
 drop table t_utilizadores cascade;
 drop table t_mensagens cascade;
+
+drop table t_itens cascade;
+drop table t_vendas cascade;
+drop table t_itemsAVenda cascade;
 */
 
 /**
@@ -53,17 +63,16 @@ public class Leiloeira implements LeiloeiraLocal {
     @EJB
     private DAOLocal DAO;
 
-    private HashMap<Integer, Item> itensAVenda = new HashMap<>();
+    //private HashMap<Integer, Item> itensAVenda = new HashMap<>();
     private HashMap<Integer, Item> itensTerminados = new HashMap<>();
-    private List<DenunciaItem> denunciasItens = new ArrayList<>();
-    private List<DenunciaVendedor> denunciasVendedores = new ArrayList<>();
+    //private List<DenunciaItem> denunciasItens = new ArrayList<>();
+    //private List<DenunciaVendedor> denunciasVendedores = new ArrayList<>();
     private List<String> categorias = new ArrayList<>();
 //    private List<Mensagem> mensagens = new ArrayList<>();
-    private int itemCount;
+//    private int itemCount;
 
     public Leiloeira() {
-        itemCount = getIntenCount();
-
+//        itemCount = getIntenCount();
     }
     
     private void addAdmin(){
@@ -87,9 +96,9 @@ public class Leiloeira implements LeiloeiraLocal {
         }
     }
     
-    private int getIntenCount() {
-        return itensAVenda.size();
-    }
+//    private int getIntenCount() {
+//        return itensAVenda.size();
+//    }
 
     @Override
     public DAOLocal getDAO() {
@@ -143,7 +152,7 @@ public class Leiloeira implements LeiloeiraLocal {
             user.setEstado(UtilizadorEstado.ATIVO_PEDIDO);
             TNewsletters news = new TNewsletters("Novo utilizador", "O " + nome + " está inscrito.");
 
-            Logger.getLogger(getClass().getName()).log(Level.INFO, "O Utilizador Já existe");
+            Logger.getLogger(getClass().getName()).log(Level.INFO, "Criação do utilizador");
             EntityTransaction trans = DAO.getEntityManager().getTransaction();
             trans.begin();
             DAO.create(user);
@@ -208,7 +217,8 @@ public class Leiloeira implements LeiloeiraLocal {
     private void terminaItem(Item it) {
 
         itensTerminados.put(it.getItemID(), it);
-        itensAVenda.remove(it.getItemID());
+        //TODO: Remover da lista dos itens à venda
+//        itensAVenda.remove(it.getItemID());
         if (it.getLicitacoes().isEmpty()) {
             it.terminaItemSemLicitacoes();
             this.addMensagem("admin", "admin", it.toString(), "Item Terminado sem comprador");
@@ -229,12 +239,13 @@ public class Leiloeira implements LeiloeiraLocal {
     @Override
     public void checkItensDataFinal() {
         Timestamp now = new java.sql.Timestamp(Calendar.getInstance().getTime().getTime());
-        List<Item> list = new ArrayList<Item>(itensAVenda.values());
-        for (Item it : list) {
-            if (it.getDataFimTimeStamp().after(now)) {
-                terminaItem(it);
-            }
-        }
+        //TODO: Refazer para usar os itens da base de dados
+//        List<Item> list = new ArrayList<Item>(itensAVenda.values());
+//        for (Item it : list) {
+//            if (it.getDataFimTimeStamp().after(now)) {
+//                terminaItem(it);
+//            }
+//        }
 
     }
 
@@ -268,7 +279,7 @@ public class Leiloeira implements LeiloeiraLocal {
                         new BufferedInputStream(
                                 new FileInputStream("/tmp/LeiloeiraDados")))) {
             categorias = (ArrayList<String>) ois.readObject();
-            itensAVenda = (HashMap<Integer, Item>) ois.readObject();
+//            itensAVenda = (HashMap<Integer, Item>) ois.readObject();
             itensTerminados = (HashMap<Integer, Item>) ois.readObject();
 
         } catch (Exception e) {
@@ -286,7 +297,7 @@ public class Leiloeira implements LeiloeiraLocal {
                         new BufferedOutputStream(
                                 new FileOutputStream("/tmp/LeiloeiraDados")))) {
             oos.writeObject(categorias);
-            oos.writeObject(itensAVenda);
+//            oos.writeObject(itensAVenda);
             oos.writeObject(itensTerminados);
         } catch (Exception e) {
 
@@ -366,7 +377,19 @@ public class Leiloeira implements LeiloeiraLocal {
         TUtilizadores util = (TUtilizadores) DAO.find(TUtilizadores.class, username);
         if (util.getEstado() != UtilizadorEstado.ATIVO ) {
             util.setEstado(UtilizadorEstado.ATIVO );
-            DAO.editWithCommit(util);
+            TMensagens msg = new TMensagens();
+            msg.setRemetente((TUtilizadores) DAO.find(TUtilizadores.class, "admin"));
+            msg.setDestinatario(util);
+            msg.setAssunto("Conta ativada");
+            msg.setTexto("Conta ativada");
+            msg.setEstado( MensagemEstado.ENVIADA );
+    
+            //Guardar a ativação do utilizador
+            EntityTransaction trans = DAO.getEntityManager().getTransaction();
+            trans.begin();
+            DAO.edit(util);
+            DAO.create(msg);
+            trans.commit();
             return true;
         }
         return false;
@@ -459,7 +482,7 @@ public class Leiloeira implements LeiloeiraLocal {
     @Override
     public HashMap<String, String> getPedidosSuspensao() {
         HashMap<String, String> pedidos = new HashMap<>();
-        for (Object u : DAO.findByNamedQuery(TUtilizadores.class, "TUtilizadores.findByEstado", "estado", UtilizadorEstado.SUSPENDO_PEDIDO.msg())) {
+        for (Object u : DAO.findByNamedQuery(TUtilizadores.class, "TUtilizadores.findByEstado", "estado", UtilizadorEstado.SUSPENDO_PEDIDO)) {
             pedidos.put(((TUtilizadores) u).getUsername(), ((TUtilizadores) u).getRazaopedidosuspensao());
         }
         return pedidos;
@@ -476,7 +499,20 @@ public class Leiloeira implements LeiloeiraLocal {
         TUtilizadores util = (TUtilizadores) DAO.find(TUtilizadores.class, username);
         if (util != null) {
             util.setEstado(UtilizadorEstado.SUSPENSO );
-            DAO.editWithCommit(util);
+            TMensagens msg = new TMensagens();
+            msg.setRemetente(util);
+            msg.setDestinatario((TUtilizadores) DAO.find(TUtilizadores.class, "admin"));
+            msg.setAssunto("Conta suspensa");
+            msg.setTexto("Conta suspensa");
+            msg.setEstado( MensagemEstado.ENVIADA );
+    
+            //Guardar a ativação do utilizador
+            EntityTransaction trans = DAO.getEntityManager().getTransaction();
+            trans.begin();
+            DAO.create(msg);
+            DAO.edit(util);
+            trans.commit();
+            
             return true;
         }
         return false;
@@ -525,7 +561,7 @@ public class Leiloeira implements LeiloeiraLocal {
     @Override
     public ArrayList<Mensagem> getMensagensUtilizador(String username) {
         ArrayList<Mensagem> myMsg = new ArrayList<>();
-        //TODO: Verificar se isto funciona
+        //Obter todas as mensagens enviadas para o utilizador
         for (Object msg : DAO.findByNamedQuery(TMensagens.class, "TMensagens.findByDestinatario", "username", new TUtilizadores(username) )) {
             Mensagem msgRef = new Mensagem(((TMensagens) msg).getRemetente().getUsername(),
                                            ((TMensagens) msg).getDestinatario().getUsername(),
@@ -657,11 +693,21 @@ public class Leiloeira implements LeiloeiraLocal {
      */
     @Override
     public boolean addItem(String username, String descricao, Double precoInicial, Double precoComprarJa, Timestamp dataLimite) {
-        TUtilizadores u = (TUtilizadores) DAO.find(TUtilizadores.class, username);
-        if (u != null) {
-            //TODO: Refacturing para passar a usar a entidade dos utilizadores
-            itensAVenda.put(itemCount, new Item(itemCount, /*u*/null, precoInicial, precoComprarJa, dataLimite, descricao));
-            itemCount++;
+        TUtilizadores util = (TUtilizadores) DAO.find(TUtilizadores.class, username);
+        if (util != null) {
+            TItens item = new TItens();
+            item.setDescricao(descricao);
+            item.setPrecoinicial(precoInicial);
+            item.setComprarja(precoComprarJa);
+            item.setDatafim(dataLimite);
+            item.setVendedor(util);
+            TitemsAVenda iVenda = new TitemsAVenda( item );
+             
+            EntityTransaction trans = DAO.getEntityManager().getTransaction();
+            trans.begin();
+            DAO.create(item);
+            DAO.create(iVenda);
+            trans.commit();
             return true;
         }
         return false;
@@ -675,12 +721,12 @@ public class Leiloeira implements LeiloeiraLocal {
     @Override
     public List<String> getItensUtilizador(String username) {
         List<String> itensUtilizador = new ArrayList<>();
-        List<Item> listItens = new ArrayList<Item>(itensAVenda.values());
-        for (Item item : listItens) {
-            if (item.getVendedor().getUsername().equals(username)) {
-                itensUtilizador.add(item.toLineString());
-            }
-        }
+//        List<Item> listItens = new ArrayList<Item>(itensAVenda.values());
+//        for (Item item : listItens) {
+//            if (item.getVendedor().getUsername().equals(username)) {
+//                itensUtilizador.add(item.toLineString());
+//            }
+//        }
         return itensUtilizador;
     }
 
@@ -690,7 +736,8 @@ public class Leiloeira implements LeiloeiraLocal {
      */
     @Override
     public int getTotalItens() {
-        return itensAVenda.size();
+        //TODO: Saber o número de itens à venda
+        return 0;//itensAVenda.size();
     }
 
     /**
@@ -700,10 +747,11 @@ public class Leiloeira implements LeiloeiraLocal {
     @Override
     public List<String> getItens() {
         List<String> itensResult = new ArrayList<>();
-        List<Item> listItens = new ArrayList<Item>(itensAVenda.values());
-        for (Item item : listItens) {
-            itensResult.add(item.toLineString());
-        }
+        //TODO: Implementar esta função
+//        List<Item> listItens = new ArrayList<Item>(itensAVenda.values());
+//        for (Item item : listItens) {
+//            itensResult.add(item.toLineString());
+//        }
         return itensResult;
     }
 
@@ -714,7 +762,7 @@ public class Leiloeira implements LeiloeiraLocal {
      */
     @Override
     public String mostraItem(int itemId) {
-        Item item = itensAVenda.get(itemId);
+        TItens item  = (TItens) DAO.find(TItens.class, itemId);
         if (item == null) {
             return "ERRO: Item invalido";
         }
@@ -728,7 +776,7 @@ public class Leiloeira implements LeiloeiraLocal {
      */
     @Override
     public String getVendedorItem(int itemId) {
-        Item item = itensAVenda.get(itemId);
+        TItens item  = (TItens) DAO.find(TItens.class, itemId);
         if (item == null) {
             return "ERRO: Item invalido";
         }
@@ -741,21 +789,22 @@ public class Leiloeira implements LeiloeiraLocal {
      * @return
      */
     @Override
-    public String consultarLicitacoes(int itemid) {
-        Item item = itensAVenda.get(itemid);
-        if (item == null) {
+    public String consultarLicitacoes(int itemId) {
+        TItens i  = (TItens) DAO.find(TItens.class, itemId);
+        if (i == null) {
             return "ERRO: Item invalido";
         }
-        List<Licitacao> licitacoes = new ArrayList<Licitacao>(item.getLicitacoes().values());
+        //TODO: Saber como isto se vai fazer
+//        List<Licitacao> licitacoes = new ArrayList<Licitacao>(i.getTLicitacoesCollection());
         StringBuilder lista = new StringBuilder();
-        for (Licitacao licitacao : licitacoes) {
-            lista.append(licitacao.getTimestamp());
-            lista.append("->");
-            lista.append(Double.toString(licitacao.getValor()));
-            lista.append("\n Licitador: ");
-            lista.append(licitacao.getLicitador());
-            lista.append("\n");
-        }
+//        for (Licitacao licitacao : licitacoes) {
+//            lista.append(licitacao.getTimestamp());
+//            lista.append("->");
+//            lista.append(Double.toString(licitacao.getValor()));
+//            lista.append("\n Licitador: ");
+//            lista.append(licitacao.getLicitador());
+//            lista.append("\n");
+//        }
         return lista.toString();
     }
 
@@ -767,16 +816,16 @@ public class Leiloeira implements LeiloeiraLocal {
      */
     @Override
     public boolean comprarJaItem(int itemId, String comprador) {
-        Item item = itensAVenda.get(itemId);
-        if (item != null) {
+        TItens i  = (TItens) DAO.find(TItens.class, itemId);
+        if (i != null) {
             TUtilizadores u = (TUtilizadores) DAO.find(TUtilizadores.class, comprador);
             if (u != null) {
                 //TODO: Refacturing para usar as entidades dos utilizadores
-                if (item.addVendacomprarJa(/*u*/null)) {
-                    itensTerminados.put(itemId, item);
-                    itensAVenda.remove(itemId);
-                    return true;
-                }
+//                if (i.addVendacomprarJa(/*u*/null)) {
+//                    itensTerminados.put(itemId, i);
+//                    itensAVenda.remove(itemId);
+//                    return true;
+//                }
             }
         }
         return false;
@@ -791,8 +840,8 @@ public class Leiloeira implements LeiloeiraLocal {
      */
     @Override
     public boolean licitarItem(int itemId, Double value, String username) {
-        Item item = itensAVenda.get(itemId);
-        if (item != null) {
+        TItens i  = (TItens) DAO.find(TItens.class, itemId);
+        if (i != null) {
             TUtilizadores licitador = (TUtilizadores) DAO.find(TUtilizadores.class, username);
             if (licitador != null) {
                 //TODO: Refacturing para passar a usar e entidade dos utilizadores
@@ -810,8 +859,8 @@ public class Leiloeira implements LeiloeiraLocal {
      */
     @Override
     public boolean seguirItem(String username, int itemId) {
-        Item item = itensAVenda.get(itemId);
-        if (item == null) {
+        TItens i  = (TItens) DAO.find(TItens.class, itemId);
+        if (i == null) {
             return false;
         }
         TUtilizadores u = (TUtilizadores) DAO.find(TUtilizadores.class, username);
@@ -880,7 +929,7 @@ public class Leiloeira implements LeiloeiraLocal {
      */
     @Override
     public boolean denunciarItem(int itemId, String denunciador, String razao) {
-        Item i = this.itensAVenda.get(itemId);
+        TItens i  = (TItens) DAO.find(TItens.class, itemId);
         if (i == null) {
             return false;
         }
@@ -889,9 +938,10 @@ public class Leiloeira implements LeiloeiraLocal {
             return false;
         }
         //TODO: refacturing para usar a entidade utilizador
-        DenunciaItem d = new DenunciaItem(i, /*u*/ null, razao);
-        denunciasItens.add(d);
-        addMensagem(denunciador, "admin", d.toString(), "denuncia item " + i.getItemID());
+        DenunciaItem d = new DenunciaItem(/*i*/null, /*u*/ null, razao);
+        //TODO: Adicionar o item aos denunciados
+        //denunciasItens.add(d);
+        addMensagem(denunciador, "admin", d.toString(), "denuncia item " + i.getItemid());
         return true;
     }
 
@@ -902,9 +952,10 @@ public class Leiloeira implements LeiloeiraLocal {
     @Override
     public List<String> obtemDenunciasVendedores() {
         List<String> result = new ArrayList<>();
-        for (Denuncia denuncia : denunciasVendedores) {
-            result.add(denuncia.toString());
-        }
+        //TODO: Obter os vendedores denunciados
+//        for (Denuncia denuncia : denunciasVendedores) {
+//            result.add(denuncia.toString());
+//        }
         return result;
     }
 
@@ -915,9 +966,10 @@ public class Leiloeira implements LeiloeiraLocal {
     @Override
     public List<String> obtemDenunciasItens() {
         List<String> result = new ArrayList<>();
-        for (Denuncia denuncia : denunciasItens) {
-            result.add(denuncia.toString());
-        }
+        //TODO: Obter os itens denunciados
+//        for (Denuncia denuncia : denunciasItens) {
+//            result.add(denuncia.toString());
+//        }
         return result;
     }
 
@@ -940,7 +992,8 @@ public class Leiloeira implements LeiloeiraLocal {
         }
         //TODO:Refacturing para usar a entidade utilizador
         DenunciaVendedor den = new DenunciaVendedor(/*d*/null, /*v*/ null, razao);
-        denunciasVendedores.add(den);
+        //TODO: denunciar o vendedor
+        //denunciasVendedores.add(den);
         addMensagem(denunciador, "admin", d.toString(), "denuncia vendedor " + v.getUsername());
         return true;
     }
@@ -952,11 +1005,13 @@ public class Leiloeira implements LeiloeiraLocal {
      */
     @Override
     public boolean cancelarItem(int itemId) {
-        Item i = itensAVenda.get(itemId);
-        if (i == null) {
-            return false;
+        TItens i  = (TItens) DAO.find(TItens.class, itemId);
+        if (i != null) {
+            i.setEstado(ItemEstados.CANCELADA);
+            DAO.editWithCommit(i);
+            return true;
         }
-        return i.cancelarItem(i.getVendedor());
+        return false;
     }
 
     @Override
