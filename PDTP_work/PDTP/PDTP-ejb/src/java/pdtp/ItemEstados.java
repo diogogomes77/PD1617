@@ -24,5 +24,15 @@ public enum ItemEstados {
     /**
      *
      */
-    CANCELADA
+    CANCELADA,
+    /**
+     *
+     */
+    VENDIDA,
+    /**
+     *
+     */
+    GANHA
+    
+    
 }

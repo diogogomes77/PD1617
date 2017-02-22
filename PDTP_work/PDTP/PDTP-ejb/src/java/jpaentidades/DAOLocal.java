@@ -30,11 +30,15 @@ public interface DAOLocal {
     
     public void remove(Object entity);
 
+    public void removeWithCommit(Object entity);
+
     public Object find(Class s,Object id);
 
     public List<Object> findAll(Class s);
 
     public List<Object> findByNamedQuery(Class s, String nameQuery, String nameParam, Object valeu);
+
+    public List<Object> findByNamedQuery(Class s, String nameQuery, String nameParam1, Object valeu1, String nameParam2, Object valeu2);
 
     public List<Object> findRange(Class s,int[] range);
 

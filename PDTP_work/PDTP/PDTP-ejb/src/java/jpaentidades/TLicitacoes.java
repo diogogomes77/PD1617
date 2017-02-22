@@ -6,6 +6,8 @@
 package jpaentidades;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -56,10 +58,9 @@ public class TLicitacoes implements Serializable {
     private TUtilizadores licitador;
 
     public TLicitacoes() {
-    }
-
-    public TLicitacoes(Integer idLicitacao) {
-        this.idLicitacao = idLicitacao;
+        Date in = new Date();
+        LocalDateTime ldt = LocalDateTime.ofInstant(in.toInstant(), ZoneId.systemDefault());
+        this.timestamp = Date.from(ldt.atZone(ZoneId.systemDefault()).toInstant());        
     }
 
     public Integer getIdLicitacao() {

@@ -6,6 +6,8 @@
 package jpaentidades;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -57,10 +59,16 @@ public class TDenunciasVendedores implements Serializable {
     private TUtilizadores vendedor;
 
     public TDenunciasVendedores() {
+        Date in = new Date();
+        LocalDateTime ldt = LocalDateTime.ofInstant(in.toInstant(), ZoneId.systemDefault());
+        this.data = Date.from(ldt.atZone(ZoneId.systemDefault()).toInstant());
     }
 
     public TDenunciasVendedores(Integer idDenunciaVendedor) {
         this.idDenunciaVendedor = idDenunciaVendedor;
+        Date in = new Date();
+        LocalDateTime ldt = LocalDateTime.ofInstant(in.toInstant(), ZoneId.systemDefault());
+        this.data = Date.from(ldt.atZone(ZoneId.systemDefault()).toInstant());
     }
 
     public Integer getIdDenunciaVendedor() {
@@ -127,5 +135,15 @@ public class TDenunciasVendedores implements Serializable {
     public String toString() {
         return "jpaentidades.TDenunciasVendedores[ idDenunciaVendedor=" + idDenunciaVendedor + " ]";
     }
-    
+
+    public String toLineString() {
+        StringBuilder result = new StringBuilder();
+        result.append("Vendedor: ");
+        result.append(vendedor.getUsername());
+        result.append(" Denuncia: ");
+        result.append(razao);
+        result.append(" Por: ");
+        result.append(denunciador.getUsername());
+        return result.toString();
+    }
 }
