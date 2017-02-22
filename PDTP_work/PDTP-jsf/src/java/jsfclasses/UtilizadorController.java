@@ -6,6 +6,8 @@
 package jsfclasses;
 
 import beans.ClientUtilizadorRemote;
+import java.io.File;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Map;
@@ -14,6 +16,8 @@ import java.util.TreeMap;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
+import javax.servlet.ServletConfig;
+import javax.servlet.ServletContext;
 
 /**
  *
@@ -72,4 +76,6 @@ public class UtilizadorController extends VisitanteController implements Seriali
 
         return menus;
     }
+    
+
 }

@@ -89,9 +89,9 @@ public class VisitanteController extends TUtilizadoresController implements Seri
         boolean ok = client.loginUtilizador(username, password);
         if (ok) {
             HttpSession session = SessionUtils.getSession();
-//            if ("admin".equals(username)) {
-//                return "/Admin/Inicio";
-//            }
+            if ("admin".equals(username)) {
+                return "/Administrador/Inicio";
+            }
             return "/Utilizador/Inicio";
 
         } else {

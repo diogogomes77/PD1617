@@ -104,3 +104,10 @@ body {
   display: inline-block;
   border-radius: 50%;
 }
+
+#javax_faces_developmentstage_messages ul,
+#javax_faces_developmentstage_messages ol
+{
+    margin-left: 240px;
+}
+

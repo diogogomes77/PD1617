@@ -6,23 +6,27 @@
 package jsfclasses;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.StandardOpenOption;
-import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author diogo
  */
 public class MenuPage {
+
     String viewId;
     String title;
 
     public MenuPage(String viewId, String title) {
         this.viewId = viewId;
         this.title = title;
+        //this.checkFile(viewId);
     }
 
     public String getViewId() {
@@ -32,20 +36,19 @@ public class MenuPage {
     public String getTitle() {
         return title;
     }
-    
-    public void checkFile(String fullUrl){
-           File yourFile = new File(fullUrl);
+
+    public void createFile(String path, String fullUrl) {
+        path = "/tmp/PDTP" + fullUrl;
+        File targetFile = new File(path);
+        File parent = targetFile.getParentFile();
+        if (!parent.exists() && !parent.mkdirs()) {
+            throw new IllegalStateException("Couldn't create dir: " + parent);
+        }
         try {
-            yourFile.createNewFile();
-//            try {
-//                String content = new Scanner(new File("index.xhtml")).useDelimiter("\\Z").next();
-//                Files.write(Paths.get(fullUrl), "the text".getBytes(), StandardOpenOption.APPEND);
-//            } catch (IOException e) {
-//                //exception handling left as an exercise for the reader
-//            }
+            targetFile.createNewFile();
         } catch (IOException ex) {
-            System.out.println("File " + fullUrl + " Exists");
+            Logger.getLogger(MenuPage.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-     
+
 }

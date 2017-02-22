@@ -5,12 +5,13 @@
       xmlns:f="http://java.sun.com/jsf/core"  
       xmlns:ui="http://java.sun.com/jsf/facelets"> 
     <ui:composition template="main.xhtml">
+         <ui:define name="pagetitle">#{bundle.AdminInicio}</ui:define>
         <ui:define name="left">
             <ui:include src="leftMenu.xhtml" />
         </ui:define>
         <ui:define name="title">
             <h1 class="page-header "> <i class="fa fa-handshake-o"></i>  
-                <h:outputText value=" #{bundle.UtilizadorInicio}"></h:outputText>
+                <h:outputText value=" #{bundle.AdminInicio}"></h:outputText>
             </h1>
         </ui:define>
         <ui:define name="content">                        
@@ -24,3 +25,4 @@
 
 
 </html>
+
