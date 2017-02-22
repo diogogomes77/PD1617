@@ -30,6 +30,8 @@ public interface DAOLocal {
     
     public void remove(Object entity);
 
+    public void removeWithCommit(Object entity);
+
     public Object find(Class s,Object id);
 
     public List<Object> findAll(Class s);

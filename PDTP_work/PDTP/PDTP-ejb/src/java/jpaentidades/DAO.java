@@ -173,4 +173,20 @@ public class DAO implements DAOLocal {
             throw new RuntimeException(e);
         }
     }
+    
+    @Override
+    public void removeWithCommit(Object entity) {
+        try {
+            Logger.getLogger(getClass().getName()).log(Level.INFO, "elimina e faz commmit ao registo");
+            EntityTransaction trans = getEntityManager().getTransaction();
+            trans.begin();
+            em.remove(getEntityManager().merge(entity));;
+            trans.commit();
+
+        } catch (Exception e) {
+            Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", e);
+            throw new RuntimeException(e);
+        }
+    }
+
 }
