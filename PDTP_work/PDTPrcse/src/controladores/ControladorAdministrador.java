@@ -93,8 +93,7 @@ public class ControladorAdministrador extends ControladorUserAdmin {
      */
     public void suspenderContas() {
         System.out.print("Suspender username -> ");
-        String username = sc.next();
-        sc.skip("\n");
+        String username = sc.nextLine();
         if (ligacao.suspendeUsername(username)) {
             System.out.println("Utilizador suspenso");
         } else {
@@ -106,9 +105,8 @@ public class ControladorAdministrador extends ControladorUserAdmin {
      *
      */
     public void reativarContas() {
-        System.out.print("Reativar username -> ");
-        String username = sc.next();
-        sc.skip("\n");
+        System.out.print("Reativar username: ");
+        String username = sc.nextLine();
         if (ligacao.ativaUtilizador(username)) {
             System.out.println("Utilizador reativado");
         } else {
@@ -122,12 +120,10 @@ public class ControladorAdministrador extends ControladorUserAdmin {
     public void mudarPassword() {
         String password = "";
         System.out.print("Antiga password: ");
-        password = sc.next();
-        sc.skip("\n");
+        password = sc.nextLine();
         if (ligacao.verificaPassword(password)) {
             System.out.print("Nova password: ");
-            password = sc.next();
-            sc.skip("\n");
+            password = sc.nextLine();
             if (ligacao.alteraPassword(password)) {
                 System.out.println("Password alterada com sucesso");
             } else {
@@ -148,14 +144,11 @@ public class ControladorAdministrador extends ControladorUserAdmin {
         String texto = "";
         String assunto = "";
         System.out.print("Destinatario: ");
-        destinatario = sc.next();
-        sc.skip("\n");
+        destinatario = sc.nextLine();
         System.out.print("Assunto: ");
         assunto = sc.nextLine();
-        sc.skip("\n");
         System.out.print("Texto: ");
         texto = sc.nextLine();
-        sc.skip("\n");
         if (ligacao.sendMensagem(destinatario, texto, assunto)) {
             System.out.println("Mensagem enviada");
         } else {
@@ -181,8 +174,7 @@ public class ControladorAdministrador extends ControladorUserAdmin {
         System.out.println("Dados do utilizador:");
         String username = "";
         System.out.print("Username: ");
-        username = sc.next();
-        sc.skip("\n");
+        username = sc.nextLine();
         System.out.println(ligacao.getDados(username));
 
     }
@@ -212,9 +204,8 @@ public class ControladorAdministrador extends ControladorUserAdmin {
      *
      */
     public void ativarConta() {
-        System.out.print("Ativar username -> ");
-        String username = sc.next();
-        sc.skip("\n");
+        System.out.print("Ativar username: ");
+        String username = sc.nextLine();
         if (ligacao.ativaUtilizador(username)) {
             System.out.println("Utilizador ativado");
         } else {
@@ -276,9 +267,8 @@ public class ControladorAdministrador extends ControladorUserAdmin {
      *
      */
     public void novaCategoria() {
-        System.out.print("Nome da categoria -> ");
-        String nomecat = sc.next();
-        sc.skip("\n");
+        System.out.print("Nome da categoria: ");
+        String nomecat = sc.nextLine();
         if (ligacao.adicionarCategoria(nomecat)) {
             System.out.println("Categoria Adicionada");
         } else {
@@ -290,9 +280,8 @@ public class ControladorAdministrador extends ControladorUserAdmin {
      *
      */
     public void eliminarCategoria() {
-        System.out.print("Nome da categoria -> ");
-        String nomecat = sc.next();
-        sc.skip("\n");
+        System.out.print("Nome da categoria: ");
+        String nomecat = sc.nextLine();
         if (ligacao.eliminaCategoria(nomecat)) {
             System.out.println("Categoria Eliminada");
         } else {
@@ -304,12 +293,10 @@ public class ControladorAdministrador extends ControladorUserAdmin {
      *
      */
     public void modificaCategoria() {
-        System.out.print("Nome da categoria -> ");
-        String nomecat = sc.next();
-        sc.skip("\n");
-        System.out.print("novo nome da categoria -> ");
-        String novoNomeCat = sc.next();
-        sc.skip("\n");
+        System.out.print("Nome da categoria: ");
+        String nomecat = sc.nextLine();
+        System.out.print("novo nome da categoria: ");
+        String novoNomeCat = sc.nextLine();
         if (ligacao.modificaCategoria(nomecat, novoNomeCat)) {
             System.out.println("Categoria alterada");
         } else {

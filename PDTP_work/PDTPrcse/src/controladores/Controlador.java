@@ -5,6 +5,7 @@ import java.util.Scanner;
 import menus.Menu;
 import pdtprcse.PDTPrcse;
 import beans.ClientRemote;
+import java.util.List;
 
 /**
  *
@@ -39,6 +40,19 @@ public abstract class Controlador extends PDTPrcse{
         System.out.print("Utilizadores inscritos("+total+"): ");
         insccritos.forEach((user) -> {
             System.out.print(user + " ");
+        });
+        System.out.print("\n");
+    }
+
+    /**
+     *
+     */
+    public void printNews() {
+        List<String> allNews = ligacao.getNewsletter();
+        int total = allNews.size();
+        System.out.println("Total de newsletter("+total+"): ");
+        allNews.forEach((news) -> {
+            System.out.println(news);
         });
         System.out.print("\n");
     }

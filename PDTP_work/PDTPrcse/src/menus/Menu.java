@@ -57,7 +57,7 @@ public abstract class Menu extends PDTPrcse {
      */
     protected Menu() {
         opcoes = new ArrayList<OpcaoMenu>();
-        OpcaoMenu newsletter = new OpcaoMenu("Newsletter", () -> controlador.printInscritos());
+        OpcaoMenu newsletter = new OpcaoMenu("Newsletter", () -> controlador.printNews());
         OpcaoMenu sair = new OpcaoMenu("Sair", () -> controlador.sair());
         opcoes.add(sair);
         opcoes.add(newsletter);
@@ -126,9 +126,6 @@ public abstract class Menu extends PDTPrcse {
                 } catch (NumberFormatException nfe) {
                     mostraMenu();
                 }
-
-                sc.skip("\n");
-
             }
         }while (true);
 

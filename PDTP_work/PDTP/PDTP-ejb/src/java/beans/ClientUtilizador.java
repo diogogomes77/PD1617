@@ -61,6 +61,12 @@ public class ClientUtilizador implements ClientUtilizadorRemote {
     }
 
     @Override
+    public List<String> getNewsletter() {
+        setLastAction();
+        return leiloeira.obtemNewsletter();
+    }
+
+    @Override
     public ArrayList<String> getUsernamesOnline() {
         setLastAction();
         return leiloeira.getUsernamesOnline();

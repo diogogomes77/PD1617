@@ -123,14 +123,11 @@ public class ControladorUtilizador extends ControladorUserAdmin {
         String texto = "";
         String assunto = "";
         System.out.print("Destinatario: ");
-        destinatario = sc.next();
-        sc.skip("\n");
+        destinatario = sc.nextLine();
         System.out.print("Assunto: ");
         assunto = sc.nextLine();
-        sc.skip("\n");
         System.out.print("Texto: ");
         texto = sc.nextLine();
-        sc.skip("\n");
         if (ligacao.sendMensagem(destinatario, texto, assunto)) {
             System.out.println("Mensagem enviada");
         } else {
@@ -278,7 +275,6 @@ public class ControladorUtilizador extends ControladorUserAdmin {
         System.out.println("Denunciar Item");
         System.out.print("Razao: ");
         String razao = sc.nextLine();
-        sc.skip("\n");
         if (!"".equals(razao) && ligacao.denunciarItem(currentItemId, razao)) {
             System.out.println("Denuncia registada");
         } else {
@@ -315,7 +311,6 @@ public class ControladorUtilizador extends ControladorUserAdmin {
         String assunto = "ItemID: " + Integer.toString(currentItemId);
         System.out.print("Mensagem: ");
         texto = sc.nextLine();
-        sc.skip("\n");
         if (ligacao.sendMensagem(destinatario, texto, assunto)) {
             System.out.println("Mensagem enviada");
         } else {
@@ -344,7 +339,6 @@ public class ControladorUtilizador extends ControladorUserAdmin {
         System.out.println("Pedido de suspensao");
         System.out.print("Indique a razao -> ");
         String razao = sc.nextLine();
-        sc.skip("\n");
         if (ligacao.pedirSuspensao(razao)) {
             System.out.println("Pedido suspensao registado");
         } else {
@@ -364,10 +358,8 @@ public class ControladorUtilizador extends ControladorUserAdmin {
         String password = "";
         System.out.print("Nome: ");
         nome = sc.nextLine();
-        sc.skip("\n");
         System.out.print("Morada: ");
         morada = sc.nextLine();
-        sc.skip("\n");
         if (ligacao.atualizaDados(nome, morada)) {
             System.out.println("Utilizador atualizado");
         } else {
@@ -402,12 +394,10 @@ public class ControladorUtilizador extends ControladorUserAdmin {
     public void alterarPassword() {
         String password = "";
         System.out.print("Antiga password: ");
-        password = sc.next();
-        sc.skip("\n");
+        password = sc.nextLine();
         if (ligacao.verificaPassword(password)) {
             System.out.print("Nova password: ");
-            password = sc.next();
-            sc.skip("\n");
+            password = sc.nextLine();
             if (ligacao.alteraPassword(password)) {
                 System.out.println("Password alterada com sucesso");
             } else {

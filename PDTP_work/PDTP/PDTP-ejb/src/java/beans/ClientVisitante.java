@@ -2,6 +2,7 @@
 package beans;
 
 import java.util.ArrayList;
+import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
@@ -31,6 +32,11 @@ public class ClientVisitante implements ClientVisitanteRemote {
         return leiloeira.getUsernameInscritos();
     }
    
+    @Override
+    public List<String> getNewsletter() {
+        //setLastAction();
+        return leiloeira.obtemNewsletter();
+    }
     @Override
     public ArrayList<String> getUsernamesOnline() {
          return leiloeira.getUsernamesOnline();

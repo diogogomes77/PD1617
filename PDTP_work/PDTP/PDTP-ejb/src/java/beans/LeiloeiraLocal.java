@@ -353,4 +353,6 @@ public interface LeiloeiraLocal {
     public DAOLocal getDAO() ;
 
     boolean isLogged(String username);
+
+    List<String> obtemNewsletter();
 }

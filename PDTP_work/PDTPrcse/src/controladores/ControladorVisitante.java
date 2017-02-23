@@ -37,16 +37,13 @@ public class ControladorVisitante extends Controlador{
         String username = "";
         String password = "";
         System.out.print("Nome: ");
-        nome = sc.next();
-        sc.skip("\n");
+        nome = sc.nextLine();
         System.out.print("Morada: ");
-        morada = sc.next();
-        sc.skip("\n");
+        morada = sc.nextLine();
         boolean freeUsername = false;
         while (!freeUsername) {
             System.out.print("Username: ");
-            username = sc.next();
-            sc.skip("\n");
+            username = sc.nextLine();
             if (ligacao.existeUsername(username)) {
                 System.out.println("ERRO: Username ja existe, escolha outro");
             } else {
@@ -58,16 +55,14 @@ public class ControladorVisitante extends Controlador{
         password = "";
         while (!okPassword) {
             System.out.print("Password: ");
-            password = sc.next();
-            sc.skip("\n");
+            password = sc.nextLine();
             System.out.print("Repita password: ");
 
-            if (password.compareTo(sc.next()) == 0) {
+            if (password.compareTo(sc.nextLine()) == 0) {
                 okPassword = true;
             } else {
                 System.out.println("ERRO: Password nao coincide! Tente novamente... ");
             }
-            sc.skip("\n");
         }
 
         if (ligacao.inscreveUtilizador(nome, morada, username, password)) {
@@ -83,9 +78,9 @@ public class ControladorVisitante extends Controlador{
     public void loginUtilizador() {
         String username;
         String password;
-        System.out.print("\nUsername -> ");
+        System.out.print("\nUsername: ");
         username = sc.nextLine();
-        System.out.print("\nPassword -> ");
+        System.out.print("\nPassword: ");
         password = sc.nextLine();
         if (ligacao.loginUtilizador(username, password)) {
             System.out.println("Login valido");
@@ -115,7 +110,7 @@ public class ControladorVisitante extends Controlador{
      *
      */
     public void vendasRecentes() {
-         System.out.println("3 ultimas vendas mais recentes");
+         System.out.println("<Ainda não implementado>");
         //List itensRecentes = ligacao.
     }
 
@@ -128,10 +123,9 @@ public class ControladorVisitante extends Controlador{
          String password = "";
         System.out.println("Pedido de reativacao de conta");
         System.out.print("Username: ");
-        username = sc.next();
+        username = sc.nextLine();
          System.out.print("Password: ");
-        password = sc.next();
-        sc.skip("\n");
+        password = sc.nextLine();
         if (ligacao.pedirReativacaoUsername(username,password)) {
             System.out.println("Pedido de reativacao efetuado");
         } else {

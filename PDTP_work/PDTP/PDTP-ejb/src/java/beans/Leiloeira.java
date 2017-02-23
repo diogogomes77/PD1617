@@ -330,6 +330,8 @@ public class Leiloeira implements LeiloeiraLocal {
         }
         return inscritos;
     }
+    
+    
 
     /**
      *
@@ -1098,6 +1100,15 @@ public class Leiloeira implements LeiloeiraLocal {
             return u.isLogged();
         }
         return false;
+    }
+
+    @Override
+    public List<String> obtemNewsletter() {
+        List<String> news = new ArrayList<>();
+        for (Object n : DAO.findAll(TNewsletters.class)) {
+            news.add(((TNewsletters)n).getAssunto() +":"+ ((TNewsletters)n).getNewsletter());
+        }
+        return news;
     }
 
 }

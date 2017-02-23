@@ -3,6 +3,7 @@ package beans;
 
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -15,6 +16,12 @@ public interface ClientRemote {
      * @return
      */
     public ArrayList<String> getUsernameInscritos();
+
+    /**
+     *
+     * @return
+     */
+    public List<String> getNewsletter();
 
     /**
      *
