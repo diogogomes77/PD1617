@@ -15,6 +15,7 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.servlet.http.HttpSession;
+import jpaentidades.TUtilizadores;
 
 /**
  *
@@ -22,22 +23,29 @@ import javax.servlet.http.HttpSession;
  */
 @Named("VisitanteController")
 @SessionScoped
-public class VisitanteController extends TUtilizadoresController implements Serializable {
+public class VisitanteController  implements Serializable { // extends TUtilizadoresController
 
     @EJB
     private ClientVisitanteRemote client;
+    
+    TUtilizadoresController tUtilizadorController ;
+    
     private UIComponent loginButton;
-    private String username;
-    private String password;
-    private String nome;
-    private String morada;
+    
+    TUtilizadores current;
+    
     private boolean usernameCheck = true;
+    
     private ArrayList<Menu> menus;
+    
     private String seccao;
+    
     public VisitanteController() {
         super();
+        this.tUtilizadorController = TUtilizadoresController.getInstance();
         this.seccao = "Visitante";
-        menus = new ArrayList<Menu>();
+       
+        menus = new ArrayList<>();
         Menu menuVisitante = new Menu("menu1","");
         menuVisitante.setTituloMenu("Visitante");
         menuVisitante.addMenuPage("Inicio");
@@ -51,45 +59,19 @@ public class VisitanteController extends TUtilizadoresController implements Seri
 
         return menus;
     }
-    public String getNome() {
-        return nome;
+
+    public TUtilizadores getSelected() {
+        if (current == null) {
+            current = new TUtilizadores();
+            //selectedItemIndex = -1;
+        }
+        return current;
     }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public String getMorada() {
-        return morada;
-    }
-
-    public void setMorada(String morada) {
-        this.morada = morada;
-    }
-
-
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
     public String login() {
-        boolean ok = client.loginUtilizador(username, password);
+        boolean ok = client.loginUtilizador(current.getUsername(), current.getPassword());
         if (ok) {
             HttpSession session = SessionUtils.getSession();
-            if ("admin".equals(username)) {
+            if ("admin".equals(current.getUsername())) {
                 return "/Administrador/Inicio";
             }
             return "/Utilizador/Inicio";
@@ -124,15 +106,15 @@ public class VisitanteController extends TUtilizadoresController implements Seri
 
     public void checkUsername() {
         //System.out.println("-------" + current.getUsername());
-        if (client.existeUsername(current.getUsername())) {
+        if (client.existeUsername(tUtilizadorController.getCurrent().getUsername())) {
             usernameCheck =false;
         } else usernameCheck = true;
     }
    
-    @Override
+
     public String create(){
          if (usernameCheck==true)
-            return super.create();
+            return tUtilizadorController.create(current);
         else return null;        
     }
 

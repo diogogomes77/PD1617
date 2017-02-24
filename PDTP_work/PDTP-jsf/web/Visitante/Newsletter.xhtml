@@ -5,15 +5,90 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 
-    <ui:composition template="main.xhtml">
-         <ui:define name="left">
-            <ui:include src="leftMenu.xhtml" />
+    <ui:composition template="/Visitante/main.xhtml">
+        <ui:define name="left">
+            <ui:include src="/Visitante/leftMenu.xhtml" />
         </ui:define>
         <ui:define name="title">
             <h:outputText value="#{bundle.VisitanteLogin}"></h:outputText>
         </ui:define>
         <ui:define name="content">
-newsLetter visitante
+            <h:form styleClass="jsfcrud_list_form">
+                <h:panelGroup id="messagePanel" layout="block">
+                    <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+                </h:panelGroup>
+                <h:outputText escape="false" value="#{bundle.ListTUtilizadoresEmpty}" rendered="#{VisitanteController.items.rowCount == 0}"/>
+                <h:panelGroup rendered="#{VisitanteController.items.rowCount > 0}">
+                    <h:outputText value="#{VisitanteController.pagination.pageFirstItem + 1}..#{VisitanteController.pagination.pageLastItem + 1}/#{VisitanteController.pagination.itemsCount}"/>&nbsp;
+                    <h:commandLink action="#{VisitanteController.previous}" value="#{bundle.Previous} #{VisitanteController.pagination.pageSize}" rendered="#{VisitanteController.pagination.hasPreviousPage}"/>&nbsp;
+                    <h:commandLink action="#{VisitanteController.next}" value="#{bundle.Next} #{VisitanteController.pagination.pageSize}" rendered="#{VisitanteController.pagination.hasNextPage}"/>&nbsp;
+                    <h:dataTable value="#{VisitanteController.items}" var="item" border="0" cellpadding="2" cellspacing="0" rowClasses="jsfcrud_odd_row,jsfcrud_even_row" rules="all" style="border:solid 1px">
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListTUtilizadoresTitle_username}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.username}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListTUtilizadoresTitle_estado}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.estado}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListTUtilizadoresTitle_logged}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.logged}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListTUtilizadoresTitle_morada}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.morada}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListTUtilizadoresTitle_nome}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.nome}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListTUtilizadoresTitle_password}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.password}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListTUtilizadoresTitle_razaopedidosuspensao}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.razaopedidosuspensao}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListTUtilizadoresTitle_saldo}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.saldo}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="&nbsp;"/>
+                            </f:facet>
+                            <h:commandLink action="#{tUtilizadoresController.prepareView}" value="#{bundle.ListTUtilizadoresViewLink}"/>
+                            <h:outputText value=" "/>
+                            <h:commandLink action="#{tUtilizadoresController.prepareEdit}" value="#{bundle.ListTUtilizadoresEditLink}"/>
+                            <h:outputText value=" "/>
+                            <h:commandLink action="#{tUtilizadoresController.destroy}" value="#{bundle.ListTUtilizadoresDestroyLink}"/>
+                        </h:column>
+                    </h:dataTable>
+                </h:panelGroup>
+                <br />
+                <h:commandLink action="#{tUtilizadoresController.prepareCreate}" value="#{bundle.ListTUtilizadoresCreateLink}"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.ListTUtilizadoresIndexLink}"/>
+            </h:form>
         </ui:define>
     </ui:composition>
 

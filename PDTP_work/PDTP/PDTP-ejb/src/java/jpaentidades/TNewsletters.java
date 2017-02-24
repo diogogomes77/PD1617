@@ -62,6 +62,10 @@ public class TNewsletters implements Serializable {
     public TNewsletters() {
     }
 
+    public Integer getIdNewsletter() {
+        return idNewsletter;
+    }
+
     public TNewsletters(String assunto, String newsletter) {
         this.assunto = assunto;
         this.newsletter = newsletter;

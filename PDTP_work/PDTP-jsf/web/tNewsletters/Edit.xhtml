@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.EditTNewslettersTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="#{bundle.EditTNewslettersLabel_idNewsletter}" for="idNewsletter" />
+                    <h:inputText id="idNewsletter" value="#{tNewslettersController.selected.idNewsletter}" title="#{bundle.EditTNewslettersTitle_idNewsletter}" required="true" requiredMessage="#{bundle.EditTNewslettersRequiredMessage_idNewsletter}"/>
+                    <h:outputLabel value="#{bundle.EditTNewslettersLabel_idMensagem}" for="idMensagem" />
+                    <h:inputText id="idMensagem" value="#{tNewslettersController.selected.idMensagem}" title="#{bundle.EditTNewslettersTitle_idMensagem}" />
+                    <h:outputLabel value="#{bundle.EditTNewslettersLabel_assunto}" for="assunto" />
+                    <h:inputText id="assunto" value="#{tNewslettersController.selected.assunto}" title="#{bundle.EditTNewslettersTitle_assunto}" />
+                    <h:outputLabel value="#{bundle.EditTNewslettersLabel_data}" for="data" />
+                    <h:inputText id="data" value="#{tNewslettersController.selected.data}" title="#{bundle.EditTNewslettersTitle_data}" >
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:inputText>
+                    <h:outputLabel value="#{bundle.EditTNewslettersLabel_newsletter}" for="newsletter" />
+                    <h:inputText id="newsletter" value="#{tNewslettersController.selected.newsletter}" title="#{bundle.EditTNewslettersTitle_newsletter}" />
+                </h:panelGrid>
+                <h:commandLink action="#{tNewslettersController.update}" value="#{bundle.EditTNewslettersSaveLink}"/>
+                <br />
+                <br />
+                <h:link outcome="View" value="#{bundle.EditTNewslettersViewLink}"/>
+                <br />
+                <h:commandLink action="#{tNewslettersController.prepareList}" value="#{bundle.EditTNewslettersShowAllLink}" immediate="true"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.EditTNewslettersIndexLink}" />
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

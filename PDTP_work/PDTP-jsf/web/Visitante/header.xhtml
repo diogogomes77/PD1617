@@ -25,14 +25,14 @@
                     <ul class="nav navbar-nav navbar-right">
                         <h:form id="loginForm" styleClass="navbar-form navbar-right">
                             <div class="form-group">
-                                <h:inputText value="#{VisitanteController.username}"
+                                <h:inputText value="#{VisitanteController.selected.username}"
                                              styleClass="form-control" >
                                     <f:passThroughAttribute name="placeholder"
                                                             value="username"/>
                                 </h:inputText>    
                             </div>
                             <div class="form-group">
-                                <h:inputSecret value="#{VisitanteController.password}"
+                                <h:inputSecret value="#{VisitanteController.selected.password}"
                                                styleClass="form-control">
                                     <f:passThroughAttribute name="placeholder"
                                                             value="password"/>

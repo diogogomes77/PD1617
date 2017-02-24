@@ -1,13 +1,11 @@
 package jsfclasses;
 
-import beans.ClientVisitanteRemote;
-import jpaentidades.TUtilizadores;
+import jpaentidades.TNewsletters;
 import jsfclasses.util.JsfUtil;
 import jsfclasses.util.PaginationHelper;
-import jpafacades.TUtilizadoresFacade;
+
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.ResourceBundle;
 import javax.ejb.EJB;
 import javax.inject.Named;
@@ -19,55 +17,35 @@ import javax.faces.convert.FacesConverter;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 import javax.faces.model.SelectItem;
-import javax.persistence.EntityTransaction;
-import jpaentidades.DAOLocal;
 import jpafacades.TNewslettersFacade;
 
-@Named("tUtilizadoresController")
+@Named("tNewslettersController")
 @SessionScoped
-public class TUtilizadoresController implements Serializable {
+public class TNewslettersController implements Serializable {
 
-    private static TUtilizadoresController instance = null;
     @EJB
-    private TNewslettersFacade tNewslettersFacade;
+    private TNewslettersFacade ejbFacade;
 
-    protected TUtilizadores current;
+    private TNewsletters current;
     private DataModel items = null;
-    @EJB
-    private jpafacades.TUtilizadoresFacade utilizadoresFacade;
-    @EJB
-    private ClientVisitanteRemote clientVisitante;
-
-    public TUtilizadores getCurrent() {
-        return current;
-    }
-    
+//    @EJB
+//    private beans.TNewslettersFacade ejbFacade;
     private PaginationHelper pagination;
     private int selectedItemIndex;
 
-    protected TUtilizadoresController() {
+    public TNewslettersController() {
     }
-    public static TUtilizadoresController getInstance(){
-         if(instance == null) {
-         instance = new TUtilizadoresController();
-      }
-      return instance;
-    }
-    
-    public TUtilizadores getSelected() {
+
+    public TNewsletters getSelected() {
         if (current == null) {
-            current = new TUtilizadores();
+            current = new TNewsletters();
             selectedItemIndex = -1;
         }
         return current;
     }
 
-    public TNewslettersFacade getNewslettersFacade() {
-        return tNewslettersFacade;
-    }
-
-    private TUtilizadoresFacade getUtilizadoresFacade() {
-        return utilizadoresFacade;
+    private TNewslettersFacade getFacade() {
+        return ejbFacade;
     }
 
     public PaginationHelper getPagination() {
@@ -76,12 +54,12 @@ public class TUtilizadoresController implements Serializable {
 
                 @Override
                 public int getItemsCount() {
-                    return getUtilizadoresFacade().count();
+                    return getFacade().count();
                 }
 
                 @Override
                 public DataModel createPageDataModel() {
-                    return new ListDataModel(getUtilizadoresFacade().findRange(new int[]{getPageFirstItem(), getPageFirstItem() + getPageSize()}));
+                    return new ListDataModel(getFacade().findRange(new int[]{getPageFirstItem(), getPageFirstItem() + getPageSize()}));
                 }
             };
         }
@@ -90,44 +68,42 @@ public class TUtilizadoresController implements Serializable {
 
     public String prepareList() {
         recreateModel();
-        return "/tUtilizadores/List";
+        return "List";
     }
 
     public String prepareView() {
-        current = (TUtilizadores) getItems().getRowData();
+        current = (TNewsletters) getItems().getRowData();
         selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
-        return "/tUtilizadores/View";
+        return "View";
     }
 
     public String prepareCreate() {
-        current = new TUtilizadores();
+        current = new TNewsletters();
         selectedItemIndex = -1;
-        return "/Visitante/Registo";
+        return "Create";
     }
 
-    public String create(TUtilizadores current) {
-        this.current = current;
-        boolean ok = clientVisitante.inscreveUtilizador(current.getNome(), current.getMorada(),current.getUsername(), current.getPassword());
-        if (ok) {
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("TUtilizadoresCreated"));
+    public String create() {
+        try {
+            getFacade().create(current);
+            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("TNewslettersCreated"));
             return prepareCreate();
-         
-        } else {
-           JsfUtil.addErrorMessage(ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
+        } catch (Exception e) {
+            JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
             return null;
         }
     }
 
     public String prepareEdit() {
-        current = (TUtilizadores) getItems().getRowData();
+        current = (TNewsletters) getItems().getRowData();
         selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
-        return "/tUtilizadores/Edit";
+        return "Edit";
     }
 
     public String update() {
         try {
-            getUtilizadoresFacade().edit(current);
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("TUtilizadoresUpdated"));
+            getFacade().edit(current);
+            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("TNewslettersUpdated"));
             return "View";
         } catch (Exception e) {
             JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
@@ -136,12 +112,12 @@ public class TUtilizadoresController implements Serializable {
     }
 
     public String destroy() {
-        current = (TUtilizadores) getItems().getRowData();
+        current = (TNewsletters) getItems().getRowData();
         selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
         performDestroy();
         recreatePagination();
         recreateModel();
-        return "/tUtilizadores/List";
+        return "List";
     }
 
     public String destroyAndView() {
@@ -149,25 +125,25 @@ public class TUtilizadoresController implements Serializable {
         recreateModel();
         updateCurrentItem();
         if (selectedItemIndex >= 0) {
-            return "/tUtilizadores/View";
+            return "View";
         } else {
             // all items were removed - go back to list
             recreateModel();
-            return "/tUtilizadores/List";
+            return "List";
         }
     }
 
     private void performDestroy() {
         try {
-            getUtilizadoresFacade().remove(current);
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("TUtilizadoresDeleted"));
+            getFacade().remove(current);
+            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("TNewslettersDeleted"));
         } catch (Exception e) {
             JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
         }
     }
 
     private void updateCurrentItem() {
-        int count = getUtilizadoresFacade().count();
+        int count = getFacade().count();
         if (selectedItemIndex >= count) {
             // selected index cannot be bigger than number of items:
             selectedItemIndex = count - 1;
@@ -177,7 +153,7 @@ public class TUtilizadoresController implements Serializable {
             }
         }
         if (selectedItemIndex >= 0) {
-            current = (TUtilizadores) getUtilizadoresFacade().findRange(new int[]{selectedItemIndex, selectedItemIndex + 1}).get(0);
+            current = getFacade().findRange(new int[]{selectedItemIndex, selectedItemIndex + 1}).get(0);
         }
     }
 
@@ -199,50 +175,47 @@ public class TUtilizadoresController implements Serializable {
     public String next() {
         getPagination().nextPage();
         recreateModel();
-        return "/tUtilizadores/List";
+        return "List";
     }
 
     public String previous() {
         getPagination().previousPage();
         recreateModel();
-        return "/tUtilizadores/List";
+        return "List";
     }
 
     public SelectItem[] getItemsAvailableSelectMany() {
-        return JsfUtil.getSelectItems(utilizadoresFacade.findAll(), false);
+        return JsfUtil.getSelectItems(ejbFacade.findAll(), false);
     }
 
     public SelectItem[] getItemsAvailableSelectOne() {
-        return JsfUtil.getSelectItems(utilizadoresFacade.findAll(), true);
+        return JsfUtil.getSelectItems(ejbFacade.findAll(), true);
     }
 
-    public TUtilizadores getTUtilizadores(java.lang.String id) {
-        return utilizadoresFacade.find(id);
+    public TNewsletters getTNewsletters(java.lang.Integer id) {
+        return ejbFacade.find(id);
     }
 
-
-
-    @FacesConverter(forClass = TUtilizadores.class)
-    public static class TUtilizadoresControllerConverter implements Converter {
+    @FacesConverter(forClass = TNewsletters.class)
+    public static class TNewslettersControllerConverter implements Converter {
 
         @Override
         public Object getAsObject(FacesContext facesContext, UIComponent component, String value) {
-             System.out.println("----- getAsObject");
             if (value == null || value.length() == 0) {
                 return null;
             }
-            TUtilizadoresController controller = (TUtilizadoresController) facesContext.getApplication().getELResolver().
-                    getValue(facesContext.getELContext(), null, "tUtilizadoresController");
-            return controller.getTUtilizadores(getKey(value));
+            TNewslettersController controller = (TNewslettersController) facesContext.getApplication().getELResolver().
+                    getValue(facesContext.getELContext(), null, "tNewslettersController");
+            return controller.getTNewsletters(getKey(value));
         }
 
-        java.lang.String getKey(String value) {
-            java.lang.String key;
-            key = value;
+        java.lang.Integer getKey(String value) {
+            java.lang.Integer key;
+            key = Integer.valueOf(value);
             return key;
         }
 
-        String getStringKey(java.lang.String value) {
+        String getStringKey(java.lang.Integer value) {
             StringBuilder sb = new StringBuilder();
             sb.append(value);
             return sb.toString();
@@ -253,11 +226,11 @@ public class TUtilizadoresController implements Serializable {
             if (object == null) {
                 return null;
             }
-            if (object instanceof TUtilizadores) {
-                TUtilizadores o = (TUtilizadores) object;
-                return getStringKey(o.getUsername());
+            if (object instanceof TNewsletters) {
+                TNewsletters o = (TNewsletters) object;
+                return getStringKey(o.getIdNewsletter());
             } else {
-                throw new IllegalArgumentException("object " + object + " is of type " + object.getClass().getName() + "; expected type: " + TUtilizadores.class.getName());
+                throw new IllegalArgumentException("object " + object + " is of type " + object.getClass().getName() + "; expected type: " + TNewsletters.class.getName());
             }
         }
 
