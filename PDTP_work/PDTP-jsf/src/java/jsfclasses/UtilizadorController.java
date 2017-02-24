@@ -25,12 +25,10 @@ import javax.servlet.ServletContext;
  */
 @Named("UtilizadorController")
 @SessionScoped
-public class UtilizadorController extends VisitanteController implements Serializable {
+public class UtilizadorController extends AbstractController implements Serializable {
 
     @EJB
     private ClientUtilizadorRemote client;
-    private ArrayList<Menu> menus;
-    private String seccao;
 
 
     public UtilizadorController() {
@@ -38,7 +36,7 @@ public class UtilizadorController extends VisitanteController implements Seriali
         seccao="Utilizador";
         String subseccao = new String();
         ArrayList<String> paginas = new ArrayList<>();
-        menus = new ArrayList<Menu>();
+        menus = new ArrayList<>();
         
         Menu menuUtilizador = new Menu("menu1","");
         menuUtilizador.setTituloMenu("Utilizador");
@@ -72,6 +70,7 @@ public class UtilizadorController extends VisitanteController implements Seriali
         menus.add(menuUtilizadorItens);
     }
 
+    @Override
     public ArrayList<Menu> getMenus() {
 
         return menus;

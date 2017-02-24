@@ -23,23 +23,15 @@ import jpaentidades.TUtilizadores;
  */
 @Named("VisitanteController")
 @SessionScoped
-public class VisitanteController  implements Serializable { // extends TUtilizadoresController
+public class VisitanteController extends AbstractController implements Serializable { // extends TUtilizadoresController
 
     @EJB
     private ClientVisitanteRemote client;
     
-    TUtilizadoresController tUtilizadorController ;
-    
     private UIComponent loginButton;
     
-    TUtilizadores current;
-    
     private boolean usernameCheck = true;
-    
-    private ArrayList<Menu> menus;
-    
-    private String seccao;
-    
+   
     public VisitanteController() {
         super();
         this.tUtilizadorController = TUtilizadoresController.getInstance();
@@ -55,18 +47,12 @@ public class VisitanteController  implements Serializable { // extends TUtilizad
         menuVisitante.addMenuPage("Newsletter");
         menus.add(menuVisitante);
     }
+    @Override
     public ArrayList<Menu> getMenus() {
 
         return menus;
     }
 
-    public TUtilizadores getSelected() {
-        if (current == null) {
-            current = new TUtilizadores();
-            //selectedItemIndex = -1;
-        }
-        return current;
-    }
     public String login() {
         boolean ok = client.loginUtilizador(current.getUsername(), current.getPassword());
         if (ok) {
