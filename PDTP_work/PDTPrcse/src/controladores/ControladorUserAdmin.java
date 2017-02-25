@@ -20,11 +20,6 @@ public abstract class ControladorUserAdmin extends Controlador {
 
     /**
      *
-     */
-    protected int currentItemId;
-
-    /**
-     *
      * @param ligacao
      */
     public ControladorUserAdmin(ClientAuthRemote ligacao) {

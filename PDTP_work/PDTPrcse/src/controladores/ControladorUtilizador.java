@@ -24,6 +24,11 @@ public class ControladorUtilizador extends ControladorUserAdmin {
 
     /**
      *
+     */
+    protected int currentItemId;
+
+    /**
+     *
      * @param ligacao
      */
     public ControladorUtilizador(ClientUtilizadorRemote ligacao) {
@@ -118,7 +123,7 @@ public class ControladorUtilizador extends ControladorUserAdmin {
         System.out.println("Colocar Item a venda");
         SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH");
         String input;
-        String descricao = "";
+        String descricao;
         String categoria = "";
         double precoInicial;
         double precoComprarJa;
@@ -212,13 +217,18 @@ public class ControladorUtilizador extends ControladorUserAdmin {
      */
     public void denunciarVendedor() {
         System.out.println("Denunciar Vendedor");
+        System.out.print("Username do Vendedor: ");
+        String username = sc.nextLine();
+        System.out.print("Razão do pedido: ");
+        String razao = sc.nextLine();;
+        ligacaoUtil.denunciarVendedor(username, razao);
     }
 
     /**
      *
      */
     public void denunciarItem() {
-        System.out.println("Denunciar Item");
+        System.out.println("Denunciar Item atual");
         System.out.print("Razao: ");
         String razao = sc.nextLine();
         if (!"".equals(razao) && ligacaoUtil.denunciarItem(currentItemId, razao)) {
@@ -226,13 +236,6 @@ public class ControladorUtilizador extends ControladorUserAdmin {
         } else {
             System.out.println("ERRO: Denuncia naoregistada");
         }
-    }
-
-    /**
-     *
-     */
-    public void seguirItemCancelar() {
-        System.out.println("seguirItemCancelar");
     }
 
     /**
@@ -250,10 +253,22 @@ public class ControladorUtilizador extends ControladorUserAdmin {
     /**
      *
      */
+    public void seguirItemCancelar() {
+        System.out.println("Deixar de Seguir Item");
+        if (ligacaoUtil.seguirItemCancelar(currentItemId)) {
+            System.out.println("O Item "+currentItemId+" deixou de ser seguido.");
+        } else {
+            System.out.println("ERRO: Não foi possivel cancelar o seguimento");
+        }
+    }
+
+    /**
+     *
+     */
     public void enviarMensagemVendedor() {
         System.out.println("enviar Mensagem ao Vendedor");
         String destinatario = ligacaoUtil.getVendedorItem(currentItemId);
-        String texto = "";
+        String texto;
         String assunto = "ItemID: " + Integer.toString(currentItemId);
         System.out.print("Mensagem: ");
         texto = sc.nextLine();
@@ -283,7 +298,7 @@ public class ControladorUtilizador extends ControladorUserAdmin {
      */
     public void pedirSuspensao() {
         System.out.println("Pedido de suspensao");
-        System.out.print("Indique a razao -> ");
+        System.out.print("Indique a razao: ");
         String razao = sc.nextLine();
         if (ligacaoUtil.pedirSuspensao(razao)) {
             System.out.println("Pedido suspensao registado");
@@ -327,7 +342,6 @@ public class ControladorUtilizador extends ControladorUserAdmin {
 
     }
 
-
     /**
      *
      */
@@ -335,7 +349,7 @@ public class ControladorUtilizador extends ControladorUserAdmin {
         System.out.println("Consultar Item");
         System.out.print("ItemID: ");
         int itemId = sc.nextInt();
-        sc.skip("\n");
+        //sc.skip("\n");
         System.out.println(ligacaoUtil.mostraItem(itemId));
         currentItemId = itemId;
         menu = new MenuUtilizadorConsultarItem(ligacaoUtil, (ControladorUtilizador) controlador);

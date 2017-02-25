@@ -926,6 +926,29 @@ public class Leiloeira implements LeiloeiraLocal {
     /**
      *
      * @param username
+     * @param itemId
+     * @return
+     */
+    @Override
+    public boolean seguirItemCancelar(String username, int itemId) {
+        TItens i = (TItens) DAO.find(TItens.class, itemId);
+        if (i == null) {
+            return false;
+        }
+        TUtilizadores u = (TUtilizadores) DAO.find(TUtilizadores.class, username);
+        if (u != null) {
+            //Remover o item da lista dos seguidos
+            if (!DAO.findByNamedQuery(TitemsSeguidos.class, "TitemsSeguidos.findByItemUtilizador", "item", i, "utlizador", u).isEmpty()) {
+                DAO.removeWithCommit(new TitemsSeguidos(u, i));
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     *
+     * @param username
      * @return
      */
     @Override

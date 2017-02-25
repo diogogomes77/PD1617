@@ -32,15 +32,16 @@ public class ControladorVisitante extends Controlador{
     public void registarUtilizador() {
 
         String s;
-        String nome = "";
-        String morada = "";
-        String username = "";
-        String password = "";
+        String nome;
+        String morada;
+        String username;
+        String password;
         System.out.print("Nome: ");
         nome = sc.nextLine();
         System.out.print("Morada: ");
         morada = sc.nextLine();
         boolean freeUsername = false;
+        username = "";
         while (!freeUsername) {
             System.out.print("Username: ");
             username = sc.nextLine();

@@ -288,6 +288,14 @@ public interface LeiloeiraLocal {
     /**
      *
      * @param username
+     * @param itemId
+     * @return
+     */
+    boolean seguirItemCancelar(String username,int itemId);
+
+    /**
+     *
+     * @param username
      * @return
      */
     List<String> getItensSeguidos(String username);

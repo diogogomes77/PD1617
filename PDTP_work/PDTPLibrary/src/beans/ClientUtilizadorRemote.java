@@ -92,13 +92,6 @@ public interface ClientUtilizadorRemote extends ClientAuthRemote {
      *
      * @return
      */
-    @Override
-    int getTotalItens();
-
-    /**
-     *
-     * @return
-     */
     List<String> getItens();
 
     /**
@@ -143,6 +136,13 @@ public interface ClientUtilizadorRemote extends ClientAuthRemote {
      * @return
      */
     boolean seguirItem(int itemId);
+
+    /**
+     *
+     * @param itemId
+     * @return
+     */
+    boolean seguirItemCancelar(int itemId);
 
     /**
      *

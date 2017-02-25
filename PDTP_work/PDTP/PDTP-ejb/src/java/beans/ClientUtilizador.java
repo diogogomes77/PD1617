@@ -245,4 +245,10 @@ public class ClientUtilizador implements ClientUtilizadorRemote {
         return leiloeira.denunciarVendedor(myName, vendedor, razao);
     }
 
+    @Override
+    public boolean seguirItemCancelar(int itemId) {
+        setLastAction();
+        return leiloeira.seguirItemCancelar(myName, itemId);
+    }
+
 }

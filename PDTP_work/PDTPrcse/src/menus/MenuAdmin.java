@@ -3,8 +3,6 @@ package menus;
 import controladores.ControladorAdministrador;
 import beans.ClientAdminRemote;
 
-;
-
 /**
  *
  * @author diogo
@@ -29,7 +27,7 @@ public class MenuAdmin extends MenuUtilizadorAdmin {
         opcoes.add(new OpcaoMenu("Enviar Mensagens", () -> controlador.enviarMensagem()));
         opcoes.add(new OpcaoMenu("Minhas mensagens", () -> controlador.consultarMensagensMinhas()));
         opcoes.add(new OpcaoMenu("Consultar Utilizador", () -> controlador.consultarUtilizador()));
-        opcoes.add(new OpcaoMenu("Consultar Item", () -> controlador.consultarItem()));
+//        opcoes.add(new OpcaoMenu("Consultar Item", () -> controlador.consultarItem()));
         opcoes.add(new OpcaoMenu("> Gerir Categorias", () -> controlador.subMenuGerirCategorias()));
     }
 

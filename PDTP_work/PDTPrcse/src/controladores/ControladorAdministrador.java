@@ -96,26 +96,26 @@ public class ControladorAdministrador extends ControladorUserAdmin {
      */
     public void consultarUtilizador() {
         System.out.println("Dados do utilizador:");
-        String username = "";
+        String username;
         System.out.print("Username: ");
         username = sc.nextLine();
         System.out.println(ligacaoAdmin.getDados(username));
 
     }
 
-    /**
-     *
-     */
-    public void consultarItem() {
-        System.out.println("Consultar Item");
-        System.out.print("ItemID: ");
-        int itemId = sc.nextInt();
-        sc.skip("\n");
-        System.out.println(ligacaoAdmin.mostraItem(itemId));
-        currentItemId = itemId;
-        //menu = new MenuUtilizadorConsultarItem(ligacao, (ControladorUtilizador) controlador);
-
-    }
+//    /**
+//     *
+//     */
+//    public void consultarItem() {
+//        System.out.println("Consultar Item");
+//        System.out.print("ItemID: ");
+//        int itemId = sc.nextInt();
+//        sc.skip("\n");
+//        System.out.println(ligacaoAdmin.mostraItem(itemId));
+//        currentItemId = itemId;
+//        //menu = new MenuUtilizadorConsultarItem(ligacao, (ControladorUtilizador) controlador);
+//
+//    }
 
     /**
      *
