@@ -96,6 +96,7 @@ public abstract class Menu extends PDTPrcse {
         controlador.printOnline();
         controlador.getTotalItens();
         //System.out.println("_______________________________");
+        System.out.flush();
         System.out.println(menuText.toString());
     }
 
@@ -104,36 +105,41 @@ public abstract class Menu extends PDTPrcse {
      * @return
      */
     public boolean escolheOpcao() {
-        mostraMenu();
         int opcao;
 
         do {
+            sc.reset();
+            mostraMenu();
             System.out.print("Escolha uma opcao (0-" + (numOpcoes - 1) + "): ");
             String input = sc.nextLine();
-            boolean escolheInt = false;
+            //System.out.println("->" + input);
             if (input.length() < 1) {
-                mostraMenu();
+                //mostraMenu();
             } else {
                 try {
+                    Thread.sleep(10); //dar tempo aos buffers
                     opcao = Integer.parseInt(input);
                     if (opcao == 0) {
+                        //Zero é para sair
                         return false;
                     }
                     if (opcao >= 1 && opcao <= numOpcoes - 1) {
-                        break;
+                        OpcaoMenu escolha = comandos.get(opcao);
+                        if (escolha != null) {
+                            escolha.getFuncao().run();
+                            break;
+                        }
                     }
-                    System.out.println("Opcao invalida! Escolha outra");
                 } catch (NumberFormatException nfe) {
-                    mostraMenu();
+                } catch (InterruptedException eie) {
+                    return false;
                 }
+
+                System.out.println("Opcao invalida! Escolha outra");
             }
-        }while (true);
-
-            OpcaoMenu escolha = comandos.get(opcao);
-
-            escolha.getFuncao().run();
-            return true;
-        }  
+        } while (true);
+        return true;
+    }
 
     /**
      *

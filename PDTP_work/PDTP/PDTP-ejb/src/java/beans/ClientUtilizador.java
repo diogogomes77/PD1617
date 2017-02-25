@@ -48,11 +48,11 @@ public class ClientUtilizador implements ClientUtilizadorRemote {
         return false;
     }
 
-    @Override
-    public boolean existeUsername(String username) {
-        setLastAction();
-        return leiloeira.existeUtilizador(username);
-    }
+//    @Override
+//    public boolean existeUsername(String username) {
+//        setLastAction();
+//        return leiloeira.existeUtilizador(username);
+//    }
 
     @Override
     public ArrayList<String> getUsernameInscritos() {

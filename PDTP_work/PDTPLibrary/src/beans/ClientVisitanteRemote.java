@@ -1,9 +1,5 @@
 package beans;
 
-
-
-
-import java.util.ArrayList;
 import javax.ejb.Remote;
 
 /**
@@ -37,27 +33,6 @@ public interface ClientVisitanteRemote extends ClientRemote{
      * @return
      */
     boolean existeUsername(String username);
-
-    /**
-     *
-     * @return
-     */
-    @Override
-   public ArrayList<String> getUsernameInscritos();
-
-    /**
-     *
-     * @return
-     */
-    @Override
-    public ArrayList<String> getUsernamesOnline();
-
-    /**
-     *
-     * @return
-     */
-    @Override
-    public int getTotalItens();
     
     /**
      *

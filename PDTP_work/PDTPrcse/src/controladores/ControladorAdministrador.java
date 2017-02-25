@@ -5,20 +5,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import menus.MenuAdminContas;
-import menus.MenuVisitante;
-import menus.OpcaoMenu;
 import beans.ClientAdminRemote;
-//import beans.ClientUtilizadorRemote;
-import beans.ClientVisitanteRemote;
-import beans.Mensagem;
 import static controladores.Controlador.sc;
 import java.util.Iterator;
 import java.util.List;
 import menus.MenuAdminCategorias;
-import menus.MenuUtilizadorConsultarItem;
 import static pdtprcse.PDTPrcse.controlador;
 import static pdtprcse.PDTPrcse.menu;
-import pdtprcse.ReferenciaVisitante;
 
 /**
  *
@@ -26,7 +19,7 @@ import pdtprcse.ReferenciaVisitante;
  */
 public class ControladorAdministrador extends ControladorUserAdmin {
 
-    private ClientAdminRemote ligacao;
+    private final ClientAdminRemote ligacaoAdmin;
 
     /**
      *
@@ -34,38 +27,21 @@ public class ControladorAdministrador extends ControladorUserAdmin {
      */
     public ControladorAdministrador(ClientAdminRemote ligacao) {
         super(ligacao);
-        this.ligacao = ligacao;
-    }
-
-    /**
-     *
-     */
-    @Override
-    public void logOff() {
-        if (ligacao.logOff()) {
-            System.out.println("\nlog off");
-            ReferenciaVisitante refVisitante = new ReferenciaVisitante();
-            ClientVisitanteRemote ligVisitante = refVisitante.getLigacao();
-            controlador = new ControladorVisitante(ligVisitante);
-            menu = new MenuVisitante(ligVisitante, (ControladorVisitante) controlador);
-
-        } else {
-            System.out.println("ERRO: accao nao aceite");
-        }
+        this.ligacaoAdmin = ligacao;
     }
 
     /**
      *
      */
     public void consultarDenuncias() {
-        menu = new MenuAdminDenuncias(ligacao, (ControladorAdministrador) controlador);
+        menu = new MenuAdminDenuncias(ligacaoAdmin, (ControladorAdministrador) controlador);
     }
 
     /**
      *
      */
     public void consultarReativacoes() {
-        ArrayList<String> pedidos = ligacao.getUtilizadoresPedidoReAtivacao();
+        ArrayList<String> pedidos = ligacaoAdmin.getUtilizadoresPedidoReAtivacao();
         System.out.print("Pedidos de reativacao de conta: ");
         for (String pedido : pedidos) {
             System.out.print(pedido.concat(" "));
@@ -81,7 +57,7 @@ public class ControladorAdministrador extends ControladorUserAdmin {
         System.out.print("Item ID: ");
         int itemId = sc.nextInt();
         sc.skip("\n");
-        if (ligacao.cancelarItem(itemId))
+        if (ligacaoAdmin.cancelarItem(itemId))
             System.out.print("Item cancelado");
         else
             System.out.print("ERRO: Item nao cancelado");
@@ -94,7 +70,7 @@ public class ControladorAdministrador extends ControladorUserAdmin {
     public void suspenderContas() {
         System.out.print("Suspender username -> ");
         String username = sc.nextLine();
-        if (ligacao.suspendeUsername(username)) {
+        if (ligacaoAdmin.suspendeUsername(username)) {
             System.out.println("Utilizador suspenso");
         } else {
             System.out.println("ERRO: Utilizador nao suspenso");
@@ -107,65 +83,13 @@ public class ControladorAdministrador extends ControladorUserAdmin {
     public void reativarContas() {
         System.out.print("Reativar username: ");
         String username = sc.nextLine();
-        if (ligacao.ativaUtilizador(username)) {
+        if (ligacaoAdmin.ativaUtilizador(username)) {
             System.out.println("Utilizador reativado");
         } else {
             System.out.println("ERRO: Utilizador nao reativado");
         }
     }
 
-    /**
-     *
-     */
-    public void mudarPassword() {
-        String password = "";
-        System.out.print("Antiga password: ");
-        password = sc.nextLine();
-        if (ligacao.verificaPassword(password)) {
-            System.out.print("Nova password: ");
-            password = sc.nextLine();
-            if (ligacao.alteraPassword(password)) {
-                System.out.println("Password alterada com sucesso");
-            } else {
-                System.out.println("ERRO: Password nao alterada");
-            }
-        } else {
-            System.out.println("ERRO: Password antiga incorreta");
-        }
-
-    }
-
-    /**
-     *
-     */
-    public void enviarMensagens() {
-        System.out.println("enviar Mensagem a utilizador");
-        String destinatario = "";
-        String texto = "";
-        String assunto = "";
-        System.out.print("Destinatario: ");
-        destinatario = sc.nextLine();
-        System.out.print("Assunto: ");
-        assunto = sc.nextLine();
-        System.out.print("Texto: ");
-        texto = sc.nextLine();
-        if (ligacao.sendMensagem(destinatario, texto, assunto)) {
-            System.out.println("Mensagem enviada");
-        } else {
-            System.out.println("ERRO: mensagem nao enviada");
-        }
-    }
-
-    /**
-     *
-     */
-    public void consultarMensagensMinhas() {
-        System.out.println("Minhas mensagems:");
-        ArrayList<Mensagem> mensagens = ligacao.consultarMensagens();
-        for (Mensagem msg : mensagens) {
-            System.out.println("Enviada: ".concat(convertTime(msg.getData())).concat(" por: ").concat(msg.getDestinatario()).concat(" Assunto: ").concat(msg.getAssunto()));
-        }
-    }
 
     /**
      *
@@ -175,7 +99,7 @@ public class ControladorAdministrador extends ControladorUserAdmin {
         String username = "";
         System.out.print("Username: ");
         username = sc.nextLine();
-        System.out.println(ligacao.getDados(username));
+        System.out.println(ligacaoAdmin.getDados(username));
 
     }
 
@@ -187,7 +111,7 @@ public class ControladorAdministrador extends ControladorUserAdmin {
         System.out.print("ItemID: ");
         int itemId = sc.nextInt();
         sc.skip("\n");
-        System.out.println(ligacao.mostraItem(itemId));
+        System.out.println(ligacaoAdmin.mostraItem(itemId));
         currentItemId = itemId;
         //menu = new MenuUtilizadorConsultarItem(ligacao, (ControladorUtilizador) controlador);
 
@@ -197,7 +121,7 @@ public class ControladorAdministrador extends ControladorUserAdmin {
      *
      */
     public void subMenuGerirCategorias() {
-        menu = new MenuAdminCategorias(ligacao, (ControladorAdministrador) controlador);
+        menu = new MenuAdminCategorias(ligacaoAdmin, (ControladorAdministrador) controlador);
     }
 
     /**
@@ -206,7 +130,7 @@ public class ControladorAdministrador extends ControladorUserAdmin {
     public void ativarConta() {
         System.out.print("Ativar username: ");
         String username = sc.nextLine();
-        if (ligacao.ativaUtilizador(username)) {
+        if (ligacaoAdmin.ativaUtilizador(username)) {
             System.out.println("Utilizador ativado");
         } else {
             System.out.println("ERRO: Utilizador nao ativado");
@@ -217,7 +141,7 @@ public class ControladorAdministrador extends ControladorUserAdmin {
      *
      */
     public void consultarPedidosAtivacao() {
-        ArrayList<String> pedidos = ligacao.getUtilizadoresPedidoAtivacao();
+        ArrayList<String> pedidos = ligacaoAdmin.getUtilizadoresPedidoAtivacao();
         System.out.print("Pedidos de ativacao de conta: ");
         for (String pedido : pedidos) {
             System.out.print(pedido.concat(" "));
@@ -229,7 +153,7 @@ public class ControladorAdministrador extends ControladorUserAdmin {
      *
      */
     public void consultarPedidosSuspensao() {
-        HashMap<String, String> pedidos = ligacao.getPedidosSuspensao();
+        HashMap<String, String> pedidos = ligacaoAdmin.getPedidosSuspensao();
         System.out.println("Pedidos de suspensao de conta:");
         Iterator entries = pedidos.entrySet().iterator();
         while (entries.hasNext()) {
@@ -246,7 +170,7 @@ public class ControladorAdministrador extends ControladorUserAdmin {
      *
      */
     public void subMenuContas() {
-        menu = new MenuAdminContas(ligacao, (ControladorAdministrador) controlador);
+        menu = new MenuAdminContas(ligacaoAdmin, (ControladorAdministrador) controlador);
     }
 
     /**
@@ -254,7 +178,7 @@ public class ControladorAdministrador extends ControladorUserAdmin {
      */
     public void consultarCategorias() {
         //Obter o servidor as categorias
-        List<String> categorias = ligacao.obtemCategorias();
+        List<String> categorias = ligacaoAdmin.obtemCategorias();
         System.out.print("Categorias disponíveis: ");
         for (String categoria : categorias) {
             System.out.print(categoria.concat(" "));
@@ -269,7 +193,7 @@ public class ControladorAdministrador extends ControladorUserAdmin {
     public void novaCategoria() {
         System.out.print("Nome da categoria: ");
         String nomecat = sc.nextLine();
-        if (ligacao.adicionarCategoria(nomecat)) {
+        if (ligacaoAdmin.adicionarCategoria(nomecat)) {
             System.out.println("Categoria Adicionada");
         } else {
             System.out.println("ERRO: Categoria não adicionada");
@@ -282,7 +206,7 @@ public class ControladorAdministrador extends ControladorUserAdmin {
     public void eliminarCategoria() {
         System.out.print("Nome da categoria: ");
         String nomecat = sc.nextLine();
-        if (ligacao.eliminaCategoria(nomecat)) {
+        if (ligacaoAdmin.eliminaCategoria(nomecat)) {
             System.out.println("Categoria Eliminada");
         } else {
             System.out.println("ERRO: Categoria não eliminada");
@@ -297,16 +221,11 @@ public class ControladorAdministrador extends ControladorUserAdmin {
         String nomecat = sc.nextLine();
         System.out.print("novo nome da categoria: ");
         String novoNomeCat = sc.nextLine();
-        if (ligacao.modificaCategoria(nomecat, novoNomeCat)) {
+        if (ligacaoAdmin.modificaCategoria(nomecat, novoNomeCat)) {
             System.out.println("Categoria alterada");
         } else {
             System.out.println("ERRO: Categoria não alterada");
         }
-    }
-
-    @Override
-    protected void finalize() {
-        this.logOff();
     }
 
     /**
@@ -314,7 +233,7 @@ public class ControladorAdministrador extends ControladorUserAdmin {
      */
     public void consultarDenunciasVendedores() {
         System.out.print("Denuncias de Vendedores");
-        List<String> denunciasvendedores = ligacao.obtemDenunciasVendedores();
+        List<String> denunciasvendedores = ligacaoAdmin.obtemDenunciasVendedores();
 
         for (String denuncia : denunciasvendedores) {
             System.out.println(denuncia);
@@ -326,7 +245,7 @@ public class ControladorAdministrador extends ControladorUserAdmin {
      */
     public void consultarDenunciasItens() {
         System.out.print("Denuncias de Itens");
-        List<String> denunciasItens = ligacao.obtemDenunciasItens();
+        List<String> denunciasItens = ligacaoAdmin.obtemDenunciasItens();
 
         for (String denuncia : denunciasItens) {
             System.out.println(denuncia);

@@ -12,27 +12,7 @@ import javax.ejb.Remote;
  * @author diogo
  */
 @Remote
-public interface ClientAdminRemote extends ClientRemote {
-
-    /**
-     *
-     * @return
-     */
-    boolean logOff();
-
-    /**
-     *
-     * @return
-     */
-    @Override
-    ArrayList<String> getUsernameInscritos();
-
-    /**
-     *
-     * @return
-     */
-    @Override
-    public ArrayList<String> getUsernamesOnline();
+public interface ClientAdminRemote extends ClientAuthRemote {
 
     /**
      *
@@ -96,20 +76,6 @@ public interface ClientAdminRemote extends ClientRemote {
 
     /**
      *
-     * @param password
-     * @return
-     */
-    boolean verificaPassword(String password);
-
-    /**
-     *
-     * @param password
-     * @return
-     */
-    boolean alteraPassword(String password);
-
-    /**
-     *
      * @return
      */
     List<String> obtemDenunciasVendedores();
@@ -119,21 +85,6 @@ public interface ClientAdminRemote extends ClientRemote {
      * @return
      */
     List<String> obtemDenunciasItens();
-
-    /**
-     *
-     * @param destinatario
-     * @param texto
-     * @param assunto
-     * @return
-     */
-    boolean sendMensagem(String destinatario, String texto, String assunto);
-
-    /**
-     *
-     * @return
-     */
-    ArrayList<Mensagem> consultarMensagens();
 
     /**
      *

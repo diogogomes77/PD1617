@@ -1,11 +1,11 @@
 package beans;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Singleton;
-import jpaentidades.TMensagens;
 import pdtp.UtilizadorEstado;
 
 /**

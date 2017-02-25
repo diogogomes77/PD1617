@@ -12,24 +12,9 @@ import javax.ejb.Remote;
  * @author diogo
  */
 @Remote
-public interface ClientUtilizadorRemote extends ClientRemote {
+public interface ClientUtilizadorRemote extends ClientAuthRemote {
 
     //boolean loginUtilizador(String name, String password);
-
-    /**
-     *
-     * @return
-     */
-    boolean logOff();
-
-    //boolean inscreveUtilizador(String nome, String morada, String username, String password);
-
-    /**
-     *
-     * @param username
-     * @return
-     */
-    boolean existeUsername(String username);
 
     /**
      *
@@ -43,20 +28,6 @@ public interface ClientUtilizadorRemote extends ClientRemote {
      * @return
      */
     Double getSaldo();
-
-    /**
-     *
-     * @return
-     */
-    @Override
-    public ArrayList<String> getUsernameInscritos();
-
-    /**
-     *
-     * @return
-     */
-    @Override
-    public ArrayList<String> getUsernamesOnline();
 
     /**
      *
@@ -90,40 +61,10 @@ public interface ClientUtilizadorRemote extends ClientRemote {
 
     /**
      *
-     * @param username
      * @param razao
      * @return
      */
     boolean pedirSuspensao(String razao);
-
-    /**
-     *
-     * @param destinatario
-     * @param texto
-     * @param assunto
-     * @return
-     */
-    boolean sendMensagem(String destinatario, String texto, String assunto);
-
-    /**
-     *
-     * @return
-     */
-    ArrayList<Mensagem> consultarMensagens();
-
-    /**
-     *
-     * @param password
-     * @return
-     */
-    boolean verificaPassword(String password);
-
-    /**
-     *
-     * @param password
-     * @return
-     */
-    boolean alteraPassword(String password);
 
     /**
      *

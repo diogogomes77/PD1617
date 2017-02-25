@@ -15,6 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.annotation.Resource;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -22,6 +23,7 @@ import javax.ejb.EJB;
 
 import javax.ejb.Schedule;
 import javax.ejb.Singleton;
+import javax.ejb.TimerService;
 import javax.persistence.EntityTransaction;
 import jpaentidades.DAOLocal;
 import jpaentidades.TCategoria;
@@ -62,16 +64,11 @@ public class Leiloeira implements LeiloeiraLocal {
 
     @EJB
     private DAOLocal DAO;
+    
+    @Resource
+    TimerService timerService;
 
-    //private HashMap<Integer, Item> itensAVenda = new HashMap<>();
-    //private HashMap<Integer, Item> itensTerminados = new HashMap<>();
-    //private List<DenunciaItem> denunciasItens = new ArrayList<>();
-    //private List<DenunciaVendedor> denunciasVendedores = new ArrayList<>();
-//    private List<String> categorias = new ArrayList<>();
-//    private List<Mensagem> mensagens = new ArrayList<>();
-//    private int itemCount;
     public Leiloeira() {
-//        itemCount = getIntenCount();
     }
 
     private void addAdmin() {
@@ -91,6 +88,71 @@ public class Leiloeira implements LeiloeiraLocal {
             DAO.create(user);
             DAO.create(news);
             trans.commit();
+
+        }
+    }
+
+    /**
+     * termina os itens nas respetivas horas de fim
+     */
+    @Schedule(second = "*/6", minute = "*", hour = "*")
+    public void checkItensDataFinal() {
+        Timestamp now = new java.sql.Timestamp(Calendar.getInstance().getTime().getTime());
+        //Refacturing para usar os itens da base de dados
+        for (Object it : DAO.findByNamedQuery(TUtilizadores.class, "TItens.findByEstado", "estado", ItemEstados.INICIADA)) {
+            if (((TItens) it).getDatafim().after(now)) {
+                terminaItem(((TItens) it));
+            }
+        }
+    }
+
+    /**
+     *
+     * @throws InterruptedException faz logout aos utilizadodres com 4 minutos
+     * de inatividade
+     */
+    @Schedule(second = "*/10", minute = "*", hour = "*")
+    public void checkInactivity() throws InterruptedException {
+        long now = LocalDateTime.now()
+                .toInstant(ZoneOffset.UTC).getEpochSecond();
+        for (Object u : DAO.findByNamedQuery(TUtilizadores.class, "TUtilizadores.findByLogged", "logged", true)) {
+            if (((TUtilizadores) u).fromLastActionFromNow(now) > 240) {
+                ((TUtilizadores) u).setLogged(false);
+                DAO.editWithCommit(u);
+            }
+        }
+    }
+
+    /**
+     * Le dados do disco quando inicia
+     */
+    @PostConstruct
+    public void loadstate() {
+        this.addAdmin();
+        //timerService.notifyAll();
+        //DAO.getEntityManager();
+        try (ObjectInputStream ois
+                = new ObjectInputStream(
+                        new BufferedInputStream(
+                                new FileInputStream("/tmp/LeiloeiraDados")))) {
+//            categorias = (ArrayList<String>) ois.readObject();
+
+        } catch (Exception e) {
+            //Utilizadors = fica com o objecto vazio criado no construtor
+        }
+    }
+
+    /**
+     * Grava dados em disco antes de sair
+     */
+    @PreDestroy
+    public void saveState() {
+        try (ObjectOutputStream oos
+                = new ObjectOutputStream(
+                        new BufferedOutputStream(
+                                new FileOutputStream("/tmp/LeiloeiraDados")))) {
+//            oos.writeObject(categorias);
+        } catch (Exception e) {
 
         }
     }
@@ -253,72 +315,6 @@ public class Leiloeira implements LeiloeiraLocal {
     }
 
     /**
-     * termina os itens nas respetivas horas de fim
-     */
-    @Schedule(second = "*", minute = "1", hour = "*")
-    @Override
-    public void checkItensDataFinal() {
-        Timestamp now = new java.sql.Timestamp(Calendar.getInstance().getTime().getTime());
-        //Refacturing para usar os itens da base de dados
-        for (Object it : DAO.findByNamedQuery(TUtilizadores.class, "TItens.findByEstado", "estado", ItemEstados.INICIADA)) {
-            if (((TItens) it).getDatafim().after(now)) {
-                terminaItem(((TItens) it));
-            }
-        }
-    }
-
-    /**
-     *
-     * @throws InterruptedException faz logout aos utilizadodres com 4 minutos
-     * de inatividade
-     */
-    @Schedule(second = "*/5", minute = "*", hour = "*")
-    public void checkInactivity() throws InterruptedException {
-        long now = LocalDateTime.now()
-                .toInstant(ZoneOffset.UTC).getEpochSecond();
-        for (Object u : DAO.findByNamedQuery(TUtilizadores.class, "TUtilizadores.findByLogged", "logged", true)) {
-            if (((TUtilizadores) u).fromLastActionFromNow(now) > 240) {
-                ((TUtilizadores) u).setLogged(false);
-                DAO.editWithCommit(u);
-            }
-        }
-    }
-
-    /**
-     * Le dados do disco quando inicia
-     */
-    @PostConstruct
-    public void loadstate() {
-        this.addAdmin();
-
-        //DAO.getEntityManager();
-        try (ObjectInputStream ois
-                = new ObjectInputStream(
-                        new BufferedInputStream(
-                                new FileInputStream("/tmp/LeiloeiraDados")))) {
-//            categorias = (ArrayList<String>) ois.readObject();
-
-        } catch (Exception e) {
-            //Utilizadors = fica com o objecto vazio criado no construtor
-        }
-    }
-
-    /**
-     * Grava dados em disco antes de sair
-     */
-    @PreDestroy
-    public void saveState() {
-        try (ObjectOutputStream oos
-                = new ObjectOutputStream(
-                        new BufferedOutputStream(
-                                new FileOutputStream("/tmp/LeiloeiraDados")))) {
-//            oos.writeObject(categorias);
-        } catch (Exception e) {
-
-        }
-    }
-
-    /**
      *
      * @return Lista de utilizadores inscritos, ativos e nao ativos
      */
@@ -419,7 +415,7 @@ public class Leiloeira implements LeiloeiraLocal {
     @Override
     public ArrayList<String> getUtilizadoresEstado(UtilizadorEstado estado) {
         ArrayList<String> users = new ArrayList<>();
-        for (Object u : DAO.findByNamedQuery(TUtilizadores.class, "TUtilizadores.findByEstado", "estado", estado.msg())) {
+        for (Object u : DAO.findByNamedQuery(TUtilizadores.class, "TUtilizadores.findByEstado", "estado", estado)) {
             users.add(((TUtilizadores) u).getUsername());
         }
         return users;
