@@ -15,9 +15,9 @@ public class MenuUtilizadorConsultarItem extends MenuUtilizadorAdmin {
      * @param ligacao
      * @param controlador
      */
-    public MenuUtilizadorConsultarItem(ClientUtilizadorRemote ligacao, ControladorUtilizador controlador) {
-       super(ligacao,controlador);
-        titulo="Utilizador - Consultar Item";
+    public MenuUtilizadorConsultarItem(ClientUtilizadorRemote ligacao, ControladorUtilizador controlador, Menu anterior) {
+       super(ligacao,controlador, anterior);
+        titulo=anterior.titulo + " - Consultar Item";
        this.controlador=controlador;
         //opcoes.clear();
         opcoes.add(new OpcaoMenu("Licitar", () -> controlador.licitarItem()));

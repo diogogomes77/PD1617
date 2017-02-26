@@ -3,6 +3,7 @@ package controladores;
 import beans.ClientAuthRemote;
 import beans.ClientVisitanteRemote;
 import beans.Mensagem;
+import beans.SessionException;
 import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -43,16 +44,19 @@ public abstract class ControladorUserAdmin extends Controlador {
      */
     @Override
     public void logOff() {
-        if (ligacaoAuth.logOff()) {
-            System.out.println("\nlog off");
-            ReferenciaVisitante refVisitante = new ReferenciaVisitante();
-            ClientVisitanteRemote ligVisitante = refVisitante.getLigacao();
-            controlador = new ControladorVisitante(ligVisitante);
-            menu = new MenuVisitante(ligVisitante, (ControladorVisitante) controlador);
+        try {
+            if (ligacaoAuth.logOff()) {
+                System.out.println("\nlog off");
 
-        } else {
-            System.out.println("ERRO: accao nao aceite");
+            } else {
+                System.out.println("ERRO: accao nao aceite");
+            }
+        } catch (SessionException ex) {
         }
+        ReferenciaVisitante refVisitante = new ReferenciaVisitante();
+        ClientVisitanteRemote ligVisitante = refVisitante.getLigacao();
+        controlador = new ControladorVisitante(ligVisitante);
+        menu = new MenuVisitante(ligVisitante, (ControladorVisitante) controlador);
     }
 
     /**
@@ -69,10 +73,16 @@ public abstract class ControladorUserAdmin extends Controlador {
         assunto = sc.nextLine();
         System.out.print("Texto: ");
         texto = sc.nextLine();
-        if (ligacaoAuth.sendMensagem(destinatario, texto, assunto)) {
-            System.out.println("Mensagem enviada");
-        } else {
-            System.out.println("ERRO: mensagem nao enviada");
+        try {
+            if (ligacaoAuth.sendMensagem(destinatario, texto, assunto)) {
+                System.out.println("Mensagem enviada");
+            } else {
+                System.out.println("ERRO: mensagem nao enviada");
+            }
+        } catch (SessionException ex) {
+            if (ex.getStatus() == SessionException.sessionStatus.LOGOUTSTAUS) {
+                this.logOff();
+            }
         }
     }
 
@@ -81,11 +91,19 @@ public abstract class ControladorUserAdmin extends Controlador {
      */
     public void consultarMensagensMinhas() {
         System.out.println("Minhas mensagems:");
-        ArrayList<Mensagem> mensagens = ligacaoAuth.consultarMensagens();
-        for (Mensagem msg : mensagens) {
-            System.out.println("Enviada: ".concat(convertTime(msg.getData())).concat(" por: ").concat(msg.getDestinatario()).concat(" Assunto: ").concat(msg.getAssunto()));
+        ArrayList<Mensagem> mensagens;
+        try {
+            mensagens = ligacaoAuth.consultarMensagens();
+            for (Mensagem msg : mensagens) {
+                System.out.println("Enviada: ".concat(msg.getData().toString()).concat(" por: ").concat(msg.getDestinatario()).concat(" Assunto: ").concat(msg.getAssunto()));
+            }
+        } catch (SessionException ex) {
+            if (ex.getStatus() == SessionException.sessionStatus.LOGOUTSTAUS) {
+                this.logOff();
+            }
         }
     }
+
     /**
      *
      */
@@ -93,16 +111,22 @@ public abstract class ControladorUserAdmin extends Controlador {
         String password = "";
         System.out.print("Antiga password: ");
         password = sc.nextLine();
-        if (ligacaoAuth.verificaPassword(password)) {
-            System.out.print("Nova password: ");
-            password = sc.nextLine();
-            if (ligacaoAuth.alteraPassword(password)) {
-                System.out.println("Password alterada com sucesso");
+        try {
+            if (ligacaoAuth.verificaPassword(password)) {
+                System.out.print("Nova password: ");
+                password = sc.nextLine();
+                if (ligacaoAuth.alteraPassword(password)) {
+                    System.out.println("Password alterada com sucesso");
+                } else {
+                    System.out.println("ERRO: Password nao alterada");
+                }
             } else {
-                System.out.println("ERRO: Password nao alterada");
+                System.out.println("ERRO: Password antiga incorreta");
             }
-        } else {
-            System.out.println("ERRO: Password antiga incorreta");
+        } catch (SessionException ex) {
+            if (ex.getStatus() == SessionException.sessionStatus.LOGOUTSTAUS) {
+                this.logOff();
+            }
         }
     }
 

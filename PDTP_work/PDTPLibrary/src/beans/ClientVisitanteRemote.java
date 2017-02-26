@@ -1,5 +1,6 @@
 package beans;
 
+import java.util.List;
 import javax.ejb.Remote;
 
 /**
@@ -42,4 +43,11 @@ public interface ClientVisitanteRemote extends ClientRemote{
      */
     boolean pedirReativacaoUsername(String username,String password);
 
+    /**
+     *
+     * @param username
+     * @return
+     */
+    boolean isAdmin(String username);
+ 
 }

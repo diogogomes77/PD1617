@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package jpaentidades;
+package beans;
 
 import java.util.List;
 import java.util.logging.Level;
@@ -74,6 +74,14 @@ public class DAO implements DAOLocal {
         javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
         cq.select(cq.from(s));
         return getEntityManager().createQuery(cq).getResultList();
+    }
+
+    @Override
+    public List<Object> findByNamedQuery(Class s, String nameQuery, int maxResult ) {
+        Logger.getLogger(getClass().getName()).log(Level.INFO, "Find All Entity by namedQuery 1 arg");
+        TypedQuery q = getEntityManager().createNamedQuery(nameQuery,s);
+        q.setMaxResults(maxResult);
+        return q.getResultList();
     }
 
     @Override

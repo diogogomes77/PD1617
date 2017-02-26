@@ -20,162 +20,177 @@ public interface ClientUtilizadorRemote extends ClientAuthRemote {
      *
      * @param valor
      * @return
+     * @throws beans.SessionException
      */
-    Double addSaldo(Double valor);
+    Double addSaldo(Double valor) throws SessionException;
 
     /**
      *
      * @return
+     * @throws beans.SessionException
      */
-    Double getSaldo();
-
-    /**
-     *
-     * @param username
-     * @param password
-     * @return
-     */
-    boolean setMyName(String username, String password);
+    Double getSaldo() throws SessionException;
 
     /**
      *
      * @return
+     * @throws beans.SessionException
      */
-    String getMyName();
+    String getMyName() throws SessionException;
 
     //String toString();
 
     /**
      *
      * @return
+     * @throws beans.SessionException
      */
-    String getDados();
+    String getDados() throws SessionException;
 
     /**
      *
      * @param nome
      * @param morada
      * @return
+     * @throws beans.SessionException
      */
-    boolean atualizaDados(String nome, String morada);
+    boolean atualizaDados(String nome, String morada) throws SessionException;
 
     /**
      *
      * @param razao
      * @return
+     * @throws beans.SessionException
      */
-    boolean pedirSuspensao(String razao);
+    boolean pedirSuspensao(String razao) throws SessionException;
 
     /**
      *
+     * @param categria
      * @param descricao
      * @param precoInicial
      * @param precoComprarJa
      * @param dataLimite
      * @return
+     * @throws beans.SessionException
      */
-    boolean addItem(String descricao, Double precoInicial, Double precoComprarJa, Timestamp dataLimite);
+    boolean addItem(String categria, String descricao, Double precoInicial, Double precoComprarJa, Timestamp dataLimite) throws SessionException;
 
     /**
      *
      * @return
+     * @throws beans.SessionException
      */
-    List<String> getCategorias();
+    List<String> getCategorias() throws SessionException;
 
     /**
      *
      * @return
+     * @throws beans.SessionException
      */
-    List<String> getMeusItens();
+    List<String> getMeusItens() throws SessionException;
 
     /**
      *
      * @return
+     * @throws beans.SessionException
      */
-    List<String> getItens();
-
-    /**
-     *
-     * @param itemId
-     * @return
-     */
-    String mostraItem(int itemId);
-
-    /**
-     *
-     * @param itemId
-     * @return
-     */
-    String getVendedorItem(int itemId);
+    List<String> getItens() throws SessionException;
 
     /**
      *
      * @param itemId
      * @return
+     * @throws beans.SessionException
      */
-    String consultarLicitacoes(int itemId);
+    String mostraItem(long itemId) throws SessionException;
+
+    /**
+     *
+     * @param itemId
+     * @return
+     * @throws beans.SessionException
+     */
+    String getVendedorItem(long itemId) throws SessionException;
+
+    /**
+     *
+     * @param itemId
+     * @return
+     * @throws beans.SessionException
+     */
+    String consultarLicitacoes(long itemId) throws SessionException;
 
     /**
      *
      * @param itemid
      * @return
+     * @throws beans.SessionException
      */
-    boolean comprarJaItem(int itemid);
+    boolean comprarJaItem(long itemid) throws SessionException;
 
     /**
      *
      * @param itemid
      * @param valor
      * @return
+     * @throws beans.SessionException
      */
-    boolean licitarItem(int itemid, Double valor);
+    boolean licitarItem(long itemid, Double valor) throws SessionException;
 
     /**
      *
      * @param itemId
      * @return
+     * @throws beans.SessionException
      */
-    boolean seguirItem(int itemId);
+    boolean seguirItem(long itemId) throws SessionException;
 
     /**
      *
      * @param itemId
      * @return
+     * @throws beans.SessionException
      */
-    boolean seguirItemCancelar(int itemId);
+    boolean seguirItemCancelar(long itemId) throws SessionException;
 
     /**
      *
      * @return
+     * @throws beans.SessionException
      */
-    List<String> getItensSeguidos();
+    List<String> getItensSeguidos() throws SessionException;
 
     /**
      *
      * @return
+     * @throws beans.SessionException
      */
-    List<String> getMeusItensPorPagar();
+    List<String> getMeusItensPorPagar( ) throws SessionException ;
 
     /**
      *
      * @param itemId
      * @return
+     * @throws beans.SessionException
      */
-    boolean concluirTransacao(int itemId);
+    boolean concluirTransacao(long itemId) throws SessionException;
 
     /**
      *
      * @param itemId
      * @param razao
      * @return
+     * @throws beans.SessionException
      */
-    boolean denunciarItem(int itemId, String razao);
+    boolean denunciarItem(long itemId, String razao) throws SessionException;
 
     /**
      *
      * @param username
      * @param razao
      * @return
+     * @throws beans.SessionException
      */
-    boolean denunciarVendedor(String username, String razao);
+    boolean denunciarVendedor(String username, String razao) throws SessionException;
 }

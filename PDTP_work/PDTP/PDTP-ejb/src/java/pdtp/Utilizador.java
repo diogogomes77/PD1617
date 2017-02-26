@@ -12,7 +12,7 @@ import javax.ejb.EJB;
 import javax.persistence.Entity;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Table;
-import jpaentidades.DAOLocal;
+import beans.DAOLocal;
 import jpaentidades.TUtilizadores;
 
 /**

@@ -6,6 +6,9 @@
 package jpaentidades;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,6 +20,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -41,6 +46,9 @@ public class TitemsSeguidos implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
+    @Column(name = "data")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date data;
     @Basic(optional = false)
     @NotNull
     @JoinColumn(name = "utilizador", referencedColumnName = "username")
@@ -53,11 +61,13 @@ public class TitemsSeguidos implements Serializable {
     private TItens item;
 
     public TitemsSeguidos() {
+        this.data = Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant());
     }
 
-    public TitemsSeguidos( TUtilizadores utilizador, TItens item) {
+    public TitemsSeguidos(TUtilizadores utilizador, TItens item) {
         this.utilizador = utilizador;
         this.item = item;
+        this.data = Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant());
     }
 
     public TUtilizadores getUtilizador() {
@@ -84,6 +94,14 @@ public class TitemsSeguidos implements Serializable {
         this.id = id;
     }
 
+    public Date getData() {
+        return data;
+    }
+
+    public void setData(Date data) {
+        this.data = data;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -108,5 +126,5 @@ public class TitemsSeguidos implements Serializable {
     public String toString() {
         return "jpaentidades.TitemsSeguidos[ id=" + id + " ]";
     }
-    
+
 }

@@ -9,7 +9,7 @@ import javax.ejb.EJB;
 import javax.ejb.Singleton;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
-import jpaentidades.DAOLocal;
+import beans.DAOLocal;
 import jpaentidades.TMensagens;
 
 /**

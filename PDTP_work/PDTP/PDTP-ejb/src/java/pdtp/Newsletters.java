@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.Date;
 import javax.ejb.EJB;
-import jpaentidades.DAOLocal;
+import beans.DAOLocal;
 import jpaentidades.TNewsletters;
 import jpafacades.TNewslettersFacade;
 

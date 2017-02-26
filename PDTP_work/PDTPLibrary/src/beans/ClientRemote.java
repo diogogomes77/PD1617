@@ -1,7 +1,5 @@
 package beans;
 
-
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,4 +32,10 @@ public interface ClientRemote {
      * @return
      */
     public int getTotalItens();
+
+    /**
+     *
+     * @return
+     */
+    List<String> getUltimosItensVendidos();
 }

@@ -9,6 +9,7 @@ import beans.MensagemEstado;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -69,15 +70,12 @@ public class TMensagens implements Serializable {
 
     public TMensagens() {
         Date in = new Date();
-        LocalDateTime ldt = LocalDateTime.ofInstant(in.toInstant(), ZoneId.systemDefault());
-        this.data = Date.from(ldt.atZone(ZoneId.systemDefault()).toInstant());
+        this.data = Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant());
     }
 
     public TMensagens(Integer idMensagem) {
         this.idMensagem = idMensagem;
-        Date in = new Date();
-        LocalDateTime ldt = LocalDateTime.ofInstant(in.toInstant(), ZoneId.systemDefault());
-        this.data = Date.from(ldt.atZone(ZoneId.systemDefault()).toInstant());
+        this.data = Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant());
     }
 
     public Integer getIdMensagem() {

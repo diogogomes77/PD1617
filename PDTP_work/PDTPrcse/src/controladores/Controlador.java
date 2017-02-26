@@ -60,6 +60,20 @@ public abstract class Controlador extends PDTPrcse{
     /**
      *
      */
+    public void vendasRecentes() {
+        List<String> allItens = ligacao.getUltimosItensVendidos();
+        int total = allItens.size();
+        System.out.println("Útimos itens Vendidos ("+total+"): ");
+        allItens.forEach((item) -> {
+            System.out.println(item);
+        });
+        System.out.print("\n");
+        //List itensRecentes = ligacao.
+    }
+
+    /**
+     *
+     */
     public void printOnline() {
         ArrayList<String> logados = ligacao.getUsernamesOnline();
         int total = logados.size();

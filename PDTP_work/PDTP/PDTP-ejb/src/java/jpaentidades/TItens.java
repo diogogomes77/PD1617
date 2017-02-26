@@ -6,6 +6,8 @@
 package jpaentidades;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Basic;
@@ -23,7 +25,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -54,7 +55,6 @@ public class TItens implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @NotNull
     @Column(name = "itemid")
     private Long itemid;
     @Size(max = 255)
@@ -74,7 +74,6 @@ public class TItens implements Serializable {
     @Size(max = 255)
     @Column(name = "descricao")
     private String descricao;
-    @Size(max = 255)
     @Column(name = "estado")
     private ItemEstados estado;
     @Column(name = "precoinicial")
@@ -96,10 +95,12 @@ public class TItens implements Serializable {
     private TVendas venda;
 
     public TItens() {
+        this.datainicio = Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant());
     }
 
     public TItens(Long itemid) {
         this.itemid = itemid;
+        this.datainicio = Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant());
     }
 
     public Long getItemid() {
@@ -234,8 +235,7 @@ public class TItens implements Serializable {
 
     @Override
     public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof TItens)) {
+       if (!(object instanceof TItens)) {
             return false;
         }
         TItens other = (TItens) object;

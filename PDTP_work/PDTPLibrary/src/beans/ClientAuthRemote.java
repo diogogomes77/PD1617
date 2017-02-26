@@ -13,35 +13,48 @@ public interface ClientAuthRemote extends ClientRemote {
     /**
      *
      * @return
+     * @throws beans.SessionException
      */
-    boolean logOff();
+    boolean logOff() throws SessionException;
 
     /**
      *
      * @param password
      * @return
+     * @throws beans.SessionException
      */
-    boolean verificaPassword(String password);
+    boolean verificaPassword(String password) throws SessionException;
 
     /**
      *
      * @param password
      * @return
+     * @throws beans.SessionException
      */
-    boolean alteraPassword(String password);
+    boolean alteraPassword(String password) throws SessionException;
     
+    /**
+     *
+     * @param username
+     * @param password
+     * @return
+     * @throws beans.SessionException
+     */
+    boolean setMyName(String username, String password) throws SessionException;
+
     /**
      *
      * @param destinatario
      * @param texto
      * @param assunto
      * @return
+     * @throws beans.SessionException
      */
-    boolean sendMensagem(String destinatario, String texto, String assunto);
+    boolean sendMensagem(String destinatario, String texto, String assunto) throws SessionException;
 
     /**
      *
      * @return
      */
-    ArrayList<Mensagem> consultarMensagens();
+    ArrayList<Mensagem> consultarMensagens() throws SessionException;
 }

@@ -1,5 +1,6 @@
 package menus;
 
+import beans.SessionException;
 import controladores.Controlador;
 
 import java.util.ArrayList;
@@ -7,6 +8,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 import pdtprcse.PDTPrcse;
 
 /**
@@ -60,6 +63,19 @@ public abstract class Menu extends PDTPrcse {
         OpcaoMenu newsletter = new OpcaoMenu("Newsletter", () -> controlador.printNews());
         OpcaoMenu sair = new OpcaoMenu("Sair", () -> controlador.sair());
         opcoes.add(sair);
+        opcoes.add(newsletter);
+        //this.controlador=controlador;
+        comandos = new HashMap<>();
+
+    }
+
+    protected Menu(Menu anterior) {
+        opcoes = new ArrayList<OpcaoMenu>();
+        OpcaoMenu newsletter = new OpcaoMenu("Newsletter", () -> controlador.printNews());
+        OpcaoMenu sair = new OpcaoMenu("Sair", () -> controlador.sair());
+        OpcaoMenu voltar = new OpcaoMenu("Voltar", () -> controlador.mostrarMenu(anterior));
+        opcoes.add(sair);
+        opcoes.add(voltar);
         opcoes.add(newsletter);
         //this.controlador=controlador;
         comandos = new HashMap<>();
@@ -127,6 +143,7 @@ public abstract class Menu extends PDTPrcse {
                         OpcaoMenu escolha = comandos.get(opcao);
                         if (escolha != null) {
                             escolha.getFuncao().run();
+                            Thread.sleep(10); //dar tempo aos buffers
                             break;
                         }
                     }
