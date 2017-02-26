@@ -14,6 +14,7 @@ public class MenuUtilizadorGerirConta extends MenuUtilizadorAdmin {
      *
      * @param ligacao
      * @param controlador
+     * @param anterior
      */
     public MenuUtilizadorGerirConta(ClientUtilizadorRemote ligacao, ControladorUtilizador controlador, Menu anterior) {
         super(ligacao,controlador, anterior);

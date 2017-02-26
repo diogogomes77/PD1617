@@ -1,6 +1,5 @@
 package menus;
 
-import controladores.ControladorUserAdmin;
 import controladores.ControladorUtilizador;
 
 import beans.ClientUtilizadorRemote;

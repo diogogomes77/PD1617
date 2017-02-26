@@ -14,6 +14,7 @@ public class MenuAdminDenuncias extends MenuUtilizadorAdmin {
      *
      * @param ligacao
      * @param controlador
+     * @param anterior
      */
     public MenuAdminDenuncias (ClientAdminRemote ligacao,ControladorAdministrador controlador, Menu anterior) {
         super(ligacao,controlador, anterior);

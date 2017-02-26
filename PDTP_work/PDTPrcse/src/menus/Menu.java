@@ -1,6 +1,5 @@
 package menus;
 
-import beans.SessionException;
 import controladores.Controlador;
 
 import java.util.ArrayList;
@@ -8,8 +7,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Scanner;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
 import pdtprcse.PDTPrcse;
 
 /**

@@ -14,6 +14,7 @@ public class MenuUtilizadorSaldo extends MenuUtilizadorAdmin {
      *
      * @param ligacao
      * @param controlador
+     * @param anterior
      */
     public MenuUtilizadorSaldo(ClientUtilizadorRemote ligacao, ControladorUtilizador controlador, Menu anterior) {
        super(ligacao,controlador, anterior);
