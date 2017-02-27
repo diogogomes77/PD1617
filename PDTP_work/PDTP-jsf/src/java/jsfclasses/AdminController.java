@@ -5,7 +5,6 @@
  */
 package jsfclasses;
 
-
 import autenticacao.Util;
 import beans.ClientAdminRemote;
 import beans.SessionException;
@@ -18,6 +17,7 @@ import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 import javax.servlet.http.HttpSession;
+import jpaentidades.TUtilizadores;
 
 /**
  *
@@ -32,14 +32,13 @@ public class AdminController extends VisitanteController implements Serializable
     private ArrayList<Menu> menus;
     private String seccao;
 
-
     public AdminController() {
         super();
-        seccao="Administrador";
+        seccao = "Administrador";
         ArrayList<String> paginas = new ArrayList<>();
         menus = new ArrayList<Menu>();
-        
-        Menu menuAdmin = new Menu("menu1","");
+
+        Menu menuAdmin = new Menu("menu1", "");
         menuAdmin.setTituloMenu("Administrador");
         menuAdmin.addMenuPage("Inicio");
         menuAdmin.addMenuPage("Minhas Mensagens");
@@ -47,14 +46,14 @@ public class AdminController extends VisitanteController implements Serializable
         menuAdmin.addMenuPage("Consultar Utilizador");
         menuAdmin.addMenuPage("Consultar Item");
         menus.add(menuAdmin);
-        Menu menuAdminCategorias = new Menu("menu2",seccao);
+        Menu menuAdminCategorias = new Menu("menu2", seccao);
         menuAdminCategorias.setTituloMenu("Categorias");
         menuAdminCategorias.addMenuPage("Listar categorias");
         menuAdminCategorias.addMenuPage("Nova categoria");
         menuAdminCategorias.addMenuPage("Alterar Categoria");
         menuAdminCategorias.addMenuPage("Eliminar Categoria");
         menus.add(menuAdminCategorias);
-        Menu menuAdminContas = new Menu("menu3",seccao);
+        Menu menuAdminContas = new Menu("menu3", seccao);
         menuAdminContas.setTituloMenu("Contas");
         menuAdminContas.addMenuPage("Pedidos de Adesao");
         menuAdminContas.addMenuPage("Activar Contas");
@@ -62,19 +61,19 @@ public class AdminController extends VisitanteController implements Serializable
         menuAdminContas.addMenuPage("Reactivar Contas");
         menuAdminContas.addMenuPage("Pedidos de Suspensao");
         menus.add(menuAdminContas);
-        Menu menuAdminDenuncias = new Menu("menu4",seccao);
+        Menu menuAdminDenuncias = new Menu("menu4", seccao);
         menuAdminDenuncias.setTituloMenu("Denuncias");
         menuAdminDenuncias.addMenuPage("Denuncias de vendedores");
         menuAdminDenuncias.addMenuPage("Denuncias de itens");
         menus.add(menuAdminDenuncias);
     }
-    
+
     @PostConstruct
     public void init() {
         try {
             //session = null;
             HttpSession session = Util.getSession();
-            client.setMyName((String)session.getAttribute("username"), (String)session.getAttribute("password"));
+            client.setMyName((String) session.getAttribute("username"), (String) session.getAttribute("password"));
         } catch (SessionException ex) {
             Logger.getLogger(UtilizadorController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -84,11 +83,11 @@ public class AdminController extends VisitanteController implements Serializable
 
         return menus;
     }
-    
-public String logout() {
+
+    public String logout() {
         //HttpSession session = SessionUtils.getSession();
-        
-         HttpSession session = Util.getSession();
+
+        HttpSession session = Util.getSession();
         session.invalidate();
         try {
             client.logOff();
@@ -96,5 +95,16 @@ public String logout() {
             Logger.getLogger(AdminController.class.getName()).log(Level.SEVERE, null, ex);
         }
         return "/Inicio.xhtml";
+    }
+
+    public String ativar() {
+        current = (TUtilizadores) getItems().getRowData();
+        selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
+        try {
+            client.ativaUtilizador(current.getUsername());
+        } catch (SessionException ex) {
+            Logger.getLogger(AdminController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
     }
 }

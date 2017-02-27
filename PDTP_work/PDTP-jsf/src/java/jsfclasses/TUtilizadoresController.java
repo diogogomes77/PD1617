@@ -32,7 +32,7 @@ public class TUtilizadoresController implements Serializable {
     private TNewslettersFacade tNewslettersFacade;
 
     protected TUtilizadores current;
-    private DataModel items = null;
+    protected DataModel items = null;
     @EJB
     private jpafacades.TUtilizadoresFacade utilizadoresFacade;
     @EJB
@@ -42,8 +42,8 @@ public class TUtilizadoresController implements Serializable {
         return current;
     }
     
-    private PaginationHelper pagination;
-    private int selectedItemIndex;
+    protected PaginationHelper pagination;
+    protected  int selectedItemIndex;
 
     public TUtilizadoresController() {
     }
