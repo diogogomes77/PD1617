@@ -117,9 +117,10 @@ public class Leiloeira implements LeiloeiraLocal {
         long now = LocalDateTime.now()
                 .toInstant(ZoneOffset.UTC).getEpochSecond();
         for (Object u : DAO.findByNamedQuery(TUtilizadores.class, "TUtilizadores.findByLogged", "logged", true)) {
-            if (((TUtilizadores) u).fromLastActionFromNow(now) > 240) {
+            if (((TUtilizadores) u).fromLastActionFromNow(now) > 60){//240) {
                 ((TUtilizadores) u).setLogged(false);
                 DAO.editWithCommit(u);
+                System.out.println("---Session Timeout user "+ ((TUtilizadores) u).getUsername());
             }
         }
     }
