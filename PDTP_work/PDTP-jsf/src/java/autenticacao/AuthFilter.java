@@ -66,20 +66,20 @@ public class AuthFilter implements Filter {
                                 if (!reqURI.contains("/Administrador")) {
                                     System.out.println("-----URI no ADMINISTRADOR --");
                                     res.sendRedirect(req.getContextPath() + "/faces/Administrador/Inicio.xhtml");
-                                    return;
+//                                    return;
                                 }
                             } else { // utilizador normal
                                 if (!reqURI.contains("/Utilizador")) {
                                     System.out.println("-----UIR no Utilizador --");
                                     res.sendRedirect(req.getContextPath() + "/faces/Utilizador/Inicio.xhtml");
-                                    return;
+//                                    return;
                                 }
                             }
                         } else {
                             System.out.println("-----IS NOT LOGGED --");
                             ses.invalidate();
                             res.sendRedirect(req.getContextPath() + "/faces/Visitante/Inicio.xhtml");
-                            return;
+                            //return;
                         }
                     }
                 }
@@ -88,11 +88,12 @@ public class AuthFilter implements Filter {
                     if (!reqURI.contains("/Visitante")) {
                         System.out.println("-----URI no VISITANTE --");
                         res.sendRedirect(req.getContextPath() + "/faces/Visitante/Inicio.xhtml");
-                        return;
-                    } else {
-                        chain.doFilter(request, response);
-                        return;
-                    }
+                        //return;
+                    } 
+//                    else {
+//                        chain.doFilter(request, response);
+//                        return;
+//                    }
                 }
             }
             System.out.println("-----CHAIN --");

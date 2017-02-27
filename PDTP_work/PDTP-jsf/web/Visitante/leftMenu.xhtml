@@ -6,17 +6,24 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core" 
       xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
-        <ui:composition>
+    <ui:composition>
+ 
         <div class="nav-side-menu">
-<!--            <i class="fa fa-bars fa-2x toggle-btn" data-toggle="collapse" data-target="#menu-content"></i>-->
+            <!--            <i class="fa fa-bars fa-2x toggle-btn" data-toggle="collapse" data-target="#menu-content"></i>-->
             <div class="menu-list">
                 <ul id="menu-content" class="menu-content out collapse in">
                     <c:forEach var="menu" items="#{VisitanteController.menus}">
-                        <li data-toggle="collapse" data-target="##{menu.id}" class="active #{!view.viewId.contains(menu.tituloMenu) ? 'collapsed' : ''}">
+
+                        <li data-toggle="collapse" data-target="##{menu.id}" 
+                            class="active #{!view.viewId.contains(menu.tituloMenu) ? 'collapsed' : ''}"
+                            >
                             <a href="#"><i class="fa fa-lg"></i> #{menu.tituloMenu} <span class="arrow"></span></a>
                         </li>
-                        <ul class="sub-menu collapse" id="#{menu.id}">
+                        <ul class="sub-menu #{!view.viewId.contains(menu.tituloMenu) ? 'collapse' : 'collapse in'}"
+                            data-parent="#menu-content"  id="#{menu.id}">
                             <ui:repeat value="#{menu.menuPages}" var="page">
+                                #{page.createFile(request.contextPath,page.viewId)}
+
                                 <li class="#{view.viewId == page.viewId ? 'active' : ''}"><h:link value="#{page.title}" outcome="#{page.viewId}" /></li>
                             </ui:repeat>
 

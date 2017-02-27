@@ -36,7 +36,6 @@ public class AdminController extends VisitanteController implements Serializable
     public AdminController() {
         super();
         seccao="Administrador";
-        String subseccao = new String();
         ArrayList<String> paginas = new ArrayList<>();
         menus = new ArrayList<Menu>();
         
