@@ -20,8 +20,10 @@
             <base-name>/Bundle</base-name>
             <var>bundle</var>
         </resource-bundle>
-  
-       
+        <resource-bundle>
+            <base-name>/BundleMensagens</base-name>
+            <var>bundleMensagens</var>
+        </resource-bundle>
     </application>
     <navigation-rule>
         <from-view-id>/Inicio.xhtml</from-view-id>

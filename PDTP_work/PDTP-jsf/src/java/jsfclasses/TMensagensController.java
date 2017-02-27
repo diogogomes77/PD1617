@@ -3,7 +3,7 @@ package jsfclasses;
 import jpaentidades.TMensagens;
 import jsfclasses.util.JsfUtil;
 import jsfclasses.util.PaginationHelper;
-import jpafacades.TMensagensFacade;
+
 
 import java.io.Serializable;
 import java.util.ResourceBundle;
@@ -17,21 +17,19 @@ import javax.faces.convert.FacesConverter;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 import javax.faces.model.SelectItem;
-import javax.persistence.EntityTransaction;
-import beans.DAOLocal;
+import jpafacades.TMensagensFacade;
 
 @Named("tMensagensController")
 @SessionScoped
 public class TMensagensController implements Serializable {
 
+    @EJB
+    private TMensagensFacade ejbFacade;
+
     private TMensagens current;
     private DataModel items = null;
-    @EJB
-    private jpafacades.TMensagensFacade ejbFacade;
-
-    @EJB
-    private DAOLocal DAO;
-
+//    @EJB
+//    private beans.TMensagensFacade ejbFacade;
     private PaginationHelper pagination;
     private int selectedItemIndex;
 
@@ -87,14 +85,11 @@ public class TMensagensController implements Serializable {
 
     public String create() {
         try {
-            EntityTransaction trans = DAO.getEntityManager().getTransaction();
-            trans.begin();
             getFacade().create(current);
-            trans.commit();
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("TMensagensCreated"));
+            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/BundleMensagens").getString("TMensagensCreated"));
             return prepareCreate();
         } catch (Exception e) {
-            JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
+            JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/BundleMensagens").getString("PersistenceErrorOccured"));
             return null;
         }
     }
@@ -108,10 +103,10 @@ public class TMensagensController implements Serializable {
     public String update() {
         try {
             getFacade().edit(current);
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("TMensagensUpdated"));
+            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/BundleMensagens").getString("TMensagensUpdated"));
             return "View";
         } catch (Exception e) {
-            JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
+            JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/BundleMensagens").getString("PersistenceErrorOccured"));
             return null;
         }
     }
@@ -141,9 +136,9 @@ public class TMensagensController implements Serializable {
     private void performDestroy() {
         try {
             getFacade().remove(current);
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("TMensagensDeleted"));
+            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/BundleMensagens").getString("TMensagensDeleted"));
         } catch (Exception e) {
-            JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
+            JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/BundleMensagens").getString("PersistenceErrorOccured"));
         }
     }
 

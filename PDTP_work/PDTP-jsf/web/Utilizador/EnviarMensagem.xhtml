@@ -4,21 +4,18 @@
       xmlns:h="http://java.sun.com/jsf/html"  
       xmlns:f="http://java.sun.com/jsf/core"  
       xmlns:ui="http://java.sun.com/jsf/facelets"> 
-    <ui:composition template="/Utilizador/main.xhtml">
+    <ui:composition template="main.xhtml">
         <ui:define name="left">
-            <ui:include src="/Utilizador/leftMenu.xhtml" />
+            <ui:include src="leftMenu.xhtml" />
         </ui:define>
         <ui:define name="title">
             <h1 class="page-header "> <i class="fa fa-handshake-o"></i>  
-                <h:outputText value=" #{bundle.UtilizadorInicio}"></h:outputText>
+                <h:outputText value="Enviar Mensagem"></h:outputText>
             </h1>
         </ui:define>
         <ui:define name="content">                        
-            <h:link outcome="/tMensagens/List" value="Show All TMensagens Items"/>
-            <br />
-            <h:link outcome="/tUtilizadores/List" value="Show All TUtilizadores Items"/>
             
-            <ui:include src="/Geral/ListaRegistados.xhtml" />
+            <ui:include src="/Geral/enviarMensagem.xhtml" />
         </ui:define>
     </ui:composition> 
 
