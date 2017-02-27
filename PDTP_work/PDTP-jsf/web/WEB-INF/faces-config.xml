@@ -20,5 +20,22 @@
             <base-name>/Bundle</base-name>
             <var>bundle</var>
         </resource-bundle>
+  
+       
     </application>
+    <navigation-rule>
+        <from-view-id>/Inicio.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>visitanteinicio</from-outcome>
+            <to-view-id>/Visitante/Inicio.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>utilizadorinicio</from-outcome>
+            <to-view-id>/Utilizador/Inicio.xhtml</to-view-id>
+        </navigation-case>
+         <navigation-case>
+            <from-outcome>administradorinicio</from-outcome>
+            <to-view-id>/Administrador/Inicio.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
 </faces-config>

@@ -5,6 +5,7 @@
  */
 package jsfclasses;
 
+import autenticacao.Util;
 import beans.ClientUtilizadorRemote;
 import java.io.File;
 import java.io.IOException;
@@ -15,9 +16,12 @@ import java.util.Map;
 import java.util.TreeMap;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -76,5 +80,14 @@ public class UtilizadorController extends AbstractController implements Serializ
         return menus;
     }
     
-
+    public String logout() {
+        //HttpSession session = SessionUtils.getSession();
+        
+        HttpSession session = Util.getSession();
+       
+        session.invalidate();
+        //session = null;
+        client.logOff();
+        return "/Inicio.xhtml";
+    }
 }

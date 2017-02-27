@@ -5,15 +5,22 @@
  */
 package jsfclasses;
 
+import autenticacao.Util;
+import static autenticacao.Util.getRequest;
 import beans.ClientVisitanteRemote;
 import java.io.Serializable;
+import static java.rmi.server.LogStream.log;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
+import javax.security.auth.Subject;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpSession;
 import jpaentidades.TUtilizadores;
 
@@ -23,20 +30,22 @@ import jpaentidades.TUtilizadores;
  */
 @Named("VisitanteController")
 @SessionScoped
-public class VisitanteController extends AbstractController implements Serializable { // extends TUtilizadoresController
+public class VisitanteController extends TUtilizadoresController implements Serializable { // extends TUtilizadoresController
 
     @EJB
     private ClientVisitanteRemote client;
     
     private UIComponent loginButton;
     
+    
     private boolean usernameCheck = true;
    
+    protected  String seccao;
+    protected ArrayList<Menu> menus;
+    
     public VisitanteController() {
         super();
-        this.tUtilizadorController = TUtilizadoresController.getInstance();
         this.seccao = "Visitante";
-       
         menus = new ArrayList<>();
         Menu menuVisitante = new Menu("menu1","");
         menuVisitante.setTituloMenu("Visitante");
@@ -47,34 +56,30 @@ public class VisitanteController extends AbstractController implements Serializa
         menuVisitante.addMenuPage("Newsletter");
         menus.add(menuVisitante);
     }
-    @Override
     public ArrayList<Menu> getMenus() {
-
         return menus;
     }
-
     public String login() {
+
+        
         boolean ok = client.loginUtilizador(current.getUsername(), current.getPassword());
         if (ok) {
-            HttpSession session = SessionUtils.getSession();
+           //HttpSession session = SessionUtils.getSession();
+            HttpSession session = Util.getSession();
+            session.setAttribute("username", current.getUsername());
             if ("admin".equals(current.getUsername())) {
-                return "/Administrador/Inicio";
+                return "administradorinicio";
             }
-            return "/Utilizador/Inicio";
+            return "utilizadorinicio";
 
         } else {
             FacesContext ctx = FacesContext.getCurrentInstance();
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Login invalido", "Login invalido");
             ctx.addMessage(loginButton.getClientId(ctx), msg);
-            return "";
+            return "visitanteinicio";
         }
     }
 
-    public String logout() {
-        HttpSession session = SessionUtils.getSession();
-        session.invalidate();
-        return "login";
-    }
 
     public UIComponent getLoginButton() {
         return loginButton;
@@ -91,18 +96,16 @@ public class VisitanteController extends AbstractController implements Serializa
     }
 
     public void checkUsername() {
+       // usernameCheck =false;
         //System.out.println("-------" + current.getUsername());
-        if (client.existeUsername(tUtilizadorController.getCurrent().getUsername())) {
+        if (client.existeUsername(getCurrent().getUsername())) {
             usernameCheck =false;
         } else usernameCheck = true;
     }
-   
 
     public String create(){
          if (usernameCheck==true)
-            return tUtilizadorController.create(current);
+            return create(current);
         else return null;        
     }
-
-
 }

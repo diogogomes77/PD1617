@@ -5,12 +5,15 @@
  */
 package jsfclasses;
 
+
+import autenticacao.Util;
 import beans.ClientAdminRemote;
 import java.io.Serializable;
 import java.util.ArrayList;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -68,5 +71,12 @@ public class AdminController extends VisitanteController implements Serializable
         return menus;
     }
     
-
+public String logout() {
+        //HttpSession session = SessionUtils.getSession();
+        
+         HttpSession session = Util.getSession();
+        session.invalidate();
+        client.logOff();
+        return "/Inicio.xhtml";
+    }
 }

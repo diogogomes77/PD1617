@@ -4,6 +4,19 @@
         <param-name>javax.faces.PROJECT_STAGE</param-name>
         <param-value>Development</param-value>
     </context-param>
+    <filter>
+        <filter-name>AuthFilter</filter-name>
+        <filter-class>autenticacao.AuthFilter</filter-class>
+    </filter>
+    <!--    <filter-mapping>
+        <filter-name>AuthFilter</filter-name>
+        <url-pattern>/Administrador/*</url-pattern>
+        <url-pattern>/Utilizador/*</url-pattern>
+    </filter-mapping>-->
+    <filter-mapping>
+        <filter-name>AuthFilter</filter-name>
+        <servlet-name>Faces Servlet</servlet-name>
+    </filter-mapping>
     <servlet>
         <servlet-name>Faces Servlet</servlet-name>
         <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
@@ -21,7 +34,6 @@
     <welcome-file-list>
         <welcome-file>faces/Inicio.xhtml</welcome-file>
     </welcome-file-list>
-    
     <!-- web fonts -->
     <mime-mapping>
         <extension>eot</extension>
@@ -51,8 +63,4 @@
         <extension>ico</extension>
         <mime-type>image/x-icon</mime-type>
     </mime-mapping>
-    
 </web-app>
-
-
- 

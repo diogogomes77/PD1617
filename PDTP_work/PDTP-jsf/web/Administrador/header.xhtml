@@ -30,9 +30,14 @@
                         <li><a href="#">Profile</a></li>
                         <li><a href="#">Help</a></li>
                     </ul>
-                    <!--                    <form class="navbar-form navbar-right">
-                                            <input type="text" class="form-control" placeholder="Search..." />
-                                        </form>-->
+                    <h:form id="logoutForm" styleClass="navbar-form navbar-right">
+                        <h:commandButton id="logoutButton" value="Logout"
+                                         styleClass="btn btn-success"
+                                         action="#{AdminController.logout}"></h:commandButton>
+
+
+                    </h:form>
+
                 </div>
             </div>
         </div>

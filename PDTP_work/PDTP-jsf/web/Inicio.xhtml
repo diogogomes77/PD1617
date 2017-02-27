@@ -4,6 +4,7 @@
       xmlns:h="http://java.sun.com/jsf/html"  
       xmlns:f="http://java.sun.com/jsf/core"  
       xmlns:ui="http://java.sun.com/jsf/facelets"> 
+    <META HTTP-EQUIV="refresh" CONTENT="15" />
     <ui:composition template="/Visitante/main.xhtml">
         <ui:define name="left">
             <ui:include src="/templates/leftMenu.xhtml" />
@@ -15,9 +16,7 @@
         </ui:define>
         <ui:define name="content">                        
             <h:link outcome="/tMensagens/List" value="Show All TMensagens Items"/>
-            <br />
             <h:link outcome="/tUtilizadores/List" value="Show All TUtilizadores Items"/>
-            
             <ui:include src="/Geral/ListaRegistados.xhtml" />
         </ui:define>
     </ui:composition> 

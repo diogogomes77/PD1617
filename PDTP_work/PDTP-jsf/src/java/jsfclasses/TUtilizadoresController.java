@@ -27,7 +27,7 @@ import jpafacades.TNewslettersFacade;
 @SessionScoped
 public class TUtilizadoresController implements Serializable {
 
-    private static TUtilizadoresController instance = null;
+//    private static TUtilizadoresController instance = null;
     @EJB
     private TNewslettersFacade tNewslettersFacade;
 
@@ -45,14 +45,17 @@ public class TUtilizadoresController implements Serializable {
     private PaginationHelper pagination;
     private int selectedItemIndex;
 
-    protected TUtilizadoresController() {
+    public TUtilizadoresController() {
     }
-    public static TUtilizadoresController getInstance(){
-         if(instance == null) {
-         instance = new TUtilizadoresController();
-      }
-      return instance;
+    public TUtilizadoresController(TUtilizadores current) {
+        this.current = current;
     }
+//    public static TUtilizadoresController getInstance(){
+//         if(instance == null) {
+//         instance = new TUtilizadoresController();
+//      }
+//      return instance;
+//    }
     
     public TUtilizadores getSelected() {
         if (current == null) {
