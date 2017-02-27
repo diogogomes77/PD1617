@@ -5,11 +5,13 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import javax.inject.Named;
 
 /**
  *
  * @author diogo
  */
+@Named
 @Stateless
 public class ClientVisitante implements ClientVisitanteRemote {
     

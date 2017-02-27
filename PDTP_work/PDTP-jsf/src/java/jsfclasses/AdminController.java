@@ -13,6 +13,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
@@ -67,6 +68,17 @@ public class AdminController extends VisitanteController implements Serializable
         menuAdminDenuncias.addMenuPage("Denuncias de vendedores");
         menuAdminDenuncias.addMenuPage("Denuncias de itens");
         menus.add(menuAdminDenuncias);
+    }
+    
+    @PostConstruct
+    public void init() {
+        try {
+            //session = null;
+            HttpSession session = Util.getSession();
+            client.setMyName((String)session.getAttribute("username"), (String)session.getAttribute("password"));
+        } catch (SessionException ex) {
+            Logger.getLogger(UtilizadorController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     public ArrayList<Menu> getMenus() {

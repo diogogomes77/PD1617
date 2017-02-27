@@ -67,7 +67,8 @@ public class VisitanteController extends TUtilizadoresController implements Seri
            //HttpSession session = SessionUtils.getSession();
             HttpSession session = Util.getSession();
             session.setAttribute("username", current.getUsername());
-            if ("admin".equals(current.getUsername())) {
+            session.setAttribute("password", current.getPassword());
+            if (client.isAdmin(current.getUsername())) {
                 return "administradorinicio";
             }
             return "utilizadorinicio";

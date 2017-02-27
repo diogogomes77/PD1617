@@ -7,12 +7,14 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.ejb.Singleton;
+import javax.inject.Named;
 import pdtp.UtilizadorEstado;
 
 /**
  *
  * @author diogo
  */
+@Named
 @Singleton
 public class ClientAdmin implements ClientAdminRemote {
 

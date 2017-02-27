@@ -7,11 +7,13 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.ejb.Stateful;
+import javax.inject.Named;
 
 /**
  *
  * @author diogo
  */
+@Named
 @Stateful
 public class ClientUtilizador implements ClientUtilizadorRemote {
 

@@ -53,7 +53,7 @@ drop table t_mensagens cascade;
 drop table t_itens cascade;
 drop table t_vendas cascade;
 drop table t_itemsAVenda cascade;
-
+direct comparability between those and the annotations of a CDI bean: @RequestScoped --> @Stateless, @SessionScoped --> @Stateful , @ApplicationScoped --> @Singleton.
 
  */
 /**
@@ -242,7 +242,7 @@ public class Leiloeira implements LeiloeiraLocal {
                 if ((util.getEstado() == UtilizadorEstado.ATIVO) || util.getEstado() == UtilizadorEstado.SUSPENDO_PEDIDO) {
                     if (util.isLogged()) { // esta logado -Z nao deixa repetir user
                         //TODO: Isto tem mesmo de ficar assim?
-                        return false;
+                        return true;//return false;
                     } else {
                         Logger.getLogger(getClass().getName()).log(Level.INFO, "O Utilizador " + username + " está logado...");
                         util.setLogged(true);
