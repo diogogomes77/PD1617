@@ -53,6 +53,7 @@ public class UtilizadorController extends AbstractController implements Serializ
         menuUtilizador.addMenuPage("Inicio");
         menuUtilizador.addMenuPage("Minhas Mensagens");
         menuUtilizador.addMenuPage("Enviar Mensagem");
+        menuUtilizador.addMenuPage("Newsletter");
         menus.add(menuUtilizador);
         Menu menuUtilizadorConta = new Menu("menu2", seccao);
         menuUtilizadorConta.setTituloMenu("Conta");
