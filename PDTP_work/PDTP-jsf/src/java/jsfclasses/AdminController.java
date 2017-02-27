@@ -8,8 +8,11 @@ package jsfclasses;
 
 import autenticacao.Util;
 import beans.ClientAdminRemote;
+import beans.SessionException;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
@@ -76,7 +79,11 @@ public String logout() {
         
          HttpSession session = Util.getSession();
         session.invalidate();
-        client.logOff();
+        try {
+            client.logOff();
+        } catch (SessionException ex) {
+            Logger.getLogger(AdminController.class.getName()).log(Level.SEVERE, null, ex);
+        }
         return "/Inicio.xhtml";
     }
 }

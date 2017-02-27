@@ -7,6 +7,7 @@ package jsfclasses;
 
 import autenticacao.Util;
 import beans.ClientUtilizadorRemote;
+import beans.SessionException;
 import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
@@ -14,6 +15,8 @@ import java.util.ArrayList;
 import java.util.Map;
 
 import java.util.TreeMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
@@ -86,8 +89,12 @@ public class UtilizadorController extends AbstractController implements Serializ
         HttpSession session = Util.getSession();
        
         session.invalidate();
-        //session = null;
-        client.logOff();
+        try {
+            //session = null;
+            client.logOff();
+        } catch (SessionException ex) {
+            Logger.getLogger(UtilizadorController.class.getName()).log(Level.SEVERE, null, ex);
+        }
         return "/Inicio.xhtml";
     }
 }
