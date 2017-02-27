@@ -59,16 +59,12 @@ public class TDenunciasItens implements Serializable {
     private TUtilizadores denunciador;
 
     public TDenunciasItens() {
-        Date in = new Date();
-        LocalDateTime ldt = LocalDateTime.ofInstant(in.toInstant(), ZoneId.systemDefault());
-        this.data = Date.from(ldt.atZone(ZoneId.systemDefault()).toInstant());
+        this.data = Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant());
     }
 
     public TDenunciasItens(Integer idDenunciaItem) {
         this.idDenunciaItem = idDenunciaItem;
-        Date in = new Date();
-        LocalDateTime ldt = LocalDateTime.ofInstant(in.toInstant(), ZoneId.systemDefault());
-        this.data = Date.from(ldt.atZone(ZoneId.systemDefault()).toInstant());
+       this.data = Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant());
     }
 
     public Integer getIdDenunciaItem() {

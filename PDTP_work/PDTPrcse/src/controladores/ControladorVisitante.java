@@ -2,10 +2,10 @@ package controladores;
 
 import menus.MenuAdmin;
 import menus.MenuUtilizador;
-import menus.OpcaoMenu;
 import beans.ClientAdminRemote;
 import beans.ClientUtilizadorRemote;
 import beans.ClientVisitanteRemote;
+import beans.SessionException;
 import pdtprcse.ReferenciaAdmin;
 import pdtprcse.ReferenciaUtilizador;
 
@@ -13,7 +13,7 @@ import pdtprcse.ReferenciaUtilizador;
  *
  * @author diogo
  */
-public class ControladorVisitante extends Controlador{
+public class ControladorVisitante extends Controlador {
 
     private ClientVisitanteRemote ligacao;
 
@@ -23,7 +23,7 @@ public class ControladorVisitante extends Controlador{
      */
     public ControladorVisitante(ClientVisitanteRemote ligacao) {
         super(ligacao);
-       this.ligacao= ligacao;
+        this.ligacao = ligacao;
     }
 
     /**
@@ -32,15 +32,16 @@ public class ControladorVisitante extends Controlador{
     public void registarUtilizador() {
 
         String s;
-        String nome = "";
-        String morada = "";
-        String username = "";
-        String password = "";
+        String nome;
+        String morada;
+        String username;
+        String password;
         System.out.print("Nome: ");
         nome = sc.nextLine();
         System.out.print("Morada: ");
         morada = sc.nextLine();
         boolean freeUsername = false;
+        username = "";
         while (!freeUsername) {
             System.out.print("Username: ");
             username = sc.nextLine();
@@ -82,26 +83,33 @@ public class ControladorVisitante extends Controlador{
         username = sc.nextLine();
         System.out.print("\nPassword: ");
         password = sc.nextLine();
-        if (ligacao.loginUtilizador(username, password)) {
-            System.out.println("Login valido");
-            if ("admin".equals(username)){
-                ReferenciaAdmin refAdmin = new ReferenciaAdmin();
-                ClientAdminRemote ligAdmin = refAdmin.getLigacao();
-                controlador = new ControladorAdministrador(ligAdmin);
-                menu = new MenuAdmin(ligAdmin,(ControladorAdministrador)controlador); 
-            }else{
-               ReferenciaUtilizador refUtilizador = new ReferenciaUtilizador();
-               ClientUtilizadorRemote ligUtilizador = refUtilizador.getLigacao();
-               
-               if(ligUtilizador.setMyName(username, password)){ // o user ja esta autenticado no EBJ Local Leiloeira
-                    controlador = new ControladorUtilizador(ligUtilizador);
-                    menu = new MenuUtilizador(ligUtilizador,(ControladorUtilizador)controlador); 
-               }else{
-                   System.out.println("ERRO: problema no login...");
-               }
+        try {
+            if (ligacao.loginUtilizador(username, password)) {
+                System.out.println("Login valido");
+                if (ligacao.isAdmin(username)) {
+                    ReferenciaAdmin refAdmin = new ReferenciaAdmin();
+                    ClientAdminRemote ligAdmin = refAdmin.getLigacao();
+
+                    if (ligAdmin.setMyName(username, password)) {
+                        controlador = new ControladorAdministrador(ligAdmin);
+                        menu = new MenuAdmin(ligAdmin, (ControladorAdministrador) controlador);
+                    }
+                } else {
+                    ReferenciaUtilizador refUtilizador = new ReferenciaUtilizador();
+                    ClientUtilizadorRemote ligUtilizador = refUtilizador.getLigacao();
+
+                    if (ligUtilizador.setMyName(username, password)) { // o user ja esta autenticado no EBJ Local Leiloeira
+                        controlador = new ControladorUtilizador(ligUtilizador);
+                        menu = new MenuUtilizador(ligUtilizador, (ControladorUtilizador) controlador);
+                    } else {
+                        System.out.println("ERRO: problema no login...");
+                    }
+                }
+
+            } else {
+                System.out.println("ERRO: Login invalido");
             }
-            
-        } else {
+        }catch( SessionException e){
             System.out.println("ERRO: Login invalido");
         }
     }
@@ -109,31 +117,23 @@ public class ControladorVisitante extends Controlador{
     /**
      *
      */
-    public void vendasRecentes() {
-         System.out.println("<Ainda não implementado>");
-        //List itensRecentes = ligacao.
-    }
-
-    /**
-     *
-     */
     public void reativarConta() {
-      String s;
+        String s;
         String username = "";
-         String password = "";
+        String password = "";
         System.out.println("Pedido de reativacao de conta");
         System.out.print("Username: ");
         username = sc.nextLine();
-         System.out.print("Password: ");
+        System.out.print("Password: ");
         password = sc.nextLine();
-        if (ligacao.pedirReativacaoUsername(username,password)) {
+        if (ligacao.pedirReativacaoUsername(username, password)) {
             System.out.println("Pedido de reativacao efetuado");
         } else {
             System.out.println("ERRO: pedido de reativacao invalido");
         }
-       
+
     }
-    
+
     /**
      *
      */

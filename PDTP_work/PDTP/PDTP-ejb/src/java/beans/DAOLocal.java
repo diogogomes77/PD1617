@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package jpaentidades;
+package beans;
 
 import java.util.List;
 import java.util.logging.Level;
@@ -35,6 +35,8 @@ public interface DAOLocal {
     public Object find(Class s,Object id);
 
     public List<Object> findAll(Class s);
+
+    public List<Object> findByNamedQuery(Class s, String nameQuery, int maxResult );
 
     public List<Object> findByNamedQuery(Class s, String nameQuery, String nameParam, Object valeu);
 

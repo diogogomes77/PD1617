@@ -3,7 +3,6 @@ package beans;
 
 
 import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Remote;
 
@@ -12,229 +11,185 @@ import javax.ejb.Remote;
  * @author diogo
  */
 @Remote
-public interface ClientUtilizadorRemote extends ClientRemote {
+public interface ClientUtilizadorRemote extends ClientAuthRemote {
 
     //boolean loginUtilizador(String name, String password);
 
     /**
      *
-     * @return
-     */
-    boolean logOff();
-
-    //boolean inscreveUtilizador(String nome, String morada, String username, String password);
-
-    /**
-     *
-     * @param username
-     * @return
-     */
-    boolean existeUsername(String username);
-
-    /**
-     *
      * @param valor
      * @return
+     * @throws beans.SessionException
      */
-    Double addSaldo(Double valor);
+    Double addSaldo(Double valor) throws SessionException;
 
     /**
      *
      * @return
+     * @throws beans.SessionException
      */
-    Double getSaldo();
+    Double getSaldo() throws SessionException;
 
     /**
      *
      * @return
+     * @throws beans.SessionException
      */
-    @Override
-    public ArrayList<String> getUsernameInscritos();
-
-    /**
-     *
-     * @return
-     */
-    @Override
-    public ArrayList<String> getUsernamesOnline();
-
-    /**
-     *
-     * @param username
-     * @param password
-     * @return
-     */
-    boolean setMyName(String username, String password);
-
-    /**
-     *
-     * @return
-     */
-    String getMyName();
+    String getMyName() throws SessionException;
 
     //String toString();
 
     /**
      *
      * @return
+     * @throws beans.SessionException
      */
-    String getDados();
+    String getDados() throws SessionException;
 
     /**
      *
      * @param nome
      * @param morada
      * @return
+     * @throws beans.SessionException
      */
-    boolean atualizaDados(String nome, String morada);
+    boolean atualizaDados(String nome, String morada) throws SessionException;
 
     /**
      *
-     * @param username
      * @param razao
      * @return
+     * @throws beans.SessionException
      */
-    boolean pedirSuspensao(String razao);
+    boolean pedirSuspensao(String razao) throws SessionException;
 
     /**
      *
-     * @param destinatario
-     * @param texto
-     * @param assunto
-     * @return
-     */
-    boolean sendMensagem(String destinatario, String texto, String assunto);
-
-    /**
-     *
-     * @return
-     */
-    ArrayList<Mensagem> consultarMensagens();
-
-    /**
-     *
-     * @param password
-     * @return
-     */
-    boolean verificaPassword(String password);
-
-    /**
-     *
-     * @param password
-     * @return
-     */
-    boolean alteraPassword(String password);
-
-    /**
-     *
+     * @param categria
      * @param descricao
      * @param precoInicial
      * @param precoComprarJa
      * @param dataLimite
      * @return
+     * @throws beans.SessionException
      */
-    boolean addItem(String descricao, Double precoInicial, Double precoComprarJa, Timestamp dataLimite);
+    boolean addItem(String categria, String descricao, Double precoInicial, Double precoComprarJa, Timestamp dataLimite) throws SessionException;
 
     /**
      *
      * @return
+     * @throws beans.SessionException
      */
-    List<String> getCategorias();
+    List<String> getCategorias() throws SessionException;
 
     /**
      *
      * @return
+     * @throws beans.SessionException
      */
-    List<String> getMeusItens();
+    List<String> getMeusItens() throws SessionException;
 
     /**
      *
      * @return
+     * @throws beans.SessionException
      */
-    @Override
-    int getTotalItens();
-
-    /**
-     *
-     * @return
-     */
-    List<String> getItens();
-
-    /**
-     *
-     * @param itemId
-     * @return
-     */
-    String mostraItem(int itemId);
+    List<String> getItens() throws SessionException;
 
     /**
      *
      * @param itemId
      * @return
+     * @throws beans.SessionException
      */
-    String getVendedorItem(int itemId);
+    String mostraItem(long itemId) throws SessionException;
 
     /**
      *
      * @param itemId
      * @return
+     * @throws beans.SessionException
      */
-    String consultarLicitacoes(int itemId);
+    String getVendedorItem(long itemId) throws SessionException;
+
+    /**
+     *
+     * @param itemId
+     * @return
+     * @throws beans.SessionException
+     */
+    String consultarLicitacoes(long itemId) throws SessionException;
 
     /**
      *
      * @param itemid
      * @return
+     * @throws beans.SessionException
      */
-    boolean comprarJaItem(int itemid);
+    boolean comprarJaItem(long itemid) throws SessionException;
 
     /**
      *
      * @param itemid
      * @param valor
      * @return
+     * @throws beans.SessionException
      */
-    boolean licitarItem(int itemid, Double valor);
+    boolean licitarItem(long itemid, Double valor) throws SessionException;
 
     /**
      *
      * @param itemId
      * @return
+     * @throws beans.SessionException
      */
-    boolean seguirItem(int itemId);
-
-    /**
-     *
-     * @return
-     */
-    List<String> getItensSeguidos();
-
-    /**
-     *
-     * @return
-     */
-    List<String> getMeusItensPorPagar();
+    boolean seguirItem(long itemId) throws SessionException;
 
     /**
      *
      * @param itemId
      * @return
+     * @throws beans.SessionException
      */
-    boolean concluirTransacao(int itemId);
+    boolean seguirItemCancelar(long itemId) throws SessionException;
+
+    /**
+     *
+     * @return
+     * @throws beans.SessionException
+     */
+    List<String> getItensSeguidos() throws SessionException;
+
+    /**
+     *
+     * @return
+     * @throws beans.SessionException
+     */
+    List<String> getMeusItensPorPagar( ) throws SessionException ;
+
+    /**
+     *
+     * @param itemId
+     * @return
+     * @throws beans.SessionException
+     */
+    boolean concluirTransacao(long itemId) throws SessionException;
 
     /**
      *
      * @param itemId
      * @param razao
      * @return
+     * @throws beans.SessionException
      */
-    boolean denunciarItem(int itemId, String razao);
+    boolean denunciarItem(long itemId, String razao) throws SessionException;
 
     /**
      *
      * @param username
      * @param razao
      * @return
+     * @throws beans.SessionException
      */
-    boolean denunciarVendedor(String username, String razao);
+    boolean denunciarVendedor(String username, String razao) throws SessionException;
 }

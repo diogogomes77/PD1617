@@ -57,10 +57,8 @@ public class TLicitacoes implements Serializable {
     @ManyToOne
     private TUtilizadores licitador;
 
-    public TLicitacoes() {
-        Date in = new Date();
-        LocalDateTime ldt = LocalDateTime.ofInstant(in.toInstant(), ZoneId.systemDefault());
-        this.timestamp = Date.from(ldt.atZone(ZoneId.systemDefault()).toInstant());        
+    public TLicitacoes() {  
+        this.timestamp = Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant());
     }
 
     public Integer getIdLicitacao() {

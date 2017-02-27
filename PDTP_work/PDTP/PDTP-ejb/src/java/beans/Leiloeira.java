@@ -15,6 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.annotation.Resource;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -22,8 +23,8 @@ import javax.ejb.EJB;
 
 import javax.ejb.Schedule;
 import javax.ejb.Singleton;
+import javax.ejb.TimerService;
 import javax.persistence.EntityTransaction;
-import jpaentidades.DAOLocal;
 import jpaentidades.TCategoria;
 import jpaentidades.TDenunciasItens;
 import jpaentidades.TDenunciasVendedores;
@@ -32,6 +33,7 @@ import jpaentidades.TLicitacoes;
 import jpaentidades.TMensagens;
 import jpaentidades.TNewsletters;
 import jpaentidades.TUtilizadores;
+import jpaentidades.TVendas;
 import jpaentidades.TitemsAVenda;
 import jpaentidades.TitemsJaPagos;
 import jpaentidades.TitemsPorPagar;
@@ -40,6 +42,7 @@ import jpaentidades.TitemsSeguidos;
 import pdtp.ItemEstados;
 
 import pdtp.UtilizadorEstado;
+import pdtp.VendaEstados;
 
 
 /*
@@ -63,15 +66,10 @@ public class Leiloeira implements LeiloeiraLocal {
     @EJB
     private DAOLocal DAO;
 
-    //private HashMap<Integer, Item> itensAVenda = new HashMap<>();
-    //private HashMap<Integer, Item> itensTerminados = new HashMap<>();
-    //private List<DenunciaItem> denunciasItens = new ArrayList<>();
-    //private List<DenunciaVendedor> denunciasVendedores = new ArrayList<>();
-//    private List<String> categorias = new ArrayList<>();
-//    private List<Mensagem> mensagens = new ArrayList<>();
-//    private int itemCount;
+    @Resource
+    TimerService timerService;
+
     public Leiloeira() {
-//        itemCount = getIntenCount();
     }
 
     private void addAdmin() {
@@ -91,6 +89,71 @@ public class Leiloeira implements LeiloeiraLocal {
             DAO.create(user);
             DAO.create(news);
             trans.commit();
+
+        }
+    }
+
+    /**
+     * termina os itens nas respetivas horas de fim
+     */
+    @Schedule(second = "*/6", minute = "*", hour = "*")
+    public void checkItensDataFinal() {
+        Timestamp now = new java.sql.Timestamp(Calendar.getInstance().getTime().getTime());
+        //Refacturing para usar os itens da base de dados
+        for (Object it : DAO.findByNamedQuery(TUtilizadores.class, "TItens.findByEstado", "estado", ItemEstados.INICIADA)) {
+            if (((TItens) it).getDatafim().after(now)) {
+                terminaItem(((TItens) it));
+            }
+        }
+    }
+
+    /**
+     *
+     * @throws InterruptedException faz logout aos utilizadodres com 4 minutos
+     * de inatividade
+     */
+    @Schedule(second = "*/10", minute = "*", hour = "*")
+    public void checkInactivity() throws InterruptedException {
+        long now = LocalDateTime.now()
+                .toInstant(ZoneOffset.UTC).getEpochSecond();
+        for (Object u : DAO.findByNamedQuery(TUtilizadores.class, "TUtilizadores.findByLogged", "logged", true)) {
+            if (((TUtilizadores) u).fromLastActionFromNow(now) > 240) {
+                ((TUtilizadores) u).setLogged(false);
+                DAO.editWithCommit(u);
+            }
+        }
+    }
+
+    /**
+     * Le dados do disco quando inicia
+     */
+    @PostConstruct
+    public void loadstate() {
+        this.addAdmin();
+        //timerService.notifyAll();
+        //DAO.getEntityManager();
+        try (ObjectInputStream ois
+                = new ObjectInputStream(
+                        new BufferedInputStream(
+                                new FileInputStream("/tmp/LeiloeiraDados")))) {
+//            categorias = (ArrayList<String>) ois.readObject();
+
+        } catch (Exception e) {
+            //Utilizadors = fica com o objecto vazio criado no construtor
+        }
+    }
+
+    /**
+     * Grava dados em disco antes de sair
+     */
+    @PreDestroy
+    public void saveState() {
+        try (ObjectOutputStream oos
+                = new ObjectOutputStream(
+                        new BufferedOutputStream(
+                                new FileOutputStream("/tmp/LeiloeiraDados")))) {
+//            oos.writeObject(categorias);
+        } catch (Exception e) {
 
         }
     }
@@ -253,72 +316,6 @@ public class Leiloeira implements LeiloeiraLocal {
     }
 
     /**
-     * termina os itens nas respetivas horas de fim
-     */
-    @Schedule(second = "*", minute = "1", hour = "*")
-    @Override
-    public void checkItensDataFinal() {
-        Timestamp now = new java.sql.Timestamp(Calendar.getInstance().getTime().getTime());
-        //Refacturing para usar os itens da base de dados
-        for (Object it : DAO.findByNamedQuery(TUtilizadores.class, "TItens.findByEstado", "estado", ItemEstados.INICIADA)) {
-            if (((TItens) it).getDatafim().after(now)) {
-                terminaItem(((TItens) it));
-            }
-        }
-    }
-
-    /**
-     *
-     * @throws InterruptedException faz logout aos utilizadodres com 4 minutos
-     * de inatividade
-     */
-    @Schedule(second = "*/5", minute = "*", hour = "*")
-    public void checkInactivity() throws InterruptedException {
-        long now = LocalDateTime.now()
-                .toInstant(ZoneOffset.UTC).getEpochSecond();
-        for (Object u : DAO.findByNamedQuery(TUtilizadores.class, "TUtilizadores.findByLogged", "logged", true)) {
-            if (((TUtilizadores) u).fromLastActionFromNow(now) > 240) {
-                ((TUtilizadores) u).setLogged(false);
-                DAO.editWithCommit(u);
-            }
-        }
-    }
-
-    /**
-     * Le dados do disco quando inicia
-     */
-    @PostConstruct
-    public void loadstate() {
-        this.addAdmin();
-
-        //DAO.getEntityManager();
-        try (ObjectInputStream ois
-                = new ObjectInputStream(
-                        new BufferedInputStream(
-                                new FileInputStream("/tmp/LeiloeiraDados")))) {
-//            categorias = (ArrayList<String>) ois.readObject();
-
-        } catch (Exception e) {
-            //Utilizadors = fica com o objecto vazio criado no construtor
-        }
-    }
-
-    /**
-     * Grava dados em disco antes de sair
-     */
-    @PreDestroy
-    public void saveState() {
-        try (ObjectOutputStream oos
-                = new ObjectOutputStream(
-                        new BufferedOutputStream(
-                                new FileOutputStream("/tmp/LeiloeiraDados")))) {
-//            oos.writeObject(categorias);
-        } catch (Exception e) {
-
-        }
-    }
-
-    /**
      *
      * @return Lista de utilizadores inscritos, ativos e nao ativos
      */
@@ -330,8 +327,6 @@ public class Leiloeira implements LeiloeiraLocal {
         }
         return inscritos;
     }
-    
-    
 
     /**
      *
@@ -419,7 +414,7 @@ public class Leiloeira implements LeiloeiraLocal {
     @Override
     public ArrayList<String> getUtilizadoresEstado(UtilizadorEstado estado) {
         ArrayList<String> users = new ArrayList<>();
-        for (Object u : DAO.findByNamedQuery(TUtilizadores.class, "TUtilizadores.findByEstado", "estado", estado.msg())) {
+        for (Object u : DAO.findByNamedQuery(TUtilizadores.class, "TUtilizadores.findByEstado", "estado", estado)) {
             users.add(((TUtilizadores) u).getUsername());
         }
         return users;
@@ -588,7 +583,8 @@ public class Leiloeira implements LeiloeiraLocal {
                     ((TMensagens) msg).getDestinatario().getUsername(),
                     ((TMensagens) msg).getTexto(),
                     ((TMensagens) msg).getAssunto(),
-                    ((TMensagens) msg).getEstado());
+                    ((TMensagens) msg).getEstado(),
+                    ((TMensagens) msg).getData());
             myMsg.add(msgRef);
         }
 
@@ -631,7 +627,7 @@ public class Leiloeira implements LeiloeiraLocal {
     @Override
     public boolean eliminaCategoria(String nomeCategoria) {
         boolean ret = false;
-        for( Object cat : DAO.findByNamedQuery(TCategoria.class, "TCategoria.findByNome", "nome", nomeCategoria) ){
+        for (Object cat : DAO.findByNamedQuery(TCategoria.class, "TCategoria.findByNome", "nome", nomeCategoria)) {
             DAO.removeWithCommit(cat);
             ret = true;
         }
@@ -669,9 +665,9 @@ public class Leiloeira implements LeiloeiraLocal {
     @Override
     public boolean modificaCategoria(String nomeCategoria, String novoNomeCategoria) {
         boolean ret = false;
-        for( Object cat : DAO.findByNamedQuery(TCategoria.class, "TCategoria.findByNome", "nome", nomeCategoria) ){
-            ((TCategoria)cat).setNome(novoNomeCategoria);
-            DAO.editWithCommit(cat); 
+        for (Object cat : DAO.findByNamedQuery(TCategoria.class, "TCategoria.findByNome", "nome", nomeCategoria)) {
+            ((TCategoria) cat).setNome(novoNomeCategoria);
+            DAO.editWithCommit(cat);
             ret = true;
         }
         return ret;
@@ -712,6 +708,7 @@ public class Leiloeira implements LeiloeiraLocal {
     /**
      *
      * @param username
+     * @param categoria
      * @param descricao
      * @param precoInicial
      * @param precoComprarJa
@@ -719,7 +716,7 @@ public class Leiloeira implements LeiloeiraLocal {
      * @return
      */
     @Override
-    public boolean addItem(String username, String descricao, Double precoInicial, Double precoComprarJa, Timestamp dataLimite) {
+    public boolean addItem(String username, String categoria, String descricao, Double precoInicial, Double precoComprarJa, Timestamp dataLimite) {
         TUtilizadores util = (TUtilizadores) DAO.find(TUtilizadores.class, username);
         if (util != null) {
             TItens item = new TItens();
@@ -728,6 +725,8 @@ public class Leiloeira implements LeiloeiraLocal {
             item.setComprarja(precoComprarJa);
             item.setDatafim(dataLimite);
             item.setVendedor(util);
+            item.setEstado(ItemEstados.INICIADA);
+            item.setCategoria(categoria);
             TitemsAVenda iVenda = new TitemsAVenda(item);
 
             EntityTransaction trans = DAO.getEntityManager().getTransaction();
@@ -751,7 +750,7 @@ public class Leiloeira implements LeiloeiraLocal {
         TUtilizadores util = (TUtilizadores) DAO.find(TUtilizadores.class, username);
         if (util != null) {
             //Obter todosos itens do utilizador
-            for (Object it : DAO.findByNamedQuery(TItens.class, "TItens.findByVendedor", "vendendor", util)) {
+            for (Object it : DAO.findByNamedQuery(TItens.class, "TItens.findByVendedor", "vendedor", util)) {
                 itensUtilizador.add(((TItens) it).toLineString());
             }
         }
@@ -788,7 +787,7 @@ public class Leiloeira implements LeiloeiraLocal {
      * @return
      */
     @Override
-    public String mostraItem(int itemId) {
+    public String mostraItem(long itemId) {
         TItens item = (TItens) DAO.find(TItens.class, itemId);
         if (item == null) {
             return "ERRO: Item invalido";
@@ -802,7 +801,7 @@ public class Leiloeira implements LeiloeiraLocal {
      * @return
      */
     @Override
-    public String getVendedorItem(int itemId) {
+    public String getVendedorItem(long itemId) {
         TItens item = (TItens) DAO.find(TItens.class, itemId);
         if (item == null) {
             return "ERRO: Item invalido";
@@ -816,7 +815,7 @@ public class Leiloeira implements LeiloeiraLocal {
      * @return
      */
     @Override
-    public String consultarLicitacoes(int itemId) {
+    public String consultarLicitacoes(long itemId) {
         StringBuilder lista = new StringBuilder();
         TItens i = (TItens) DAO.find(TItens.class, itemId);
         if (i == null) {
@@ -841,16 +840,22 @@ public class Leiloeira implements LeiloeiraLocal {
      * @return
      */
     @Override
-    public boolean comprarJaItem(int itemId, String comprador) {
+    public boolean comprarJaItem(long itemId, String comprador) {
         TItens i = (TItens) DAO.find(TItens.class, itemId);
         if (i != null) {
             TUtilizadores u = (TUtilizadores) DAO.find(TUtilizadores.class, comprador);
             if (u != null) {
                 i.setEstado(ItemEstados.VENDIDA);
                 i.setComprador(u);
+                TVendas venda = new TVendas();
+                venda.setComprador(u);
+                venda.setItem(i);
+                venda.setValor(i.getLicitacaomaxima());
+                venda.setEstado(VendaEstados.ESPERA);
                 EntityTransaction trans = DAO.getEntityManager().getTransaction();
                 trans.begin();
                 DAO.edit(i);
+                DAO.create(venda);
                 DAO.create(new TitemsPorPagar(u, i));
                 trans.commit();
                 //Enviar mensagem ao vendedor
@@ -874,7 +879,7 @@ public class Leiloeira implements LeiloeiraLocal {
      * @return
      */
     @Override
-    public boolean licitarItem(int itemId, Double value, String username) {
+    public boolean licitarItem(long itemId, Double value, String username) {
         TItens i = (TItens) DAO.find(TItens.class, itemId);
         if (i != null) {
             TUtilizadores licitador = (TUtilizadores) DAO.find(TUtilizadores.class, username);
@@ -911,7 +916,7 @@ public class Leiloeira implements LeiloeiraLocal {
      * @return
      */
     @Override
-    public boolean seguirItem(String username, int itemId) {
+    public boolean seguirItem(String username, long itemId) {
         TItens i = (TItens) DAO.find(TItens.class, itemId);
         if (i == null) {
             return false;
@@ -930,6 +935,29 @@ public class Leiloeira implements LeiloeiraLocal {
     /**
      *
      * @param username
+     * @param itemId
+     * @return
+     */
+    @Override
+    public boolean seguirItemCancelar(String username, long itemId) {
+        TItens i = (TItens) DAO.find(TItens.class, itemId);
+        if (i == null) {
+            return false;
+        }
+        TUtilizadores u = (TUtilizadores) DAO.find(TUtilizadores.class, username);
+        if (u != null) {
+            //Remover o item da lista dos seguidos
+            if (!DAO.findByNamedQuery(TitemsSeguidos.class, "TitemsSeguidos.findByItemUtilizador", "item", i, "utlizador", u).isEmpty()) {
+                DAO.removeWithCommit(new TitemsSeguidos(u, i));
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     *
+     * @param username
      * @return
      */
     @Override
@@ -938,7 +966,7 @@ public class Leiloeira implements LeiloeiraLocal {
         TUtilizadores u = (TUtilizadores) DAO.find(TUtilizadores.class, username);
         if (u != null) {
             //Refacturing para passar a user a entidade dos utlizadores
-            for (Object seg : DAO.findByNamedQuery(TitemsSeguidos.class, "TitemsSeguidos.findByUtilizador", "username", u)) {
+            for (Object seg : DAO.findByNamedQuery(TitemsSeguidos.class, "TitemsSeguidos.findByUtilizador", "utilizador", u)) {
                 result.add(((TitemsSeguidos) seg).toString());
             }
             return result;
@@ -952,12 +980,27 @@ public class Leiloeira implements LeiloeiraLocal {
      * @return
      */
     @Override
+    public List<String> getUltimosItensVendidos() {
+        List<String> result = new ArrayList<>();
+        //Refacturing para passar a user a entidade dos utlizadores
+        for (Object venda : DAO.findByNamedQuery(TVendas.class, "TVendas.findLast", 10)) {
+            result.add(((TVendas) venda).toString());
+        }
+        return result;
+    }
+
+    /**
+     *
+     * @param username
+     * @return
+     */
+    @Override
     public List<String> getIensPorPagarUtilizador(String username) {
         List<String> result = new ArrayList<>();
         TUtilizadores u = (TUtilizadores) DAO.find(TUtilizadores.class, username);
         if (u != null) {
             //Refacturing para passar a user a entidade dos utilizadores
-            for (Object seg : DAO.findByNamedQuery(TitemsPorPagar.class, "TitemsPorPagar.findByUtilizador", "username", u)) {
+            for (Object seg : DAO.findByNamedQuery(TitemsPorPagar.class, "TitemsPorPagar.findByUtilizador", "utilizador", u)) {
                 result.add(((TitemsPorPagar) seg).toString());
             }
             return result;
@@ -972,7 +1015,7 @@ public class Leiloeira implements LeiloeiraLocal {
      * @return
      */
     @Override
-    public boolean concluirTransacao(String username, int itemId) {
+    public boolean concluirTransacao(String username, long itemId) {
         //Concluir a transação/pagamento
         TItens i = (TItens) DAO.find(TItens.class, itemId);
         if (i == null) {
@@ -982,9 +1025,13 @@ public class Leiloeira implements LeiloeiraLocal {
         if (u != null) {
             //Refacturing para passar a user a entidade dos utilizadores
             TitemsPorPagar porPag = (TitemsPorPagar) DAO.findByNamedQuery(TitemsPorPagar.class, "TitemsPorPagar.findByItemUtilizador", "item", i, "utlizador", u).get(0);
-            if (porPag == null) {
+            if (porPag == null && i.getLicitacaomaxima() <= u.getSaldo()) {
+                //Tirar o Saldo
+                u.setSaldo(u.getSaldo() - i.getLicitacaomaxima());
+                //Guardar ps dados
                 EntityTransaction trans = DAO.getEntityManager().getTransaction();
                 trans.begin();
+                DAO.edit(u);
                 DAO.remove(porPag);
                 DAO.create(new TitemsJaPagos(u, i));
                 trans.commit();
@@ -1003,7 +1050,7 @@ public class Leiloeira implements LeiloeiraLocal {
      * @return
      */
     @Override
-    public boolean denunciarItem(int itemId, String denunciador, String razao) {
+    public boolean denunciarItem(long itemId, String denunciador, String razao) {
         TItens i = (TItens) DAO.find(TItens.class, itemId);
         if (i == null) {
             return false;
@@ -1083,7 +1130,7 @@ public class Leiloeira implements LeiloeiraLocal {
      * @return
      */
     @Override
-    public boolean cancelarItem(int itemId) {
+    public boolean cancelarItem(long itemId) {
         TItens i = (TItens) DAO.find(TItens.class, itemId);
         if (i != null) {
             i.setEstado(ItemEstados.CANCELADA);
@@ -1106,7 +1153,7 @@ public class Leiloeira implements LeiloeiraLocal {
     public List<String> obtemNewsletter() {
         List<String> news = new ArrayList<>();
         for (Object n : DAO.findAll(TNewsletters.class)) {
-            news.add(((TNewsletters)n).getAssunto() +":"+ ((TNewsletters)n).getNewsletter());
+            news.add(((TNewsletters) n).getAssunto() + ":" + ((TNewsletters) n).getNewsletter());
         }
         return news;
     }

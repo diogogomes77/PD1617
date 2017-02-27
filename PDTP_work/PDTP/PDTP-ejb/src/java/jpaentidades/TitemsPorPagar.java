@@ -6,6 +6,9 @@
 package jpaentidades;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,6 +20,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -50,12 +55,17 @@ public class TitemsPorPagar implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
+    @Column(name = "data")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date data;
 
     public TitemsPorPagar() {
+        this.data = Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant());
     }
 
     public TitemsPorPagar(Integer id) {
         this.id = id;
+        this.data = Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant());
     }
 
     public TitemsPorPagar(TUtilizadores utilizador, TItens item) {
@@ -87,6 +97,14 @@ public class TitemsPorPagar implements Serializable {
         this.id = id;
     }
 
+    public Date getData() {
+        return data;
+    }
+
+    public void setData(Date data) {
+        this.data = data;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -111,5 +129,5 @@ public class TitemsPorPagar implements Serializable {
     public String toString() {
         return "jpaentidades.TitemsPorPagar[ id=" + id + " ]";
     }
-    
+
 }

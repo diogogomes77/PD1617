@@ -20,7 +20,7 @@ import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 import javax.faces.model.SelectItem;
 import javax.persistence.EntityTransaction;
-import jpaentidades.DAOLocal;
+import beans.DAOLocal;
 import jpafacades.TNewslettersFacade;
 
 @Named("tUtilizadoresController")

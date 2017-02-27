@@ -69,15 +69,11 @@ public class TNewsletters implements Serializable {
     public TNewsletters(String assunto, String newsletter) {
         this.assunto = assunto;
         this.newsletter = newsletter;
-        Date in = new Date();
-        LocalDateTime ldt = LocalDateTime.ofInstant(in.toInstant(), ZoneId.systemDefault());
-        this.data = Date.from(ldt.atZone(ZoneId.systemDefault()).toInstant());
+        this.data = Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant());
     }
 
     public TNewsletters(Integer idNewsletter) {
-        Date in = new Date();
-        LocalDateTime ldt = LocalDateTime.ofInstant(in.toInstant(), ZoneId.systemDefault());
-        this.data = Date.from(ldt.atZone(ZoneId.systemDefault()).toInstant());
+        this.data = Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant());
         this.idNewsletter = idNewsletter;
     }
 

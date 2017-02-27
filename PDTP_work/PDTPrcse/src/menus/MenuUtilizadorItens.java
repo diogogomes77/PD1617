@@ -14,10 +14,11 @@ public class MenuUtilizadorItens extends MenuUtilizadorAdmin {
      *
      * @param ligacao
      * @param controlador
+     * @param anterior
      */
-    public MenuUtilizadorItens(ClientUtilizadorRemote ligacao, ControladorUtilizador controlador) {
-       super(ligacao,controlador);
-        titulo="Utilizador - Itens";
+    public MenuUtilizadorItens(ClientUtilizadorRemote ligacao, ControladorUtilizador controlador, Menu anterior) {
+       super(ligacao,controlador, anterior);
+        titulo=anterior.titulo + " - Itens";
        this.controlador=controlador;
         //opcoes.clear();
         opcoes.add(new OpcaoMenu("Colocar Item a venda", () -> controlador.colocarItemVenda()));
@@ -25,12 +26,12 @@ public class MenuUtilizadorItens extends MenuUtilizadorAdmin {
         opcoes.add(new OpcaoMenu("Consultar Itens seguidos", () -> controlador.consultarItensSeguidos()));
         opcoes.add(new OpcaoMenu("Historial de Itens", () -> controlador.historialItens()));
         opcoes.add(new OpcaoMenu("Consultar Lista de Itens", () -> controlador.consultarItens()));
-        opcoes.add(new OpcaoMenu("Consultar Item", () -> controlador.consultarItem()));
+        opcoes.add(new OpcaoMenu("Consultar Item", () -> controlador.consultarItem(this)));
         opcoes.add(new OpcaoMenu("Consultar Itens comprados", () -> controlador.consultarItensComprados()));
         opcoes.add(new OpcaoMenu("Consultar Itens por pagar", () -> controlador.consultarItensPorPagar()));
         opcoes.add(new OpcaoMenu("Concluir transacao", () -> controlador.concluirTransacao()));
         
         
-        opcoes.add(new OpcaoMenu("Voltar", () -> controlador.mostrarMenu(new MenuUtilizador(ligacao,controlador))));
+        //opcoes.add(new OpcaoMenu("Voltar", () -> controlador.mostrarMenu(new MenuUtilizador(ligacao,controlador))));
     }
 }

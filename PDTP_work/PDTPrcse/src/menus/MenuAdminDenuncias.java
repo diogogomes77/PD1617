@@ -14,15 +14,15 @@ public class MenuAdminDenuncias extends MenuUtilizadorAdmin {
      *
      * @param ligacao
      * @param controlador
+     * @param anterior
      */
-    public MenuAdminDenuncias (ClientAdminRemote ligacao,ControladorAdministrador controlador) {
-        super(ligacao,controlador);
-        titulo="Administrador - Denuncias";
+    public MenuAdminDenuncias (ClientAdminRemote ligacao,ControladorAdministrador controlador, Menu anterior) {
+        super(ligacao,controlador, anterior);
+        titulo= anterior.titulo + " - Denuncias";
          this.controlador=controlador;
+         
         opcoes.add(new OpcaoMenu("Consultar denuncias de itens", () -> controlador.consultarDenunciasItens()));
-        opcoes.add(new OpcaoMenu("Consultar denuncias de vendedores", () -> controlador.consultarDenunciasVendedores()));
-        opcoes.add(new OpcaoMenu("Voltar", () -> controlador.mostrarMenu(new MenuAdmin(ligacao,controlador))));
-        
+        opcoes.add(new OpcaoMenu("Consultar denuncias de vendedores", () -> controlador.consultarDenunciasVendedores()));        
     }
     
     

@@ -14,10 +14,11 @@ public class MenuUtilizadorGerirConta extends MenuUtilizadorAdmin {
      *
      * @param ligacao
      * @param controlador
+     * @param anterior
      */
-    public MenuUtilizadorGerirConta(ClientUtilizadorRemote ligacao, ControladorUtilizador controlador) {
-        super(ligacao,controlador);
-         titulo="Utilizador - Conta";
+    public MenuUtilizadorGerirConta(ClientUtilizadorRemote ligacao, ControladorUtilizador controlador, Menu anterior) {
+        super(ligacao,controlador, anterior);
+         titulo= anterior.titulo + " - Conta";
          this.controlador=controlador;
         //opcoes.clear();
         opcoes.add(new OpcaoMenu("Consultar dados", () -> controlador.consultarDados()));
@@ -25,7 +26,7 @@ public class MenuUtilizadorGerirConta extends MenuUtilizadorAdmin {
          opcoes.add(new OpcaoMenu("Alterar password", () -> controlador.alterarPassword()));
         opcoes.add(new OpcaoMenu("Pedir Suspensao", () -> controlador.pedirSuspensao()));
       
-        opcoes.add(new OpcaoMenu("Voltar", () -> controlador.mostrarMenu(new MenuUtilizador(ligacao,controlador))));
+        //opcoes.add(new OpcaoMenu("Voltar", () -> controlador.mostrarMenu(new MenuUtilizador(ligacao,controlador))));
 
     }
 }

@@ -12,7 +12,7 @@ import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.ejb.Singleton;
 import javax.persistence.EntityManager;
-import jpaentidades.DAOLocal;
+import beans.DAOLocal;
 import jpaentidades.TUtilizadores;
 
 /**

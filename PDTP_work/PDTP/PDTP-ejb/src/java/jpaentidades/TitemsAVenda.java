@@ -6,6 +6,9 @@
 package jpaentidades;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,8 +20,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -30,7 +34,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "TitemsAVenda.findAll", query = "SELECT t FROM TitemsAVenda t")
-    //, @NamedQuery(name = "TitemsAVenda.findByUtilizador", query = "SELECT t FROM TitemsAVenda t WHERE t.item.vendedor = :utilizador")
+    , @NamedQuery(name = "TitemsAVenda.findLast", query = "SELECT t.item FROM TitemsAVenda t ORDER BY t.data DESC ")
     , @NamedQuery(name = "TitemsAVenda.findByItem", query = "SELECT t FROM TitemsAVenda t WHERE t.item = :item")
     , @NamedQuery(name = "TitemsAVenda.findById", query = "SELECT t FROM TitemsAVenda t WHERE t.id = :id")})
 public class TitemsAVenda implements Serializable {
@@ -41,6 +45,9 @@ public class TitemsAVenda implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
+    @Column(name = "data")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date data;
     @Basic(optional = false)
     @NotNull
     @JoinColumn(name = "item", referencedColumnName = "itemid")
@@ -48,17 +55,19 @@ public class TitemsAVenda implements Serializable {
     private TItens item;
 
     public TitemsAVenda() {
+        this.data = Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant());
     }
 
-    public TitemsAVenda( TItens item) {
-       this.item = item;
+    public TitemsAVenda(TItens item) {
+        this.item = item;
+        this.data = Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant());
     }
 
     public TItens getItem() {
         return item;
     }
 
-    public void setItem(long TItens) {
+    public void setItem(TItens item) {
         this.item = item;
     }
 
@@ -68,6 +77,14 @@ public class TitemsAVenda implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Date getData() {
+        return data;
+    }
+
+    public void setData(Date data) {
+        this.data = data;
     }
 
     @Override
@@ -94,5 +111,5 @@ public class TitemsAVenda implements Serializable {
     public String toString() {
         return "jpaentidades.TitemsAVenda[ id=" + id + " ]";
     }
-    
+
 }

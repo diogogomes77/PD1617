@@ -5,20 +5,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import menus.MenuAdminContas;
-import menus.MenuVisitante;
-import menus.OpcaoMenu;
 import beans.ClientAdminRemote;
-//import beans.ClientUtilizadorRemote;
-import beans.ClientVisitanteRemote;
-import beans.Mensagem;
+import beans.SessionException;
 import static controladores.Controlador.sc;
 import java.util.Iterator;
 import java.util.List;
+import menus.Menu;
 import menus.MenuAdminCategorias;
-import menus.MenuUtilizadorConsultarItem;
 import static pdtprcse.PDTPrcse.controlador;
 import static pdtprcse.PDTPrcse.menu;
-import pdtprcse.ReferenciaVisitante;
 
 /**
  *
@@ -26,7 +21,7 @@ import pdtprcse.ReferenciaVisitante;
  */
 public class ControladorAdministrador extends ControladorUserAdmin {
 
-    private ClientAdminRemote ligacao;
+    private final ClientAdminRemote ligacaoAdmin;
 
     /**
      *
@@ -34,43 +29,33 @@ public class ControladorAdministrador extends ControladorUserAdmin {
      */
     public ControladorAdministrador(ClientAdminRemote ligacao) {
         super(ligacao);
-        this.ligacao = ligacao;
+        this.ligacaoAdmin = ligacao;
     }
 
     /**
      *
      */
-    @Override
-    public void logOff() {
-        if (ligacao.logOff()) {
-            System.out.println("\nlog off");
-            ReferenciaVisitante refVisitante = new ReferenciaVisitante();
-            ClientVisitanteRemote ligVisitante = refVisitante.getLigacao();
-            controlador = new ControladorVisitante(ligVisitante);
-            menu = new MenuVisitante(ligVisitante, (ControladorVisitante) controlador);
-
-        } else {
-            System.out.println("ERRO: accao nao aceite");
-        }
-    }
-
-    /**
-     *
-     */
-    public void consultarDenuncias() {
-        menu = new MenuAdminDenuncias(ligacao, (ControladorAdministrador) controlador);
+    public void consultarDenuncias(Menu anterior) {
+        menu = new MenuAdminDenuncias(ligacaoAdmin, (ControladorAdministrador) controlador, anterior);
     }
 
     /**
      *
      */
     public void consultarReativacoes() {
-        ArrayList<String> pedidos = ligacao.getUtilizadoresPedidoReAtivacao();
-        System.out.print("Pedidos de reativacao de conta: ");
-        for (String pedido : pedidos) {
-            System.out.print(pedido.concat(" "));
+        ArrayList<String> pedidos;
+        try {
+            pedidos = ligacaoAdmin.getUtilizadoresPedidoReAtivacao();
+            System.out.print("Pedidos de reativacao de conta: ");
+            for (String pedido : pedidos) {
+                System.out.print(pedido.concat(" "));
+            }
+            System.out.print("\n");
+        } catch (SessionException ex) {
+            if (ex.getStatus() == SessionException.sessionStatus.LOGOUTSTAUS) {
+                this.logOff();
+            }
         }
-        System.out.print("\n");
     }
 
     /**
@@ -81,11 +66,18 @@ public class ControladorAdministrador extends ControladorUserAdmin {
         System.out.print("Item ID: ");
         int itemId = sc.nextInt();
         sc.skip("\n");
-        if (ligacao.cancelarItem(itemId))
-            System.out.print("Item cancelado");
-        else
-            System.out.print("ERRO: Item nao cancelado");
-        
+        try {
+            if (ligacaoAdmin.cancelarItem(itemId)) {
+                System.out.print("Item cancelado");
+            } else {
+                System.out.print("ERRO: Item nao cancelado");
+            }
+        } catch (SessionException ex) {
+            if (ex.getStatus() == SessionException.sessionStatus.LOGOUTSTAUS) {
+                this.logOff();
+            }
+        }
+
     }
 
     /**
@@ -94,10 +86,16 @@ public class ControladorAdministrador extends ControladorUserAdmin {
     public void suspenderContas() {
         System.out.print("Suspender username -> ");
         String username = sc.nextLine();
-        if (ligacao.suspendeUsername(username)) {
-            System.out.println("Utilizador suspenso");
-        } else {
-            System.out.println("ERRO: Utilizador nao suspenso");
+        try {
+            if (ligacaoAdmin.suspendeUsername(username)) {
+                System.out.println("Utilizador suspenso");
+            } else {
+                System.out.println("ERRO: Utilizador nao suspenso");
+            }
+        } catch (SessionException ex) {
+            if (ex.getStatus() == SessionException.sessionStatus.LOGOUTSTAUS) {
+                this.logOff();
+            }
         }
     }
 
@@ -107,63 +105,16 @@ public class ControladorAdministrador extends ControladorUserAdmin {
     public void reativarContas() {
         System.out.print("Reativar username: ");
         String username = sc.nextLine();
-        if (ligacao.ativaUtilizador(username)) {
-            System.out.println("Utilizador reativado");
-        } else {
-            System.out.println("ERRO: Utilizador nao reativado");
-        }
-    }
-
-    /**
-     *
-     */
-    public void mudarPassword() {
-        String password = "";
-        System.out.print("Antiga password: ");
-        password = sc.nextLine();
-        if (ligacao.verificaPassword(password)) {
-            System.out.print("Nova password: ");
-            password = sc.nextLine();
-            if (ligacao.alteraPassword(password)) {
-                System.out.println("Password alterada com sucesso");
+        try {
+            if (ligacaoAdmin.ativaUtilizador(username)) {
+                System.out.println("Utilizador reativado");
             } else {
-                System.out.println("ERRO: Password nao alterada");
+                System.out.println("ERRO: Utilizador nao reativado");
             }
-        } else {
-            System.out.println("ERRO: Password antiga incorreta");
-        }
-
-    }
-
-    /**
-     *
-     */
-    public void enviarMensagens() {
-        System.out.println("enviar Mensagem a utilizador");
-        String destinatario = "";
-        String texto = "";
-        String assunto = "";
-        System.out.print("Destinatario: ");
-        destinatario = sc.nextLine();
-        System.out.print("Assunto: ");
-        assunto = sc.nextLine();
-        System.out.print("Texto: ");
-        texto = sc.nextLine();
-        if (ligacao.sendMensagem(destinatario, texto, assunto)) {
-            System.out.println("Mensagem enviada");
-        } else {
-            System.out.println("ERRO: mensagem nao enviada");
-        }
-    }
-
-    /**
-     *
-     */
-    public void consultarMensagensMinhas() {
-        System.out.println("Minhas mensagems:");
-        ArrayList<Mensagem> mensagens = ligacao.consultarMensagens();
-        for (Mensagem msg : mensagens) {
-            System.out.println("Enviada: ".concat(convertTime(msg.getData())).concat(" por: ").concat(msg.getDestinatario()).concat(" Assunto: ").concat(msg.getAssunto()));
+        } catch (SessionException ex) {
+            if (ex.getStatus() == SessionException.sessionStatus.LOGOUTSTAUS) {
+                this.logOff();
+            }
         }
     }
 
@@ -172,32 +123,23 @@ public class ControladorAdministrador extends ControladorUserAdmin {
      */
     public void consultarUtilizador() {
         System.out.println("Dados do utilizador:");
-        String username = "";
+        String username;
         System.out.print("Username: ");
         username = sc.nextLine();
-        System.out.println(ligacao.getDados(username));
-
+        try {
+            System.out.println(ligacaoAdmin.getDados(username));
+        } catch (SessionException ex) {
+            if (ex.getStatus() == SessionException.sessionStatus.LOGOUTSTAUS) {
+                this.logOff();
+            }
+        }
     }
 
     /**
      *
      */
-    public void consultarItem() {
-        System.out.println("Consultar Item");
-        System.out.print("ItemID: ");
-        int itemId = sc.nextInt();
-        sc.skip("\n");
-        System.out.println(ligacao.mostraItem(itemId));
-        currentItemId = itemId;
-        //menu = new MenuUtilizadorConsultarItem(ligacao, (ControladorUtilizador) controlador);
-
-    }
-
-    /**
-     *
-     */
-    public void subMenuGerirCategorias() {
-        menu = new MenuAdminCategorias(ligacao, (ControladorAdministrador) controlador);
+    public void subMenuGerirCategorias(Menu anterior) {
+        menu = new MenuAdminCategorias(ligacaoAdmin, (ControladorAdministrador) controlador, anterior);
     }
 
     /**
@@ -206,10 +148,16 @@ public class ControladorAdministrador extends ControladorUserAdmin {
     public void ativarConta() {
         System.out.print("Ativar username: ");
         String username = sc.nextLine();
-        if (ligacao.ativaUtilizador(username)) {
-            System.out.println("Utilizador ativado");
-        } else {
-            System.out.println("ERRO: Utilizador nao ativado");
+        try {
+            if (ligacaoAdmin.ativaUtilizador(username)) {
+                System.out.println("Utilizador ativado");
+            } else {
+                System.out.println("ERRO: Utilizador nao ativado");
+            }
+        } catch (SessionException ex) {
+            if (ex.getStatus() == SessionException.sessionStatus.LOGOUTSTAUS) {
+                this.logOff();
+            }
         }
     }
 
@@ -217,36 +165,50 @@ public class ControladorAdministrador extends ControladorUserAdmin {
      *
      */
     public void consultarPedidosAtivacao() {
-        ArrayList<String> pedidos = ligacao.getUtilizadoresPedidoAtivacao();
-        System.out.print("Pedidos de ativacao de conta: ");
-        for (String pedido : pedidos) {
-            System.out.print(pedido.concat(" "));
+        ArrayList<String> pedidos;
+        try {
+            pedidos = ligacaoAdmin.getUtilizadoresPedidoAtivacao();
+            System.out.print("Pedidos de ativacao de conta: ");
+            for (String pedido : pedidos) {
+                System.out.print(pedido.concat(" "));
+            }
+            System.out.print("\n");
+        } catch (SessionException ex) {
+            if (ex.getStatus() == SessionException.sessionStatus.LOGOUTSTAUS) {
+                this.logOff();
+            }
         }
-        System.out.print("\n");
     }
 
     /**
      *
      */
     public void consultarPedidosSuspensao() {
-        HashMap<String, String> pedidos = ligacao.getPedidosSuspensao();
-        System.out.println("Pedidos de suspensao de conta:");
-        Iterator entries = pedidos.entrySet().iterator();
-        while (entries.hasNext()) {
-            Map.Entry entry = (Map.Entry) entries.next();
-            String key = (String) entry.getKey();
-            String value = (String) entry.getValue();
-            System.out.println("Username: " + key + ", Razao: " + value);
-            //System.out.print("\n");
+        HashMap<String, String> pedidos;
+        try {
+            pedidos = ligacaoAdmin.getPedidosSuspensao();
+            System.out.println("Pedidos de suspensao de conta:");
+            Iterator entries = pedidos.entrySet().iterator();
+            while (entries.hasNext()) {
+                Map.Entry entry = (Map.Entry) entries.next();
+                String key = (String) entry.getKey();
+                String value = (String) entry.getValue();
+                System.out.println("Username: " + key + ", Razao: " + value);
+                //System.out.print("\n");
+            }
+            System.out.print("\n");
+        } catch (SessionException ex) {
+            if (ex.getStatus() == SessionException.sessionStatus.LOGOUTSTAUS) {
+                this.logOff();
+            }
         }
-        System.out.print("\n");
     }
 
     /**
      *
      */
-    public void subMenuContas() {
-        menu = new MenuAdminContas(ligacao, (ControladorAdministrador) controlador);
+    public void subMenuContas(Menu anterior) {
+        menu = new MenuAdminContas(ligacaoAdmin, (ControladorAdministrador) controlador, anterior);
     }
 
     /**
@@ -254,12 +216,20 @@ public class ControladorAdministrador extends ControladorUserAdmin {
      */
     public void consultarCategorias() {
         //Obter o servidor as categorias
-        List<String> categorias = ligacao.obtemCategorias();
-        System.out.print("Categorias disponíveis: ");
-        for (String categoria : categorias) {
-            System.out.print(categoria.concat(" "));
+        List<String> categorias;
+        try {
+            categorias = ligacaoAdmin.obtemCategorias();
+            System.out.print("Categorias disponíveis: ");
+            for (String categoria : categorias) {
+                System.out.print(categoria.concat(" "));
+            }
+            System.out.print("\n");
+        } catch (SessionException ex) {
+            if (ex.getStatus() == SessionException.sessionStatus.LOGOUTSTAUS) {
+                this.logOff();
+            }
         }
-        System.out.print("\n");
+        //Listar o resultados
         //Listar o resultados
     }
 
@@ -269,10 +239,16 @@ public class ControladorAdministrador extends ControladorUserAdmin {
     public void novaCategoria() {
         System.out.print("Nome da categoria: ");
         String nomecat = sc.nextLine();
-        if (ligacao.adicionarCategoria(nomecat)) {
-            System.out.println("Categoria Adicionada");
-        } else {
-            System.out.println("ERRO: Categoria não adicionada");
+        try {
+            if (ligacaoAdmin.adicionarCategoria(nomecat)) {
+                System.out.println("Categoria Adicionada");
+            } else {
+                System.out.println("ERRO: Categoria não adicionada");
+            }
+        } catch (SessionException ex) {
+            if (ex.getStatus() == SessionException.sessionStatus.LOGOUTSTAUS) {
+                this.logOff();
+            }
         }
     }
 
@@ -282,10 +258,16 @@ public class ControladorAdministrador extends ControladorUserAdmin {
     public void eliminarCategoria() {
         System.out.print("Nome da categoria: ");
         String nomecat = sc.nextLine();
-        if (ligacao.eliminaCategoria(nomecat)) {
-            System.out.println("Categoria Eliminada");
-        } else {
-            System.out.println("ERRO: Categoria não eliminada");
+        try {
+            if (ligacaoAdmin.eliminaCategoria(nomecat)) {
+                System.out.println("Categoria Eliminada");
+            } else {
+                System.out.println("ERRO: Categoria não eliminada");
+            }
+        } catch (SessionException ex) {
+            if (ex.getStatus() == SessionException.sessionStatus.LOGOUTSTAUS) {
+                this.logOff();
+            }
         }
     }
 
@@ -297,16 +279,17 @@ public class ControladorAdministrador extends ControladorUserAdmin {
         String nomecat = sc.nextLine();
         System.out.print("novo nome da categoria: ");
         String novoNomeCat = sc.nextLine();
-        if (ligacao.modificaCategoria(nomecat, novoNomeCat)) {
-            System.out.println("Categoria alterada");
-        } else {
-            System.out.println("ERRO: Categoria não alterada");
+        try {
+            if (ligacaoAdmin.modificaCategoria(nomecat, novoNomeCat)) {
+                System.out.println("Categoria alterada");
+            } else {
+                System.out.println("ERRO: Categoria não alterada");
+            }
+        } catch (SessionException ex) {
+            if (ex.getStatus() == SessionException.sessionStatus.LOGOUTSTAUS) {
+                this.logOff();
+            }
         }
-    }
-
-    @Override
-    protected void finalize() {
-        this.logOff();
     }
 
     /**
@@ -314,11 +297,18 @@ public class ControladorAdministrador extends ControladorUserAdmin {
      */
     public void consultarDenunciasVendedores() {
         System.out.print("Denuncias de Vendedores");
-        List<String> denunciasvendedores = ligacao.obtemDenunciasVendedores();
-
-        for (String denuncia : denunciasvendedores) {
-            System.out.println(denuncia);
+        List<String> denunciasvendedores;
+        try {
+            denunciasvendedores = ligacaoAdmin.obtemDenunciasVendedores();
+            for (String denuncia : denunciasvendedores) {
+                System.out.println(denuncia);
+            }
+        } catch (SessionException ex) {
+            if (ex.getStatus() == SessionException.sessionStatus.LOGOUTSTAUS) {
+                this.logOff();
+            }
         }
+
     }
 
     /**
@@ -326,10 +316,16 @@ public class ControladorAdministrador extends ControladorUserAdmin {
      */
     public void consultarDenunciasItens() {
         System.out.print("Denuncias de Itens");
-        List<String> denunciasItens = ligacao.obtemDenunciasItens();
-
-        for (String denuncia : denunciasItens) {
-            System.out.println(denuncia);
+        List<String> denunciasItens;
+        try {
+            denunciasItens = ligacaoAdmin.obtemDenunciasItens();
+            for (String denuncia : denunciasItens) {
+                System.out.println(denuncia);
+            }
+        } catch (SessionException ex) {
+            if (ex.getStatus() == SessionException.sessionStatus.LOGOUTSTAUS) {
+                this.logOff();
+            }
         }
 
     }

@@ -21,4 +21,11 @@ public class MenuUtilizadorAdmin extends Menu{
         
     }
     
+    public MenuUtilizadorAdmin(ClientRemote ligacao, ControladorUserAdmin controlador, Menu anterior) {
+        super(anterior);
+        this.controlador = controlador;
+        opcoes.add(new OpcaoMenu("Terminar Sessao", () -> controlador.logOff()));
+        
+    }
+    
 }

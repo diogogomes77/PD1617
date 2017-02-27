@@ -14,7 +14,7 @@ public class OpcaoMenu {
      * @param opcao
      * @param funcao
      */
-    public OpcaoMenu(String opcao, Runnable funcao) {
+    public OpcaoMenu(String opcao, Runnable funcao ) {
         this.opcao = opcao;
         this.funcao = funcao;
     }

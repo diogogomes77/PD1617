@@ -6,8 +6,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import javax.ejb.Local;
-import jpaentidades.DAOLocal;
-import jpaentidades.TMensagens;
 import jpaentidades.TUtilizadores;
 import pdtp.UtilizadorEstado;
 
@@ -212,6 +210,7 @@ public interface LeiloeiraLocal {
 
     /**
      *
+     * @param categoria
      * @param username
      * @param descricao
      * @param precoInicial
@@ -219,7 +218,7 @@ public interface LeiloeiraLocal {
      * @param dataLimite
      * @return
      */
-    boolean addItem(String username,String descricao, Double precoInicial, Double precoComprarJa,Timestamp dataLimite);
+    boolean addItem(String categoria, String username,String descricao, Double precoInicial, Double precoComprarJa,Timestamp dataLimite);
 
     /**
      *
@@ -245,21 +244,21 @@ public interface LeiloeiraLocal {
      * @param itemId
      * @return
      */
-    String mostraItem(int itemId);
+    String mostraItem(long itemId);
 
     /**
      *
      * @param itemId
      * @return
      */
-    String getVendedorItem(int itemId);
+    String getVendedorItem(long itemId);
 
     /**
      *
      * @param itemid
      * @return
      */
-    String consultarLicitacoes(int itemid);
+    String consultarLicitacoes(long itemid);
 
     /**
      *
@@ -267,7 +266,7 @@ public interface LeiloeiraLocal {
      * @param comprador
      * @return
      */
-    boolean comprarJaItem(int itemId, String comprador);
+    boolean comprarJaItem(long itemId, String comprador);
 
     /**
      *
@@ -276,7 +275,7 @@ public interface LeiloeiraLocal {
      * @param username
      * @return
      */
-    boolean licitarItem(int itemId, Double value, String username);
+    boolean licitarItem(long itemId, Double value, String username);
 
     /**
      *
@@ -284,7 +283,15 @@ public interface LeiloeiraLocal {
      * @param itemId
      * @return
      */
-    boolean seguirItem(String username,int itemId);
+    boolean seguirItem(String username,long itemId);
+
+    /**
+     *
+     * @param username
+     * @param itemId
+     * @return
+     */
+    boolean seguirItemCancelar(String username,long itemId);
 
     /**
      *
@@ -302,11 +309,17 @@ public interface LeiloeiraLocal {
 
     /**
      *
+     * @return
+     */
+    List<String> getUltimosItensVendidos();
+
+    /**
+     *
      * @param username
      * @param itemId
      * @return
      */
-    boolean concluirTransacao(String username, int itemId);
+    boolean concluirTransacao(String username, long itemId);
 
     /**
      *
@@ -315,7 +328,7 @@ public interface LeiloeiraLocal {
      * @param razao
      * @return
      */
-    boolean denunciarItem(int itemId,String denunciador,String razao);
+    boolean denunciarItem(long itemId,String denunciador,String razao);
 
     /**
      *
@@ -343,12 +356,7 @@ public interface LeiloeiraLocal {
      * @param itemId
      * @return
      */
-    boolean cancelarItem(int itemId);
-
-    /**
-     *
-     */
-    public void checkItensDataFinal();
+    boolean cancelarItem(long itemId);
     
     public DAOLocal getDAO() ;
 

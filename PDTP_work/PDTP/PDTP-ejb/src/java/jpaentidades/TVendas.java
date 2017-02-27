@@ -6,7 +6,10 @@
 package jpaentidades;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Collection;
+import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -19,6 +22,8 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -34,6 +39,7 @@ import pdtp.VendaEstados;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "TVendas.findAll", query = "SELECT t FROM TVendas t")
+    , @NamedQuery(name = "TVendas.findLast", query = "SELECT t FROM TVendas t ORDER BY t.data DESC")
     , @NamedQuery(name = "TVendas.findByVendaid", query = "SELECT t FROM TVendas t WHERE t.vendaid = :vendaid")
     , @NamedQuery(name = "TVendas.findByEstado", query = "SELECT t FROM TVendas t WHERE t.estado = :estado")
     , @NamedQuery(name = "TVendas.findByTipo", query = "SELECT t FROM TVendas t WHERE t.tipo = :tipo")
@@ -44,7 +50,6 @@ public class TVendas implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @NotNull
     @Column(name = "vendaid")
     private Long vendaid;
     @Size(max = 255)
@@ -64,12 +69,17 @@ public class TVendas implements Serializable {
     private TUtilizadores comprador;
     @OneToMany(mappedBy = "venda")
     private Collection<TItens> tItensCollection;
+    @Column(name = "data")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date data;
 
     public TVendas() {
+        this.data = Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant());
     }
 
     public TVendas(Long vendaid) {
         this.vendaid = vendaid;
+        this.data = Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant());
     }
 
     public Long getVendaid() {
@@ -129,6 +139,14 @@ public class TVendas implements Serializable {
         this.tItensCollection = tItensCollection;
     }
 
+    public Date getData() {
+        return data;
+    }
+
+    public void setData(Date data) {
+        this.data = data;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -153,5 +171,5 @@ public class TVendas implements Serializable {
     public String toString() {
         return "jpaentidades.TVendas[ vendaid=" + vendaid + " ]";
     }
-    
+
 }

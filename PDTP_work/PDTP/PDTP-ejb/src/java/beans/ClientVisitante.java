@@ -34,7 +34,6 @@ public class ClientVisitante implements ClientVisitanteRemote {
    
     @Override
     public List<String> getNewsletter() {
-        //setLastAction();
         return leiloeira.obtemNewsletter();
     }
     @Override
@@ -50,6 +49,16 @@ public class ClientVisitante implements ClientVisitanteRemote {
   @Override
     public int getTotalItens() {
         return leiloeira.getTotalItens();
+    }
+
+    @Override
+    public boolean isAdmin(String username) {
+        return "admin".equals(username);
+    }
+
+    @Override
+    public List<String> getUltimosItensVendidos() {
+        return leiloeira.getUltimosItensVendidos();
     }
 
 }
