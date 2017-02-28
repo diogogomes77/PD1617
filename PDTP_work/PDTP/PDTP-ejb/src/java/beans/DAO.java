@@ -122,12 +122,40 @@ public class DAO implements DAOLocal {
     }
 
     @Override
+    public List<Object> findRangeByNamedQuery(Class s, int[] range, String nameQuery, String nameParam, Object valeu) {
+        Logger.getLogger(getClass().getName()).log(Level.INFO, "Find Range of Entity by named query " + s.getName() + " -> " + nameQuery);
+        TypedQuery q = getEntityManager().createNamedQuery(nameQuery, s);
+        if (!nameParam.isEmpty()) //Por enquando suporta um parametro
+        {
+            q.setParameter(nameParam, valeu);
+        }
+        q.setMaxResults(range[1] - range[0] + 1);
+        q.setFirstResult(range[0]);
+        return q.getResultList();
+    }
+
+    @Override
     public int count(Class s) {
         Logger.getLogger(getClass().getName()).log(Level.INFO, "Count Entity " + s.getName());
         javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
         javax.persistence.criteria.Root<Object> rt = cq.from(s);
         cq.select(getEntityManager().getCriteriaBuilder().count(rt));
         javax.persistence.Query q = getEntityManager().createQuery(cq);
+        return ((Long) q.getSingleResult()).intValue();
+    }
+
+    @Override
+    public int countByNamedQuery(Class s, String nameQuery, String nameParam, Object valeu) {
+        Logger.getLogger(getClass().getName()).log(Level.INFO, "Count Entity by named query " + s.getName() + " -> " + nameQuery);
+//        javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
+//        javax.persistence.criteria.Root<Object> rt = cq.from(s);
+//        cq.select(getEntityManager().getCriteriaBuilder().count(rt));
+//        javax.persistence.Query q = getEntityManager().createQuery(cq);
+        TypedQuery q = getEntityManager().createNamedQuery(nameQuery, s);
+        if (!nameParam.isEmpty()) //Por enquando suporta um parametro
+        {
+            q.setParameter(nameParam, valeu);
+        }        
         return ((Long) q.getSingleResult()).intValue();
     }
 

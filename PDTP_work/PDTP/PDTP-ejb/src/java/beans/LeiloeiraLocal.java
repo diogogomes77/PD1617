@@ -181,6 +181,14 @@ public interface LeiloeiraLocal {
     /**
      *
      * @param username
+     * @param id
+     * @return
+     */
+    Object obtemMensagemByIdEnviada(String username, Integer id);
+    
+    /**
+     *
+     * @param username
      * @param range
      * @return
      */

@@ -605,34 +605,67 @@ public class Leiloeira implements LeiloeiraLocal {
 
     @Override
     public int obtemNumTMensagens(String username) {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-        return DAO.findByNamedQuery(TMensagens.class, "TMensagens.findByDestinatario", "username", new TUtilizadores(username)).size();
+        //Obter o numero de mensagens do utilizador
+        return DAO.countByNamedQuery(TMensagens.class, "TMensagens.findByDestinatario", "username", new TUtilizadores(username));
     }
 
     @Override
     public Object obtemMensagemById(String username, Integer id) {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        //Obter um mensagem pelo ID e verificar se é para o utilizador
+        TMensagens msg = (TMensagens) DAO.findByNamedQuery(TMensagens.class, "TMensagens.findByIdMensagem", "idMensagem", id);
+        if (msg != null) {
+            if (username.equals(msg.getDestinatario().getUsername())) {
+                return msg;
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public Object obtemMensagemByIdEnviada(String username, Integer id) {
+        //Obter um mensagem pelo ID e verificar se é para do utilizador
+        TMensagens msg = (TMensagens) DAO.findByNamedQuery(TMensagens.class, "TMensagens.findByIdMensagem", "idMensagem", id);
+        if (msg != null) {
+            if (username.equals(msg.getRemetente().getUsername())) {
+                return msg;
+            }
+        }
         return null;
     }
 
     @Override
     public List<Object> obtemMensagensRange(String username, int[] range) {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-        //TODO: Obter pele intervalo passado de registos
-        return DAO.findByNamedQuery(TMensagens.class, "TMensagens.findByDestinatario", "username", new TUtilizadores(username));
+        //Obter pelo intervalo passado de registos
+        return DAO.findRangeByNamedQuery(TMensagens.class, range, "TMensagens.findByDestinatario", "username", new TUtilizadores(username));
     }
 
     @Override
     public boolean alteraMensagem(String username, Integer id, String destinatario, String texto, String assunto) {
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        TMensagens msg = (TMensagens) this.obtemMensagemById(username, id);
+        if (msg != null) {
+            if (msg.getEstado() == MensagemEstado.ENVIADA) {
+                msg.setAssunto(assunto);
+                msg.setTexto(texto);
+                msg.setDestinatario(new TUtilizadores(destinatario));
+                DAO.editWithCommit(msg);
+                return true;
+            }
+        }
         return false;
     }
 
     @Override
     public boolean alteraMensagemParaLida(String username, Integer id) {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        //Marcar uma mensagem como lida
+        TMensagens msg = (TMensagens) this.obtemMensagemById(username, id);
+        if (msg != null) {
+            msg.setEstado(MensagemEstado.LIDA);
+            DAO.editWithCommit(msg);
+        }
         return false;
     }
+
     /**
      *
      * @param nomeCategoria

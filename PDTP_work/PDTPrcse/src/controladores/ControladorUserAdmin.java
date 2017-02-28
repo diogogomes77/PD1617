@@ -108,7 +108,7 @@ public abstract class ControladorUserAdmin extends Controlador {
      *
      */
     public void alterarPassword() {
-        String password = "";
+        String password;
         System.out.print("Antiga password: ");
         password = sc.nextLine();
         try {
