@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundleCat.CreateTCategoriaTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="#{bundleCat.CreateTCategoriaLabel_idCategoria}" for="idCategoria" />
+                    <h:inputText id="idCategoria" value="#{tCategoriaController.selected.idCategoria}" title="#{bundleCat.CreateTCategoriaTitle_idCategoria}" required="true" requiredMessage="#{bundleCat.CreateTCategoriaRequiredMessage_idCategoria}"/>
+                    <h:outputLabel value="#{bundleCat.CreateTCategoriaLabel_nome}" for="nome" />
+                    <h:inputText id="nome" value="#{tCategoriaController.selected.nome}" title="#{bundleCat.CreateTCategoriaTitle_nome}" />
+                </h:panelGrid>
+                <br />
+                <h:commandLink action="#{tCategoriaController.create}" value="#{bundleCat.CreateTCategoriaSaveLink}" />
+                <br />
+                <br />
+                <h:commandLink action="#{tCategoriaController.prepareList}" value="#{bundleCat.CreateTCategoriaShowAllLink}" immediate="true"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundleCat.CreateTCategoriaIndexLink}"/>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

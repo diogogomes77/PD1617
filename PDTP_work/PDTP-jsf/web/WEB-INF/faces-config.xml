@@ -32,6 +32,10 @@
             <base-name>/BundleItens</base-name>
             <var>bundleItens</var>
         </resource-bundle>
+        <resource-bundle>
+            <base-name>/BundleCat</base-name>
+            <var>bundleCat</var>
+        </resource-bundle>
     </application>
         <navigation-rule>
         <from-view-id>/Utilizador/Itens/MeusItensavenda.xhtml</from-view-id>
@@ -42,6 +46,15 @@
         <navigation-case>
             <from-outcome>Edit</from-outcome>
             <to-view-id>/Utilizador/Itens/EditarItem.xhtml</to-view-id>
+        </navigation-case>
+        
+    </navigation-rule>
+   
+    <navigation-rule>
+        <from-view-id>/Administrador/Categorias/Listarcategorias.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>Edit</from-outcome>
+            <to-view-id>/Administrador/Categorias/AlterarCategoria.xhtml</to-view-id>
         </navigation-case>
         
     </navigation-rule>

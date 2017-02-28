@@ -53,8 +53,8 @@ public class AdminController extends VisitanteController implements Serializable
         menuAdminCategorias.setTituloMenu("Categorias");
         menuAdminCategorias.addMenuPage("Listar categorias");
         menuAdminCategorias.addMenuPage("Nova categoria");
-        menuAdminCategorias.addMenuPage("Alterar Categoria");
-        menuAdminCategorias.addMenuPage("Eliminar Categoria");
+//        menuAdminCategorias.addMenuPage("Alterar Categoria");
+//        menuAdminCategorias.addMenuPage("Eliminar Categoria");
         menus.add(menuAdminCategorias);
         Menu menuAdminContas = new Menu("menu3", seccao);
         menuAdminContas.setTituloMenu("Contas");

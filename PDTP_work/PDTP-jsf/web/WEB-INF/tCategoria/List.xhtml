@@ -1,19 +1,15 @@
-<?xml version='1.0' encoding='UTF-8' ?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"  
-      xmlns:h="http://java.sun.com/jsf/html"  
-      xmlns:f="http://java.sun.com/jsf/core"  
-      xmlns:ui="http://java.sun.com/jsf/facelets"> 
-    <ui:composition template="/Administrador/main.xhtml">
-        <ui:define name="left">
-            <ui:include src="/Administrador/leftMenu.xhtml" />
-        </ui:define>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/template.xhtml">
         <ui:define name="title">
-            <h1 class="page-header "> <i class="fa fa-handshake-o"></i>  
-                <h:outputText value=" #{bundleCat.ListTCategoriaTitle}"></h:outputText>
-            </h1>
+            <h:outputText value="#{bundleCat.ListTCategoriaTitle}"></h:outputText>
         </ui:define>
-        <ui:define name="content">                        
+        <ui:define name="body">
             <h:form styleClass="jsfcrud_list_form">
                 <h:panelGroup id="messagePanel" layout="block">
                     <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
@@ -24,7 +20,12 @@
                     <h:commandLink action="#{tCategoriaController.previous}" value="#{bundleCat.Previous} #{tCategoriaController.pagination.pageSize}" rendered="#{tCategoriaController.pagination.hasPreviousPage}"/>&nbsp;
                     <h:commandLink action="#{tCategoriaController.next}" value="#{bundleCat.Next} #{tCategoriaController.pagination.pageSize}" rendered="#{tCategoriaController.pagination.hasNextPage}"/>&nbsp;
                     <h:dataTable value="#{tCategoriaController.items}" var="item" border="0" cellpadding="2" cellspacing="0" rowClasses="jsfcrud_odd_row,jsfcrud_even_row" rules="all" style="border:solid 1px">
-                       
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundleCat.ListTCategoriaTitle_idCategoria}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.idCategoria}"/>
+                        </h:column>
                         <h:column>
                             <f:facet name="header">
                                 <h:outputText value="#{bundleCat.ListTCategoriaTitle_nome}"/>
@@ -35,16 +36,21 @@
                             <f:facet name="header">
                                 <h:outputText value="&nbsp;"/>
                             </f:facet>
+                            <h:commandLink action="#{tCategoriaController.prepareView}" value="#{bundleCat.ListTCategoriaViewLink}"/>
+                            <h:outputText value=" "/>
                             <h:commandLink action="#{tCategoriaController.prepareEdit}" value="#{bundleCat.ListTCategoriaEditLink}"/>
                             <h:outputText value=" "/>
                             <h:commandLink action="#{tCategoriaController.destroy}" value="#{bundleCat.ListTCategoriaDestroyLink}"/>
                         </h:column>
                     </h:dataTable>
                 </h:panelGroup>
-
+                <br />
+                <h:commandLink action="#{tCategoriaController.prepareCreate}" value="#{bundleCat.ListTCategoriaCreateLink}"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundleCat.ListTCategoriaIndexLink}"/>
             </h:form>
         </ui:define>
-    </ui:composition> 
-
+    </ui:composition>
 
 </html>
