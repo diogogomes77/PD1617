@@ -6,6 +6,11 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <ui:composition>
+        <ui:define name="title">
+            <h1 class="page-header "> <i class="fa fa-handshake-o"></i>  
+                <h:outputText value=" Newsletter"></h:outputText>
+            </h1>
+        </ui:define>
        <h:form styleClass="jsfcrud_list_form">
             <h:panelGroup id="messagePanel" layout="block">
                 <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>

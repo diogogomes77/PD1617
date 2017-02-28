@@ -13,11 +13,7 @@
                 <h:outputText value=" #{bundle.WellcomeVisitor}"></h:outputText>
             </h1>
         </ui:define>
-        <ui:define name="content">                        
-            <h:link outcome="/tMensagens/List" value="Show All TMensagens Items"/>
-            <br />
-            <h:link outcome="/tUtilizadores/List" value="Show All TUtilizadores Items"/>
-            
+        <ui:define name="content">                                   
             <ui:include src="/Geral/ListaRegistados.xhtml" />
         </ui:define>
     </ui:composition> 
