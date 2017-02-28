@@ -117,10 +117,10 @@ public class Leiloeira implements LeiloeiraLocal {
         long now = LocalDateTime.now()
                 .toInstant(ZoneOffset.UTC).getEpochSecond();
         for (Object u : DAO.findByNamedQuery(TUtilizadores.class, "TUtilizadores.findByLogged", "logged", true)) {
-            if (((TUtilizadores) u).fromLastActionFromNow(now) > 60){//240) {
+            if (((TUtilizadores) u).fromLastActionFromNow(now) > 60) {//240) {
                 ((TUtilizadores) u).setLogged(false);
                 DAO.editWithCommit(u);
-                System.out.println("---Session Timeout user "+ ((TUtilizadores) u).getUsername());
+                System.out.println("---Session Timeout user " + ((TUtilizadores) u).getUsername());
             }
         }
     }
@@ -579,7 +579,7 @@ public class Leiloeira implements LeiloeiraLocal {
     public ArrayList<Mensagem> getMensagensUtilizador(String username) {
         ArrayList<Mensagem> myMsg = new ArrayList<>();
         //Obter todas as mensagens enviadas para o utilizador
-        for (Object msg : DAO.findByNamedQuery(TMensagens.class, "TMensagens.findByDestinatario", "username", new TUtilizadores(username))) {
+        for (Object msg : this.getTMensagensUtilizador(username)) {
             Mensagem msgRef = new Mensagem(((TMensagens) msg).getRemetente().getUsername(),
                     ((TMensagens) msg).getDestinatario().getUsername(),
                     ((TMensagens) msg).getTexto(),
@@ -592,6 +592,47 @@ public class Leiloeira implements LeiloeiraLocal {
         return myMsg;
     }
 
+    /**
+     *
+     * @param username
+     * @return
+     */
+    @Override
+    public List<Object> getTMensagensUtilizador(String username) {
+        //Obter todas as mensagens enviadas para o utilizador
+        return DAO.findByNamedQuery(TMensagens.class, "TMensagens.findByDestinatario", "username", new TUtilizadores(username));
+    }
+
+    @Override
+    public int obtemNumTMensagens(String username) {
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return DAO.findByNamedQuery(TMensagens.class, "TMensagens.findByDestinatario", "username", new TUtilizadores(username)).size();
+    }
+
+    @Override
+    public Object obtemMensagemById(String username, Integer id) {
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return null;
+    }
+
+    @Override
+    public List<Object> obtemMensagensRange(String username, int[] range) {
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        //TODO: Obter pele intervalo passado de registos
+        return DAO.findByNamedQuery(TMensagens.class, "TMensagens.findByDestinatario", "username", new TUtilizadores(username));
+    }
+
+    @Override
+    public boolean alteraMensagem(String username, Integer id, String destinatario, String texto, String assunto) {
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return false;
+    }
+
+    @Override
+    public boolean alteraMensagemParaLida(String username, Integer id) {
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return false;
+    }
     /**
      *
      * @param nomeCategoria
@@ -812,7 +853,7 @@ public class Leiloeira implements LeiloeiraLocal {
 
     /**
      *
-     * @param itemid
+     * @param itemId
      * @return
      */
     @Override
@@ -1158,5 +1199,4 @@ public class Leiloeira implements LeiloeiraLocal {
         }
         return news;
     }
-
 }

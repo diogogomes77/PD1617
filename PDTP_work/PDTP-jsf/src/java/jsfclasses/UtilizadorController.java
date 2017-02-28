@@ -76,7 +76,8 @@ public class UtilizadorController extends AbstractController implements Serializ
         try {
             //session = null;
             HttpSession session = Util.getSession();
-            client.setMyName((String)session.getAttribute("username"));
+            client.setMyName((String) session.getAttribute("username"));
+            session.setAttribute("sessaoUser", client);
         } catch (SessionException ex) {
             Logger.getLogger(UtilizadorController.class.getName()).log(Level.SEVERE, null, ex);
         }

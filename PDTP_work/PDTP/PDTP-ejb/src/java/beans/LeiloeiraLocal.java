@@ -158,6 +158,54 @@ public interface LeiloeiraLocal {
 
     /**
      *
+     * @param username
+     * @return
+     */
+    List<Object> getTMensagensUtilizador(String username);
+
+    /**
+     *
+     * @param username
+     * @return
+     */
+    int obtemNumTMensagens(String username);
+
+    /**
+     *
+     * @param username
+     * @param id
+     * @return
+     */
+    Object obtemMensagemById(String username, Integer id);
+
+    /**
+     *
+     * @param username
+     * @param range
+     * @return
+     */
+    List<Object> obtemMensagensRange(String username, int[] range);
+
+    /**
+     *
+     * @param username
+     * @param id
+     * @param destinatario
+     * @param texto
+     * @param assunto
+     * @return
+     */
+    boolean alteraMensagem(String username, Integer id, String destinatario, String texto, String assunto);
+
+    /**
+     *
+     * @param username
+     * @param id
+     * @return
+     */
+    boolean alteraMensagemParaLida(String username, Integer id);
+    /**
+     *
      * @param nomeCategoria
      * @return
      */

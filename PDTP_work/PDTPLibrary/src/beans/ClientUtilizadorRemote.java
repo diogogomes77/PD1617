@@ -32,31 +32,6 @@ public interface ClientUtilizadorRemote extends ClientAuthRemote {
 
     /**
      *
-     * @return
-     * @throws beans.SessionException
-     */
-    String getMyName() throws SessionException;
-
-    //String toString();
-
-    /**
-     *
-     * @return
-     * @throws beans.SessionException
-     */
-    String getDados() throws SessionException;
-
-    /**
-     *
-     * @param nome
-     * @param morada
-     * @return
-     * @throws beans.SessionException
-     */
-    boolean atualizaDados(String nome, String morada) throws SessionException;
-
-    /**
-     *
      * @param razao
      * @return
      * @throws beans.SessionException

@@ -8,6 +8,7 @@ package jsfclasses;
 import gui.Menu;
 import autenticacao.Util;
 import beans.ClientAdminRemote;
+import beans.ClientAuthRemote;
 import beans.SessionException;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -76,6 +77,7 @@ public class AdminController extends VisitanteController implements Serializable
             //session = null;
             HttpSession session = Util.getSession();
             client.setMyName((String) session.getAttribute("username"));
+            session.setAttribute("sessaoUser", client);
         } catch (SessionException ex) {
             Logger.getLogger(UtilizadorController.class.getName()).log(Level.SEVERE, null, ex);
         }

@@ -1,13 +1,18 @@
 package TControllers;
 
+import autenticacao.Util;
+import beans.ClientAuthRemote;
+import beans.SessionException;
 import jpaentidades.TMensagens;
 import jsfclasses.util.JsfUtil;
 import jsfclasses.util.PaginationHelper;
 
-
 import java.io.Serializable;
+import java.util.List;
 import java.util.ResourceBundle;
-import javax.ejb.EJB;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.annotation.PostConstruct;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.component.UIComponent;
@@ -17,13 +22,19 @@ import javax.faces.convert.FacesConverter;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 import javax.faces.model.SelectItem;
-import jpafacades.TMensagensFacade;
+import javax.servlet.http.HttpSession;
 
 
 public class TMensagensController implements Serializable {
 
+<<<<<<< 80e1432ead1e0734f4491421d21c5f489901b1cd:PDTP_work/PDTP-jsf/src/java/TControllers/TMensagensController.java
     @EJB
     protected TMensagensFacade ejbFacade;
+=======
+//    @EJB
+//    private TMensagensFacade ejbFacade;
+    private ClientAuthRemote remoteSession;
+>>>>>>> f749b1a9a31bd826017fd920ad3a0289edcd8beb:PDTP_work/PDTP-jsf/src/java/jsfclasses/TMensagensController.java
 
     protected TMensagens current;
     protected DataModel items = null;
@@ -35,6 +46,13 @@ public class TMensagensController implements Serializable {
     public TMensagensController() {
     }
 
+    @PostConstruct
+    public void init() {
+        //session = null;
+        HttpSession session = Util.getSession();
+        remoteSession = (ClientAuthRemote)session.getAttribute("sessaoUser");
+    }
+    
     public TMensagens getSelected() {
         if (current == null) {
             current = new TMensagens();
@@ -43,8 +61,13 @@ public class TMensagensController implements Serializable {
         return current;
     }
 
+<<<<<<< 80e1432ead1e0734f4491421d21c5f489901b1cd:PDTP_work/PDTP-jsf/src/java/TControllers/TMensagensController.java
     protected TMensagensFacade getFacade() {
         return ejbFacade;
+=======
+    private ClientAuthRemote getUserSession() {
+        return remoteSession;
+>>>>>>> f749b1a9a31bd826017fd920ad3a0289edcd8beb:PDTP_work/PDTP-jsf/src/java/jsfclasses/TMensagensController.java
     }
 
     public PaginationHelper getPagination() {
@@ -53,12 +76,25 @@ public class TMensagensController implements Serializable {
 
                 @Override
                 public int getItemsCount() {
-                    return getFacade().count();
+                    try {
+                        //return getFacade().count();
+                        return getUserSession().obtemMensagens().size();
+                    } catch (SessionException ex) {
+                        Logger.getLogger(TMensagensController.class.getName()).log(Level.SEVERE, null, ex);
+                        return 0;
+                    }
                 }
 
                 @Override
                 public DataModel createPageDataModel() {
-                    return new ListDataModel(getFacade().findRange(new int[]{getPageFirstItem(), getPageFirstItem() + getPageSize()}));
+                    List<Object> list = null;
+                    try {
+                        //return new ListDataModel(getFacade().findRange(new int[]{getPageFirstItem(), getPageFirstItem() + getPageSize()}));
+                        list = getUserSession().obtemMensagensRange(new int[]{getPageFirstItem(), getPageFirstItem() + getPageSize()});
+                    } catch (SessionException ex) {
+                        Logger.getLogger(TMensagensController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    return new ListDataModel(list);
                 }
             };
         }
@@ -82,6 +118,21 @@ public class TMensagensController implements Serializable {
         return "Create";
     }
 
+<<<<<<< 80e1432ead1e0734f4491421d21c5f489901b1cd:PDTP_work/PDTP-jsf/src/java/TControllers/TMensagensController.java
+=======
+    public String create() {
+        try {
+            //getFacade().create(current);
+            if (getUserSession().sendMensagem(current.getDestinatario().getUsername(), current.getTexto(), current.getAssunto())) {
+                JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/BundleMensagens").getString("TMensagensCreated"));
+                return prepareCreate();
+            }
+        } catch (SessionException e) {
+            JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/BundleMensagens").getString("PersistenceErrorOccured"));
+        }
+        return null;
+    }
+>>>>>>> f749b1a9a31bd826017fd920ad3a0289edcd8beb:PDTP_work/PDTP-jsf/src/java/jsfclasses/TMensagensController.java
 
     public String prepareEdit() {
         current = (TMensagens) getItems().getRowData();
@@ -91,13 +142,15 @@ public class TMensagensController implements Serializable {
 
     public String update() {
         try {
-            getFacade().edit(current);
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/BundleMensagens").getString("TMensagensUpdated"));
-            return "View";
+            //getFacade().edit(current);
+            if (getUserSession().alteraMensagem(current.getIdMensagem(), current.getDestinatario().getUsername(), current.getTexto(), current.getAssunto())) {
+                JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/BundleMensagens").getString("TMensagensUpdated"));
+                return "View";
+            }
         } catch (Exception e) {
             JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/BundleMensagens").getString("PersistenceErrorOccured"));
-            return null;
         }
+        return null;
     }
 
     public String destroy() {
@@ -124,25 +177,32 @@ public class TMensagensController implements Serializable {
 
     private void performDestroy() {
         try {
-            getFacade().remove(current);
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/BundleMensagens").getString("TMensagensDeleted"));
-        } catch (Exception e) {
+            //getFacade().remove(current);
+            if (getUserSession().alteraMensagemParLida(current.getIdMensagem())) {
+                JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/BundleMensagens").getString("TMensagensDeleted"));
+            }
+        } catch (SessionException e) {
             JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/BundleMensagens").getString("PersistenceErrorOccured"));
         }
     }
 
     private void updateCurrentItem() {
-        int count = getFacade().count();
-        if (selectedItemIndex >= count) {
-            // selected index cannot be bigger than number of items:
-            selectedItemIndex = count - 1;
-            // go to previous page if last page disappeared:
-            if (pagination.getPageFirstItem() >= count) {
-                pagination.previousPage();
+        try {
+            int count = getUserSession().obtemNumMensagens();//.count();
+            if (selectedItemIndex >= count) {
+                // selected index cannot be bigger than number of items:
+                selectedItemIndex = count - 1;
+                // go to previous page if last page disappeared:
+                if (pagination.getPageFirstItem() >= count) {
+                    pagination.previousPage();
+                }
             }
-        }
-        if (selectedItemIndex >= 0) {
-            current = getFacade().findRange(new int[]{selectedItemIndex, selectedItemIndex + 1}).get(0);
+            if (selectedItemIndex >= 0) {
+                //current = getFacade().findRange(new int[]{selectedItemIndex, selectedItemIndex + 1}).get(0);
+                current = (TMensagens) getUserSession().obtemMensagensRange(new int[]{selectedItemIndex, selectedItemIndex + 1}).get(0);
+            }
+        } catch (SessionException ex) {
+            Logger.getLogger(TMensagensController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -174,15 +234,32 @@ public class TMensagensController implements Serializable {
     }
 
     public SelectItem[] getItemsAvailableSelectMany() {
-        return JsfUtil.getSelectItems(ejbFacade.findAll(), false);
+        List<Object> list = null;
+        try {
+            list = getUserSession().obtemMensagens();
+        } catch (SessionException ex) {
+            Logger.getLogger(TMensagensController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return JsfUtil.getSelectItems(list, false);
     }
 
     public SelectItem[] getItemsAvailableSelectOne() {
-        return JsfUtil.getSelectItems(ejbFacade.findAll(), true);
+        List<Object> list = null;
+        try {
+            list = getUserSession().obtemMensagens();
+        } catch (SessionException ex) {
+            Logger.getLogger(TMensagensController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return JsfUtil.getSelectItems(list, true);
     }
 
     public TMensagens getTMensagens(java.lang.Integer id) {
-        return ejbFacade.find(id);
+        try {
+            return (TMensagens) getUserSession().obtemMensagemById(id);//ejbFacade.find(id);
+        } catch (SessionException ex) {
+            Logger.getLogger(TMensagensController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
     }
 
     @FacesConverter(forClass = TMensagens.class)

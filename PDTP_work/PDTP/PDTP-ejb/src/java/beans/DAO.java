@@ -64,49 +64,55 @@ public class DAO implements DAOLocal {
 
     @Override
     public Object find(Class s, Object id) {
-        Logger.getLogger(getClass().getName()).log(Level.INFO, "Find Entity " + id);
+        Logger.getLogger(getClass().getName()).log(Level.INFO, "Find Entity " + s.getName() + " -> " + id);
         return getEntityManager().find(s, id);
     }
 
     @Override
     public List<Object> findAll(Class s) {
-        Logger.getLogger(getClass().getName()).log(Level.INFO, "Find All Entity");
+        Logger.getLogger(getClass().getName()).log(Level.INFO, "Find All Entity" + s.getName());
         javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
         cq.select(cq.from(s));
         return getEntityManager().createQuery(cq).getResultList();
     }
 
     @Override
-    public List<Object> findByNamedQuery(Class s, String nameQuery, int maxResult ) {
-        Logger.getLogger(getClass().getName()).log(Level.INFO, "Find All Entity by namedQuery 1 arg");
-        TypedQuery q = getEntityManager().createNamedQuery(nameQuery,s);
+    public List<Object> findByNamedQuery(Class s, String nameQuery, int maxResult) {
+        Logger.getLogger(getClass().getName()).log(Level.INFO, "Find All Entity by namedQuery 1 arg" + s.getName() + " -> " + nameQuery);
+        TypedQuery q = getEntityManager().createNamedQuery(nameQuery, s);
         q.setMaxResults(maxResult);
         return q.getResultList();
     }
 
     @Override
     public List<Object> findByNamedQuery(Class s, String nameQuery, String nameParam, Object valeu) {
-        Logger.getLogger(getClass().getName()).log(Level.INFO, "Find All Entity by namedQuery 1 arg");
-        TypedQuery q = getEntityManager().createNamedQuery(nameQuery,s);
-        if( ! nameParam.isEmpty()) //Por enquando suporta um parametro
+        Logger.getLogger(getClass().getName()).log(Level.INFO, "Find All Entity by namedQuery 1 arg" + s.getName() + " -> " + nameQuery);
+        TypedQuery q = getEntityManager().createNamedQuery(nameQuery, s);
+        if (!nameParam.isEmpty()) //Por enquando suporta um parametro
+        {
             q.setParameter(nameParam, valeu);
+        }
         return q.getResultList();
     }
 
     @Override
     public List<Object> findByNamedQuery(Class s, String nameQuery, String nameParam1, Object valeu1, String nameParam2, Object valeu2) {
-        Logger.getLogger(getClass().getName()).log(Level.INFO, "Find All Entity by namedQuery 2 args");
-        TypedQuery q = getEntityManager().createNamedQuery(nameQuery,s);
-        if( ! nameParam1.isEmpty()) //Por enquando suporta um parametro
+        Logger.getLogger(getClass().getName()).log(Level.INFO, "Find All Entity by namedQuery 2 args" + s.getName() + " -> " + nameQuery);
+        TypedQuery q = getEntityManager().createNamedQuery(nameQuery, s);
+        if (!nameParam1.isEmpty()) //Por enquando suporta um parametro
+        {
             q.setParameter(nameParam1, valeu1);
-        if( ! nameParam2.isEmpty()) //Por enquando suporta um parametro
+        }
+        if (!nameParam2.isEmpty()) //Por enquando suporta um parametro
+        {
             q.setParameter(nameParam2, valeu2);
+        }
         return q.getResultList();
     }
 
     @Override
     public List<Object> findRange(Class s, int[] range) {
-        Logger.getLogger(getClass().getName()).log(Level.INFO, "Find Range of Entity");
+        Logger.getLogger(getClass().getName()).log(Level.INFO, "Find Range of Entity " + s.getName());
         javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
         cq.select(cq.from(s));
         javax.persistence.Query q = getEntityManager().createQuery(cq);
@@ -117,7 +123,7 @@ public class DAO implements DAOLocal {
 
     @Override
     public int count(Class s) {
-        Logger.getLogger(getClass().getName()).log(Level.INFO, "Count Entity");
+        Logger.getLogger(getClass().getName()).log(Level.INFO, "Count Entity " + s.getName());
         javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
         javax.persistence.criteria.Root<Object> rt = cq.from(s);
         cq.select(getEntityManager().getCriteriaBuilder().count(rt));
@@ -155,7 +161,7 @@ public class DAO implements DAOLocal {
          * <res-auth>Container</res-auth>
          * </resource-ref> */
         try {
-            Logger.getLogger(getClass().getName()).log(Level.INFO, "Alterar e faz commmit ao registo");
+            Logger.getLogger(getClass().getName()).log(Level.INFO, "Alterar e faz commmit ao registo " + entity);
             EntityTransaction trans = getEntityManager().getTransaction();
             trans.begin();
             em.merge(entity);
@@ -170,7 +176,7 @@ public class DAO implements DAOLocal {
     @Override
     public void createWithCommit(Object entity) {
         try {
-            Logger.getLogger(getClass().getName()).log(Level.INFO, "Cria e faz commmit ao registo");
+            Logger.getLogger(getClass().getName()).log(Level.INFO, "Cria e faz commmit ao registo " + entity);
             EntityTransaction trans = getEntityManager().getTransaction();
             trans.begin();
             em.persist(entity);
@@ -181,14 +187,14 @@ public class DAO implements DAOLocal {
             throw new RuntimeException(e);
         }
     }
-    
+
     @Override
     public void removeWithCommit(Object entity) {
         try {
-            Logger.getLogger(getClass().getName()).log(Level.INFO, "elimina e faz commmit ao registo");
+            Logger.getLogger(getClass().getName()).log(Level.INFO, "elimina e faz commmit ao registo " + entity);
             EntityTransaction trans = getEntityManager().getTransaction();
             trans.begin();
-            em.remove(getEntityManager().merge(entity));;
+            em.remove(getEntityManager().merge(entity));
             trans.commit();
 
         } catch (Exception e) {
