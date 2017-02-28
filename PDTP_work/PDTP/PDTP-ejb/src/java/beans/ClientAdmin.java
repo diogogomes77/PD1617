@@ -22,6 +22,18 @@ public class ClientAdmin implements ClientAdminRemote {
     LeiloeiraLocal leiloeira;
 
     @Override
+    public boolean setMyName(String username ) throws SessionException {
+        //verifica se foi previamente logado atraves do ClientVisitance
+        if (leiloeira.isLogged(username)) {
+            if (!"admin".equals(username)) {
+                return false;
+            }
+        }
+        setLastAction();
+        return true;
+    }
+
+    @Override
     public boolean setMyName(String username, String password) throws SessionException {
         //verifica se foi previamente logado atraves do ClientVisitance
         if (leiloeira.isLogged(username)) {

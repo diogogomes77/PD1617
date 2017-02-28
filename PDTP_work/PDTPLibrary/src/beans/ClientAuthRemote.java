@@ -36,6 +36,14 @@ public interface ClientAuthRemote extends ClientRemote {
     /**
      *
      * @param username
+     * @return
+     * @throws beans.SessionException
+     */
+    boolean setMyName(String username) throws SessionException;
+    
+    /**
+     *
+     * @param username
      * @param password
      * @return
      * @throws beans.SessionException

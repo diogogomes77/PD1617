@@ -6,23 +6,16 @@
 package jsfclasses;
 
 import autenticacao.Util;
-import static autenticacao.Util.getRequest;
 import beans.ClientVisitanteRemote;
 import java.io.Serializable;
-import static java.rmi.server.LogStream.log;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
-import javax.security.auth.Subject;
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpSession;
-import jpaentidades.TUtilizadores;
 
 /**
  *
@@ -67,7 +60,6 @@ public class VisitanteController extends TUtilizadoresController implements Seri
            //HttpSession session = SessionUtils.getSession();
             HttpSession session = Util.getSession();
             session.setAttribute("username", current.getUsername());
-            session.setAttribute("password", current.getPassword());
             if (client.isAdmin(current.getUsername())) {
                 return "administradorinicio";
             }

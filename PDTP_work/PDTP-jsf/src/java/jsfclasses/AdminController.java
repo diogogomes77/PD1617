@@ -74,7 +74,7 @@ public class AdminController extends VisitanteController implements Serializable
         try {
             //session = null;
             HttpSession session = Util.getSession();
-            client.setMyName((String) session.getAttribute("username"), (String) session.getAttribute("password"));
+            client.setMyName((String) session.getAttribute("username"));
         } catch (SessionException ex) {
             Logger.getLogger(UtilizadorController.class.getName()).log(Level.SEVERE, null, ex);
         }

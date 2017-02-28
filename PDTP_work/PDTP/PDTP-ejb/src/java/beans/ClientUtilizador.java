@@ -24,6 +24,19 @@ public class ClientUtilizador implements ClientUtilizadorRemote {
 //    boolean admin;
 
     @Override
+    public boolean setMyName(String username) throws SessionException {
+        //verifica se foi previamente logado atraves do ClientVisitance
+        if (leiloeira.isLogged(username) ) {
+            myName = username;
+        }else{
+            return false;
+        }
+        setLastAction();
+        return true;
+
+    }
+
+    @Override
     public boolean setMyName(String username, String password) throws SessionException {
         //verifica se foi previamente logado atraves do ClientVisitance
         if (leiloeira.isLogged(username) ) {

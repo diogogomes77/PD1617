@@ -6,27 +6,16 @@
 package jsfclasses;
 
 import autenticacao.Util;
-import beans.ClientUtilizador;
 import beans.ClientUtilizadorRemote;
 import beans.SessionException;
-import java.io.File;
-import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Map;
-
-import java.util.TreeMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
-import javax.inject.Inject;
 import javax.inject.Named;
-import javax.servlet.ServletConfig;
-import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
 
 /**
@@ -86,7 +75,7 @@ public class UtilizadorController extends AbstractController implements Serializ
         try {
             //session = null;
             HttpSession session = Util.getSession();
-            client.setMyName((String)session.getAttribute("username"), (String)session.getAttribute("password"));
+            client.setMyName((String)session.getAttribute("username"));
         } catch (SessionException ex) {
             Logger.getLogger(UtilizadorController.class.getName()).log(Level.SEVERE, null, ex);
         }
