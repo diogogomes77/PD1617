@@ -63,15 +63,15 @@ public class VisitanteController extends TUtilizadoresController implements Seri
             HttpSession session = Util.getSession();
             session.setAttribute("username", current.getUsername());
             if (client.isAdmin(current.getUsername())) {
-                return "administradorinicio";
+                return "/Administrador/Inicio";
             }
-            return "utilizadorinicio";
+            return "/Utilizador/Inicio";
 
         } else {
             FacesContext ctx = FacesContext.getCurrentInstance();
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Login invalido", "Login invalido");
             ctx.addMessage(loginButton.getClientId(ctx), msg);
-            return "visitanteinicio";
+            return "/Visitante/Inicio";
         }
     }
 

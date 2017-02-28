@@ -24,8 +24,28 @@
             <base-name>/BundleMensagens</base-name>
             <var>bundleMensagens</var>
         </resource-bundle>
+        <resource-bundle>
+            <base-name>/BundleItens</base-name>
+            <var>bundleItens</var>
+        </resource-bundle>
+        <resource-bundle>
+            <base-name>/BundleItens</base-name>
+            <var>bundleItens</var>
+        </resource-bundle>
     </application>
-    <navigation-rule>
+        <navigation-rule>
+        <from-view-id>/Utilizador/Itens/MeusItensavenda.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>View</from-outcome>
+            <to-view-id>/Utilizador/Itens/ConsultarItem.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>Edit</from-outcome>
+            <to-view-id>/Utilizador/Itens/EditarItem.xhtml</to-view-id>
+        </navigation-case>
+        
+    </navigation-rule>
+<!--    <navigation-rule>
         <from-view-id>/Inicio.xhtml</from-view-id>
         <navigation-case>
             <from-outcome>visitanteinicio</from-outcome>
@@ -39,5 +59,5 @@
             <from-outcome>administradorinicio</from-outcome>
             <to-view-id>/Administrador/Inicio.xhtml</to-view-id>
         </navigation-case>
-    </navigation-rule>
+    </navigation-rule>-->
 </faces-config>

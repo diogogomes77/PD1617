@@ -59,7 +59,7 @@ public class UtilizadorController extends AbstractController implements Serializ
         menuUtilizadorSaldo.addMenuPage("Itens seguidos");
         menuUtilizadorSaldo.addMenuPage("Historial");
         menuUtilizadorSaldo.addMenuPage("Lista de Itens");
-        menuUtilizadorSaldo.addMenuPage("Consultar Item");
+//        menuUtilizadorSaldo.addMenuPage("Consultar Item");
         menuUtilizadorSaldo.addMenuPage("Itens comprados");
         menuUtilizadorSaldo.addMenuPage("Itens por pagar");
         menuUtilizadorSaldo.addMenuPage("Concluir transacao");

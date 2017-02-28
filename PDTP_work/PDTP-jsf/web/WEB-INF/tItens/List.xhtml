@@ -1,19 +1,15 @@
-<?xml version='1.0' encoding='UTF-8' ?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"  
-      xmlns:h="http://java.sun.com/jsf/html"  
-      xmlns:f="http://java.sun.com/jsf/core"  
-      xmlns:ui="http://java.sun.com/jsf/facelets"> 
-    <ui:composition template="../main.xhtml">
-        <ui:define name="left">
-            <ui:include src="../leftMenu.xhtml" />
-        </ui:define>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/template.xhtml">
         <ui:define name="title">
-            <h1 class="page-header "> <i class="fa fa-handshake-o"></i>  
-                <h:outputText value=" Lista de itens"></h:outputText>
-            </h1>
+            <h:outputText value="#{bundleItens.ListTItensTitle}"></h:outputText>
         </ui:define>
-        <ui:define name="content">                        
+        <ui:define name="body">
             <h:form styleClass="jsfcrud_list_form">
                 <h:panelGroup id="messagePanel" layout="block">
                     <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
@@ -26,9 +22,21 @@
                     <h:dataTable value="#{tItensController.items}" var="item" border="0" cellpadding="2" cellspacing="0" rowClasses="jsfcrud_odd_row,jsfcrud_even_row" rules="all" style="border:solid 1px">
                         <h:column>
                             <f:facet name="header">
+                                <h:outputText value="#{bundleItens.ListTItensTitle_itemid}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.itemid}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
                                 <h:outputText value="#{bundleItens.ListTItensTitle_categoria}"/>
                             </f:facet>
                             <h:outputText value="#{item.categoria}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundleItens.ListTItensTitle_comprador}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.comprador}"/>
                         </h:column>
                         <h:column>
                             <f:facet name="header">
@@ -66,6 +74,12 @@
                         </h:column>
                         <h:column>
                             <f:facet name="header">
+                                <h:outputText value="#{bundleItens.ListTItensTitle_estado}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.estado}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
                                 <h:outputText value="#{bundleItens.ListTItensTitle_precoinicial}"/>
                             </f:facet>
                             <h:outputText value="#{item.precoinicial}"/>
@@ -78,15 +92,29 @@
                         </h:column>
                         <h:column>
                             <f:facet name="header">
+                                <h:outputText value="#{bundleItens.ListTItensTitle_venda}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.venda}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
                                 <h:outputText value="&nbsp;"/>
                             </f:facet>
                             <h:commandLink action="#{tItensController.prepareView}" value="#{bundleItens.ListTItensViewLink}"/>
+                            <h:outputText value=" "/>
+                            <h:commandLink action="#{tItensController.prepareEdit}" value="#{bundleItens.ListTItensEditLink}"/>
+                            <h:outputText value=" "/>
+                            <h:commandLink action="#{tItensController.destroy}" value="#{bundleItens.ListTItensDestroyLink}"/>
                         </h:column>
                     </h:dataTable>
                 </h:panelGroup>
+                <br />
+                <h:commandLink action="#{tItensController.prepareCreate}" value="#{bundleItens.ListTItensCreateLink}"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundleItens.ListTItensIndexLink}"/>
             </h:form>
         </ui:define>
-    </ui:composition> 
-
+    </ui:composition>
 
 </html>

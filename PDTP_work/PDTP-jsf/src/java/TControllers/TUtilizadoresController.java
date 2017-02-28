@@ -50,12 +50,7 @@ public class TUtilizadoresController implements Serializable {
     public TUtilizadoresController(TUtilizadores current) {
         this.current = current;
     }
-//    public static TUtilizadoresController getInstance(){
-//         if(instance == null) {
-//         instance = new TUtilizadoresController();
-//      }
-//      return instance;
-//    }
+
     
     public TUtilizadores getSelected() {
         if (current == null) {

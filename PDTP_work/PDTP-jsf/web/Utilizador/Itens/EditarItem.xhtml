@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"  
+      xmlns:h="http://java.sun.com/jsf/html"  
+      xmlns:f="http://java.sun.com/jsf/core"  
+      xmlns:ui="http://java.sun.com/jsf/facelets"> 
+    <ui:composition template="../main.xhtml">
+        <ui:define name="left">
+            <ui:include src="../leftMenu.xhtml" />
+        </ui:define>
+        <ui:define name="title">
+            <h1 class="page-header "> <i class="fa fa-handshake-o"></i>  
+                <h:outputText value=" Editar item"></h:outputText>
+            </h1>
+        </ui:define>
+        <ui:define name="content">                        
+           <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="#{bundleItens.EditTItensLabel_categoria}" for="categoria" />
+                    <h:inputText id="categoria" value="#{tItensController.selected.categoria}" title="#{bundleItens.EditTItensTitle_categoria}" />
+                    <h:outputLabel value="#{bundleItens.EditTItensLabel_comprarja}" for="comprarja" />
+                    <h:inputText id="comprarja" value="#{tItensController.selected.comprarja}" title="#{bundleItens.EditTItensTitle_comprarja}" />
+                    <h:outputLabel value="#{bundleItens.EditTItensLabel_licitacaomaxima}" for="licitacaomaxima" />
+                    <h:inputText id="licitacaomaxima" value="#{tItensController.selected.licitacaomaxima}" title="#{bundleItens.EditTItensTitle_licitacaomaxima}" />
+                    <h:outputLabel value="#{bundleItens.EditTItensLabel_datafim}" for="datafim" />
+                    <h:inputText id="datafim" value="#{tItensController.selected.datafim}" title="#{bundleItens.EditTItensTitle_datafim}" >
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:inputText>
+                    <h:outputLabel value="#{bundleItens.EditTItensLabel_datainicio}" for="datainicio" />
+                    <h:inputText id="datainicio" value="#{tItensController.selected.datainicio}" title="#{bundleItens.EditTItensTitle_datainicio}" >
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:inputText>
+                    <h:outputLabel value="#{bundleItens.EditTItensLabel_descricao}" for="descricao" />
+                    <h:inputText id="descricao" value="#{tItensController.selected.descricao}" title="#{bundleItens.EditTItensTitle_descricao}" />
+                    <h:outputLabel value="#{bundleItens.EditTItensLabel_precoinicial}" for="precoinicial" />
+                    <h:inputText id="precoinicial" value="#{tItensController.selected.precoinicial}" title="#{bundleItens.EditTItensTitle_precoinicial}" />
+                </h:panelGrid>
+                <h:commandLink action="#{tItensController.update}" value="#{bundleItens.EditTItensSaveLink}"/>
+            </h:form>
+        </ui:define>
+    </ui:composition> 
+
+
+</html>

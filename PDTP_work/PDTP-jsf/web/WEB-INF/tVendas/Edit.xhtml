@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundleItens.EditTVendasTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="#{bundleItens.EditTVendasLabel_vendaid}" for="vendaid" />
+                    <h:inputText id="vendaid" value="#{tVendasController.selected.vendaid}" title="#{bundleItens.EditTVendasTitle_vendaid}" required="true" requiredMessage="#{bundleItens.EditTVendasRequiredMessage_vendaid}"/>
+                    <h:outputLabel value="#{bundleItens.EditTVendasLabel_estado}" for="estado" />
+                    <h:inputText id="estado" value="#{tVendasController.selected.estado}" title="#{bundleItens.EditTVendasTitle_estado}" />
+                    <h:outputLabel value="#{bundleItens.EditTVendasLabel_tipo}" for="tipo" />
+                    <h:inputText id="tipo" value="#{tVendasController.selected.tipo}" title="#{bundleItens.EditTVendasTitle_tipo}" />
+                    <h:outputLabel value="#{bundleItens.EditTVendasLabel_valor}" for="valor" />
+                    <h:inputText id="valor" value="#{tVendasController.selected.valor}" title="#{bundleItens.EditTVendasTitle_valor}" />
+                    <h:outputLabel value="#{bundleItens.EditTVendasLabel_item}" for="item" />
+                    <h:selectOneMenu id="item" value="#{tVendasController.selected.item}" title="#{bundleItens.EditTVendasTitle_item}" >
+                        <f:selectItems value="#{tItensController.itemsAvailableSelectOne}"/>
+                    </h:selectOneMenu>
+                    <h:outputLabel value="#{bundleItens.EditTVendasLabel_comprador}" for="comprador" />
+                    <h:selectOneMenu id="comprador" value="#{tVendasController.selected.comprador}" title="#{bundleItens.EditTVendasTitle_comprador}" >
+                        <f:selectItems value="#{tUtilizadoresController.itemsAvailableSelectOne}"/>
+                    </h:selectOneMenu>
+                    <h:outputLabel value="#{bundleItens.EditTVendasLabel_data}" for="data" />
+                    <h:inputText id="data" value="#{tVendasController.selected.data}" title="#{bundleItens.EditTVendasTitle_data}" >
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:inputText>
+                </h:panelGrid>
+                <h:commandLink action="#{tVendasController.update}" value="#{bundleItens.EditTVendasSaveLink}"/>
+                <br />
+                <br />
+                <h:link outcome="View" value="#{bundleItens.EditTVendasViewLink}"/>
+                <br />
+                <h:commandLink action="#{tVendasController.prepareList}" value="#{bundleItens.EditTVendasShowAllLink}" immediate="true"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundleItens.EditTVendasIndexLink}" />
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundleItens.ViewTVendasTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputText value="#{bundleItens.ViewTVendasLabel_vendaid}"/>
+                    <h:outputText value="#{tVendasController.selected.vendaid}" title="#{bundleItens.ViewTVendasTitle_vendaid}"/>
+                    <h:outputText value="#{bundleItens.ViewTVendasLabel_estado}"/>
+                    <h:outputText value="#{tVendasController.selected.estado}" title="#{bundleItens.ViewTVendasTitle_estado}"/>
+                    <h:outputText value="#{bundleItens.ViewTVendasLabel_tipo}"/>
+                    <h:outputText value="#{tVendasController.selected.tipo}" title="#{bundleItens.ViewTVendasTitle_tipo}"/>
+                    <h:outputText value="#{bundleItens.ViewTVendasLabel_valor}"/>
+                    <h:outputText value="#{tVendasController.selected.valor}" title="#{bundleItens.ViewTVendasTitle_valor}"/>
+                    <h:outputText value="#{bundleItens.ViewTVendasLabel_item}"/>
+                    <h:outputText value="#{tVendasController.selected.item}" title="#{bundleItens.ViewTVendasTitle_item}"/>
+                    <h:outputText value="#{bundleItens.ViewTVendasLabel_comprador}"/>
+                    <h:outputText value="#{tVendasController.selected.comprador}" title="#{bundleItens.ViewTVendasTitle_comprador}"/>
+                    <h:outputText value="#{bundleItens.ViewTVendasLabel_data}"/>
+                    <h:outputText value="#{tVendasController.selected.data}" title="#{bundleItens.ViewTVendasTitle_data}">
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:outputText>
+                </h:panelGrid>
+                <br />
+                <h:commandLink action="#{tVendasController.destroyAndView}" value="#{bundleItens.ViewTVendasDestroyLink}"/>
+                <br />
+                <br />
+                <h:link outcome="Edit" value="#{bundleItens.ViewTVendasEditLink}"/>
+                <br />
+                <h:commandLink action="#{tVendasController.prepareCreate}" value="#{bundleItens.ViewTVendasCreateLink}" />
+                <br />
+                <h:commandLink action="#{tVendasController.prepareList}" value="#{bundleItens.ViewTVendasShowAllLink}"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundleItens.ViewTVendasIndexLink}"/>
+
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>
