@@ -25,7 +25,7 @@ public abstract class AbstractFacade<T> {
    // EntityManagerFactory emf = Persistence.createEntityManagerFactory("PDTP-ejbPU");
 
     @EJB
-    private LeiloeiraLocal leiloeira;
+    protected LeiloeiraLocal leiloeira;
     
     private Class<T> entityClass;
 

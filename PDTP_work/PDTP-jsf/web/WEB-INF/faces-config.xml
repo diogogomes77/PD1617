@@ -36,6 +36,7 @@
             <base-name>/BundleCat</base-name>
             <var>bundleCat</var>
         </resource-bundle>
+        
     </application>
         <navigation-rule>
         <from-view-id>/Utilizador/Itens/MeusItensavenda.xhtml</from-view-id>
