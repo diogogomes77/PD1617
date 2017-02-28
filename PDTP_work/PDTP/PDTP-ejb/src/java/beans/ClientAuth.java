@@ -68,7 +68,7 @@ public class ClientAuth extends ClientBase implements ClientAuthRemote {
         return super.getTotalItens();
     }
     //Fim do métodos da base
-    
+
     //
     @Override
     public boolean logOff() throws SessionException {

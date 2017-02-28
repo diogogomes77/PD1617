@@ -31,11 +31,10 @@ public class ClientUtilizador extends ClientAuth implements ClientUtilizadorRemo
 //    public String toString() {
 //        return leiloeira.getDadosUtilizador(myName);
 //    }
-
     @Override
     public boolean pedirSuspensao(String razao) throws SessionException {
         setLastAction();
-        return leiloeira.pedirSuspensaoUtilizador(myName,myName, razao);
+        return leiloeira.pedirSuspensaoUtilizador(myName, myName, razao);
     }
 
     @Override
