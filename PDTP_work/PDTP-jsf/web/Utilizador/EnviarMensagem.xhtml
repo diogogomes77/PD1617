@@ -14,8 +14,41 @@
             </h1>
         </ui:define>
         <ui:define name="content">                        
-            
-            <ui:include src="/Geral/enviarMensagem.xhtml" />
+             <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="#{bundle.CreateTMensagensLabel_idMensagem}" for="idMensagem" />
+                    <h:inputText id="idMensagem" value="#{utilizadortMensagensController.selected.idMensagem}" title="#{bundle.CreateTMensagensTitle_idMensagem}" required="true" requiredMessage="#{bundle.CreateTMensagensRequiredMessage_idMensagem}"/>
+                    <h:outputLabel value="#{bundle.CreateTMensagensLabel_assunto}" for="assunto" />
+                    <h:inputText id="assunto" value="#{utilizadortMensagensController.selected.assunto}" title="#{bundle.CreateTMensagensTitle_assunto}" />
+                    <h:outputLabel value="#{bundle.CreateTMensagensLabel_data}" for="data" />
+                    <h:inputText id="data" value="#{utilizadortMensagensController.selected.data}" title="#{bundle.CreateTMensagensTitle_data}" >
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:inputText>
+                    <h:outputLabel value="#{bundle.CreateTMensagensLabel_estado}" for="estado" />
+                    <h:inputText id="estado" value="#{utilizadortMensagensController.selected.estado}" title="#{bundle.CreateTMensagensTitle_estado}" />
+                    <h:outputLabel value="#{bundle.CreateTMensagensLabel_texto}" for="texto" />
+                    <h:inputText id="texto" value="#{utilizadortMensagensController.selected.texto}" title="#{bundle.CreateTMensagensTitle_texto}" />
+                    <h:outputLabel value="#{bundle.CreateTMensagensLabel_destinatario}" for="destinatario" />
+                    <h:selectOneMenu id="destinatario" value="#{utilizadortMensagensController.selected.destinatario}" title="#{bundle.CreateTMensagensTitle_destinatario}" >
+                        <f:selectItems value="#{tUtilizadoresController.itemsAvailableSelectOne}"/>
+                    </h:selectOneMenu>
+                    <h:outputLabel value="#{bundle.CreateTMensagensLabel_remetente}" for="remetente" />
+                    <h:selectOneMenu id="remetente" value="#{utilizadortMensagensController.selected.remetente}" title="#{bundle.CreateTMensagensTitle_remetente}" >
+                        <f:selectItems value="#{tUtilizadoresController.itemsAvailableSelectOne}"/>
+                    </h:selectOneMenu>
+                </h:panelGrid>
+                <br />
+                <h:commandLink action="#{utilizadortMensagensController.create}" value="#{bundle.CreateTMensagensSaveLink}" />
+                <br />
+                <br />
+                <h:commandLink action="#{utilizadortMensagensController.prepareList}" value="#{bundle.CreateTMensagensShowAllLink}" immediate="true"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.CreateTMensagensIndexLink}"/>
+            </h:form>
         </ui:define>
     </ui:composition> 
 

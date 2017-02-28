@@ -14,8 +14,24 @@
             </h1>
         </ui:define>
         <ui:define name="content">                        
-            
-            <ui:include src="/Geral/enviarMensagem.xhtml" />
+             <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="#{bundle.CreateTMensagensLabel_assunto}" for="assunto" />
+                    <h:inputText id="assunto" value="#{administradortMensagensController.selected.assunto}" title="#{bundle.CreateTMensagensTitle_assunto}" />
+                    <h:outputLabel value="#{bundle.CreateTMensagensLabel_texto}" for="texto" />
+                    <h:inputText id="texto" value="#{administradortMensagensController.selected.texto}" title="#{bundle.CreateTMensagensTitle_texto}" />
+                    <h:outputLabel value="#{bundle.CreateTMensagensLabel_destinatario}" for="destinatario" />
+                    <h:selectOneMenu id="destinatario" value="#{administradortMensagensController.selected.destinatario}" title="#{bundle.CreateTMensagensTitle_destinatario}" >
+                        <f:selectItems value="#{tUtilizadoresController.itemsAvailableSelectOne}"/>
+                    </h:selectOneMenu>
+                </h:panelGrid>
+                <br />
+                <h:commandLink action="#{administradortMensagensController.create}" value="Enviar" />
+
+            </h:form>
         </ui:define>
     </ui:composition> 
 

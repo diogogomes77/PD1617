@@ -41,13 +41,8 @@
                                   required="true" requiredMessage="#{bundle.CreateTUtilizadoresRequiredMessage_username}" />
                 </h:panelGrid>
                 <br />
-                <h:commandLink action="#{VisitanteController.create}" value="#{bundle.CreateTUtilizadoresSaveLink}" />
-                <br />
-                <br />
-                <h:commandLink action="#{VisitanteController.prepareList}" value="#{bundle.CreateTUtilizadoresShowAllLink}" immediate="true"/>
-                <br />
-                <br />
-                <h:link outcome="/index" value="#{bundle.CreateTUtilizadoresIndexLink}"/>
+                <h:commandLink action="#{VisitanteController.create}" value="Registar" />
+
             </h:form>
         </ui:define>
 </ui:composition>

@@ -5,6 +5,7 @@
  */
 package jsfclasses;
 
+import gui.Menu;
 import autenticacao.Util;
 import beans.ClientUtilizadorRemote;
 import beans.SessionException;

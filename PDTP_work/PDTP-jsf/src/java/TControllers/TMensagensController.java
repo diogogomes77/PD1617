@@ -1,6 +1,6 @@
-package jsfclasses;
+package TControllers;
 
-import jpaentidades.TNewsletters;
+import jpaentidades.TMensagens;
 import jsfclasses.util.JsfUtil;
 import jsfclasses.util.PaginationHelper;
 
@@ -17,34 +17,33 @@ import javax.faces.convert.FacesConverter;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 import javax.faces.model.SelectItem;
-import jpafacades.TNewslettersFacade;
+import jpafacades.TMensagensFacade;
 
-@Named("tNewslettersController")
-@SessionScoped
-public class TNewslettersController implements Serializable {
+
+public class TMensagensController implements Serializable {
 
     @EJB
-    private TNewslettersFacade ejbFacade;
+    protected TMensagensFacade ejbFacade;
 
-    private TNewsletters current;
-    private DataModel items = null;
+    protected TMensagens current;
+    protected DataModel items = null;
 //    @EJB
-//    private beans.TNewslettersFacade ejbFacade;
-    private PaginationHelper pagination;
-    private int selectedItemIndex;
+//    private beans.TMensagensFacade ejbFacade;
+    protected PaginationHelper pagination;
+    protected int selectedItemIndex;
 
-    public TNewslettersController() {
+    public TMensagensController() {
     }
 
-    public TNewsletters getSelected() {
+    public TMensagens getSelected() {
         if (current == null) {
-            current = new TNewsletters();
+            current = new TMensagens();
             selectedItemIndex = -1;
         }
         return current;
     }
 
-    private TNewslettersFacade getFacade() {
+    protected TMensagensFacade getFacade() {
         return ejbFacade;
     }
 
@@ -72,30 +71,20 @@ public class TNewslettersController implements Serializable {
     }
 
     public String prepareView() {
-        current = (TNewsletters) getItems().getRowData();
+        current = (TMensagens) getItems().getRowData();
         selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
         return "View";
     }
 
     public String prepareCreate() {
-        current = new TNewsletters();
+        current = new TMensagens();
         selectedItemIndex = -1;
         return "Create";
     }
 
-    public String create() {
-        try {
-            getFacade().create(current);
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("TNewslettersCreated"));
-            return prepareCreate();
-        } catch (Exception e) {
-            JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
-            return null;
-        }
-    }
 
     public String prepareEdit() {
-        current = (TNewsletters) getItems().getRowData();
+        current = (TMensagens) getItems().getRowData();
         selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
         return "Edit";
     }
@@ -103,16 +92,16 @@ public class TNewslettersController implements Serializable {
     public String update() {
         try {
             getFacade().edit(current);
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("TNewslettersUpdated"));
+            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/BundleMensagens").getString("TMensagensUpdated"));
             return "View";
         } catch (Exception e) {
-            JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
+            JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/BundleMensagens").getString("PersistenceErrorOccured"));
             return null;
         }
     }
 
     public String destroy() {
-        current = (TNewsletters) getItems().getRowData();
+        current = (TMensagens) getItems().getRowData();
         selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
         performDestroy();
         recreatePagination();
@@ -136,9 +125,9 @@ public class TNewslettersController implements Serializable {
     private void performDestroy() {
         try {
             getFacade().remove(current);
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("TNewslettersDeleted"));
+            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/BundleMensagens").getString("TMensagensDeleted"));
         } catch (Exception e) {
-            JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
+            JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/BundleMensagens").getString("PersistenceErrorOccured"));
         }
     }
 
@@ -192,21 +181,21 @@ public class TNewslettersController implements Serializable {
         return JsfUtil.getSelectItems(ejbFacade.findAll(), true);
     }
 
-    public TNewsletters getTNewsletters(java.lang.Integer id) {
+    public TMensagens getTMensagens(java.lang.Integer id) {
         return ejbFacade.find(id);
     }
 
-    @FacesConverter(forClass = TNewsletters.class)
-    public static class TNewslettersControllerConverter implements Converter {
+    @FacesConverter(forClass = TMensagens.class)
+    public static class TMensagensControllerConverter implements Converter {
 
         @Override
         public Object getAsObject(FacesContext facesContext, UIComponent component, String value) {
             if (value == null || value.length() == 0) {
                 return null;
             }
-            TNewslettersController controller = (TNewslettersController) facesContext.getApplication().getELResolver().
-                    getValue(facesContext.getELContext(), null, "tNewslettersController");
-            return controller.getTNewsletters(getKey(value));
+            TMensagensController controller = (TMensagensController) facesContext.getApplication().getELResolver().
+                    getValue(facesContext.getELContext(), null, "tMensagensController");
+            return controller.getTMensagens(getKey(value));
         }
 
         java.lang.Integer getKey(String value) {
@@ -226,11 +215,11 @@ public class TNewslettersController implements Serializable {
             if (object == null) {
                 return null;
             }
-            if (object instanceof TNewsletters) {
-                TNewsletters o = (TNewsletters) object;
-                return getStringKey(o.getIdNewsletter());
+            if (object instanceof TMensagens) {
+                TMensagens o = (TMensagens) object;
+                return getStringKey(o.getIdMensagem());
             } else {
-                throw new IllegalArgumentException("object " + object + " is of type " + object.getClass().getName() + "; expected type: " + TNewsletters.class.getName());
+                throw new IllegalArgumentException("object " + object + " is of type " + object.getClass().getName() + "; expected type: " + TMensagens.class.getName());
             }
         }
 

@@ -4,6 +4,8 @@
  * and open the template in the editor.
  */
 package jsfclasses;
+import gui.Menu;
+import TControllers.TUtilizadoresController;
 import java.io.Serializable;
 import java.util.ArrayList;
 import jpaentidades.TUtilizadores;

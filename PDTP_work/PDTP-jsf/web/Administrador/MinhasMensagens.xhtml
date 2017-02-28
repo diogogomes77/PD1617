@@ -14,7 +14,64 @@
             </h1>
         </ui:define>
         <ui:define name="content">                        
-            <ui:include src="/Geral/listaMensagens.xhtml" />
+            <h:form styleClass="jsfcrud_list_form">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:outputText escape="false" value="#{bundle.ListTMensagensEmpty}" rendered="#{administradortMensagensController.items.rowCount == 0}"/>
+            <h:panelGroup rendered="#{administradortMensagensController.items.rowCount > 0}">
+                <h:outputText value="#{administradortMensagensController.pagination.pageFirstItem + 1}..#{administradortMensagensController.pagination.pageLastItem + 1}/#{administradortMensagensController.pagination.itemsCount}"/>&nbsp;
+                <h:commandLink action="#{administradortMensagensController.previous}" value="#{bundle.Previous} #{administradortMensagensController.pagination.pageSize}" rendered="#{administradortMensagensController.pagination.hasPreviousPage}"/>&nbsp;
+                <h:commandLink action="#{administradortMensagensController.next}" value="#{bundle.Next} #{administradortMensagensController.pagination.pageSize}" rendered="#{administradortMensagensController.pagination.hasNextPage}"/>&nbsp;
+                <h:dataTable value="#{administradortMensagensController.items}" var="item" border="0" cellpadding="2" cellspacing="0" rowClasses="jsfcrud_odd_row,jsfcrud_even_row" rules="all" style="border:solid 1px">
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListTMensagensTitle_idMensagem}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.idMensagem}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListTMensagensTitle_assunto}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.assunto}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListTMensagensTitle_data}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.data}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListTMensagensTitle_estado}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.estado}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListTMensagensTitle_texto}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.texto}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListTMensagensTitle_destinatario}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.destinatario}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListTMensagensTitle_remetente}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.remetente}"/>
+                    </h:column>
+                    
+                </h:dataTable>
+            </h:panelGroup>
+        </h:form>
         </ui:define>
     </ui:composition> 
 

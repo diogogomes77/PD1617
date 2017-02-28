@@ -5,6 +5,8 @@
  */
 package jsfclasses;
 
+import gui.Menu;
+import TControllers.TUtilizadoresController;
 import autenticacao.Util;
 import beans.ClientVisitanteRemote;
 import java.io.Serializable;

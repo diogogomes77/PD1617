@@ -1,6 +1,6 @@
-package jsfclasses;
+package TControllers;
 
-import jpaentidades.TMensagens;
+import jpaentidades.TNewsletters;
 import jsfclasses.util.JsfUtil;
 import jsfclasses.util.PaginationHelper;
 
@@ -17,34 +17,34 @@ import javax.faces.convert.FacesConverter;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 import javax.faces.model.SelectItem;
-import jpafacades.TMensagensFacade;
+import jpafacades.TNewslettersFacade;
 
-@Named("tMensagensController")
+@Named("tNewslettersController")
 @SessionScoped
-public class TMensagensController implements Serializable {
+public class TNewslettersController implements Serializable {
 
     @EJB
-    private TMensagensFacade ejbFacade;
+    private TNewslettersFacade ejbFacade;
 
-    private TMensagens current;
+    private TNewsletters current;
     private DataModel items = null;
 //    @EJB
-//    private beans.TMensagensFacade ejbFacade;
+//    private beans.TNewslettersFacade ejbFacade;
     private PaginationHelper pagination;
     private int selectedItemIndex;
 
-    public TMensagensController() {
+    public TNewslettersController() {
     }
 
-    public TMensagens getSelected() {
+    public TNewsletters getSelected() {
         if (current == null) {
-            current = new TMensagens();
+            current = new TNewsletters();
             selectedItemIndex = -1;
         }
         return current;
     }
 
-    private TMensagensFacade getFacade() {
+    private TNewslettersFacade getFacade() {
         return ejbFacade;
     }
 
@@ -72,13 +72,13 @@ public class TMensagensController implements Serializable {
     }
 
     public String prepareView() {
-        current = (TMensagens) getItems().getRowData();
+        current = (TNewsletters) getItems().getRowData();
         selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
         return "View";
     }
 
     public String prepareCreate() {
-        current = new TMensagens();
+        current = new TNewsletters();
         selectedItemIndex = -1;
         return "Create";
     }
@@ -86,16 +86,16 @@ public class TMensagensController implements Serializable {
     public String create() {
         try {
             getFacade().create(current);
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/BundleMensagens").getString("TMensagensCreated"));
+            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("TNewslettersCreated"));
             return prepareCreate();
         } catch (Exception e) {
-            JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/BundleMensagens").getString("PersistenceErrorOccured"));
+            JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
             return null;
         }
     }
 
     public String prepareEdit() {
-        current = (TMensagens) getItems().getRowData();
+        current = (TNewsletters) getItems().getRowData();
         selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
         return "Edit";
     }
@@ -103,16 +103,16 @@ public class TMensagensController implements Serializable {
     public String update() {
         try {
             getFacade().edit(current);
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/BundleMensagens").getString("TMensagensUpdated"));
+            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("TNewslettersUpdated"));
             return "View";
         } catch (Exception e) {
-            JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/BundleMensagens").getString("PersistenceErrorOccured"));
+            JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
             return null;
         }
     }
 
     public String destroy() {
-        current = (TMensagens) getItems().getRowData();
+        current = (TNewsletters) getItems().getRowData();
         selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
         performDestroy();
         recreatePagination();
@@ -136,9 +136,9 @@ public class TMensagensController implements Serializable {
     private void performDestroy() {
         try {
             getFacade().remove(current);
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/BundleMensagens").getString("TMensagensDeleted"));
+            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("TNewslettersDeleted"));
         } catch (Exception e) {
-            JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/BundleMensagens").getString("PersistenceErrorOccured"));
+            JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
         }
     }
 
@@ -192,21 +192,21 @@ public class TMensagensController implements Serializable {
         return JsfUtil.getSelectItems(ejbFacade.findAll(), true);
     }
 
-    public TMensagens getTMensagens(java.lang.Integer id) {
+    public TNewsletters getTNewsletters(java.lang.Integer id) {
         return ejbFacade.find(id);
     }
 
-    @FacesConverter(forClass = TMensagens.class)
-    public static class TMensagensControllerConverter implements Converter {
+    @FacesConverter(forClass = TNewsletters.class)
+    public static class TNewslettersControllerConverter implements Converter {
 
         @Override
         public Object getAsObject(FacesContext facesContext, UIComponent component, String value) {
             if (value == null || value.length() == 0) {
                 return null;
             }
-            TMensagensController controller = (TMensagensController) facesContext.getApplication().getELResolver().
-                    getValue(facesContext.getELContext(), null, "tMensagensController");
-            return controller.getTMensagens(getKey(value));
+            TNewslettersController controller = (TNewslettersController) facesContext.getApplication().getELResolver().
+                    getValue(facesContext.getELContext(), null, "tNewslettersController");
+            return controller.getTNewsletters(getKey(value));
         }
 
         java.lang.Integer getKey(String value) {
@@ -226,11 +226,11 @@ public class TMensagensController implements Serializable {
             if (object == null) {
                 return null;
             }
-            if (object instanceof TMensagens) {
-                TMensagens o = (TMensagens) object;
-                return getStringKey(o.getIdMensagem());
+            if (object instanceof TNewsletters) {
+                TNewsletters o = (TNewsletters) object;
+                return getStringKey(o.getIdNewsletter());
             } else {
-                throw new IllegalArgumentException("object " + object + " is of type " + object.getClass().getName() + "; expected type: " + TMensagens.class.getName());
+                throw new IllegalArgumentException("object " + object + " is of type " + object.getClass().getName() + "; expected type: " + TNewsletters.class.getName());
             }
         }
 
