@@ -13,6 +13,7 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.component.UIComponent;
@@ -23,18 +24,16 @@ import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 import javax.faces.model.SelectItem;
 import javax.servlet.http.HttpSession;
+import jpafacades.TMensagensFacade;
 
 
 public class TMensagensController implements Serializable {
 
-<<<<<<< 80e1432ead1e0734f4491421d21c5f489901b1cd:PDTP_work/PDTP-jsf/src/java/TControllers/TMensagensController.java
     @EJB
     protected TMensagensFacade ejbFacade;
-=======
 //    @EJB
 //    private TMensagensFacade ejbFacade;
     private ClientAuthRemote remoteSession;
->>>>>>> f749b1a9a31bd826017fd920ad3a0289edcd8beb:PDTP_work/PDTP-jsf/src/java/jsfclasses/TMensagensController.java
 
     protected TMensagens current;
     protected DataModel items = null;
@@ -61,13 +60,11 @@ public class TMensagensController implements Serializable {
         return current;
     }
 
-<<<<<<< 80e1432ead1e0734f4491421d21c5f489901b1cd:PDTP_work/PDTP-jsf/src/java/TControllers/TMensagensController.java
     protected TMensagensFacade getFacade() {
         return ejbFacade;
-=======
+    }
     private ClientAuthRemote getUserSession() {
         return remoteSession;
->>>>>>> f749b1a9a31bd826017fd920ad3a0289edcd8beb:PDTP_work/PDTP-jsf/src/java/jsfclasses/TMensagensController.java
     }
 
     public PaginationHelper getPagination() {
@@ -118,8 +115,6 @@ public class TMensagensController implements Serializable {
         return "Create";
     }
 
-<<<<<<< 80e1432ead1e0734f4491421d21c5f489901b1cd:PDTP_work/PDTP-jsf/src/java/TControllers/TMensagensController.java
-=======
     public String create() {
         try {
             //getFacade().create(current);
@@ -132,7 +127,6 @@ public class TMensagensController implements Serializable {
         }
         return null;
     }
->>>>>>> f749b1a9a31bd826017fd920ad3a0289edcd8beb:PDTP_work/PDTP-jsf/src/java/jsfclasses/TMensagensController.java
 
     public String prepareEdit() {
         current = (TMensagens) getItems().getRowData();
