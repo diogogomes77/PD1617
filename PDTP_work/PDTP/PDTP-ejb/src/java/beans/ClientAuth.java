@@ -185,9 +185,9 @@ public class ClientAuth extends ClientBase implements ClientAuthRemote {
     }
 
     @Override
-    public boolean alteraMensagemParaLida(Integer id) throws SessionException {
+    public boolean alteraMensagemParaLida(Integer id, Boolean lida) throws SessionException {
         setLastAction();
-        return leiloeira.alteraMensagemParaLida(myName, id);
+        return leiloeira.alteraMensagemParaLida(myName, id, lida);
     }
 
 }

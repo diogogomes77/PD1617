@@ -521,7 +521,7 @@ public class Leiloeira implements LeiloeiraLocal {
             msg.setRemetente(util);
             msg.setDestinatario((TUtilizadores) DAO.find(TUtilizadores.class, "admin"));
             msg.setAssunto("Conta suspensa");
-            msg.setTexto("Conta suspensa do utilizador "+username);
+            msg.setTexto("Conta suspensa do utilizador " + username);
             msg.setEstado(MensagemEstado.ENVIADA);
 
             //Guardar a ativação do utilizador
@@ -658,11 +658,15 @@ public class Leiloeira implements LeiloeiraLocal {
     }
 
     @Override
-    public boolean alteraMensagemParaLida(String username, Integer id) {
+    public boolean alteraMensagemParaLida(String username, Integer id, Boolean lida) {
         //Marcar uma mensagem como lida
         TMensagens msg = (TMensagens) this.obtemMensagemById(username, id);
         if (msg != null) {
-            msg.setEstado(MensagemEstado.LIDA);
+            if (lida) {
+                msg.setEstado(MensagemEstado.LIDA);
+            } else {
+                msg.setEstado(MensagemEstado.ENTREGUE);
+            }
             DAO.editWithCommit(msg);
         }
         return false;
