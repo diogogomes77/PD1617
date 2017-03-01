@@ -395,11 +395,13 @@ public class Leiloeira implements LeiloeiraLocal {
             msg.setAssunto("Conta ativada");
             msg.setTexto("Conta ativada");
             msg.setEstado(MensagemEstado.ENVIADA);
+            TNewsletters news = new TNewsletters("Conta ativada", "O " + username + " foi ativado.");
 
             //Guardar a ativação do utilizador
             EntityTransaction trans = DAO.getEntityManager().getTransaction();
             trans.begin();
             DAO.edit(util);
+            DAO.create(news);
             DAO.create(msg);
             trans.commit();
             return true;
