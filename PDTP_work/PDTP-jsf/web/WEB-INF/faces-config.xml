@@ -134,4 +134,11 @@
             <to-view-id>/Administrador/Categorias/Listarcategorias.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>
+        <navigation-rule>
+        <from-view-id>/Administrador/Contas/PedidosdeAdesao.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>List</from-outcome>
+            <to-view-id>/Administrador/Contas/PedidosdeAdesao.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
 </faces-config>
