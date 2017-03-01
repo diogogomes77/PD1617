@@ -136,6 +136,11 @@ public class TMensagens implements Serializable {
     public void setRemetente(TUtilizadores remetente) {
         this.remetente = remetente;
     }
+    
+    public boolean getIsLida(){
+        return (estado == MensagemEstado.LIDA);
+        
+    }
 
     @Override
     public int hashCode() {

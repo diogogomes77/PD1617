@@ -209,9 +209,10 @@ public interface LeiloeiraLocal {
      *
      * @param username
      * @param id
+     * @param lida
      * @return
      */
-    boolean alteraMensagemParaLida(String username, Integer id);
+    boolean alteraMensagemParaLida(String username, Integer id, Boolean lida);
     /**
      *
      * @param nomeCategoria
