@@ -10,7 +10,7 @@
         </ui:define>
         <ui:define name="title">
             <h1 class="page-header "> <i class="fa fa-handshake-o"></i>  
-                <h:outputText value=" #{bundleCat.EditTCategoriaTitle}"></h:outputText>
+                <h:outputText value=" Editar Categoria"></h:outputText>
             </h1>
         </ui:define>
         <ui:define name="content">                        
@@ -19,12 +19,10 @@
             </h:panelGroup>
             <h:form>
                 <h:panelGrid columns="2">
-                    <h:outputLabel value="#{bundleCat.EditTCategoriaLabel_idCategoria}" for="idCategoria" />
-                    <h:inputText id="idCategoria" value="#{tCategoriaController.selected.idCategoria}" title="#{bundleCat.EditTCategoriaTitle_idCategoria}" required="true" requiredMessage="#{bundleCat.EditTCategoriaRequiredMessage_idCategoria}"/>
                     <h:outputLabel value="#{bundleCat.EditTCategoriaLabel_nome}" for="nome" />
                     <h:inputText id="nome" value="#{tCategoriaController.selected.nome}" title="#{bundleCat.EditTCategoriaTitle_nome}" />
                 </h:panelGrid>
-                <h:commandLink action="#{tCategoriaController.update}" value="#{bundleCat.EditTCategoriaSaveLink}"/>
+                <h:commandLink action="#{tCategoriaController.update}" value="Guardar"/>
 
             </h:form>
         </ui:define>
