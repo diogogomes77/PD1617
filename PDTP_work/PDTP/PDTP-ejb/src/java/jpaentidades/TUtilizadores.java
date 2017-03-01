@@ -32,10 +32,10 @@ import pdtp.UtilizadorEstado;
 @Table(name = "t_utilizadores")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "TUtilizadores.findAll", query = "SELECT t FROM TUtilizadores t")
+    @NamedQuery(name = "TUtilizadores.findAll", query = "SELECT t FROM TUtilizadores t ORDER BY t.lastAction ASC")
     , @NamedQuery(name = "TUtilizadores.findByUsername", query = "SELECT t FROM TUtilizadores t WHERE t.username = :username")
-    , @NamedQuery(name = "TUtilizadores.findByEstado", query = "SELECT t FROM TUtilizadores t WHERE t.estado = :estado")
-    , @NamedQuery(name = "TUtilizadores.findByLogged", query = "SELECT t FROM TUtilizadores t WHERE t.logged = :logged")
+    , @NamedQuery(name = "TUtilizadores.findByEstado", query = "SELECT t FROM TUtilizadores t WHERE t.estado = :estado ORDER BY t.lastAction ASC")
+    , @NamedQuery(name = "TUtilizadores.findByLogged", query = "SELECT t FROM TUtilizadores t WHERE t.logged = :logged ORDER BY t.lastAction ASC")
     , @NamedQuery(name = "TUtilizadores.findByMorada", query = "SELECT t FROM TUtilizadores t WHERE t.morada = :morada")
     , @NamedQuery(name = "TUtilizadores.findByNome", query = "SELECT t FROM TUtilizadores t WHERE t.nome = :nome")
     , @NamedQuery(name = "TUtilizadores.findByPassword", query = "SELECT t FROM TUtilizadores t WHERE t.password = :password")

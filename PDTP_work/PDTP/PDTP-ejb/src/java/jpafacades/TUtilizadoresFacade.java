@@ -89,4 +89,14 @@ public class TUtilizadoresFacade {//extends AbstractFacade<TUtilizadores> {
 //        return ((Long) q.getSingleResult()).intValue();
         return leiloeira.getDAO().count(TUtilizadores.class);
     }
+    
+    public List<Object> findRangeByNamedQuery(int[] range,String namedQuery,String param, Object valor ) {
+        Logger.getLogger(getClass().getName()).log(Level.INFO, "Find Range of Entity by namedQuery");
+       // "TUtilizadores.findByEstado"
+        return (List<Object>) leiloeira.getDAO().findRangeByNamedQuery(TUtilizadores.class,range,namedQuery,param,valor);
+    }
+
+    public int countByNamedQuery(String nameQuery, String nameParam, Object valor) {
+        return leiloeira.getDAO().countByNamedQuery(TUtilizadores.class, nameQuery,nameParam,valor);
+    }
 }
