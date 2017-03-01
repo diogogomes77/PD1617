@@ -11,53 +11,53 @@
                 <h:outputText value=" Lista de Utilizadores"></h:outputText>
             </h1>
         </ui:define>
-        
+
         <h:form styleClass="jsfcrud_list_form">
-        <h:panelGroup id="messagePanel" layout="block">
-            <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
-        </h:panelGroup>
-        <h:outputText escape="false" value="#{bundle.ListTUtilizadoresEmpty}" rendered="#{tUtilizadoresController.items.rowCount == 0}"/>
-        <h:panelGroup rendered="#{tUtilizadoresController.items.rowCount > 0}">
-            
-            <h:outputText value="#{tUtilizadoresController.pagination.pageFirstItem + 1}..#{tUtilizadoresController.pagination.pageLastItem + 1}/#{tUtilizadoresController.pagination.itemsCount}"/>&nbsp;
-            <h:commandLink action="#{tUtilizadoresController.previous}" value="#{bundle.Previous} #{tUtilizadoresController.pagination.pageSize}" rendered="#{tUtilizadoresController.pagination.hasPreviousPage}"/>&nbsp;
-            <h:commandLink action="#{tUtilizadoresController.next}" value="#{bundle.Next} #{tUtilizadoresController.pagination.pageSize}" rendered="#{tUtilizadoresController.pagination.hasNextPage}"/>&nbsp;
-            
-            <h:dataTable value="#{tUtilizadoresController.items}" var="item"  rules="all" styleClass="table-striped">
-                <h:column>
-                    <f:facet name="header">
-                        <h:outputText value="#{bundle.ListTUtilizadoresTitle_username}"/>
-                    </f:facet>
-                    <h:outputText value="#{item.username}"/>
-                </h:column>
-                <h:column>
-                    <f:facet name="header">
-                        <h:outputText value="#{bundle.ListTUtilizadoresTitle_estado}"/>
-                    </f:facet>
-                    <h:outputText value="#{item.estado}"/>
-                </h:column>
-                <h:column>
-                    <f:facet name="header">
-                        <h:outputText value="#{bundle.ListTUtilizadoresTitle_logged}"/>
-                    </f:facet>
-                    <h:outputText value="#{item.logged}"/>
-                </h:column>
-                <h:column>
-                    <f:facet name="header">
-                        <h:outputText value="#{bundle.ListTUtilizadoresTitle_morada}"/>
-                    </f:facet>
-                    <h:outputText value="#{item.morada}"/>
-                </h:column>
-                <h:column>
-                    <f:facet name="header">
-                        <h:outputText value="#{bundle.ListTUtilizadoresTitle_nome}"/>
-                    </f:facet>
-                    <h:outputText value="#{item.nome}"/>
-                </h:column>
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:outputText escape="false" value="#{bundle.ListTUtilizadoresEmpty}" rendered="#{tUtilizadoresController.items.rowCount == 0}"/>
+            <h:panelGroup rendered="#{tUtilizadoresController.items.rowCount > 0}">
+
+                <h:outputText value="#{tUtilizadoresController.pagination.pageFirstItem + 1}..#{tUtilizadoresController.pagination.pageLastItem + 1}/#{tUtilizadoresController.pagination.itemsCount}"/>&nbsp;
+                <h:commandLink action="#{tUtilizadoresController.previous}" value="#{bundle.Previous} #{tUtilizadoresController.pagination.pageSize}" rendered="#{tUtilizadoresController.pagination.hasPreviousPage}"/>&nbsp;
+                <h:commandLink action="#{tUtilizadoresController.next}" value="#{bundle.Next} #{tUtilizadoresController.pagination.pageSize}" rendered="#{tUtilizadoresController.pagination.hasNextPage}"/>&nbsp;
+
+                <h:dataTable value="#{tUtilizadoresController.items}" var="item"  rules="all" styleClass="table-striped">
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListTUtilizadoresTitle_username}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.username}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListTUtilizadoresTitle_estado}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.estado}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListTUtilizadoresTitle_logged}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.logged}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListTUtilizadoresTitle_morada}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.morada}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListTUtilizadoresTitle_nome}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.nome}"/>
+                    </h:column>
 
 
-            </h:dataTable>
-        </h:panelGroup>
+                </h:dataTable>
+            </h:panelGroup>
         </h:form>
     </ui:composition>
 

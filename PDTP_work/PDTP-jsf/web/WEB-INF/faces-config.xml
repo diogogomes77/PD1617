@@ -48,7 +48,6 @@
             <from-outcome>Edit</from-outcome>
             <to-view-id>/Utilizador/Itens/EditarItem.xhtml</to-view-id>
         </navigation-case>
-        
     </navigation-rule>
    
     <navigation-rule>
@@ -57,7 +56,47 @@
             <from-outcome>Edit</from-outcome>
             <to-view-id>/Administrador/Categorias/AlterarCategoria.xhtml</to-view-id>
         </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+        <from-view-id>/Visitante/Inicio.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>List</from-outcome>
+            <to-view-id>/Visitante/Inicio.xhtml</to-view-id>
+        </navigation-case>
         
+    </navigation-rule>
+    <navigation-rule>
+        <from-view-id>/Visitante/Registo.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>List</from-outcome>
+            <to-view-id>/Visitante/Inicio.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>Create</from-outcome>
+            <to-view-id>/Visitante/Inicio.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <from-view-id>/Administrador/Newsletter.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>List</from-outcome>
+            <to-view-id>/Administrador/Newsletter.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <from-view-id>/Utilizador/Newsletter.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>List</from-outcome>
+            <to-view-id>/Utilizador/Newsletter.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <from-view-id>/Visitante/Newsletter.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>List</from-outcome>
+            <to-view-id>/Visitante/Newsletter.xhtml</to-view-id>
+        </navigation-case>
     </navigation-rule>
 <!--    <navigation-rule>
         <from-view-id>/Inicio.xhtml</from-view-id>

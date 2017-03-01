@@ -88,19 +88,19 @@ public class TUtilizadoresController implements Serializable {
 
     public String prepareList() {
         recreateModel();
-        return "/tUtilizadores/List";
+        return "List";
     }
 
     public String prepareView() {
         current = (TUtilizadores) getItems().getRowData();
         selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
-        return "/tUtilizadores/View";
+        return "View";
     }
 
     public String prepareCreate() {
         current = new TUtilizadores();
         selectedItemIndex = -1;
-        return "/Visitante/Registo";
+        return "Create";
     }
 
     public String create(TUtilizadores current) {
@@ -119,7 +119,7 @@ public class TUtilizadoresController implements Serializable {
     public String prepareEdit() {
         current = (TUtilizadores) getItems().getRowData();
         selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
-        return "/tUtilizadores/Edit";
+        return "Edit";
     }
 
     public String update() {
@@ -139,7 +139,7 @@ public class TUtilizadoresController implements Serializable {
         performDestroy();
         recreatePagination();
         recreateModel();
-        return "/tUtilizadores/List";
+        return "List";
     }
 
     public String destroyAndView() {
@@ -147,11 +147,11 @@ public class TUtilizadoresController implements Serializable {
         recreateModel();
         updateCurrentItem();
         if (selectedItemIndex >= 0) {
-            return "/tUtilizadores/View";
+            return "View";
         } else {
             // all items were removed - go back to list
             recreateModel();
-            return "/tUtilizadores/List";
+            return "List";
         }
     }
 
@@ -197,13 +197,13 @@ public class TUtilizadoresController implements Serializable {
     public String next() {
         getPagination().nextPage();
         recreateModel();
-        return "/tUtilizadores/List";
+        return "List";
     }
 
     public String previous() {
         getPagination().previousPage();
         recreateModel();
-        return "/tUtilizadores/List";
+        return "List";
     }
 
     public SelectItem[] getItemsAvailableSelectMany() {
