@@ -58,10 +58,11 @@ public class AdminController extends VisitanteController implements Serializable
         menus.add(menuAdminCategorias);
         Menu menuAdminContas = new Menu("menu3", seccao);
         menuAdminContas.setTituloMenu("Contas");
+
         menuAdminContas.addMenuPage("Pedidos de Adesao");
-        menuAdminContas.addMenuPage("Activar Contas");
+//        menuAdminContas.addMenuPage("Activar Contas");
         menuAdminContas.addMenuPage("Pedidos de Reativacao");
-        menuAdminContas.addMenuPage("Reactivar Contas");
+//        menuAdminContas.addMenuPage("Reactivar Contas");
         menuAdminContas.addMenuPage("Pedidos de Suspensao");
         menus.add(menuAdminContas);
         Menu menuAdminDenuncias = new Menu("menu4", seccao);
@@ -101,11 +102,10 @@ public class AdminController extends VisitanteController implements Serializable
         return "/Inicio.xhtml";
     }
 
-    public String ativar() {
-        current = (TUtilizadores) getItems().getRowData();
-        selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
+    public String ativar(String user) {
         try {
-            client.ativaUtilizador(current.getUsername());
+            Boolean ativado = client.ativaUtilizador(user);
+            System.out.println("---ATIVADO "+user+" "+ativado );
         } catch (SessionException ex) {
             Logger.getLogger(AdminController.class.getName()).log(Level.SEVERE, null, ex);
         }

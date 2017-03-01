@@ -34,7 +34,7 @@ public class DAO implements DAOLocal {
 //    private UserTransaction utx;
     @Override
     public EntityManager getEntityManager() {
-        Logger.getLogger(getClass().getName()).log(Level.INFO, "getEntityManager from DAO");
+//        Logger.getLogger(getClass().getName()).log(Level.INFO, "getEntityManager from DAO");
         if (emf == null) {
             emf = Persistence.createEntityManagerFactory("PDTP-ejbPU");
         }
@@ -46,13 +46,13 @@ public class DAO implements DAOLocal {
 
     @Override
     public void create(Object entity) {
-        Logger.getLogger(getClass().getName()).log(Level.INFO, "Create Entity " + entity);
+//        Logger.getLogger(getClass().getName()).log(Level.INFO, "Create Entity " + entity);
         getEntityManager().persist(entity);
     }
 
     @Override
     public void edit(Object entity) {
-        Logger.getLogger(getClass().getName()).log(Level.INFO, "Edit Entity " + entity);
+//        Logger.getLogger(getClass().getName()).log(Level.INFO, "Edit Entity " + entity);
         getEntityManager().merge(entity);
     }
 
@@ -64,13 +64,13 @@ public class DAO implements DAOLocal {
 
     @Override
     public Object find(Class s, Object id) {
-        Logger.getLogger(getClass().getName()).log(Level.INFO, "Find Entity " + s.getName() + " -> " + id);
+//        Logger.getLogger(getClass().getName()).log(Level.INFO, "Find Entity " + s.getName() + " -> " + id);
         return getEntityManager().find(s, id);
     }
 
     @Override
     public List<Object> findAll(Class s) {
-        Logger.getLogger(getClass().getName()).log(Level.INFO, "Find All Entity" + s.getName());
+//        Logger.getLogger(getClass().getName()).log(Level.INFO, "Find All Entity" + s.getName());
         javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
         cq.select(cq.from(s));
         return getEntityManager().createQuery(cq).getResultList();
@@ -78,7 +78,7 @@ public class DAO implements DAOLocal {
 
     @Override
     public List<Object> findByNamedQuery(Class s, String nameQuery, int maxResult) {
-        Logger.getLogger(getClass().getName()).log(Level.INFO, "Find All Entity by namedQuery 1 arg" + s.getName() + " -> " + nameQuery);
+//        Logger.getLogger(getClass().getName()).log(Level.INFO, "Find All Entity by namedQuery 1 arg" + s.getName() + " -> " + nameQuery);
         TypedQuery q = getEntityManager().createNamedQuery(nameQuery, s);
         q.setMaxResults(maxResult);
         return q.getResultList();
@@ -86,7 +86,7 @@ public class DAO implements DAOLocal {
 
     @Override
     public List<Object> findByNamedQuery(Class s, String nameQuery, String nameParam, Object valeu) {
-        Logger.getLogger(getClass().getName()).log(Level.INFO, "Find All Entity by namedQuery 1 arg" + s.getName() + " -> " + nameQuery);
+//        Logger.getLogger(getClass().getName()).log(Level.INFO, "Find All Entity by namedQuery 1 arg" + s.getName() + " -> " + nameQuery);
         TypedQuery q = getEntityManager().createNamedQuery(nameQuery, s);
         if (!nameParam.isEmpty()) //Por enquando suporta um parametro
         {
@@ -97,7 +97,7 @@ public class DAO implements DAOLocal {
 
     @Override
     public List<Object> findByNamedQuery(Class s, String nameQuery, String nameParam1, Object valeu1, String nameParam2, Object valeu2) {
-        Logger.getLogger(getClass().getName()).log(Level.INFO, "Find All Entity by namedQuery 2 args" + s.getName() + " -> " + nameQuery);
+//        Logger.getLogger(getClass().getName()).log(Level.INFO, "Find All Entity by namedQuery 2 args" + s.getName() + " -> " + nameQuery);
         TypedQuery q = getEntityManager().createNamedQuery(nameQuery, s);
         if (!nameParam1.isEmpty()) //Por enquando suporta um parametro
         {
@@ -112,7 +112,7 @@ public class DAO implements DAOLocal {
 
     @Override
     public List<Object> findRange(Class s, int[] range) {
-        Logger.getLogger(getClass().getName()).log(Level.INFO, "Find Range of Entity " + s.getName());
+//        Logger.getLogger(getClass().getName()).log(Level.INFO, "Find Range of Entity " + s.getName());
         javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
         cq.select(cq.from(s));
         javax.persistence.Query q = getEntityManager().createQuery(cq);
@@ -123,7 +123,7 @@ public class DAO implements DAOLocal {
 
     @Override
     public List<Object> findRangeByNamedQuery(Class s, int[] range, String nameQuery, String nameParam, Object valeu) {
-        Logger.getLogger(getClass().getName()).log(Level.INFO, "Find Range of Entity by named query " + s.getName() + " -> " + nameQuery);
+//        Logger.getLogger(getClass().getName()).log(Level.INFO, "Find Range of Entity by named query " + s.getName() + " -> " + nameQuery);
         TypedQuery q = getEntityManager().createNamedQuery(nameQuery, s);
         if (!nameParam.isEmpty()) //Por enquando suporta um parametro
         {
@@ -136,7 +136,7 @@ public class DAO implements DAOLocal {
 
     @Override
     public int count(Class s) {
-        Logger.getLogger(getClass().getName()).log(Level.INFO, "Count Entity " + s.getName());
+//        Logger.getLogger(getClass().getName()).log(Level.INFO, "Count Entity " + s.getName());
         javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
         javax.persistence.criteria.Root<Object> rt = cq.from(s);
         cq.select(getEntityManager().getCriteriaBuilder().count(rt));
@@ -146,7 +146,7 @@ public class DAO implements DAOLocal {
 
     @Override
     public int countByNamedQuery(Class s, String nameQuery, String nameParam, Object valeu) {
-        Logger.getLogger(getClass().getName()).log(Level.INFO, "Count Entity by named query " + s.getName() + " -> " + nameQuery);
+//        Logger.getLogger(getClass().getName()).log(Level.INFO, "Count Entity by named query " + s.getName() + " -> " + nameQuery);
 //        javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
 //        javax.persistence.criteria.Root<Object> rt = cq.from(s);
 //        cq.select(getEntityManager().getCriteriaBuilder().count(rt));
@@ -161,13 +161,13 @@ public class DAO implements DAOLocal {
 
     @PostConstruct
     public void loadstate() {
-        Logger.getLogger(getClass().getName()).log(Level.INFO, "A abrir as ligações");
+//        Logger.getLogger(getClass().getName()).log(Level.INFO, "A abrir as ligações");
         this.getEntityManager();
     }
 
     @PreDestroy
     public void destruct() {
-        Logger.getLogger(getClass().getName()).log(Level.INFO, "Fechar as ligações");
+//        Logger.getLogger(getClass().getName()).log(Level.INFO, "Fechar as ligações");
         //em.getTransaction().commit();
         em.close();
         emf.close();
@@ -189,7 +189,7 @@ public class DAO implements DAOLocal {
          * <res-auth>Container</res-auth>
          * </resource-ref> */
         try {
-            Logger.getLogger(getClass().getName()).log(Level.INFO, "Alterar e faz commmit ao registo " + entity);
+//            Logger.getLogger(getClass().getName()).log(Level.INFO, "Alterar e faz commmit ao registo " + entity);
             EntityTransaction trans = getEntityManager().getTransaction();
             trans.begin();
             em.merge(entity);
@@ -204,7 +204,7 @@ public class DAO implements DAOLocal {
     @Override
     public void createWithCommit(Object entity) {
         try {
-            Logger.getLogger(getClass().getName()).log(Level.INFO, "Cria e faz commmit ao registo " + entity);
+//            Logger.getLogger(getClass().getName()).log(Level.INFO, "Cria e faz commmit ao registo " + entity);
             EntityTransaction trans = getEntityManager().getTransaction();
             trans.begin();
             em.persist(entity);
@@ -219,7 +219,7 @@ public class DAO implements DAOLocal {
     @Override
     public void removeWithCommit(Object entity) {
         try {
-            Logger.getLogger(getClass().getName()).log(Level.INFO, "elimina e faz commmit ao registo " + entity);
+//            Logger.getLogger(getClass().getName()).log(Level.INFO, "elimina e faz commmit ao registo " + entity);
             EntityTransaction trans = getEntityManager().getTransaction();
             trans.begin();
             em.remove(getEntityManager().merge(entity));

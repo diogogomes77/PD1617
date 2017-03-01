@@ -55,28 +55,28 @@ public class AuthFilter implements Filter {
             // chain.doFilter(request, response);
             if (!reqURI.contains("javax.faces.resource")) {
                 if (ses != null) {
-                    System.out.println("-----SES --");
+//                    System.out.println("-----SES --");
                     if (ses.getAttribute("username") != null) {
-                        System.out.println("-----SES USERNAME --");
+//                        System.out.println("-----SES USERNAME --");
                         if (client.isLogged(ses.getAttribute("username").toString())) {
                             String user = ses.getAttribute("username").toString();
-                            System.out.println("-----LOGED USERNAME= " + user);
+//                            System.out.println("-----LOGED USERNAME= " + user);
                             if ("admin".equals(user)) {
 
                                 if (!reqURI.contains("/Administrador")) {
-                                    System.out.println("-----URI no ADMINISTRADOR --");
+//                                    System.out.println("-----URI no ADMINISTRADOR --");
                                     res.sendRedirect(req.getContextPath() + "/faces/Administrador/Inicio.xhtml");
 //                                    return;
                                 }
                             } else { // utilizador normal
                                 if (!reqURI.contains("/Utilizador")) {
-                                    System.out.println("-----UIR no Utilizador --");
+//                                    System.out.println("-----UIR no Utilizador --");
                                     res.sendRedirect(req.getContextPath() + "/faces/Utilizador/Inicio.xhtml");
 //                                    return;
                                 }
                             }
                         } else {
-                            System.out.println("-----IS NOT LOGGED --");
+//                            System.out.println("-----IS NOT LOGGED --");
                             ses.invalidate();
                             res.sendRedirect(req.getContextPath() + "/faces/Visitante/Inicio.xhtml");
                             //return;
@@ -84,7 +84,7 @@ public class AuthFilter implements Filter {
                     }
                 }
                 if ((ses == null) || ses.getAttribute("username") == null) {
-                    System.out.println("-----SES NULL or NO uSERNAME --");
+//                    System.out.println("-----SES NULL or NO uSERNAME --");
                     if (!reqURI.contains("/Visitante")) {
                         System.out.println("-----URI no VISITANTE --");
                         res.sendRedirect(req.getContextPath() + "/faces/Visitante/Inicio.xhtml");
@@ -96,7 +96,7 @@ public class AuthFilter implements Filter {
 //                    }
                 }
             }
-            System.out.println("-----CHAIN --");
+//            System.out.println("-----CHAIN --");
             chain.doFilter(request, response);
         } catch (Throwable t) {
             System.out.println(t.getMessage());

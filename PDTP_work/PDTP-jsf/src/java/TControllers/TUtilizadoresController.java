@@ -64,7 +64,7 @@ public class TUtilizadoresController implements Serializable {
         return tNewslettersFacade;
     }
 
-    private TUtilizadoresFacade getUtilizadoresFacade() {
+    protected TUtilizadoresFacade getUtilizadoresFacade() {
         return utilizadoresFacade;
     }
 
@@ -261,4 +261,5 @@ public class TUtilizadoresController implements Serializable {
 
     }
 
+    
 }
