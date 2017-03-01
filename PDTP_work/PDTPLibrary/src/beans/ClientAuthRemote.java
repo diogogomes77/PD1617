@@ -132,6 +132,6 @@ public interface ClientAuthRemote extends ClientRemote {
      * @return
      * @throws beans.SessionException
      */
-    boolean alteraMensagemParLida(Integer id) throws SessionException;
+    boolean alteraMensagemParaLida(Integer id) throws SessionException;
 
 }

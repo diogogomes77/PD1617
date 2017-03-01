@@ -13,8 +13,6 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
-import javax.ejb.EJB;
-import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -23,22 +21,17 @@ import javax.faces.convert.FacesConverter;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 import javax.faces.model.SelectItem;
+import javax.inject.Named;
 import javax.servlet.http.HttpSession;
-import jpafacades.TMensagensFacade;
 
-
+@Named("tMensagensController")
+@SessionScoped
 public class TMensagensController implements Serializable {
 
-    @EJB
-    protected TMensagensFacade ejbFacade;
-//    @EJB
-//    private TMensagensFacade ejbFacade;
     private ClientAuthRemote remoteSession;
 
     protected TMensagens current;
     protected DataModel items = null;
-//    @EJB
-//    private beans.TMensagensFacade ejbFacade;
     protected PaginationHelper pagination;
     protected int selectedItemIndex;
 
@@ -60,9 +53,6 @@ public class TMensagensController implements Serializable {
         return current;
     }
 
-    protected TMensagensFacade getFacade() {
-        return ejbFacade;
-    }
     private ClientAuthRemote getUserSession() {
         return remoteSession;
     }
@@ -100,7 +90,7 @@ public class TMensagensController implements Serializable {
 
     public String prepareList() {
         recreateModel();
-        return "List";
+        return "MinhasMensagens"/*"List"*/;
     }
 
     public String prepareView() {
@@ -109,15 +99,25 @@ public class TMensagensController implements Serializable {
         return "View";
     }
 
+    public String marcarLida() {
+        try {
+            current = (TMensagens) getItems().getRowData();
+            selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
+            getUserSession().alteraMensagemParaLida(current.getIdMensagem());
+        } catch (SessionException ex) {
+            Logger.getLogger(TMensagensController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return "MinhasMensagens";
+    }
+
     public String prepareCreate() {
         current = new TMensagens();
         selectedItemIndex = -1;
-        return "Create";
+        return "EnviarMensagem"/*"Create"*/;
     }
 
     public String create() {
         try {
-            //getFacade().create(current);
             if (getUserSession().sendMensagem(current.getDestinatario().getUsername(), current.getTexto(), current.getAssunto())) {
                 JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/BundleMensagens").getString("TMensagensCreated"));
                 return prepareCreate();
@@ -136,7 +136,6 @@ public class TMensagensController implements Serializable {
 
     public String update() {
         try {
-            //getFacade().edit(current);
             if (getUserSession().alteraMensagem(current.getIdMensagem(), current.getDestinatario().getUsername(), current.getTexto(), current.getAssunto())) {
                 JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/BundleMensagens").getString("TMensagensUpdated"));
                 return "View";
@@ -153,7 +152,7 @@ public class TMensagensController implements Serializable {
         performDestroy();
         recreatePagination();
         recreateModel();
-        return "List";
+        return "MinhasMensagens";//"List";
     }
 
     public String destroyAndView() {
@@ -165,14 +164,14 @@ public class TMensagensController implements Serializable {
         } else {
             // all items were removed - go back to list
             recreateModel();
-            return "List";
+            return "MinhasMensagens";//"List";
         }
     }
 
     private void performDestroy() {
         try {
             //getFacade().remove(current);
-            if (getUserSession().alteraMensagemParLida(current.getIdMensagem())) {
+            if (getUserSession().alteraMensagemParaLida(current.getIdMensagem())) {
                 JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/BundleMensagens").getString("TMensagensDeleted"));
             }
         } catch (SessionException e) {
@@ -192,7 +191,6 @@ public class TMensagensController implements Serializable {
                 }
             }
             if (selectedItemIndex >= 0) {
-                //current = getFacade().findRange(new int[]{selectedItemIndex, selectedItemIndex + 1}).get(0);
                 current = (TMensagens) getUserSession().obtemMensagensRange(new int[]{selectedItemIndex, selectedItemIndex + 1}).get(0);
             }
         } catch (SessionException ex) {
@@ -218,13 +216,13 @@ public class TMensagensController implements Serializable {
     public String next() {
         getPagination().nextPage();
         recreateModel();
-        return "List";
+        return "MinhasMensagens";//"List";
     }
 
     public String previous() {
         getPagination().previousPage();
         recreateModel();
-        return "List";
+        return "MinhasMensagens";//"List";
     }
 
     public SelectItem[] getItemsAvailableSelectMany() {

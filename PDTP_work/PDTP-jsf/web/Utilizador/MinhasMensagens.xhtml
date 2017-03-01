@@ -15,63 +15,74 @@
         </ui:define>
         <ui:define name="content">                        
             <h:form styleClass="jsfcrud_list_form">
-            <h:panelGroup id="messagePanel" layout="block">
-                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
-            </h:panelGroup>
-            <h:outputText escape="false" value="#{bundle.ListTMensagensEmpty}" rendered="#{utilizadortMensagensController.items.rowCount == 0}"/>
-            <h:panelGroup rendered="#{utilizadortMensagensController.items.rowCount > 0}">
-                <h:outputText value="#{utilizadortMensagensController.pagination.pageFirstItem + 1}..#{utilizadortMensagensController.pagination.pageLastItem + 1}/#{utilizadortMensagensController.pagination.itemsCount}"/>&nbsp;
-                <h:commandLink action="#{utilizadortMensagensController.previous}" value="#{bundle.Previous} #{utilizadortMensagensController.pagination.pageSize}" rendered="#{utilizadortMensagensController.pagination.hasPreviousPage}"/>&nbsp;
-                <h:commandLink action="#{utilizadortMensagensController.next}" value="#{bundle.Next} #{utilizadortMensagensController.pagination.pageSize}" rendered="#{utilizadortMensagensController.pagination.hasNextPage}"/>&nbsp;
-                <h:dataTable value="#{utilizadortMensagensController.items}" var="item" border="0" cellpadding="2" cellspacing="0" rowClasses="jsfcrud_odd_row,jsfcrud_even_row" rules="all" style="border:solid 1px">
-                    <h:column>
-                        <f:facet name="header">
-                            <h:outputText value="#{bundle.ListTMensagensTitle_idMensagem}"/>
-                        </f:facet>
-                        <h:outputText value="#{item.idMensagem}"/>
-                    </h:column>
-                    <h:column>
-                        <f:facet name="header">
-                            <h:outputText value="#{bundle.ListTMensagensTitle_assunto}"/>
-                        </f:facet>
-                        <h:outputText value="#{item.assunto}"/>
-                    </h:column>
-                    <h:column>
-                        <f:facet name="header">
-                            <h:outputText value="#{bundle.ListTMensagensTitle_data}"/>
-                        </f:facet>
-                        <h:outputText value="#{item.data}">
-                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
-                        </h:outputText>
-                    </h:column>
-                    <h:column>
-                        <f:facet name="header">
-                            <h:outputText value="#{bundle.ListTMensagensTitle_estado}"/>
-                        </f:facet>
-                        <h:outputText value="#{item.estado}"/>
-                    </h:column>
-                    <h:column>
-                        <f:facet name="header">
-                            <h:outputText value="#{bundle.ListTMensagensTitle_texto}"/>
-                        </f:facet>
-                        <h:outputText value="#{item.texto}"/>
-                    </h:column>
-                    <h:column>
-                        <f:facet name="header">
-                            <h:outputText value="#{bundle.ListTMensagensTitle_destinatario}"/>
-                        </f:facet>
-                        <h:outputText value="#{item.destinatario}"/>
-                    </h:column>
-                    <h:column>
-                        <f:facet name="header">
-                            <h:outputText value="#{bundle.ListTMensagensTitle_remetente}"/>
-                        </f:facet>
-                        <h:outputText value="#{item.remetente}"/>
-                    </h:column>
-                    
-                </h:dataTable>
-            </h:panelGroup>
-        </h:form>
+                <h:panelGroup id="messagePanel" layout="block">
+                    <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+                </h:panelGroup>
+                <h:outputText escape="false" value="#{bundle.ListTMensagensEmpty}" rendered="#{tMensagensController.items.rowCount == 0}"/>
+                <h:panelGroup rendered="#{tMensagensController.items.rowCount > 0}">
+                    <h:outputText value="#{tMensagensController.pagination.pageFirstItem + 1}..#{tMensagensController.pagination.pageLastItem + 1}/#{tMensagensController.pagination.itemsCount}"/>&nbsp;
+                    <h:commandLink action="#{tMensagensController.previous}" value="#{bundle.Previous} #{tMensagensController.pagination.pageSize}" rendered="#{tMensagensController.pagination.hasPreviousPage}"/>&nbsp;
+                    <h:commandLink action="#{tMensagensController.next}" value="#{bundle.Next} #{tMensagensController.pagination.pageSize}" rendered="#{tMensagensController.pagination.hasNextPage}"/>&nbsp;
+                    <h:dataTable value="#{tMensagensController.items}" var="item" border="0" cellpadding="2" cellspacing="0" rowClasses="jsfcrud_odd_row,jsfcrud_even_row" rules="all" style="border:solid 1px">
+                        <!--                   
+                                            <h:column>
+                                                <f:facet name="header">
+                                                    <h:outputText value="#{bundle.ListTMensagensTitle_idMensagem}"/>
+                                                </f:facet>
+                                                <h:outputText value="#{item.idMensagem}"/>
+                                            </h:column>
+                        -->
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListTMensagensTitle_assunto}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.assunto}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListTMensagensTitle_data}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.data}">
+                                <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                            </h:outputText>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListTMensagensTitle_estado}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.estado}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListTMensagensTitle_texto}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.texto}"/>
+                        </h:column>
+                        <!--
+                        
+                                            <h:column>
+                                                <f:facet name="header">
+                                                    <h:outputText value="#{bundle.ListTMensagensTitle_destinatario}"/>
+                                                </f:facet>
+                                                <h:outputText value="#{item.destinatario}"/>
+                                            </h:column>
+                        -->
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListTMensagensTitle_remetente}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.remetente}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="&nbsp;"/>
+                            </f:facet>
+                            <h:commandLink action="#{tMensagensController.marcarLida}" value="#{bundle.ListTMensagensLidaLink}"/>
+                            <h:outputText value=" "/>
+                        </h:column>
+                    </h:dataTable>
+                </h:panelGroup>
+            </h:form>
         </ui:define>
     </ui:composition> 
 

@@ -96,7 +96,7 @@ public class Leiloeira implements LeiloeiraLocal {
     /**
      * termina os itens nas respetivas horas de fim
      */
-    @Schedule(second = "*/6", minute = "*", hour = "*")
+    @Schedule(second = "*/29", minute = "*", hour = "*")
     public void checkItensDataFinal() {
         Timestamp now = new java.sql.Timestamp(Calendar.getInstance().getTime().getTime());
         //Refacturing para usar os itens da base de dados
@@ -112,12 +112,12 @@ public class Leiloeira implements LeiloeiraLocal {
      * @throws InterruptedException faz logout aos utilizadodres com 4 minutos
      * de inatividade
      */
-    @Schedule(second = "*/10", minute = "*", hour = "*")
+    @Schedule(second = "*/30", minute = "*", hour = "*")
     public void checkInactivity() throws InterruptedException {
         long now = LocalDateTime.now()
                 .toInstant(ZoneOffset.UTC).getEpochSecond();
         for (Object u : DAO.findByNamedQuery(TUtilizadores.class, "TUtilizadores.findByLogged", "logged", true)) {
-            if (((TUtilizadores) u).fromLastActionFromNow(now) > 60) {//240) {
+            if (((TUtilizadores) u).fromLastActionFromNow(now) > 240) {
                 ((TUtilizadores) u).setLogged(false);
                 DAO.editWithCommit(u);
                 System.out.println("---Session Timeout user " + ((TUtilizadores) u).getUsername());
@@ -519,7 +519,7 @@ public class Leiloeira implements LeiloeiraLocal {
             msg.setRemetente(util);
             msg.setDestinatario((TUtilizadores) DAO.find(TUtilizadores.class, "admin"));
             msg.setAssunto("Conta suspensa");
-            msg.setTexto("Conta suspensa");
+            msg.setTexto("Conta suspensa do utilizador "+username);
             msg.setEstado(MensagemEstado.ENVIADA);
 
             //Guardar a ativação do utilizador
@@ -612,7 +612,7 @@ public class Leiloeira implements LeiloeiraLocal {
     @Override
     public Object obtemMensagemById(String username, Integer id) {
         //Obter um mensagem pelo ID e verificar se é para o utilizador
-        TMensagens msg = (TMensagens) DAO.findByNamedQuery(TMensagens.class, "TMensagens.findByIdMensagem", "idMensagem", id);
+        TMensagens msg = (TMensagens) DAO.find(TMensagens.class, id);
         if (msg != null) {
             if (username.equals(msg.getDestinatario().getUsername())) {
                 return msg;
@@ -624,7 +624,7 @@ public class Leiloeira implements LeiloeiraLocal {
     @Override
     public Object obtemMensagemByIdEnviada(String username, Integer id) {
         //Obter um mensagem pelo ID e verificar se é para do utilizador
-        TMensagens msg = (TMensagens) DAO.findByNamedQuery(TMensagens.class, "TMensagens.findByIdMensagem", "idMensagem", id);
+        TMensagens msg = (TMensagens) DAO.find(TMensagens.class, id);
         if (msg != null) {
             if (username.equals(msg.getRemetente().getUsername())) {
                 return msg;

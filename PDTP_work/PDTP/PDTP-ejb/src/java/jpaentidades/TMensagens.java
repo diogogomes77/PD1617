@@ -12,6 +12,7 @@ import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.util.Date;
 import javax.persistence.Basic;
+import javax.persistence.Cacheable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -33,11 +34,12 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @Entity
 @Table(name = "t_mensagens")
+@Cacheable(false)
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "TMensagens.findAll", query = "SELECT t FROM TMensagens t")
     , @NamedQuery(name = "TMensagens.findByIdMensagem", query = "SELECT t FROM TMensagens t WHERE t.idMensagem = :idMensagem")
-    , @NamedQuery(name = "TMensagens.findByDestinatario", query = "SELECT t FROM TMensagens t WHERE t.destinatario = :username")
+    , @NamedQuery(name = "TMensagens.findByDestinatario", query = "SELECT t FROM TMensagens t WHERE t.destinatario = :username ORDER BY t.data DESC")
     , @NamedQuery(name = "TMensagens.countFindByDestinatario", query = "SELECT count(t.idMensagem) FROM TMensagens t WHERE t.destinatario = :username")
     , @NamedQuery(name = "TMensagens.findByAssunto", query = "SELECT t FROM TMensagens t WHERE t.assunto = :assunto")
     , @NamedQuery(name = "TMensagens.findByData", query = "SELECT t FROM TMensagens t WHERE t.data = :data")
