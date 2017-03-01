@@ -6,6 +6,9 @@ import jsfclasses.util.PaginationHelper;
 
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.ResourceBundle;
 import javax.ejb.EJB;
 import javax.inject.Named;
@@ -185,9 +188,22 @@ public class TCategoriaController implements Serializable {
         return JsfUtil.getSelectItems(ejbFacade.findAll(), false);
     }
 
-    public SelectItem[] getItemsAvailableSelectOne() {
-       
+     public SelectItem[] getItemsAvailableSelectOne_() {
         return JsfUtil.getSelectItems(ejbFacade.findAll(), true);
+    }
+      public List<TCategoria> getItemsAvailableSelectOne() {
+        return ejbFacade.findAll();
+    }
+    public List getItemsAvailableSelectOnee() {
+        List<SelectItem> itens = Arrays.asList(JsfUtil.getSelectItems(ejbFacade.findAll(), true));
+        List<String> result = new ArrayList();
+        for (SelectItem item : itens){
+//            TCategoria t = (TCategoria)item.getValue();
+//            result.add(t.getNome());
+            
+             result.add(item.getLabel());
+        }
+        return result;
     }
 
     public TCategoria getTCategoria(java.lang.Integer id) {

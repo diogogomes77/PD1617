@@ -20,14 +20,13 @@
             <h:form>
                 <h:panelGrid columns="2">
                     <h:outputLabel value="#{bundleItens.CreateTItensLabel_categoria}" for="categoria" />
-<!--                    <h:inputText id="categoria" value="#{tItensController.selected.categoria}" title="#{bundleItens.CreateTItensTitle_categoria}" />-->
                      <h:selectOneMenu id="categoria" value="#{tItensController.selected.categoria}" title="#{bundleItens.CreateTItensTitle_categoria}" >
                         <f:selectItems value="#{tCategoriaController.itemsAvailableSelectOne}"
-                                       var="entry"
-        itemValue="#{entry.key}" itemLabel="#{entry.value}"
+                                       var="categoria"
+                                        itemValue="#{categoria.nome}" itemLabel="#{categoria.nome}"
                                        />
                     </h:selectOneMenu>
-                    
+            
                     <h:outputLabel value="#{bundleItens.CreateTItensLabel_comprarja}" for="comprarja" />
                     <h:inputText id="comprarja" value="#{tItensController.selected.comprarja}" title="#{bundleItens.CreateTItensTitle_comprarja}" />
                     <h:outputLabel value="#{bundleItens.CreateTItensLabel_datafim}" for="datafim" />

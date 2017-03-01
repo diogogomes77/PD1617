@@ -141,4 +141,11 @@
             <to-view-id>/Administrador/Contas/PedidosdeAdesao.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>
+    <navigation-rule>
+        <from-view-id>/Utilizador/Itens/ColocarItemavenda.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>Create</from-outcome>
+            <to-view-id>/Utilizador/Itens/MeusItensavenda.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
 </faces-config>
