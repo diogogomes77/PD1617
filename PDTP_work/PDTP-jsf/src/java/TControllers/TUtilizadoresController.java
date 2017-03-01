@@ -43,6 +43,7 @@ public class TUtilizadoresController implements Serializable {
     }
     
     protected PaginationHelper pagination;
+    protected PaginationHelper paginationNamedQuery;
     protected  int selectedItemIndex;
 
     public TUtilizadoresController() {
@@ -68,6 +69,10 @@ public class TUtilizadoresController implements Serializable {
         return utilizadoresFacade;
     }
 
+    public PaginationHelper getPaginationAdesao(){
+        return getPaginationNamedQuery("TUtilizadores.findByEstado","estado","ATIVO_PEDIDO");
+    }
+    
     public PaginationHelper getPagination() {
         if (pagination == null) {
             pagination = new PaginationHelper(10) {
@@ -86,6 +91,24 @@ public class TUtilizadoresController implements Serializable {
         return pagination;
     }
 
+    public PaginationHelper getPaginationNamedQuery(String nameQuery, String nameParam, Object valor) {
+        if (paginationNamedQuery == null) {
+            paginationNamedQuery = new PaginationHelper(10) {
+
+                @Override
+                public int getItemsCount() {
+                    return getUtilizadoresFacade().countByNamedQuery(nameQuery,nameParam,valor);
+                }
+
+                @Override
+                public DataModel createPageDataModel() {
+                    return new ListDataModel(getUtilizadoresFacade().findRangeByNamedQuery(new int[]{getPageFirstItem(), getPageFirstItem() + getPageSize()},nameQuery,nameParam,valor));
+                }
+            };
+        }
+        return paginationNamedQuery;
+    }
+    
     public String prepareList() {
         recreateModel();
         return "List";
@@ -186,6 +209,18 @@ public class TUtilizadoresController implements Serializable {
         return items;
     }
 
+    public DataModel getPedidosAdesao() {
+//        System.out.println("---ver ITEMS");
+//        if (items == null) {
+           System.out.println("--- getPedidosAdesao");
+            String namedQuery="TUtilizadores.findByEstado";
+            String param="estado";
+            Object valor="ATIVO_PEDIDO";
+            items = getPaginationNamedQuery(namedQuery,param,valor).createPageDataModel();
+//        }
+        return items;
+    }
+    
     private void recreateModel() {
         items = null;
     }

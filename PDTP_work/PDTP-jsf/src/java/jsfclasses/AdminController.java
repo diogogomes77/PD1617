@@ -60,6 +60,7 @@ public class AdminController extends VisitanteController implements Serializable
         menuAdminContas.setTituloMenu("Contas");
 
         menuAdminContas.addMenuPage("Pedidos de Adesao");
+        menuAdminContas.addMenuPage("Pedidos de Adesao_1");
 //        menuAdminContas.addMenuPage("Activar Contas");
         menuAdminContas.addMenuPage("Pedidos de Reativacao");
 //        menuAdminContas.addMenuPage("Reactivar Contas");
