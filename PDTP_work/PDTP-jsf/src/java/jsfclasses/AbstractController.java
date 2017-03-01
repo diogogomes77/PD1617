@@ -15,7 +15,7 @@ import jpaentidades.TUtilizadores;
  * @author diogo
  */
 
-public abstract class AbstractController  implements Serializable { // extends TUtilizadoresController
+public abstract class AbstractController extends TUtilizadoresController implements Serializable { // extends TUtilizadoresController
 
     
     protected TUtilizadoresController tUtilizadorController ;

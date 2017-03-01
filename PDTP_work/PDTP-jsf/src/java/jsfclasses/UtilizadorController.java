@@ -18,6 +18,7 @@ import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 import javax.servlet.http.HttpSession;
+import jpaentidades.TUtilizadores;
 
 /**
  *
@@ -25,7 +26,7 @@ import javax.servlet.http.HttpSession;
  */
 @Named("UtilizadorController")
 @SessionScoped
-public class UtilizadorController extends AbstractController implements Serializable {
+public class UtilizadorController extends VisitanteController implements Serializable {
 
     @EJB
     ClientUtilizadorRemote client;
@@ -48,7 +49,7 @@ public class UtilizadorController extends AbstractController implements Serializ
         Menu menuUtilizadorConta = new Menu("menu2", seccao);
         menuUtilizadorConta.setTituloMenu("Conta");
         menuUtilizadorConta.addMenuPage("Consultar dados");
-        menuUtilizadorConta.addMenuPage("Atualizar dados");
+//        menuUtilizadorConta.addMenuPage("Atualizar dados");
         menuUtilizadorConta.addMenuPage("Alterar password");
         menuUtilizadorConta.addMenuPage("Pedir Suspensao");
         menus.add(menuUtilizadorConta);
@@ -78,6 +79,8 @@ public class UtilizadorController extends AbstractController implements Serializ
             HttpSession session = Util.getSession();
             client.setMyName((String) session.getAttribute("username"));
             session.setAttribute("sessaoUser", client);
+            current = (TUtilizadores) getUtilizadoresFacade().find(session.getAttribute("username"));
+            System.out.println("----CURRENT="+current.getUsername());
         } catch (SessionException ex) {
             Logger.getLogger(UtilizadorController.class.getName()).log(Level.SEVERE, null, ex);
         }

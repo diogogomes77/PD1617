@@ -10,15 +10,27 @@
         </ui:define>
         <ui:define name="title">
             <h1 class="page-header "> <i class="fa fa-handshake-o"></i>  
-                <h:outputText value=" #{bundle.UtilizadorInicio}"></h:outputText>
+                <h:outputText value=" Dados Pessoais Utilizador"></h:outputText>
             </h1>
         </ui:define>
         <ui:define name="content">                        
-            <h:link outcome="/tMensagens/List" value="Show All TMensagens Items"/>
-            <br />
-            <h:link outcome="/tUtilizadores/List" value="Show All TUtilizadores Items"/>
-            
-            <ui:include src="/Geral/ListaRegistados.xhtml" />
+             <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputText value="#{bundle.ViewTUtilizadoresLabel_username}"/>
+                    <h:outputText value="#{UtilizadorController.selected.username}" title="#{bundle.ViewTUtilizadoresTitle_username}"/>
+                    <h:outputText value="#{bundle.ViewTUtilizadoresLabel_morada}"/>
+                    <h:outputText value="#{UtilizadorController.selected.morada}" title="#{bundle.ViewTUtilizadoresTitle_morada}"/>
+                    <h:outputText value="#{bundle.ViewTUtilizadoresLabel_nome}"/>
+                    <h:outputText value="#{UtilizadorController.selected.nome}" title="#{bundle.ViewTUtilizadoresTitle_nome}"/>
+                    <h:outputText value="#{bundle.ViewTUtilizadoresLabel_saldo}"/>
+                    <h:outputText value="#{UtilizadorController.selected.saldo}" title="#{bundle.ViewTUtilizadoresTitle_saldo}"/>
+                </h:panelGrid>
+                <h:link outcome="Edit" value="Editar Dados"/>
+               
+            </h:form>
         </ui:define>
     </ui:composition> 
 
