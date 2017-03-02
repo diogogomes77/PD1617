@@ -20,12 +20,12 @@ import jpaentidades.TUtilizadores;
 public class TUtilizadoresPedidosSupenderController extends TUtilizadoresController {
 
     public TUtilizadoresPedidosSupenderController() {
-        tipoLista = UtilizadorTipoLista.LISTA_USER_ALL;
+        tipoLista = UtilizadorTipoLista.LISTA_USER_SUPENDER;
     }
 
     public TUtilizadoresPedidosSupenderController(TUtilizadores current) {
         super(current);
-        tipoLista = UtilizadorTipoLista.LISTA_USER_ALL;
+        tipoLista = UtilizadorTipoLista.LISTA_USER_SUPENDER;
     }
 
     @PostConstruct

@@ -103,36 +103,4 @@ public class AdminController extends VisitanteController implements Serializable
         }
         return "/Inicio.xhtml";
     }
-
-    public String ativar(String user) {
-        try {
-            Boolean ativado = client.ativaUtilizador(user);
-            JsfUtil.addSuccessMessage("Utilizador username "+user+" ativado!");
-           
-        } catch (SessionException ex) {
-            Logger.getLogger(AdminController.class.getName()).log(Level.SEVERE, null, ex);
-            JsfUtil.addSuccessMessage("ERRO ao ativar "+user);
-        }
-        return null;
-    }
-    public String reativar(String user) {
-        try {
-            Boolean ativado = client.ativaUtilizador(user);
-             JsfUtil.addSuccessMessage("Utilizador username "+user+" reativado!");
-        } catch (SessionException ex) {
-            Logger.getLogger(AdminController.class.getName()).log(Level.SEVERE, null, ex);
-            JsfUtil.addSuccessMessage("ERRO ao reativar "+user);
-        }
-        return null;
-    }
-
-    public String suspender(String user) {
-        try {
-            Boolean ativado = client.suspendeUsername(user);
-            System.out.println("---ATIVADO "+user+" "+ativado );
-        } catch (SessionException ex) {
-            Logger.getLogger(AdminController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
-    }
 }

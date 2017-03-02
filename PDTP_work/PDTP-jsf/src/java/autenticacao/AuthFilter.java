@@ -100,7 +100,7 @@ public class AuthFilter implements Filter {
             if (chain != null) {
                 chain.doFilter(request, response);
             }
-        } catch (Throwable t) {
+        } catch (IOException | ServletException t) {
             System.out.println(t.getMessage());
         }
     } //doFilter

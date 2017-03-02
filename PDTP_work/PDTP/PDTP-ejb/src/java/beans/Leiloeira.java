@@ -811,14 +811,13 @@ public class Leiloeira implements LeiloeiraLocal {
             TitemsAVenda iVenda = new TitemsAVenda(item);
             TNewsletters news = new TNewsletters("Item adicionado ", item.getDescricao());
             EntityTransaction trans = DAO.getEntityManager().getTransaction();
-            
+
             trans.begin();
             DAO.create(item);
             DAO.create(iVenda);
             DAO.create(news);
             trans.commit();
-             
-               
+
             return true;
         }
         return false;
@@ -1264,24 +1263,26 @@ public class Leiloeira implements LeiloeiraLocal {
     @Override
     public List<Object> obtemUtilizadores(UtilizadorTipoLista lista) throws SessionException {
         List<Object> list = null;
-        if (null != lista) switch (lista) {
-            case LISTA_USER_ALL:
-                list = DAO.findAll(TUtilizadores.class);
-                break;
-            case LISTA_USER_ADESOES:
-                list = DAO.findByNamedQuery(TUtilizadores.class, "TUtilizadores.findByEstado", "estado", UtilizadorEstado.ATIVO_PEDIDO);
-                break;
-            case LISTA_USER_REARIVAR:
-                list = DAO.findByNamedQuery(TUtilizadores.class, "TUtilizadores.findByEstado", "estado", UtilizadorEstado.REATIVACAO_PEDIDO);
-                break;
-            case LISTA_USER_SUPENDER:
-                list = DAO.findByNamedQuery(TUtilizadores.class, "TUtilizadores.findByEstado", "estado", UtilizadorEstado.SUSPENDO_PEDIDO);
-                break;
-            case LISTA_USER_ONLINE:
-                list = DAO.findByNamedQuery(TUtilizadores.class, "TUtilizadores.findByLogged", "logged", true);
-                break;
-            default:
-                break;
+        if (null != lista) {
+            switch (lista) {
+                case LISTA_USER_ALL:
+                    list = DAO.findAll(TUtilizadores.class);
+                    break;
+                case LISTA_USER_ADESOES:
+                    list = DAO.findByNamedQuery(TUtilizadores.class, "TUtilizadores.findByEstado", "estado", UtilizadorEstado.ATIVO_PEDIDO);
+                    break;
+                case LISTA_USER_REARIVAR:
+                    list = DAO.findByNamedQuery(TUtilizadores.class, "TUtilizadores.findByEstado", "estado", UtilizadorEstado.REATIVACAO_PEDIDO);
+                    break;
+                case LISTA_USER_SUPENDER:
+                    list = DAO.findByNamedQuery(TUtilizadores.class, "TUtilizadores.findByEstado", "estado", UtilizadorEstado.SUSPENDO_PEDIDO);
+                    break;
+                case LISTA_USER_ONLINE:
+                    list = DAO.findByNamedQuery(TUtilizadores.class, "TUtilizadores.findByLogged", "logged", true);
+                    break;
+                default:
+                    break;
+            }
         }
         return list;
     }
@@ -1289,24 +1290,26 @@ public class Leiloeira implements LeiloeiraLocal {
     @Override
     public int obtemNumUtilizador(UtilizadorTipoLista lista) throws SessionException {
         int numReg = 0;
-        if (null != lista) switch (lista) {
-            case LISTA_USER_ALL:
-                numReg = DAO.count(TUtilizadores.class);
-                break;
-            case LISTA_USER_ADESOES:
-                numReg = DAO.countByNamedQuery(TUtilizadores.class, "TUtilizadores.countFindByEstado", "estado", UtilizadorEstado.ATIVO_PEDIDO);
-                break;
-            case LISTA_USER_REARIVAR:
-                numReg = DAO.countByNamedQuery(TUtilizadores.class, "TUtilizadores.countFindByEstado", "estado", UtilizadorEstado.REATIVACAO_PEDIDO);
-                break;
-            case LISTA_USER_SUPENDER:
-                numReg = DAO.countByNamedQuery(TUtilizadores.class, "TUtilizadores.countFindByEstado", "estado", UtilizadorEstado.SUSPENDO_PEDIDO);
-                break;
-            case LISTA_USER_ONLINE:
-                numReg = DAO.countByNamedQuery(TUtilizadores.class, "TUtilizadores.countFindByLogged", "logged", true);
-                break;
-            default:
-                break;
+        if (null != lista) {
+            switch (lista) {
+                case LISTA_USER_ALL:
+                    numReg = DAO.count(TUtilizadores.class);
+                    break;
+                case LISTA_USER_ADESOES:
+                    numReg = DAO.countByNamedQuery(TUtilizadores.class, "TUtilizadores.countFindByEstado", "estado", UtilizadorEstado.ATIVO_PEDIDO);
+                    break;
+                case LISTA_USER_REARIVAR:
+                    numReg = DAO.countByNamedQuery(TUtilizadores.class, "TUtilizadores.countFindByEstado", "estado", UtilizadorEstado.REATIVACAO_PEDIDO);
+                    break;
+                case LISTA_USER_SUPENDER:
+                    numReg = DAO.countByNamedQuery(TUtilizadores.class, "TUtilizadores.countFindByEstado", "estado", UtilizadorEstado.SUSPENDO_PEDIDO);
+                    break;
+                case LISTA_USER_ONLINE:
+                    numReg = DAO.countByNamedQuery(TUtilizadores.class, "TUtilizadores.countFindByLogged", "logged", true);
+                    break;
+                default:
+                    break;
+            }
         }
         return numReg;
     }
@@ -1314,27 +1317,28 @@ public class Leiloeira implements LeiloeiraLocal {
     @Override
     public List<Object> obtemUtilizadoresRange(UtilizadorTipoLista lista, int[] range) throws SessionException {
         List<Object> list = null;
-        if (null != lista) switch (lista) {
-            case LISTA_USER_ALL:
-                list = DAO.findRange(TUtilizadores.class, range);
-                break;
-            case LISTA_USER_ADESOES:
-                list = DAO.findRangeByNamedQuery(TUtilizadores.class, range, "TUtilizadores.findByEstado", "estado", UtilizadorEstado.ATIVO_PEDIDO);
-                break;
-            case LISTA_USER_REARIVAR:
-                list = DAO.findRangeByNamedQuery(TUtilizadores.class, range, "TUtilizadores.findByEstado", "estado", UtilizadorEstado.REATIVACAO_PEDIDO);
-                break;
-            case LISTA_USER_SUPENDER:
-                list = DAO.findRangeByNamedQuery(TUtilizadores.class, range, "TUtilizadores.findByEstado", "estado", UtilizadorEstado.SUSPENDO_PEDIDO);
-                break;
-            case LISTA_USER_ONLINE:
-                list = DAO.findRangeByNamedQuery(TUtilizadores.class, range, "TUtilizadores.findByLogged", "logged", true);
-                break;
-            default:
-                break;
+        if (null != lista) {
+            switch (lista) {
+                case LISTA_USER_ALL:
+                    list = DAO.findRange(TUtilizadores.class, range);
+                    break;
+                case LISTA_USER_ADESOES:
+                    list = DAO.findRangeByNamedQuery(TUtilizadores.class, range, "TUtilizadores.findByEstado", "estado", UtilizadorEstado.ATIVO_PEDIDO);
+                    break;
+                case LISTA_USER_REARIVAR:
+                    list = DAO.findRangeByNamedQuery(TUtilizadores.class, range, "TUtilizadores.findByEstado", "estado", UtilizadorEstado.REATIVACAO_PEDIDO);
+                    break;
+                case LISTA_USER_SUPENDER:
+                    list = DAO.findRangeByNamedQuery(TUtilizadores.class, range, "TUtilizadores.findByEstado", "estado", UtilizadorEstado.SUSPENDO_PEDIDO);
+                    break;
+                case LISTA_USER_ONLINE:
+                    list = DAO.findRangeByNamedQuery(TUtilizadores.class, range, "TUtilizadores.findByLogged", "logged", true);
+                    break;
+                default:
+                    break;
+            }
         }
 
         return list;
     }
-
 }
