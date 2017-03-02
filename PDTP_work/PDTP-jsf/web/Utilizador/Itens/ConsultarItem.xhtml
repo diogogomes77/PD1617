@@ -46,7 +46,7 @@
                 <h:panelGrid columns="3">
                     <h:outputLabel value="#{bundleLicitacoes.CreateTLicitacoesLabel_valor}" for="valor" />
                     <h:inputText id="valor" value="#{tLicitacoesController.selected.valor}" title="Licitacao" />
-                    <h:commandLink action="#{tLicitacoesController.create}" value="Licitar" />
+                    <h:commandLink action="#{tLicitacoesController.create(tItensController.selected.itemid)}" value="Licitar" />
                 </h:panelGrid>
                 
                 

@@ -92,10 +92,8 @@ public class TItensController implements Serializable {
     public String seguir() {
         HttpSession session = Util.getSession();
        
-         System.out.println("-----SESSION= "+session.getAttribute("sessaoUser"));
         current = (TItens) getItems().getRowData();
         selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
-        System.out.println("-----CURRENT= "+current.getItemid());
         try {
             
             boolean ok = remoteSession.seguirItem(current.getItemid());

@@ -1,12 +1,16 @@
 package TControllers;
 
+import autenticacao.Util;
+import beans.ClientUtilizadorRemote;
 import jpaentidades.TLicitacoes;
 import jsfclasses.util.JsfUtil;
 import jsfclasses.util.PaginationHelper;
 import jpafacades.TLicitacoesFacade;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.ResourceBundle;
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
@@ -17,11 +21,19 @@ import javax.faces.convert.FacesConverter;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 import javax.faces.model.SelectItem;
+import javax.servlet.http.HttpSession;
 
 @Named("tLicitacoesController")
 @SessionScoped
 public class TLicitacoesController implements Serializable {
 
+    private ClientUtilizadorRemote remoteSession;
+    
+    @PostConstruct
+    public void init() {
+        HttpSession session = Util.getSession();
+        remoteSession = (ClientUtilizadorRemote) session.getAttribute("sessaoUser");
+    }
     private TLicitacoes current;
     private DataModel items = null;
     @EJB
@@ -78,10 +90,10 @@ public class TLicitacoesController implements Serializable {
         selectedItemIndex = -1;
         return "Create";
     }
-
-    public String create() {
+    
+    public String create(Long itemId) {
         try {
-            getFacade().create(current);
+            remoteSession.licitarItem(itemId, current.getValor());
             JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/BundleLicitacoes").getString("TLicitacoesCreated"));
             return prepareCreate();
         } catch (Exception e) {
@@ -89,6 +101,7 @@ public class TLicitacoesController implements Serializable {
             return null;
         }
     }
+
 
     public String prepareEdit() {
         current = (TLicitacoes) getItems().getRowData();
