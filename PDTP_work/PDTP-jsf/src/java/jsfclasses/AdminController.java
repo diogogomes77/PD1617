@@ -12,6 +12,7 @@ import beans.ClientAuthRemote;
 import beans.SessionException;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
@@ -20,6 +21,7 @@ import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 import javax.servlet.http.HttpSession;
 import jpaentidades.TUtilizadores;
+import jsfclasses.util.JsfUtil;
 
 /**
  *
@@ -105,18 +107,21 @@ public class AdminController extends VisitanteController implements Serializable
     public String ativar(String user) {
         try {
             Boolean ativado = client.ativaUtilizador(user);
-            System.out.println("---ATIVADO "+user+" "+ativado );
+            JsfUtil.addSuccessMessage("Utilizador username "+user+" ativado!");
+           
         } catch (SessionException ex) {
             Logger.getLogger(AdminController.class.getName()).log(Level.SEVERE, null, ex);
+            JsfUtil.addSuccessMessage("ERRO ao ativar "+user);
         }
         return null;
     }
     public String reativar(String user) {
         try {
             Boolean ativado = client.ativaUtilizador(user);
-            System.out.println("---REATIVADO "+user+" "+ativado );
+             JsfUtil.addSuccessMessage("Utilizador username "+user+" reativado!");
         } catch (SessionException ex) {
             Logger.getLogger(AdminController.class.getName()).log(Level.SEVERE, null, ex);
+            JsfUtil.addSuccessMessage("ERRO ao reativar "+user);
         }
         return null;
     }
