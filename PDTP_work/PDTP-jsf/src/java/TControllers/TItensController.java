@@ -1,5 +1,10 @@
 package TControllers;
 
+import autenticacao.Util;
+import beans.ClientRemote;
+import beans.ClientUtilizadorRemote;
+import beans.ClientVisitanteRemote;
+import beans.SessionException;
 import jpaentidades.TItens;
 import jsfclasses.util.JsfUtil;
 import jsfclasses.util.PaginationHelper;
@@ -7,6 +12,8 @@ import jsfclasses.util.PaginationHelper;
 
 import java.io.Serializable;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
@@ -17,12 +24,15 @@ import javax.faces.convert.FacesConverter;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 import javax.faces.model.SelectItem;
+import javax.servlet.http.HttpSession;
 import jpafacades.TItensFacade;
 
 @Named("tItensController")
 @SessionScoped
 public class TItensController implements Serializable {
 
+    private ClientUtilizadorRemote remoteSession;
+    
     private TItens current;
     private DataModel items = null;
     @EJB
@@ -73,7 +83,30 @@ public class TItensController implements Serializable {
         selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
         return "View";
     }
-
+    public void init() {
+        HttpSession session = Util.getSession();
+       
+        remoteSession = (ClientUtilizadorRemote) session.getAttribute("sessaoUser");
+        
+    }
+    public String seguir() {
+        HttpSession session = Util.getSession();
+       
+         System.out.println("-----SESSION= "+session.getAttribute("sessaoUser"));
+        current = (TItens) getItems().getRowData();
+        selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
+        System.out.println("-----CURRENT= "+current.getItemid());
+        try {
+            
+            boolean ok = remoteSession.seguirItem(current.getItemid());
+            if (ok) JsfUtil.addSuccessMessage("Item Seguido");
+            else JsfUtil.addSuccessMessage("Erro");
+            return null;
+        } catch (SessionException ex) {
+            Logger.getLogger(TItensController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
     public String prepareCreate() {
         current = new TItens();
         selectedItemIndex = -1;

@@ -26,12 +26,12 @@ import jpafacades.TCategoriaFacade;
 @SessionScoped
 public class TCategoriaController implements Serializable {
 
-    private TCategoria current;
-    private DataModel items = null;
+    protected TCategoria current;
+    protected DataModel items = null;
     @EJB
-    private TCategoriaFacade ejbFacade;
-    private PaginationHelper pagination;
-    private int selectedItemIndex;
+    protected TCategoriaFacade ejbFacade;
+    protected PaginationHelper pagination;
+    protected int selectedItemIndex;
 
     public TCategoriaController() {
     }
@@ -83,16 +83,7 @@ public class TCategoriaController implements Serializable {
         return "Create";
     }
 
-    public String create() {
-        try {
-            getFacade().create(current);
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/BundleCat").getString("TCategoriaCreated"));
-            return prepareCreate();
-        } catch (Exception e) {
-            JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/BundleCat").getString("PersistenceErrorOccured"));
-            return null;
-        }
-    }
+    
 
     public String prepareEdit() {
         current = (TCategoria) getItems().getRowData();
@@ -133,7 +124,7 @@ public class TCategoriaController implements Serializable {
         }
     }
 
-    private void performDestroy() {
+    protected void performDestroy() {
         try {
             getFacade().remove(current);
             JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/BundleCat").getString("TCategoriaDeleted"));
@@ -142,7 +133,7 @@ public class TCategoriaController implements Serializable {
         }
     }
 
-    private void updateCurrentItem() {
+    protected void updateCurrentItem() {
         int count = getFacade().count();
         if (selectedItemIndex >= count) {
             // selected index cannot be bigger than number of items:
@@ -164,11 +155,11 @@ public class TCategoriaController implements Serializable {
         return items;
     }
 
-    private void recreateModel() {
+    protected void recreateModel() {
         items = null;
     }
 
-    private void recreatePagination() {
+    protected void recreatePagination() {
         pagination = null;
     }
 

@@ -103,6 +103,7 @@ public class ClientUtilizador extends ClientAuth implements ClientUtilizadorRemo
 
     @Override
     public boolean seguirItem(long itemId) throws SessionException {
+        System.out.println("-----SEGUIR ITEM= "+itemId);
         setLastAction();
         return leiloeira.seguirItem(myName, itemId);
     }

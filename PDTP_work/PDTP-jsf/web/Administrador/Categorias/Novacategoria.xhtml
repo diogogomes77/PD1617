@@ -20,10 +20,10 @@
             <h:form>
                 <h:panelGrid columns="2">
                     <h:outputLabel value="#{bundleCat.CreateTCategoriaLabel_nome}" for="nome" />
-                    <h:inputText id="nome" value="#{tCategoriaController.selected.nome}" title="#{bundleCat.CreateTCategoriaTitle_nome}" />
+                    <h:inputText id="nome" value="#{admintCategoriaController.selected.nome}" title="#{bundleCat.CreateTCategoriaTitle_nome}" />
                 </h:panelGrid>
                 <br />
-                <h:commandLink action="#{tCategoriaController.create}" value="#{bundleCat.CreateTCategoriaSaveLink}" />
+                <h:commandLink action="#{admintCategoriaController.create}" value="#{bundleCat.CreateTCategoriaSaveLink}" />
  
             </h:form>
         </ui:define>
