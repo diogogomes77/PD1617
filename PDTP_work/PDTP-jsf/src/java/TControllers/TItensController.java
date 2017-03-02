@@ -1,9 +1,7 @@
 package TControllers;
 
 import autenticacao.Util;
-import beans.ClientRemote;
 import beans.ClientUtilizadorRemote;
-import beans.ClientVisitanteRemote;
 import beans.SessionException;
 import jpaentidades.TItens;
 import jsfclasses.util.JsfUtil;
@@ -11,9 +9,11 @@ import jsfclasses.util.PaginationHelper;
 
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
@@ -42,7 +42,11 @@ public class TItensController implements Serializable {
 
     public TItensController() {
     }
-
+    @PostConstruct
+    public void init() {
+        HttpSession session = Util.getSession();
+        remoteSession = (ClientUtilizadorRemote) session.getAttribute("sessaoUser");
+    }
     public TItens getSelected() {
         if (current == null) {
             current = new TItens();
@@ -83,12 +87,8 @@ public class TItensController implements Serializable {
         selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
         return "View";
     }
-    public void init() {
-        HttpSession session = Util.getSession();
-       
-        remoteSession = (ClientUtilizadorRemote) session.getAttribute("sessaoUser");
-        
-    }
+
+    
     public String seguir() {
         HttpSession session = Util.getSession();
        
@@ -115,7 +115,9 @@ public class TItensController implements Serializable {
 
     public String create() {
         try {
-            getFacade().create(current);
+            
+            Timestamp limite = new java.sql.Timestamp(current.getDatafim().getTime());
+           remoteSession.addItem(current.getCategoria(), current.getDescricao(), current.getPrecoinicial(), current.getComprarja(),limite);
             JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/BundleItens").getString("TItensCreated"));
             return prepareCreate();
         } catch (Exception e) {
