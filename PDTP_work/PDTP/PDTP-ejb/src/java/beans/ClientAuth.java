@@ -14,7 +14,7 @@ import java.util.logging.Logger;
  *
  * @author eugenio
  */
-public class ClientAuth extends ClientBase implements ClientAuthRemote {
+public abstract class ClientAuth extends ClientBase implements ClientAuthRemote {
 
     String myName;
 
@@ -77,8 +77,13 @@ public class ClientAuth extends ClientBase implements ClientAuthRemote {
             return true;
         }
         setLastAction();
-
         return false;
+    }
+
+    @Override
+    public Object getUser() throws SessionException {
+        setLastAction();
+        return leiloeira.obtemUserById(myName);
     }
 
     @Override

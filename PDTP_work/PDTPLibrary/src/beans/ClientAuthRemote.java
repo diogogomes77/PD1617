@@ -14,6 +14,13 @@ public interface ClientAuthRemote extends ClientRemote {
      * @return @throws beans.SessionException
      */
     boolean logOff() throws SessionException;
+    
+    /**
+     *
+     * @return
+     * @throws SessionException
+     */
+    Object getUser() throws SessionException;
 
     /**
      *

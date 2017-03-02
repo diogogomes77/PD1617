@@ -13,7 +13,7 @@ import javax.ejb.EJB;
  *
  * @author eugenio
  */
-public class ClientBase implements ClientRemote {
+public abstract class ClientBase implements ClientRemote {
 
     @EJB
     LeiloeiraLocal leiloeira;
@@ -29,6 +29,11 @@ public class ClientBase implements ClientRemote {
     }
 
     @Override
+    public List<Object> getNewsletter(int nLastNews) {
+        return leiloeira.obtemNewsletter(nLastNews);
+    }
+
+    @Override
     public ArrayList<String> getUsernamesOnline() {
         return leiloeira.getUsernamesOnline();
     }
@@ -41,6 +46,26 @@ public class ClientBase implements ClientRemote {
     @Override
     public int getTotalItens() {
         return leiloeira.getTotalItens();
+    }
+
+    @Override
+    public List<Object> obtemUtilizadores(UtilizadorTipoLista lista) throws SessionException {
+        return leiloeira.obtemUtilizadores(lista);
+    }
+
+    @Override
+    public int obtemNumUtilizador(UtilizadorTipoLista lista) throws SessionException {
+        return leiloeira.obtemNumUtilizador(lista);
+    }
+
+    @Override
+    public Object obtemUtilizadorById(String id) throws SessionException {
+        return leiloeira.obtemUserById(id);
+    }
+
+    @Override
+    public List<Object> obtemUtilizadoresRange(UtilizadorTipoLista lista, int[] range) throws SessionException {
+        return leiloeira.obtemUtilizadoresRange(lista, range);
     }
 
 }

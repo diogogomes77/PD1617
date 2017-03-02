@@ -1,12 +1,15 @@
 package TControllers;
 
+import autenticacao.Util;
+import beans.ClientAuthRemote;
+import beans.ClientRemote;
 import jpaentidades.TNewsletters;
 import jsfclasses.util.JsfUtil;
 import jsfclasses.util.PaginationHelper;
 
-
 import java.io.Serializable;
 import java.util.ResourceBundle;
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
@@ -17,11 +20,14 @@ import javax.faces.convert.FacesConverter;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 import javax.faces.model.SelectItem;
+import javax.servlet.http.HttpSession;
 import jpafacades.TNewslettersFacade;
 
 @Named("tNewslettersController")
 @SessionScoped
 public class TNewslettersController implements Serializable {
+
+    private ClientRemote remoteSession;
 
     @EJB
     private TNewslettersFacade ejbFacade;
@@ -34,6 +40,17 @@ public class TNewslettersController implements Serializable {
     private int selectedItemIndex;
 
     public TNewslettersController() {
+    }
+
+    @PostConstruct
+    public void init() {
+        //session = null;
+        HttpSession session = Util.getSession();
+        remoteSession = (ClientRemote) session.getAttribute("sessaoUser");
+    }
+
+    private ClientRemote getUserSession() {
+        return remoteSession;
     }
 
     public TNewsletters getSelected() {

@@ -420,4 +420,35 @@ public interface LeiloeiraLocal {
     boolean isLogged(String username);
 
     List<String> obtemNewsletter();
+    
+    List<Object> obtemNewsletter(int nLastNews);
+    
+        /**
+     *
+     * @param username
+     * @return
+     */
+    public Object obtemUserById(String username);
+    
+    /**
+     *
+     * @param lista
+     * @return @throws beans.SessionException
+     */
+    List<Object> obtemUtilizadores(UtilizadorTipoLista lista) throws SessionException;
+
+    /**
+     *
+     * @param lista
+     * @return @throws beans.SessionException
+     */
+    int obtemNumUtilizador(UtilizadorTipoLista lista) throws SessionException;
+
+    /**
+     *
+     * @param lista
+     * @param range
+     * @return @throws beans.SessionException
+     */
+    List<Object> obtemUtilizadoresRange(UtilizadorTipoLista lista, int[] range) throws SessionException;
 }

@@ -142,4 +142,37 @@ public class ClientUtilizador extends ClientAuth implements ClientUtilizadorRemo
         setLastAction();
         return leiloeira.seguirItemCancelar(myName, itemId);
     }
+
+    @Override
+    public List<Object> obtemUtilizadores(UtilizadorTipoLista lista) throws SessionException {
+        setLastAction();
+        if (lista == UtilizadorTipoLista.LISTA_USER_ALL) {
+            return super.obtemUtilizadores(lista);
+        }
+        return null;
+    }
+
+    @Override
+    public int obtemNumUtilizador(UtilizadorTipoLista lista) throws SessionException {
+        setLastAction();
+        if (lista == UtilizadorTipoLista.LISTA_USER_ALL) {
+            return super.obtemNumUtilizador(lista);
+        }
+        return 0;
+    }
+
+    @Override
+    public Object obtemUtilizadorById(String id) throws SessionException {
+        setLastAction();
+        return super.obtemUtilizadorById(id);
+    }
+
+    @Override
+    public List<Object> obtemUtilizadoresRange(UtilizadorTipoLista lista, int[] range) throws SessionException {
+        setLastAction();
+        if (lista == UtilizadorTipoLista.LISTA_USER_ALL) {
+            return super.obtemUtilizadoresRange(lista, range);
+        }
+        return null;
+    }
 }

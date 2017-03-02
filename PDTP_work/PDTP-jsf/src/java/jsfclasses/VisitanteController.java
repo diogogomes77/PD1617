@@ -11,6 +11,7 @@ import autenticacao.Util;
 import beans.ClientVisitanteRemote;
 import java.io.Serializable;
 import java.util.ArrayList;
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
@@ -18,6 +19,7 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.servlet.http.HttpSession;
+import jpaentidades.TUtilizadores;
 
 /**
  *
@@ -25,24 +27,25 @@ import javax.servlet.http.HttpSession;
  */
 @Named("VisitanteController")
 @SessionScoped
-public class VisitanteController extends TUtilizadoresController implements Serializable { // extends TUtilizadoresController
+public class VisitanteController /*extends TUtilizadoresController*/ implements Serializable { // extends TUtilizadoresController
 
     @EJB
     private ClientVisitanteRemote client;
-    
+
     private UIComponent loginButton;
-    
-    
+
     private boolean usernameCheck = true;
-   
-    protected  String seccao;
+
+    protected TUtilizadores current;
+
+    protected String seccao;
     protected ArrayList<Menu> menus;
-    
+
     public VisitanteController() {
         super();
         this.seccao = "Visitante";
         menus = new ArrayList<>();
-        Menu menuVisitante = new Menu("menu1","");
+        Menu menuVisitante = new Menu("menu1", "");
         menuVisitante.setTituloMenu("Visitante");
         menuVisitante.addMenuPage("Inicio");
         menuVisitante.addMenuPage("Registo");
@@ -51,15 +54,27 @@ public class VisitanteController extends TUtilizadoresController implements Seri
         menuVisitante.addMenuPage("Newsletter");
         menus.add(menuVisitante);
     }
+
+    @PostConstruct
+    public void init() {
+        //session = null;
+        HttpSession session = Util.getSession();
+        session.setAttribute("sessaoUser", client);
+    }
+
     public ArrayList<Menu> getMenus() {
         return menus;
     }
+
+    public TUtilizadores getCurrent() {
+        return current;
+    }
+
     public String login() {
 
-        
         boolean ok = client.loginUtilizador(current.getUsername(), current.getPassword());
         if (ok) {
-           //HttpSession session = SessionUtils.getSession();
+            //HttpSession session = SessionUtils.getSession();
             HttpSession session = Util.getSession();
             session.setAttribute("username", current.getUsername());
             if (client.isAdmin(current.getUsername())) {
@@ -75,7 +90,6 @@ public class VisitanteController extends TUtilizadoresController implements Seri
         }
     }
 
-
     public UIComponent getLoginButton() {
         return loginButton;
     }
@@ -85,22 +99,36 @@ public class VisitanteController extends TUtilizadoresController implements Seri
     }
 
     public String getUsernameCheck() {
-        if (usernameCheck==true)
+        if (usernameCheck == true) {
             return "Ajax check";
-        else return "ERRO: já existe um username igual";
+        } else {
+            return "ERRO: já existe um username igual";
+        }
     }
 
     public void checkUsername() {
-       // usernameCheck =false;
+        // usernameCheck =false;
         //System.out.println("-------" + current.getUsername());
         if (client.existeUsername(getCurrent().getUsername())) {
-            usernameCheck =false;
-        } else usernameCheck = true;
+            usernameCheck = false;
+        } else {
+            usernameCheck = true;
+        }
     }
 
-    public String create(){
-         if (usernameCheck==true)
-            return create(current);
-        else return null;        
+    public TUtilizadores getSelected() {
+        if (current == null) {
+            current = new TUtilizadores();
+        }
+        return current;
+    }
+
+    public String create() {
+        if (usernameCheck == true) {
+            if (client.inscreveUtilizador(current.getNome(), current.getMorada(), current.getUsername(), current.getPassword())) {
+                return null;
+            }
+        }
+        return null;
     }
 }

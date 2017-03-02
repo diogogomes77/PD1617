@@ -89,7 +89,7 @@ public class AuthFilter implements Filter {
                         System.out.println("-----URI no VISITANTE --");
                         res.sendRedirect(req.getContextPath() + "/faces/Visitante/Inicio.xhtml");
                         //return;
-                    } 
+                    }
 //                    else {
 //                        chain.doFilter(request, response);
 //                        return;
@@ -97,7 +97,9 @@ public class AuthFilter implements Filter {
                 }
             }
 //            System.out.println("-----CHAIN --");
-            chain.doFilter(request, response);
+            if (chain != null) {
+                chain.doFilter(request, response);
+            }
         } catch (Throwable t) {
             System.out.println(t.getMessage());
         }

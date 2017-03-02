@@ -14,11 +14,61 @@
             </h1>
         </ui:define>
         <ui:define name="content">                        
-            <h:link outcome="/tMensagens/List" value="Show All TMensagens Items"/>
-            <br />
-            <h:link outcome="/tUtilizadores/List" value="Show All TUtilizadores Items"/>
-            
-            <ui:include src="/Geral/ListaRegistados.xhtml" />
+            <h:form styleClass="jsfcrud_list_form">
+                <h:panelGroup id="messagePanel" layout="block">
+                    <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+                </h:panelGroup>
+                <h:outputText escape="false" value="#{bundle.ListTUtilizadoresEmpty}" rendered="#{tUtilizadoresPedidosSupenderController.items.rowCount == 0}"/>
+                <h:panelGroup rendered="#{tUtilizadoresPedidosSupenderController.items.rowCount > 0}">
+
+                    <h:outputText value="#{tUtilizadoresPedidosSupenderController.pagination.pageFirstItem + 1}..#{tUtilizadoresPedidosSupenderController.pagination.pageLastItem + 1}/#{tUtilizadoresPedidosSupenderController.pagination.itemsCount}"/>&nbsp;
+                    <h:commandLink action="#{tUtilizadoresPedidosSupenderController.previous}" value="#{bundle.Previous} #{tUtilizadoresPedidosSupenderController.pagination.pageSize}" rendered="#{tUtilizadoresPedidosSupenderController.pagination.hasPreviousPage}"/>&nbsp;
+                    <h:commandLink action="#{tUtilizadoresPedidosSupenderController.next}" value="#{bundle.Next} #{tUtilizadoresPedidosSupenderController.pagination.pageSize}" rendered="#{tUtilizadoresPedidosSupenderController.pagination.hasNextPage}"/>&nbsp;
+
+                    <h:dataTable value="#{tUtilizadoresPedidosSupenderController.items}" var="item"  rules="all" styleClass="table-striped">
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListTUtilizadoresTitle_username}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.username}"/>
+                        </h:column>
+<!--                        
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListTUtilizadoresTitle_estado}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.estado}"/>
+                        </h:column>
+-->                      
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListTUtilizadoresTitle_logged}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.logged}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListTUtilizadoresTitle_morada}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.morada}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListTUtilizadoresTitle_nome}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.nome}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="&nbsp;"/>
+                            </f:facet>
+                            <h:outputText value=" "/>
+                            <h:commandLink action="#{AdminController.suspender(item.username)}" value="Aprovar"/>
+                        </h:column>
+
+                    </h:dataTable>
+                </h:panelGroup>
+            </h:form>
         </ui:define>
     </ui:composition> 
 

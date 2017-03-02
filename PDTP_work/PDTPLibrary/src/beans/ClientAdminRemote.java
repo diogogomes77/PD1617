@@ -127,4 +127,13 @@ public interface ClientAdminRemote extends ClientAuthRemote {
      * @throws beans.SessionException
      */
     public ArrayList<String> getUtilizadoresPedidos() throws SessionException;
+    
+    /**
+     *
+     * @param id
+     * @return
+     * @throws SessionException
+     */
+    public Object getUserByID( String id) throws SessionException;
+    
 }

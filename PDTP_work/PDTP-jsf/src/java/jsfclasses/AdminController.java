@@ -60,7 +60,6 @@ public class AdminController extends VisitanteController implements Serializable
         menuAdminContas.setTituloMenu("Contas");
 
         menuAdminContas.addMenuPage("Pedidos de Adesao");
-        menuAdminContas.addMenuPage("Pedidos de Adesao_1");
 //        menuAdminContas.addMenuPage("Activar Contas");
         menuAdminContas.addMenuPage("Pedidos de Reativacao");
 //        menuAdminContas.addMenuPage("Reactivar Contas");
@@ -106,6 +105,25 @@ public class AdminController extends VisitanteController implements Serializable
     public String ativar(String user) {
         try {
             Boolean ativado = client.ativaUtilizador(user);
+            System.out.println("---ATIVADO "+user+" "+ativado );
+        } catch (SessionException ex) {
+            Logger.getLogger(AdminController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+    public String reativar(String user) {
+        try {
+            Boolean ativado = client.ativaUtilizador(user);
+            System.out.println("---REATIVADO "+user+" "+ativado );
+        } catch (SessionException ex) {
+            Logger.getLogger(AdminController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+
+    public String suspender(String user) {
+        try {
+            Boolean ativado = client.suspendeUsername(user);
             System.out.println("---ATIVADO "+user+" "+ativado );
         } catch (SessionException ex) {
             Logger.getLogger(AdminController.class.getName()).log(Level.SEVERE, null, ex);

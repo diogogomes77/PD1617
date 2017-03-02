@@ -65,7 +65,7 @@ public class TMensagensController implements Serializable {
                 public int getItemsCount() {
                     try {
                         //return getFacade().count();
-                        return getUserSession().obtemMensagens().size();
+                        return getUserSession().obtemNumMensagens();
                     } catch (SessionException ex) {
                         Logger.getLogger(TMensagensController.class.getName()).log(Level.SEVERE, null, ex);
                         return 0;

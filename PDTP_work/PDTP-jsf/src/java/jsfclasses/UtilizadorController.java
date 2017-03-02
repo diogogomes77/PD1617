@@ -33,7 +33,7 @@ public class UtilizadorController extends VisitanteController implements Seriali
 
     public UtilizadorController() {
         super();
-        Logger.getLogger(UtilizadorController.class.getName()).log(Level.SEVERE, null, "lOGON eugénio");
+        Logger.getLogger(UtilizadorController.class.getName()).log(Level.SEVERE, null, "lOGON ");
         seccao = "Utilizador";
         String subseccao = new String();
         ArrayList<String> paginas = new ArrayList<>();
@@ -79,8 +79,8 @@ public class UtilizadorController extends VisitanteController implements Seriali
             HttpSession session = Util.getSession();
             client.setMyName((String) session.getAttribute("username"));
             session.setAttribute("sessaoUser", client);
-            current = (TUtilizadores) getUtilizadoresFacade().find(session.getAttribute("username"));
-            System.out.println("----CURRENT="+current.getUsername());
+            current = (TUtilizadores) client.getUser();
+            System.out.println("----CURRENT=" + current.getUsername());
         } catch (SessionException ex) {
             Logger.getLogger(UtilizadorController.class.getName()).log(Level.SEVERE, null, ex);
         }

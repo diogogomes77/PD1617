@@ -608,7 +608,7 @@ public class Leiloeira implements LeiloeiraLocal {
     @Override
     public int obtemNumTMensagens(String username) {
         //Obter o numero de mensagens do utilizador
-        return DAO.countByNamedQuery(TMensagens.class, "TMensagens.findByDestinatario", "username", new TUtilizadores(username));
+        return DAO.countByNamedQuery(TMensagens.class, "TMensagens.countFindByDestinatario", "username", new TUtilizadores(username));
     }
 
     @Override
@@ -1233,9 +1233,104 @@ public class Leiloeira implements LeiloeiraLocal {
     @Override
     public List<String> obtemNewsletter() {
         List<String> news = new ArrayList<>();
-        for (Object n : DAO.findAll(TNewsletters.class)) {
+        for (Object n : obtemNewsletter(0)) {
             news.add(((TNewsletters) n).getAssunto() + ":" + ((TNewsletters) n).getNewsletter());
         }
         return news;
     }
+
+    @Override
+    public List<Object> obtemNewsletter(int nlastNews) {
+        List<Object> list;
+        if (nlastNews > 0) {
+            //Encontra todas
+            list = DAO.findByNamedQuery(TNewsletters.class, "TNewsletters.findAll", "", null);
+        } else {
+            //Encontrar as ultimas 
+            list = DAO.findByNamedQuery(TNewsletters.class, "TNewsletters.findAll", nlastNews);
+        }
+        return list;
+    }
+
+    @Override
+    public Object obtemUserById(String username) {
+        return DAO.find(TUtilizadores.class, username);
+    }
+
+    @Override
+    public List<Object> obtemUtilizadores(UtilizadorTipoLista lista) throws SessionException {
+        List<Object> list = null;
+        if (null != lista) switch (lista) {
+            case LISTA_USER_ALL:
+                list = DAO.findAll(TUtilizadores.class);
+                break;
+            case LISTA_USER_ADESOES:
+                list = DAO.findByNamedQuery(TUtilizadores.class, "TUtilizadores.findByEstado", "estado", UtilizadorEstado.ATIVO_PEDIDO);
+                break;
+            case LISTA_USER_REARIVAR:
+                list = DAO.findByNamedQuery(TUtilizadores.class, "TUtilizadores.findByEstado", "estado", UtilizadorEstado.REATIVACAO_PEDIDO);
+                break;
+            case LISTA_USER_SUPENDER:
+                list = DAO.findByNamedQuery(TUtilizadores.class, "TUtilizadores.findByEstado", "estado", UtilizadorEstado.SUSPENDO_PEDIDO);
+                break;
+            case LISTA_USER_ONLINE:
+                list = DAO.findByNamedQuery(TUtilizadores.class, "TUtilizadores.findByLogged", "logged", true);
+                break;
+            default:
+                break;
+        }
+        return list;
+    }
+
+    @Override
+    public int obtemNumUtilizador(UtilizadorTipoLista lista) throws SessionException {
+        int numReg = 0;
+        if (null != lista) switch (lista) {
+            case LISTA_USER_ALL:
+                numReg = DAO.count(TUtilizadores.class);
+                break;
+            case LISTA_USER_ADESOES:
+                numReg = DAO.countByNamedQuery(TUtilizadores.class, "TUtilizadores.countFindByEstado", "estado", UtilizadorEstado.ATIVO_PEDIDO);
+                break;
+            case LISTA_USER_REARIVAR:
+                numReg = DAO.countByNamedQuery(TUtilizadores.class, "TUtilizadores.countFindByEstado", "estado", UtilizadorEstado.REATIVACAO_PEDIDO);
+                break;
+            case LISTA_USER_SUPENDER:
+                numReg = DAO.countByNamedQuery(TUtilizadores.class, "TUtilizadores.countFindByEstado", "estado", UtilizadorEstado.SUSPENDO_PEDIDO);
+                break;
+            case LISTA_USER_ONLINE:
+                numReg = DAO.countByNamedQuery(TUtilizadores.class, "TUtilizadores.countFindByLogged", "logged", true);
+                break;
+            default:
+                break;
+        }
+        return numReg;
+    }
+
+    @Override
+    public List<Object> obtemUtilizadoresRange(UtilizadorTipoLista lista, int[] range) throws SessionException {
+        List<Object> list = null;
+        if (null != lista) switch (lista) {
+            case LISTA_USER_ALL:
+                list = DAO.findRange(TUtilizadores.class, range);
+                break;
+            case LISTA_USER_ADESOES:
+                list = DAO.findRangeByNamedQuery(TUtilizadores.class, range, "TUtilizadores.findByEstado", "estado", UtilizadorEstado.ATIVO_PEDIDO);
+                break;
+            case LISTA_USER_REARIVAR:
+                list = DAO.findRangeByNamedQuery(TUtilizadores.class, range, "TUtilizadores.findByEstado", "estado", UtilizadorEstado.REATIVACAO_PEDIDO);
+                break;
+            case LISTA_USER_SUPENDER:
+                list = DAO.findRangeByNamedQuery(TUtilizadores.class, range, "TUtilizadores.findByEstado", "estado", UtilizadorEstado.SUSPENDO_PEDIDO);
+                break;
+            case LISTA_USER_ONLINE:
+                list = DAO.findRangeByNamedQuery(TUtilizadores.class, range, "TUtilizadores.findByLogged", "logged", true);
+                break;
+            default:
+                break;
+        }
+
+        return list;
+    }
+
 }

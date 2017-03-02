@@ -25,6 +25,12 @@ public interface ClientRemote {
      *
      * @return
      */
+    public List<Object> getNewsletter(int nLastNews);
+
+    /**
+     *
+     * @return
+     */
     public ArrayList<String> getUsernamesOnline();
 
     /**
@@ -38,4 +44,33 @@ public interface ClientRemote {
      * @return
      */
     List<String> getUltimosItensVendidos();
+
+    /**
+     *
+     * @param lista
+     * @return @throws beans.SessionException
+     */
+    List<Object> obtemUtilizadores(UtilizadorTipoLista lista) throws SessionException;
+
+    /**
+     *
+     * @param lista
+     * @return @throws beans.SessionException
+     */
+    int obtemNumUtilizador(UtilizadorTipoLista lista) throws SessionException;
+
+    /**
+     *
+     * @param id
+     * @return @throws beans.SessionException
+     */
+    Object obtemUtilizadorById(String id) throws SessionException;
+
+    /**
+     *
+     * @param lista
+     * @param range
+     * @return @throws beans.SessionException
+     */
+    List<Object> obtemUtilizadoresRange(UtilizadorTipoLista lista, int[] range) throws SessionException;
 }

@@ -3,8 +3,6 @@ package beans;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.ejb.Singleton;
 import javax.inject.Named;
 import pdtp.UtilizadorEstado;
@@ -124,5 +122,35 @@ public class ClientAdmin extends ClientAuth implements ClientAdminRemote {
     public ArrayList<String> getUtilizadoresPedidos() throws SessionException {
         setLastAction();
         return leiloeira.getUtilizadoresEstado(UtilizadorEstado.SUSPENDO_PEDIDO);
+    }
+
+    @Override
+    public List<Object> obtemUtilizadores(UtilizadorTipoLista lista) throws SessionException {
+        setLastAction();
+        return super.obtemUtilizadores(lista);
+    }
+
+    @Override
+    public int obtemNumUtilizador(UtilizadorTipoLista lista) throws SessionException {
+        setLastAction();
+        return super.obtemNumUtilizador(lista);
+    }
+
+    @Override
+    public Object obtemUtilizadorById(String id) throws SessionException {
+        setLastAction();
+        return super.obtemUtilizadorById(id);
+    }
+
+    @Override
+    public List<Object> obtemUtilizadoresRange(UtilizadorTipoLista lista, int[] range) throws SessionException {
+        setLastAction();
+        return super.obtemUtilizadoresRange(lista, range);
+    }
+
+    @Override
+    public Object getUserByID(String id) throws SessionException {
+        setLastAction();
+        return leiloeira.obtemUserById(id);
     }
 }

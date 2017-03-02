@@ -1,5 +1,6 @@
 package beans;
 
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.inject.Named;
 
@@ -34,6 +35,36 @@ public class ClientVisitante extends ClientBase implements ClientVisitanteRemote
     @Override
     public boolean isAdmin(String username) {
         return "admin".equals(username);
+    }
+
+    @Override
+    public List<Object> obtemUtilizadores(UtilizadorTipoLista lista) throws SessionException {
+        if (lista == UtilizadorTipoLista.LISTA_USER_ALL) {
+            return super.obtemUtilizadores(lista);
+        }
+        return null;
+    }
+
+    @Override
+    public int obtemNumUtilizador(UtilizadorTipoLista lista) throws SessionException {
+        if (lista == UtilizadorTipoLista.LISTA_USER_ALL) {
+            return super.obtemNumUtilizador(lista);
+        }
+        return 0;
+    }
+
+    @Override
+    public Object obtemUtilizadorById(String id) throws SessionException {
+        return super.obtemUtilizadorById(id);
+    }
+
+    @Override
+    public List<Object> obtemUtilizadoresRange(UtilizadorTipoLista lista, int[] range) throws SessionException {
+        if (lista == UtilizadorTipoLista.LISTA_USER_ALL) {
+            return super.obtemUtilizadoresRange(lista, range);
+        }
+        return null;
+
     }
 
 }

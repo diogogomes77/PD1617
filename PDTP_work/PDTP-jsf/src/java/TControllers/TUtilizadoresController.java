@@ -1,17 +1,16 @@
 package TControllers;
 
+import autenticacao.Util;
+import beans.ClientRemote;
 import beans.ClientVisitanteRemote;
+import beans.SessionException;
 import jpaentidades.TUtilizadores;
 import jsfclasses.util.JsfUtil;
 import jsfclasses.util.PaginationHelper;
-import jpafacades.TUtilizadoresFacade;
 
 import java.io.Serializable;
-import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
-import javax.ejb.EJB;
-import javax.inject.Named;
-import javax.enterprise.context.SessionScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
@@ -19,58 +18,55 @@ import javax.faces.convert.FacesConverter;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 import javax.faces.model.SelectItem;
-import javax.persistence.EntityTransaction;
-import beans.DAOLocal;
-import jpafacades.TNewslettersFacade;
+import javax.servlet.http.HttpSession;
+import beans.UtilizadorTipoLista;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-@Named("tUtilizadoresController")
-@SessionScoped
 public class TUtilizadoresController implements Serializable {
 
-//    private static TUtilizadoresController instance = null;
-    @EJB
-    private TNewslettersFacade tNewslettersFacade;
+    private ClientRemote remoteSession;
 
     protected TUtilizadores current;
     protected DataModel items = null;
-    @EJB
-    private jpafacades.TUtilizadoresFacade utilizadoresFacade;
-    @EJB
-    private ClientVisitanteRemote clientVisitante;
+
+    UtilizadorTipoLista tipoLista = UtilizadorTipoLista.LISTA_USER_ALL;
+
+    public UtilizadorTipoLista getTipoLista() {
+        return tipoLista;
+    }
+
+    //@PostConstruct
+    public void init() {
+        HttpSession session = Util.getSession();
+        remoteSession = (ClientRemote) session.getAttribute("sessaoUser");
+    }
+
+    private ClientRemote getUserSession() {
+        return remoteSession;
+    }
 
     public TUtilizadores getCurrent() {
         return current;
     }
-    
+
     protected PaginationHelper pagination;
     protected PaginationHelper paginationNamedQuery;
-    protected  int selectedItemIndex;
+    protected int selectedItemIndex;
 
     public TUtilizadoresController() {
     }
+
     public TUtilizadoresController(TUtilizadores current) {
         this.current = current;
     }
 
-    
     public TUtilizadores getSelected() {
         if (current == null) {
             current = new TUtilizadores();
             selectedItemIndex = -1;
         }
         return current;
-    }
-
-    public TNewslettersFacade getNewslettersFacade() {
-        return tNewslettersFacade;
-    }
-
-    protected TUtilizadoresFacade getUtilizadoresFacade() {
-        return utilizadoresFacade;
-    }
-
-    public PaginationHelper getPaginationAdesao(){
-        return getPaginationNamedQuery("TUtilizadores.findByEstado","estado","ATIVO_PEDIDO");
     }
     
     public PaginationHelper getPagination() {
@@ -79,36 +75,31 @@ public class TUtilizadoresController implements Serializable {
 
                 @Override
                 public int getItemsCount() {
-                    return getUtilizadoresFacade().count();
+                    try {
+                        //return getFacade().count();
+                        return getUserSession().obtemNumUtilizador(getTipoLista());
+                    } catch (SessionException ex) {
+                        Logger.getLogger(TUtilizadoresController.class.getName()).log(Level.SEVERE, null, ex);
+                        return 0;
+                    }
                 }
 
                 @Override
                 public DataModel createPageDataModel() {
-                    return new ListDataModel(getUtilizadoresFacade().findRange(new int[]{getPageFirstItem(), getPageFirstItem() + getPageSize()}));
+                    List<Object> list = null;
+                    try {
+                        //return new ListDataModel(getFacade().findRange(new int[]{getPageFirstItem(), getPageFirstItem() + getPageSize()}));
+                        list = getUserSession().obtemUtilizadoresRange(getTipoLista(), new int[]{getPageFirstItem(), getPageFirstItem() + getPageSize()});
+                    } catch (SessionException ex) {
+                        Logger.getLogger(TMensagensController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    return new ListDataModel(list);
                 }
             };
         }
         return pagination;
     }
 
-    public PaginationHelper getPaginationNamedQuery(String nameQuery, String nameParam, Object valor) {
-        if (paginationNamedQuery == null) {
-            paginationNamedQuery = new PaginationHelper(10) {
-
-                @Override
-                public int getItemsCount() {
-                    return getUtilizadoresFacade().countByNamedQuery(nameQuery,nameParam,valor);
-                }
-
-                @Override
-                public DataModel createPageDataModel() {
-                    return new ListDataModel(getUtilizadoresFacade().findRangeByNamedQuery(new int[]{getPageFirstItem(), getPageFirstItem() + getPageSize()},nameQuery,nameParam,valor));
-                }
-            };
-        }
-        return paginationNamedQuery;
-    }
-    
     public String prepareList() {
         recreateModel();
         return "List";
@@ -128,13 +119,16 @@ public class TUtilizadoresController implements Serializable {
 
     public String create(TUtilizadores current) {
         this.current = current;
-        boolean ok = clientVisitante.inscreveUtilizador(current.getNome(), current.getMorada(),current.getUsername(), current.getPassword());
+        boolean ok = false;
+        if (remoteSession instanceof ClientVisitanteRemote) {
+            ok = ((ClientVisitanteRemote) remoteSession).inscreveUtilizador(current.getNome(), current.getMorada(), current.getUsername(), current.getPassword());
+        }
         if (ok) {
             JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("TUtilizadoresCreated"));
             return prepareCreate();
-         
+
         } else {
-           JsfUtil.addErrorMessage(ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
+            JsfUtil.addErrorMessage(ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
             return null;
         }
     }
@@ -147,7 +141,8 @@ public class TUtilizadoresController implements Serializable {
 
     public String update() {
         try {
-            getUtilizadoresFacade().edit(current);
+            //TODO: Saber que sessão pode fazer esta operação
+//            getUtilizadoresFacade().edit(current);
             JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("TUtilizadoresUpdated"));
             return "View";
         } catch (Exception e) {
@@ -180,7 +175,8 @@ public class TUtilizadoresController implements Serializable {
 
     private void performDestroy() {
         try {
-            getUtilizadoresFacade().remove(current);
+            //TODO: Saber que sessão pode fazer esta operação
+//            getUtilizadoresFacade().remove(current);
             JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("TUtilizadoresDeleted"));
         } catch (Exception e) {
             JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
@@ -188,17 +184,27 @@ public class TUtilizadoresController implements Serializable {
     }
 
     private void updateCurrentItem() {
-        int count = getUtilizadoresFacade().count();
-        if (selectedItemIndex >= count) {
-            // selected index cannot be bigger than number of items:
-            selectedItemIndex = count - 1;
-            // go to previous page if last page disappeared:
-            if (pagination.getPageFirstItem() >= count) {
-                pagination.previousPage();
+        //TODO: Saber que sessão pode fazer esta operação
+        try {
+            int count = getUserSession().obtemNumUtilizador(getTipoLista());//getUtilizadoresFacade().count();
+            if (selectedItemIndex >= count) {
+                // selected index cannot be bigger than number of items:
+                selectedItemIndex = count - 1;
+                // go to previous page if last page disappeared:
+                if (pagination.getPageFirstItem() >= count) {
+                    pagination.previousPage();
+                }
             }
-        }
-        if (selectedItemIndex >= 0) {
-            current = (TUtilizadores) getUtilizadoresFacade().findRange(new int[]{selectedItemIndex, selectedItemIndex + 1}).get(0);
+            if (selectedItemIndex >= 0) {
+                try {
+                    //return new ListDataModel(getFacade().findRange(new int[]{getPageFirstItem(), getPageFirstItem() + getPageSize()}));
+                    current = (TUtilizadores) getUserSession().obtemUtilizadoresRange(getTipoLista(), new int[]{selectedItemIndex, selectedItemIndex + 1}).get(0);
+                } catch (SessionException ex) {
+                    Logger.getLogger(TMensagensController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        } catch (SessionException ex) {
+            Logger.getLogger(TMensagensController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -209,18 +215,6 @@ public class TUtilizadoresController implements Serializable {
         return items;
     }
 
-    public DataModel getPedidosAdesao() {
-//        System.out.println("---ver ITEMS");
-//        if (items == null) {
-           System.out.println("--- getPedidosAdesao");
-            String namedQuery="TUtilizadores.findByEstado";
-            String param="estado";
-            Object valor="ATIVO_PEDIDO";
-            items = getPaginationNamedQuery(namedQuery,param,valor).createPageDataModel();
-//        }
-        return items;
-    }
-    
     private void recreateModel() {
         items = null;
     }
@@ -232,35 +226,50 @@ public class TUtilizadoresController implements Serializable {
     public String next() {
         getPagination().nextPage();
         recreateModel();
-        return "List";
+        return null;
     }
 
     public String previous() {
         getPagination().previousPage();
         recreateModel();
-        return "List";
+        return null;
     }
 
     public SelectItem[] getItemsAvailableSelectMany() {
-        return JsfUtil.getSelectItems(utilizadoresFacade.findAll(), false);
+        List<Object> list = null;
+        try {
+            list = getUserSession().obtemUtilizadores(tipoLista);
+        } catch (SessionException ex) {
+            Logger.getLogger(TUtilizadoresController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return JsfUtil.getSelectItems(list, false);
     }
 
     public SelectItem[] getItemsAvailableSelectOne() {
-        return JsfUtil.getSelectItems(utilizadoresFacade.findAll(), true);
+        List<Object> list = null;
+        try {
+            list = getUserSession().obtemUtilizadores(tipoLista);
+        } catch (SessionException ex) {
+            Logger.getLogger(TUtilizadoresController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return JsfUtil.getSelectItems(list, false);
     }
 
     public TUtilizadores getTUtilizadores(java.lang.String id) {
-        return utilizadoresFacade.find(id);
+        try {
+            return (TUtilizadores) getUserSession().obtemUtilizadorById(id);//ejbFacade.find(id);
+        } catch (SessionException ex) {
+            Logger.getLogger(TUtilizadoresController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
     }
-
-
 
     @FacesConverter(forClass = TUtilizadores.class)
     public static class TUtilizadoresControllerConverter implements Converter {
 
         @Override
         public Object getAsObject(FacesContext facesContext, UIComponent component, String value) {
-             System.out.println("----- getAsObject");
+            System.out.println("----- getAsObject");
             if (value == null || value.length() == 0) {
                 return null;
             }
@@ -296,5 +305,4 @@ public class TUtilizadoresController implements Serializable {
 
     }
 
-    
 }
