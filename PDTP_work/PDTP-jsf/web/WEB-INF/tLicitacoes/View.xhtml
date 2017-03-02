@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundleLicitacoes.ViewTLicitacoesTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputText value="#{bundleLicitacoes.ViewTLicitacoesLabel_idLicitacao}"/>
+                    <h:outputText value="#{tLicitacoesController.selected.idLicitacao}" title="#{bundleLicitacoes.ViewTLicitacoesTitle_idLicitacao}"/>
+                    <h:outputText value="#{bundleLicitacoes.ViewTLicitacoesLabel_timestamp}"/>
+                    <h:outputText value="#{tLicitacoesController.selected.timestamp}" title="#{bundleLicitacoes.ViewTLicitacoesTitle_timestamp}">
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:outputText>
+                    <h:outputText value="#{bundleLicitacoes.ViewTLicitacoesLabel_valor}"/>
+                    <h:outputText value="#{tLicitacoesController.selected.valor}" title="#{bundleLicitacoes.ViewTLicitacoesTitle_valor}"/>
+                    <h:outputText value="#{bundleLicitacoes.ViewTLicitacoesLabel_item}"/>
+                    <h:outputText value="#{tLicitacoesController.selected.item}" title="#{bundleLicitacoes.ViewTLicitacoesTitle_item}"/>
+                    <h:outputText value="#{bundleLicitacoes.ViewTLicitacoesLabel_licitador}"/>
+                    <h:outputText value="#{tLicitacoesController.selected.licitador}" title="#{bundleLicitacoes.ViewTLicitacoesTitle_licitador}"/>
+                </h:panelGrid>
+                <br />
+                <h:commandLink action="#{tLicitacoesController.destroyAndView}" value="#{bundleLicitacoes.ViewTLicitacoesDestroyLink}"/>
+                <br />
+                <br />
+                <h:link outcome="Edit" value="#{bundleLicitacoes.ViewTLicitacoesEditLink}"/>
+                <br />
+                <h:commandLink action="#{tLicitacoesController.prepareCreate}" value="#{bundleLicitacoes.ViewTLicitacoesCreateLink}" />
+                <br />
+                <h:commandLink action="#{tLicitacoesController.prepareList}" value="#{bundleLicitacoes.ViewTLicitacoesShowAllLink}"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundleLicitacoes.ViewTLicitacoesIndexLink}"/>
+
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

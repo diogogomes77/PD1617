@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundleLicitacoes.CreateTLicitacoesTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="#{bundleLicitacoes.CreateTLicitacoesLabel_idLicitacao}" for="idLicitacao" />
+                    <h:inputText id="idLicitacao" value="#{tLicitacoesController.selected.idLicitacao}" title="#{bundleLicitacoes.CreateTLicitacoesTitle_idLicitacao}" required="true" requiredMessage="#{bundleLicitacoes.CreateTLicitacoesRequiredMessage_idLicitacao}"/>
+                    <h:outputLabel value="#{bundleLicitacoes.CreateTLicitacoesLabel_timestamp}" for="timestamp" />
+                    <h:inputText id="timestamp" value="#{tLicitacoesController.selected.timestamp}" title="#{bundleLicitacoes.CreateTLicitacoesTitle_timestamp}" >
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:inputText>
+                    <h:outputLabel value="#{bundleLicitacoes.CreateTLicitacoesLabel_valor}" for="valor" />
+                    <h:inputText id="valor" value="#{tLicitacoesController.selected.valor}" title="#{bundleLicitacoes.CreateTLicitacoesTitle_valor}" />
+                    <h:outputLabel value="#{bundleLicitacoes.CreateTLicitacoesLabel_item}" for="item" />
+                    <h:selectOneMenu id="item" value="#{tLicitacoesController.selected.item}" title="#{bundleLicitacoes.CreateTLicitacoesTitle_item}" >
+                        <f:selectItems value="#{tItensController.itemsAvailableSelectOne}"/>
+                    </h:selectOneMenu>
+                    <h:outputLabel value="#{bundleLicitacoes.CreateTLicitacoesLabel_licitador}" for="licitador" />
+                    <h:selectOneMenu id="licitador" value="#{tLicitacoesController.selected.licitador}" title="#{bundleLicitacoes.CreateTLicitacoesTitle_licitador}" >
+                        <f:selectItems value="#{tUtilizadoresController.itemsAvailableSelectOne}"/>
+                    </h:selectOneMenu>
+                </h:panelGrid>
+                <br />
+                <h:commandLink action="#{tLicitacoesController.create}" value="#{bundleLicitacoes.CreateTLicitacoesSaveLink}" />
+                <br />
+                <br />
+                <h:commandLink action="#{tLicitacoesController.prepareList}" value="#{bundleLicitacoes.CreateTLicitacoesShowAllLink}" immediate="true"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundleLicitacoes.CreateTLicitacoesIndexLink}"/>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

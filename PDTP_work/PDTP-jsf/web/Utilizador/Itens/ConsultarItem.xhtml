@@ -10,21 +10,17 @@
         </ui:define>
         <ui:define name="title">
             <h1 class="page-header "> <i class="fa fa-handshake-o"></i>  
-                <h:outputText value=" Consultar item"></h:outputText>
+                <h:outputText value=" Consultar item a Venda"></h:outputText>
             </h1>
         </ui:define>
         <ui:define name="content">                        
-           <h:panelGroup id="messagePanel" layout="block">
+           <h:panelGroup id="messagePanel1" layout="block">
                 <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
             </h:panelGroup>
             <h:form>
                 <h:panelGrid columns="2">
-                    <h:outputText value="#{bundleItens.ViewTItensLabel_itemid}"/>
-                    <h:outputText value="#{tItensController.selected.itemid}" title="#{bundleItens.ViewTItensTitle_itemid}"/>
                     <h:outputText value="#{bundleItens.ViewTItensLabel_categoria}"/>
                     <h:outputText value="#{tItensController.selected.categoria}" title="#{bundleItens.ViewTItensTitle_categoria}"/>
-                    <h:outputText value="#{bundleItens.ViewTItensLabel_comprador}"/>
-                    <h:outputText value="#{tItensController.selected.comprador}" title="#{bundleItens.ViewTItensTitle_comprador}"/>
                     <h:outputText value="#{bundleItens.ViewTItensLabel_comprarja}"/>
                     <h:outputText value="#{tItensController.selected.comprarja}" title="#{bundleItens.ViewTItensTitle_comprarja}"/>
                     <h:outputText value="#{bundleItens.ViewTItensLabel_licitacaomaxima}"/>
@@ -39,16 +35,53 @@
                     </h:outputText>
                     <h:outputText value="#{bundleItens.ViewTItensLabel_descricao}"/>
                     <h:outputText value="#{tItensController.selected.descricao}" title="#{bundleItens.ViewTItensTitle_descricao}"/>
-                    <h:outputText value="#{bundleItens.ViewTItensLabel_estado}"/>
-                    <h:outputText value="#{tItensController.selected.estado}" title="#{bundleItens.ViewTItensTitle_estado}"/>
                     <h:outputText value="#{bundleItens.ViewTItensLabel_precoinicial}"/>
                     <h:outputText value="#{tItensController.selected.precoinicial}" title="#{bundleItens.ViewTItensTitle_precoinicial}"/>
                     <h:outputText value="#{bundleItens.ViewTItensLabel_vendedor}"/>
                     <h:outputText value="#{tItensController.selected.vendedor}" title="#{bundleItens.ViewTItensTitle_vendedor}"/>
-                    <h:outputText value="#{bundleItens.ViewTItensLabel_venda}"/>
-                    <h:outputText value="#{tItensController.selected.venda}" title="#{bundleItens.ViewTItensTitle_venda}"/>
                 </h:panelGrid>
-
+            </h:form>
+            <h:form>
+                <br />
+                <h:panelGrid columns="3">
+                    <h:outputLabel value="#{bundleLicitacoes.CreateTLicitacoesLabel_valor}" for="valor" />
+                    <h:inputText id="valor" value="#{tLicitacoesController.selected.valor}" title="Licitacao" />
+                    <h:commandLink action="#{tLicitacoesController.create}" value="Licitar" />
+                </h:panelGrid>
+                
+                
+ 
+            </h:form>
+            <h:form styleClass="jsfcrud_list_form">
+                <h:outputText escape="false" value="#{bundleLicitacoes.ListTLicitacoesEmpty}" rendered="#{tLicitacoesController.items.rowCount == 0}"/>
+                <h:panelGroup rendered="#{tLicitacoesController.items.rowCount > 0}">
+                    <h:outputText value="#{tLicitacoesController.pagination.pageFirstItem + 1}..#{tLicitacoesController.pagination.pageLastItem + 1}/#{tLicitacoesController.pagination.itemsCount}"/>&nbsp;
+                    <h:commandLink action="#{tLicitacoesController.previous}" value="#{bundleLicitacoes.Previous} #{tLicitacoesController.pagination.pageSize}" rendered="#{tLicitacoesController.pagination.hasPreviousPage}"/>&nbsp;
+                    <h:commandLink action="#{tLicitacoesController.next}" value="#{bundleLicitacoes.Next} #{tLicitacoesController.pagination.pageSize}" rendered="#{tLicitacoesController.pagination.hasNextPage}"/>&nbsp;
+                    <h:dataTable value="#{tLicitacoesController.items}" var="item" border="0" cellpadding="2" cellspacing="0" rowClasses="jsfcrud_odd_row,jsfcrud_even_row" rules="all" style="border:solid 1px">
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundleLicitacoes.ListTLicitacoesTitle_timestamp}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.timestamp}">
+                                <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                            </h:outputText>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundleLicitacoes.ListTLicitacoesTitle_valor}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.valor}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundleLicitacoes.ListTLicitacoesTitle_licitador}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.licitador}"/>
+                        </h:column>
+                       
+                    </h:dataTable>
+                </h:panelGroup>
 
             </h:form>
         </ui:define>

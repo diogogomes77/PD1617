@@ -36,7 +36,10 @@
             <base-name>/BundleCat</base-name>
             <var>bundleCat</var>
         </resource-bundle>
-        
+        <resource-bundle>
+            <base-name>/BundleLicitacoes</base-name>
+            <var>bundleLicitacoes</var>
+        </resource-bundle>
     </application>
     <navigation-rule>
         <from-view-id>/Utilizador/Itens/MeusItensavenda.xhtml</from-view-id>
@@ -146,6 +149,20 @@
         <navigation-case>
             <from-outcome>Create</from-outcome>
             <to-view-id>/Utilizador/Itens/MeusItensavenda.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+     <navigation-rule>
+        <from-view-id>/Utilizador/Itens/ListadeItens.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>View</from-outcome>
+            <to-view-id>/Utilizador/Itens/ConsultarItem.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <from-view-id>/Utilizador/Itens/ConsultarItem.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>Create</from-outcome>
+            <to-view-id>/Utilizador/Itens/ConsultarItem.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>
 </faces-config>
