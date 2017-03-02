@@ -39,7 +39,6 @@ public class ClientUtilizador extends ClientAuth implements ClientUtilizadorRemo
 
     @Override
     public boolean addItem(String categoria, String descricao, Double precoInicial, Double precoComprarJa, Timestamp dataLimite) throws SessionException {
-        System.out.println("---ITEM ADD "+descricao);
         setLastAction();
         return leiloeira.addItem(myName, categoria, descricao, precoInicial, precoComprarJa, dataLimite);
     }

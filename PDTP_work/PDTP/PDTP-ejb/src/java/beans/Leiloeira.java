@@ -809,12 +809,16 @@ public class Leiloeira implements LeiloeiraLocal {
             item.setEstado(ItemEstados.INICIADA);
             item.setCategoria(categoria);
             TitemsAVenda iVenda = new TitemsAVenda(item);
-
+            TNewsletters news = new TNewsletters("Item adicionado ", item.getDescricao());
             EntityTransaction trans = DAO.getEntityManager().getTransaction();
+            
             trans.begin();
             DAO.create(item);
             DAO.create(iVenda);
+            DAO.create(news);
             trans.commit();
+             
+               
             return true;
         }
         return false;
