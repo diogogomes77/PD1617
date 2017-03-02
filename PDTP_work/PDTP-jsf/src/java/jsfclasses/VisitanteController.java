@@ -11,6 +11,7 @@ import autenticacao.Util;
 import beans.ClientVisitanteRemote;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.ResourceBundle;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
@@ -20,6 +21,7 @@ import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.servlet.http.HttpSession;
 import jpaentidades.TUtilizadores;
+import jsfclasses.util.JsfUtil;
 
 /**
  *
@@ -126,9 +128,11 @@ public class VisitanteController /*extends TUtilizadoresController*/ implements 
     public String create() {
         if (usernameCheck == true) {
             if (client.inscreveUtilizador(current.getNome(), current.getMorada(), current.getUsername(), current.getPassword())) {
-                return null;
+                JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("TUtilizadoresCreated"));
+                return "/Inicio.xhtml";
             }
         }
+        JsfUtil.addErrorMessage("Erro de Registo");
         return null;
     }
 }
