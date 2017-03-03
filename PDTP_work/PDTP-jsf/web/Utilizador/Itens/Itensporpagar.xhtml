@@ -10,15 +10,59 @@
         </ui:define>
         <ui:define name="title">
             <h1 class="page-header "> <i class="fa fa-handshake-o"></i>  
-                <h:outputText value=" #{bundle.UtilizadorInicio}"></h:outputText>
+                <h:outputText value=" Itens por pagar"></h:outputText>
             </h1>
         </ui:define>
         <ui:define name="content">                        
-            <h:link outcome="/tMensagens/List" value="Show All TMensagens Items"/>
-            <br />
-            <h:link outcome="/tUtilizadores/List" value="Show All TUtilizadores Items"/>
-            
-            <ui:include src="/Geral/ListaRegistados.xhtml" />
+            <h:form styleClass="jsfcrud_list_form">
+                <h:panelGroup id="messagePanel" layout="block">
+                    <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+                </h:panelGroup>
+                <h:outputText escape="false" value="#{bundleItenstudo.ListTitemsPorPagarEmpty}" rendered="#{titemsPorPagarController.items.rowCount == 0}"/>
+                <h:panelGroup rendered="#{titemsPorPagarController.items.rowCount > 0}">
+                    <h:outputText value="#{titemsPorPagarController.pagination.pageFirstItem + 1}..#{titemsPorPagarController.pagination.pageLastItem + 1}/#{titemsPorPagarController.pagination.itemsCount}"/>&nbsp;
+                    <h:commandLink action="#{titemsPorPagarController.previous}" value="#{bundleItenstudo.Previous} #{titemsPorPagarController.pagination.pageSize}" rendered="#{titemsPorPagarController.pagination.hasPreviousPage}"/>&nbsp;
+                    <h:commandLink action="#{titemsPorPagarController.next}" value="#{bundleItenstudo.Next} #{titemsPorPagarController.pagination.pageSize}" rendered="#{titemsPorPagarController.pagination.hasNextPage}"/>&nbsp;
+                    <h:dataTable value="#{titemsPorPagarController.items}" var="item" border="0" cellpadding="2" cellspacing="0" rowClasses="jsfcrud_odd_row,jsfcrud_even_row" rules="all" style="border:solid 1px">
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundleItenstudo.ListTitemsPorPagarTitle_utilizador}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.utilizador}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundleItenstudo.ListTitemsPorPagarTitle_item}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.item}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundleItenstudo.ListTitemsPorPagarTitle_id}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.id}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundleItenstudo.ListTitemsPorPagarTitle_data}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.data}">
+                                <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                            </h:outputText>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="&nbsp;"/>
+                            </f:facet>
+                            <h:commandLink action="#{titemsPorPagarController.prepareView}" value="#{bundleItenstudo.ListTitemsPorPagarViewLink}"/>
+                            <h:outputText value=" "/>
+                            <h:commandLink action="#{titemsPorPagarController.prepareEdit}" value="#{bundleItenstudo.ListTitemsPorPagarEditLink}"/>
+                            <h:outputText value=" "/>
+                            <h:commandLink action="#{titemsPorPagarController.destroy}" value="#{bundleItenstudo.ListTitemsPorPagarDestroyLink}"/>
+                        </h:column>
+                    </h:dataTable>
+                </h:panelGroup>
+            </h:form>
         </ui:define>
     </ui:composition> 
 
