@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundleItenstudo.EditTitemsPorPagarTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="#{bundleItenstudo.EditTitemsPorPagarLabel_utilizador}" for="utilizador" />
+                    <h:selectOneMenu id="utilizador" value="#{titemsPorPagarController.selected.utilizador}" title="#{bundleItenstudo.EditTitemsPorPagarTitle_utilizador}" >
+                        <f:selectItems value="#{tUtilizadoresController.itemsAvailableSelectOne}"/>
+                    </h:selectOneMenu>
+                    <h:outputLabel value="#{bundleItenstudo.EditTitemsPorPagarLabel_item}" for="item" />
+                    <h:selectOneMenu id="item" value="#{titemsPorPagarController.selected.item}" title="#{bundleItenstudo.EditTitemsPorPagarTitle_item}" >
+                        <f:selectItems value="#{tItensController.itemsAvailableSelectOne}"/>
+                    </h:selectOneMenu>
+                    <h:outputLabel value="#{bundleItenstudo.EditTitemsPorPagarLabel_id}" for="id" />
+                    <h:inputText id="id" value="#{titemsPorPagarController.selected.id}" title="#{bundleItenstudo.EditTitemsPorPagarTitle_id}" required="true" requiredMessage="#{bundleItenstudo.EditTitemsPorPagarRequiredMessage_id}"/>
+                    <h:outputLabel value="#{bundleItenstudo.EditTitemsPorPagarLabel_data}" for="data" />
+                    <h:inputText id="data" value="#{titemsPorPagarController.selected.data}" title="#{bundleItenstudo.EditTitemsPorPagarTitle_data}" >
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:inputText>
+                </h:panelGrid>
+                <h:commandLink action="#{titemsPorPagarController.update}" value="#{bundleItenstudo.EditTitemsPorPagarSaveLink}"/>
+                <br />
+                <br />
+                <h:link outcome="View" value="#{bundleItenstudo.EditTitemsPorPagarViewLink}"/>
+                <br />
+                <h:commandLink action="#{titemsPorPagarController.prepareList}" value="#{bundleItenstudo.EditTitemsPorPagarShowAllLink}" immediate="true"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundleItenstudo.EditTitemsPorPagarIndexLink}" />
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

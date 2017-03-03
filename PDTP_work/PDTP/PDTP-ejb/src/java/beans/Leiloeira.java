@@ -1009,7 +1009,7 @@ public class Leiloeira implements LeiloeiraLocal {
         TUtilizadores u = (TUtilizadores) DAO.find(TUtilizadores.class, username);
         if (u != null) {
             //Refacturing para passar a user a entidade dos utilizadores
-            if (DAO.findByNamedQuery(TitemsSeguidos.class, "TitemsSeguidos.findByItemUtilizador", "item", i, "utlizador", u).isEmpty()) {
+            if (DAO.findByNamedQuery(TitemsSeguidos.class, "TitemsSeguidos.findByItemUtilizador", "item", i, "utilizador", u).isEmpty()) {
                 DAO.createWithCommit(new TitemsSeguidos(u, i));
                 return true;
             }
@@ -1032,7 +1032,7 @@ public class Leiloeira implements LeiloeiraLocal {
         TUtilizadores u = (TUtilizadores) DAO.find(TUtilizadores.class, username);
         if (u != null) {
             //Remover o item da lista dos seguidos
-            if (!DAO.findByNamedQuery(TitemsSeguidos.class, "TitemsSeguidos.findByItemUtilizador", "item", i, "utlizador", u).isEmpty()) {
+            if (!DAO.findByNamedQuery(TitemsSeguidos.class, "TitemsSeguidos.findByItemUtilizador", "item", i, "utilizador", u).isEmpty()) {
                 DAO.removeWithCommit(new TitemsSeguidos(u, i));
                 return true;
             }
@@ -1109,7 +1109,7 @@ public class Leiloeira implements LeiloeiraLocal {
         TUtilizadores u = (TUtilizadores) DAO.find(TUtilizadores.class, username);
         if (u != null) {
             //Refacturing para passar a user a entidade dos utilizadores
-            TitemsPorPagar porPag = (TitemsPorPagar) DAO.findByNamedQuery(TitemsPorPagar.class, "TitemsPorPagar.findByItemUtilizador", "item", i, "utlizador", u).get(0);
+            TitemsPorPagar porPag = (TitemsPorPagar) DAO.findByNamedQuery(TitemsPorPagar.class, "TitemsPorPagar.findByItemUtilizador", "item", i, "utilizador", u).get(0);
             if (porPag == null && i.getLicitacaomaxima() <= u.getSaldo()) {
                 //Tirar o Saldo
                 u.setSaldo(u.getSaldo() - i.getLicitacaomaxima());

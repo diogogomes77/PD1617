@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundleItenstudo.EditTDenunciasVendedoresTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="#{bundleItenstudo.EditTDenunciasVendedoresLabel_idDenunciaVendedor}" for="idDenunciaVendedor" />
+                    <h:inputText id="idDenunciaVendedor" value="#{tDenunciasVendedoresController.selected.idDenunciaVendedor}" title="#{bundleItenstudo.EditTDenunciasVendedoresTitle_idDenunciaVendedor}" required="true" requiredMessage="#{bundleItenstudo.EditTDenunciasVendedoresRequiredMessage_idDenunciaVendedor}"/>
+                    <h:outputLabel value="#{bundleItenstudo.EditTDenunciasVendedoresLabel_data}" for="data" />
+                    <h:inputText id="data" value="#{tDenunciasVendedoresController.selected.data}" title="#{bundleItenstudo.EditTDenunciasVendedoresTitle_data}" >
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:inputText>
+                    <h:outputLabel value="#{bundleItenstudo.EditTDenunciasVendedoresLabel_razao}" for="razao" />
+                    <h:inputText id="razao" value="#{tDenunciasVendedoresController.selected.razao}" title="#{bundleItenstudo.EditTDenunciasVendedoresTitle_razao}" />
+                    <h:outputLabel value="#{bundleItenstudo.EditTDenunciasVendedoresLabel_denunciador}" for="denunciador" />
+                    <h:selectOneMenu id="denunciador" value="#{tDenunciasVendedoresController.selected.denunciador}" title="#{bundleItenstudo.EditTDenunciasVendedoresTitle_denunciador}" >
+                        <f:selectItems value="#{tUtilizadoresController.itemsAvailableSelectOne}"/>
+                    </h:selectOneMenu>
+                    <h:outputLabel value="#{bundleItenstudo.EditTDenunciasVendedoresLabel_vendedor}" for="vendedor" />
+                    <h:selectOneMenu id="vendedor" value="#{tDenunciasVendedoresController.selected.vendedor}" title="#{bundleItenstudo.EditTDenunciasVendedoresTitle_vendedor}" >
+                        <f:selectItems value="#{tUtilizadoresController.itemsAvailableSelectOne}"/>
+                    </h:selectOneMenu>
+                </h:panelGrid>
+                <h:commandLink action="#{tDenunciasVendedoresController.update}" value="#{bundleItenstudo.EditTDenunciasVendedoresSaveLink}"/>
+                <br />
+                <br />
+                <h:link outcome="View" value="#{bundleItenstudo.EditTDenunciasVendedoresViewLink}"/>
+                <br />
+                <h:commandLink action="#{tDenunciasVendedoresController.prepareList}" value="#{bundleItenstudo.EditTDenunciasVendedoresShowAllLink}" immediate="true"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundleItenstudo.EditTDenunciasVendedoresIndexLink}" />
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

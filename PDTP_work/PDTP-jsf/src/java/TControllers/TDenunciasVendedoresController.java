@@ -1,19 +1,12 @@
 package TControllers;
 
-import autenticacao.Util;
-import beans.ClientUtilizadorRemote;
-import beans.SessionException;
-import jpaentidades.TItens;
-import jsfclasses.util.JsfUtil;
-import jsfclasses.util.PaginationHelper;
-
+import jpafacades.TDenunciasVendedoresFacade;
+import jpaentidades.TDenunciasVendedores;
+import beans.util.JsfUtil;
+import beans.util.PaginationHelper;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
@@ -24,38 +17,30 @@ import javax.faces.convert.FacesConverter;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 import javax.faces.model.SelectItem;
-import javax.servlet.http.HttpSession;
-import jpafacades.TItensFacade;
 
-@Named("tItensController")
+@Named("tDenunciasVendedoresController")
 @SessionScoped
-public class TItensController implements Serializable {
+public class TDenunciasVendedoresController implements Serializable {
 
-    private ClientUtilizadorRemote remoteSession;
-    
-    private TItens current;
+    private TDenunciasVendedores current;
     private DataModel items = null;
     @EJB
-    private TItensFacade ejbFacade;
+    private jpafacades.TDenunciasVendedoresFacade ejbFacade;
     private PaginationHelper pagination;
     private int selectedItemIndex;
 
-    public TItensController() {
+    public TDenunciasVendedoresController() {
     }
-    @PostConstruct
-    public void init() {
-        HttpSession session = Util.getSession();
-        remoteSession = (ClientUtilizadorRemote) session.getAttribute("sessaoUser");
-    }
-    public TItens getSelected() {
+
+    public TDenunciasVendedores getSelected() {
         if (current == null) {
-            current = new TItens();
+            current = new TDenunciasVendedores();
             selectedItemIndex = -1;
         }
         return current;
     }
 
-    private TItensFacade getFacade() {
+    private TDenunciasVendedoresFacade getFacade() {
         return ejbFacade;
     }
 
@@ -83,50 +68,30 @@ public class TItensController implements Serializable {
     }
 
     public String prepareView() {
-        current = (TItens) getItems().getRowData();
+        current = (TDenunciasVendedores) getItems().getRowData();
         selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
         return "View";
     }
 
-    
-    public String seguir() {
-        HttpSession session = Util.getSession();
-       
-        current = (TItens) getItems().getRowData();
-        selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
-        System.out.println("---SEGUIR itemid "+ current.getItemid());
-        try {
-            
-            boolean ok = remoteSession.seguirItem(current.getItemid());
-            if (ok) JsfUtil.addSuccessMessage("Item Seguido");
-            else JsfUtil.addSuccessMessage("Erro");
-            return null;
-        } catch (SessionException ex) {
-            Logger.getLogger(TItensController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
-    }
     public String prepareCreate() {
-        current = new TItens();
+        current = new TDenunciasVendedores();
         selectedItemIndex = -1;
         return "Create";
     }
 
     public String create() {
         try {
-            
-            Timestamp limite = new java.sql.Timestamp(current.getDatafim().getTime());
-           remoteSession.addItem(current.getCategoria(), current.getDescricao(), current.getPrecoinicial(), current.getComprarja(),limite);
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/BundleItens").getString("TItensCreated"));
+            getFacade().create(current);
+            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/BundleItenstudo").getString("TDenunciasVendedoresCreated"));
             return prepareCreate();
         } catch (Exception e) {
-            JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/BundleItens").getString("PersistenceErrorOccured"));
+            JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/BundleItenstudo").getString("PersistenceErrorOccured"));
             return null;
         }
     }
 
     public String prepareEdit() {
-        current = (TItens) getItems().getRowData();
+        current = (TDenunciasVendedores) getItems().getRowData();
         selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
         return "Edit";
     }
@@ -134,16 +99,16 @@ public class TItensController implements Serializable {
     public String update() {
         try {
             getFacade().edit(current);
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/BundleItens").getString("TItensUpdated"));
+            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/BundleItenstudo").getString("TDenunciasVendedoresUpdated"));
             return "View";
         } catch (Exception e) {
-            JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/BundleItens").getString("PersistenceErrorOccured"));
+            JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/BundleItenstudo").getString("PersistenceErrorOccured"));
             return null;
         }
     }
 
     public String destroy() {
-        current = (TItens) getItems().getRowData();
+        current = (TDenunciasVendedores) getItems().getRowData();
         selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
         performDestroy();
         recreatePagination();
@@ -167,9 +132,9 @@ public class TItensController implements Serializable {
     private void performDestroy() {
         try {
             getFacade().remove(current);
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/BundleItens").getString("TItensDeleted"));
+            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/BundleItenstudo").getString("TDenunciasVendedoresDeleted"));
         } catch (Exception e) {
-            JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/BundleItens").getString("PersistenceErrorOccured"));
+            JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/BundleItenstudo").getString("PersistenceErrorOccured"));
         }
     }
 
@@ -223,30 +188,30 @@ public class TItensController implements Serializable {
         return JsfUtil.getSelectItems(ejbFacade.findAll(), true);
     }
 
-    public TItens getTItens(java.lang.Long id) {
+    public TDenunciasVendedores getTDenunciasVendedores(java.lang.Integer id) {
         return ejbFacade.find(id);
     }
 
-    @FacesConverter(forClass = TItens.class)
-    public static class TItensControllerConverter implements Converter {
+    @FacesConverter(forClass = TDenunciasVendedores.class)
+    public static class TDenunciasVendedoresControllerConverter implements Converter {
 
         @Override
         public Object getAsObject(FacesContext facesContext, UIComponent component, String value) {
             if (value == null || value.length() == 0) {
                 return null;
             }
-            TItensController controller = (TItensController) facesContext.getApplication().getELResolver().
-                    getValue(facesContext.getELContext(), null, "tItensController");
-            return controller.getTItens(getKey(value));
+            TDenunciasVendedoresController controller = (TDenunciasVendedoresController) facesContext.getApplication().getELResolver().
+                    getValue(facesContext.getELContext(), null, "tDenunciasVendedoresController");
+            return controller.getTDenunciasVendedores(getKey(value));
         }
 
-        java.lang.Long getKey(String value) {
-            java.lang.Long key;
-            key = Long.valueOf(value);
+        java.lang.Integer getKey(String value) {
+            java.lang.Integer key;
+            key = Integer.valueOf(value);
             return key;
         }
 
-        String getStringKey(java.lang.Long value) {
+        String getStringKey(java.lang.Integer value) {
             StringBuilder sb = new StringBuilder();
             sb.append(value);
             return sb.toString();
@@ -257,11 +222,11 @@ public class TItensController implements Serializable {
             if (object == null) {
                 return null;
             }
-            if (object instanceof TItens) {
-                TItens o = (TItens) object;
-                return getStringKey(o.getItemid());
+            if (object instanceof TDenunciasVendedores) {
+                TDenunciasVendedores o = (TDenunciasVendedores) object;
+                return getStringKey(o.getIdDenunciaVendedor());
             } else {
-                throw new IllegalArgumentException("object " + object + " is of type " + object.getClass().getName() + "; expected type: " + TItens.class.getName());
+                throw new IllegalArgumentException("object " + object + " is of type " + object.getClass().getName() + "; expected type: " + TDenunciasVendedores.class.getName());
             }
         }
 

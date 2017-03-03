@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundleItenstudo.CreateTUtilizadoresTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="#{bundleItenstudo.CreateTUtilizadoresLabel_username}" for="username" />
+                    <h:inputText id="username" value="#{tUtilizadoresController.selected.username}" title="#{bundleItenstudo.CreateTUtilizadoresTitle_username}" required="true" requiredMessage="#{bundleItenstudo.CreateTUtilizadoresRequiredMessage_username}"/>
+                    <h:outputLabel value="#{bundleItenstudo.CreateTUtilizadoresLabel_estado}" for="estado" />
+                    <h:inputText id="estado" value="#{tUtilizadoresController.selected.estado}" title="#{bundleItenstudo.CreateTUtilizadoresTitle_estado}" />
+                    <h:outputLabel value="#{bundleItenstudo.CreateTUtilizadoresLabel_logged}" for="logged" />
+                    <h:inputText id="logged" value="#{tUtilizadoresController.selected.logged}" title="#{bundleItenstudo.CreateTUtilizadoresTitle_logged}" />
+                    <h:outputLabel value="#{bundleItenstudo.CreateTUtilizadoresLabel_morada}" for="morada" />
+                    <h:inputText id="morada" value="#{tUtilizadoresController.selected.morada}" title="#{bundleItenstudo.CreateTUtilizadoresTitle_morada}" />
+                    <h:outputLabel value="#{bundleItenstudo.CreateTUtilizadoresLabel_nome}" for="nome" />
+                    <h:inputText id="nome" value="#{tUtilizadoresController.selected.nome}" title="#{bundleItenstudo.CreateTUtilizadoresTitle_nome}" />
+                    <h:outputLabel value="#{bundleItenstudo.CreateTUtilizadoresLabel_password}" for="password" />
+                    <h:inputText id="password" value="#{tUtilizadoresController.selected.password}" title="#{bundleItenstudo.CreateTUtilizadoresTitle_password}" />
+                    <h:outputLabel value="#{bundleItenstudo.CreateTUtilizadoresLabel_razaopedidosuspensao}" for="razaopedidosuspensao" />
+                    <h:inputText id="razaopedidosuspensao" value="#{tUtilizadoresController.selected.razaopedidosuspensao}" title="#{bundleItenstudo.CreateTUtilizadoresTitle_razaopedidosuspensao}" />
+                    <h:outputLabel value="#{bundleItenstudo.CreateTUtilizadoresLabel_saldo}" for="saldo" />
+                    <h:inputText id="saldo" value="#{tUtilizadoresController.selected.saldo}" title="#{bundleItenstudo.CreateTUtilizadoresTitle_saldo}" />
+                    <h:outputLabel value="#{bundleItenstudo.CreateTUtilizadoresLabel_lastAction}" for="lastAction" />
+                    <h:inputText id="lastAction" value="#{tUtilizadoresController.selected.lastAction}" title="#{bundleItenstudo.CreateTUtilizadoresTitle_lastAction}" />
+                    <h:outputLabel value="#{bundleItenstudo.CreateTUtilizadoresLabel_dados}" for="dados" />
+                    <h:inputText id="dados" value="#{tUtilizadoresController.selected.dados}" title="#{bundleItenstudo.CreateTUtilizadoresTitle_dados}" />
+                </h:panelGrid>
+                <br />
+                <h:commandLink action="#{tUtilizadoresController.create}" value="#{bundleItenstudo.CreateTUtilizadoresSaveLink}" />
+                <br />
+                <br />
+                <h:commandLink action="#{tUtilizadoresController.prepareList}" value="#{bundleItenstudo.CreateTUtilizadoresShowAllLink}" immediate="true"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundleItenstudo.CreateTUtilizadoresIndexLink}"/>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

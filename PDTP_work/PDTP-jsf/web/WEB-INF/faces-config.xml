@@ -40,6 +40,10 @@
             <base-name>/BundleLicitacoes</base-name>
             <var>bundleLicitacoes</var>
         </resource-bundle>
+        <resource-bundle>
+            <base-name>/BundleItenstudo</base-name>
+            <var>bundleItenstudo</var>
+        </resource-bundle>
     </application>
     <navigation-rule>
         <from-view-id>/Utilizador/Itens/MeusItensavenda.xhtml</from-view-id>

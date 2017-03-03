@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundleItenstudo.CreateTVendasTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="#{bundleItenstudo.CreateTVendasLabel_vendaid}" for="vendaid" />
+                    <h:inputText id="vendaid" value="#{tVendasController.selected.vendaid}" title="#{bundleItenstudo.CreateTVendasTitle_vendaid}" required="true" requiredMessage="#{bundleItenstudo.CreateTVendasRequiredMessage_vendaid}"/>
+                    <h:outputLabel value="#{bundleItenstudo.CreateTVendasLabel_estado}" for="estado" />
+                    <h:inputText id="estado" value="#{tVendasController.selected.estado}" title="#{bundleItenstudo.CreateTVendasTitle_estado}" />
+                    <h:outputLabel value="#{bundleItenstudo.CreateTVendasLabel_tipo}" for="tipo" />
+                    <h:inputText id="tipo" value="#{tVendasController.selected.tipo}" title="#{bundleItenstudo.CreateTVendasTitle_tipo}" />
+                    <h:outputLabel value="#{bundleItenstudo.CreateTVendasLabel_valor}" for="valor" />
+                    <h:inputText id="valor" value="#{tVendasController.selected.valor}" title="#{bundleItenstudo.CreateTVendasTitle_valor}" />
+                    <h:outputLabel value="#{bundleItenstudo.CreateTVendasLabel_item}" for="item" />
+                    <h:selectOneMenu id="item" value="#{tVendasController.selected.item}" title="#{bundleItenstudo.CreateTVendasTitle_item}" >
+                        <f:selectItems value="#{tItensController.itemsAvailableSelectOne}"/>
+                    </h:selectOneMenu>
+                    <h:outputLabel value="#{bundleItenstudo.CreateTVendasLabel_comprador}" for="comprador" />
+                    <h:selectOneMenu id="comprador" value="#{tVendasController.selected.comprador}" title="#{bundleItenstudo.CreateTVendasTitle_comprador}" >
+                        <f:selectItems value="#{tUtilizadoresController.itemsAvailableSelectOne}"/>
+                    </h:selectOneMenu>
+                    <h:outputLabel value="#{bundleItenstudo.CreateTVendasLabel_data}" for="data" />
+                    <h:inputText id="data" value="#{tVendasController.selected.data}" title="#{bundleItenstudo.CreateTVendasTitle_data}" >
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:inputText>
+                </h:panelGrid>
+                <br />
+                <h:commandLink action="#{tVendasController.create}" value="#{bundleItenstudo.CreateTVendasSaveLink}" />
+                <br />
+                <br />
+                <h:commandLink action="#{tVendasController.prepareList}" value="#{bundleItenstudo.CreateTVendasShowAllLink}" immediate="true"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundleItenstudo.CreateTVendasIndexLink}"/>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>
