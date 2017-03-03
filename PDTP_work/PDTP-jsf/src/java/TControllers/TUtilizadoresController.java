@@ -1,6 +1,7 @@
 package TControllers;
 
 import autenticacao.Util;
+import beans.ClientAdminRemote;
 import beans.ClientRemote;
 import beans.ClientVisitanteRemote;
 import beans.SessionException;
@@ -22,6 +23,7 @@ import javax.servlet.http.HttpSession;
 import beans.UtilizadorTipoLista;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import jsfclasses.AdminController;
 
 public class TUtilizadoresController implements Serializable {
 
@@ -68,7 +70,7 @@ public class TUtilizadoresController implements Serializable {
         }
         return current;
     }
-    
+
     public PaginationHelper getPagination() {
         if (pagination == null) {
             pagination = new PaginationHelper(10) {
@@ -221,6 +223,46 @@ public class TUtilizadoresController implements Serializable {
 
     private void recreatePagination() {
         pagination = null;
+    }
+
+    public String ativar(String user) {
+        try {
+            if (remoteSession instanceof ClientAdminRemote) {
+                Boolean ativado = ((ClientAdminRemote) remoteSession).ativaUtilizador(user);
+                JsfUtil.addSuccessMessage("Utilizador username " + user + " ativado!");
+            }
+        } catch (SessionException ex) {
+            Logger.getLogger(AdminController.class.getName()).log(Level.SEVERE, null, ex);
+            JsfUtil.addSuccessMessage("ERRO ao ativar " + user);
+        }
+        recreateModel();
+        return null;
+    }
+
+    public String reativar(String user) {
+        try {
+            if (remoteSession instanceof ClientAdminRemote) {
+                Boolean ativado = ((ClientAdminRemote) remoteSession).ativaUtilizador(user);
+                JsfUtil.addSuccessMessage("Utilizador username " + user + " reativado!");
+            }
+        } catch (SessionException ex) {
+            Logger.getLogger(AdminController.class.getName()).log(Level.SEVERE, null, ex);
+            JsfUtil.addSuccessMessage("ERRO ao reativar " + user);
+        }
+        recreateModel();
+        return null;
+    }
+
+    public String suspender(String user) {
+        try {
+            if (remoteSession instanceof ClientAdminRemote) {
+                Boolean ativado = ((ClientAdminRemote) remoteSession).suspendeUsername(user);
+            }
+        } catch (SessionException ex) {
+            Logger.getLogger(AdminController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        recreateModel();
+        return null;
     }
 
     public String next() {
