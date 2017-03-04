@@ -10,19 +10,22 @@
         </h:panelGroup>
         <h:form>
             <h:panelGrid columns="2">
-                <h:outputLabel value="#{bundle.CreateTMensagensLabel_assunto}" for="assunto" />
-                <h:inputText id="assunto" value="#{tMensagensController.selected.assunto}" title="#{bundle.CreateTMensagensTitle_assunto}" />
-                <h:outputLabel value="#{bundle.CreateTMensagensLabel_texto}" for="texto" />
-                <h:inputTextarea id="texto" value="#{tMensagensController.selected.texto}" title="#{bundle.CreateTMensagensTitle_texto}" cols="100" rows="3"/>
-                <h:outputLabel value="#{bundle.CreateTMensagensLabel_destinatario}" for="destinatario" />
+                <h:outputLabel value="#{bundleMensagens.CreateTMensagensLabel_assunto}" for="assunto" />
+                <h:inputText id="assunto" value="#{tMensagensController.selected.assunto}" title="#{bundleMensagens.CreateTMensagensTitle_assunto}" />
+                <h:outputLabel value="#{bundleMensagens.CreateTMensagensLabel_texto}" for="texto" />
+                <h:inputTextarea id="texto" value="#{tMensagensController.selected.texto}" title="#{bundleMensagens.CreateTMensagensTitle_texto}" cols="100" rows="3"/>
+                <h:outputLabel value="#{bundleMensagens.CreateTMensagensLabel_destinatario}" for="destinatario" />
                 <h:selectOneMenu id="destinatario" value="#{tMensagensController.selected.destinatario}" 
-                                 title="#{bundle.CreateTMensagensTitle_destinatario}" 
-                                 required="true" requiredMessage="#{bundle.CreateTMensagensTitle_destinatario} em falta." >
+                                 title="#{bundleMensagens.CreateTMensagensTitle_destinatario}" 
+                                 required="true" requiredMessage="#{bundleMensagens.CreateTMensagensTitle_destinatario} em falta." >
                     <f:selectItems value="#{tUtilizadoresAtivosController.itemsAvailableSelectOne}"/>
                 </h:selectOneMenu>
             </h:panelGrid>
             <br />
-            <h:commandLink action="#{tMensagensController.create}" value="Enviar" />
+            <h:commandButton id="carregar" value="Enviar"
+                             styleClass="btn btn-success"
+                             action="#{tMensagensController.create()}"></h:commandButton>
+            <h:messages for="carregar" errorStyle="color: red" infoStyle="color: green" layout="table"/>
 
         </h:form>
     </ui:composition> 

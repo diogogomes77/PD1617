@@ -24,7 +24,10 @@
                     <h:outputLabel value="#{bundle.EditTUtilizadoresLabel_razaopedidosuspensao}" for="razaoSupensao" />
                     <h:inputText id="razaoSupensao" value="#{UtilizadorController.selected.razaopedidosuspensao}" title="#{bundle.EditTUtilizadoresTitle_razaopedidosuspensao}" size="100"/>
                 </h:panelGrid>
-                <h:commandLink action="#{UtilizadorController.suspendeConta}" value="Submeter Pedido"/>
+                <h:commandButton id="carregar" value="Submeter Pedido"
+                                 styleClass="btn btn-success"
+                                 action="#{UtilizadorController.suspendeConta()}"></h:commandButton>
+                <h:messages for="carregar" errorStyle="color: red" infoStyle="color: green" layout="table"/>
             </h:form>
         </ui:define>
     </ui:composition> 

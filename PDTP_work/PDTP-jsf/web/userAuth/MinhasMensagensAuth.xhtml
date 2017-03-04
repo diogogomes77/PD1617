@@ -9,29 +9,29 @@
             <h:panelGroup id="messagePanel" layout="block">
                 <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
             </h:panelGroup>
-            <h:outputText escape="false" value="#{bundle.ListTMensagensEmpty}" rendered="#{tMensagensController.items.rowCount == 0}"/>
+            <h:outputText escape="false" value="#{bundleMensagens.ListTMensagensEmpty}" rendered="#{tMensagensController.items.rowCount == 0}"/>
             <h:panelGroup rendered="#{tMensagensController.items.rowCount > 0}">
                 <h:outputText value="#{tMensagensController.pagination.pageFirstItem + 1}..#{tMensagensController.pagination.pageLastItem + 1}/#{tMensagensController.pagination.itemsCount}"/>&nbsp;
-                <h:commandLink action="#{tMensagensController.previous}" value="#{bundle.Previous} #{tMensagensController.pagination.pageSize}" rendered="#{tMensagensController.pagination.hasPreviousPage}"/>&nbsp;
-                <h:commandLink action="#{tMensagensController.next}" value="#{bundle.Next} #{tMensagensController.pagination.pageSize}" rendered="#{tMensagensController.pagination.hasNextPage}"/>&nbsp;
+                <h:commandLink action="#{tMensagensController.previous}" value="#{bundleMensagens.Previous} #{tMensagensController.pagination.pageSize}" rendered="#{tMensagensController.pagination.hasPreviousPage}"/>&nbsp;
+                <h:commandLink action="#{tMensagensController.next}" value="#{bundleMensagens.Next} #{tMensagensController.pagination.pageSize}" rendered="#{tMensagensController.pagination.hasNextPage}"/>&nbsp;
                 <h:dataTable value="#{tMensagensController.items}" var="item" border="0" cellpadding="2" cellspacing="0" rowClasses="jsfcrud_odd_row,jsfcrud_even_row" rules="all" style="border:solid 1px">
                     <!--                   
                                         <h:column>
                                             <f:facet name="header">
-                                                <h:outputText value="#{bundle.ListTMensagensTitle_idMensagem}"/>
+                                                <h:outputText value="#{bundleMensagens.ListTMensagensTitle_idMensagem}"/>
                                             </f:facet>
                                             <h:outputText value="#{item.idMensagem}"/>
                                         </h:column>
                     -->
                     <h:column>
                         <f:facet name="header">
-                            <h:outputText value="#{bundle.ListTMensagensTitle_assunto}"/>
+                            <h:outputText value="#{bundleMensagens.ListTMensagensTitle_assunto}"/>
                         </f:facet>
                         <h:outputText value="#{item.assunto}"/>
                     </h:column>
                     <h:column>
                         <f:facet name="header">
-                            <h:outputText value="#{bundle.ListTMensagensTitle_data}"/>
+                            <h:outputText value="#{bundleMensagens.ListTMensagensTitle_data}"/>
                         </f:facet>
                         <h:outputText value="#{item.data}">
                             <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
@@ -39,13 +39,13 @@
                     </h:column>
                     <h:column>
                         <f:facet name="header">
-                            <h:outputText value="#{bundle.ListTMensagensTitle_estado}"/>
+                            <h:outputText value="#{bundleMensagens.ListTMensagensTitle_estado}"/>
                         </f:facet>
                         <h:outputText value="#{item.estado.msg()}"/>
                     </h:column>
                     <h:column>
                         <f:facet name="header">
-                            <h:outputText value="#{bundle.ListTMensagensTitle_texto}"/>
+                            <h:outputText value="#{bundleMensagens.ListTMensagensTitle_texto}"/>
                         </f:facet>
                         <h:outputText value="#{item.texto}"/>
                     </h:column>
@@ -53,14 +53,14 @@
                     
                                         <h:column>
                                             <f:facet name="header">
-                                                <h:outputText value="#{bundle.ListTMensagensTitle_destinatario}"/>
+                                                <h:outputText value="#{bundleMensagens.ListTMensagensTitle_destinatario}"/>
                                             </f:facet>
                                             <h:outputText value="#{item.destinatario}"/>
                                         </h:column>
                     -->
                     <h:column>
                         <f:facet name="header">
-                            <h:outputText value="#{bundle.ListTMensagensTitle_remetente}"/>
+                            <h:outputText value="#{bundleMensagens.ListTMensagensTitle_remetente}"/>
                         </f:facet>
                         <h:outputText value="#{item.remetente}"/>
                     </h:column>
@@ -68,8 +68,8 @@
                         <f:facet name="header">
                             <h:outputText value="Marcar Como"/>
                         </f:facet>
-                        <h:commandLink rendered="#{item.isLida==false}" action="#{tMensagensController.marcarLida}" value="#{bundle.ListTMensagensLidaLink}"/>
-                        <h:commandLink rendered="#{item.isLida==true}" action="#{tMensagensController.marcarNaoLida}" value="#{bundle.ListTMensagensNaoLidaLink}"/>
+                        <h:commandLink rendered="#{item.isLida==false}" action="#{tMensagensController.marcarLida}" value="#{bundleMensagens.ListTMensagensLidaLink}"/>
+                        <h:commandLink rendered="#{item.isLida==true}" action="#{tMensagensController.marcarNaoLida}" value="#{bundleMensagens.ListTMensagensNaoLidaLink}"/>
                         <h:outputText value=" "/>
                     </h:column>
                 </h:dataTable>

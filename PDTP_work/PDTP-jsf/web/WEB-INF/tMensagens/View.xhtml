@@ -7,7 +7,7 @@
 
     <ui:composition template="/template.xhtml">
         <ui:define name="title">
-            <h:outputText value="#{bundle.ViewTMensagensTitle}"></h:outputText>
+            <h:outputText value="#{bundleMensagens.ViewTMensagensTitle}"></h:outputText>
         </ui:define>
         <ui:define name="body">
             <h:panelGroup id="messagePanel" layout="block">
@@ -15,35 +15,35 @@
             </h:panelGroup>
             <h:form>
                 <h:panelGrid columns="2">
-                    <h:outputText value="#{bundle.ViewTMensagensLabel_idMensagem}"/>
-                    <h:outputText value="#{tMensagensController.selected.idMensagem}" title="#{bundle.ViewTMensagensTitle_idMensagem}"/>
-                    <h:outputText value="#{bundle.ViewTMensagensLabel_assunto}"/>
-                    <h:outputText value="#{tMensagensController.selected.assunto}" title="#{bundle.ViewTMensagensTitle_assunto}"/>
-                    <h:outputText value="#{bundle.ViewTMensagensLabel_data}"/>
-                    <h:outputText value="#{tMensagensController.selected.data}" title="#{bundle.ViewTMensagensTitle_data}">
+                    <h:outputText value="#{bundleMensagens.ViewTMensagensLabel_idMensagem}"/>
+                    <h:outputText value="#{tMensagensController.selected.idMensagem}" title="#{bundleMensagens.ViewTMensagensTitle_idMensagem}"/>
+                    <h:outputText value="#{bundleMensagens.ViewTMensagensLabel_assunto}"/>
+                    <h:outputText value="#{tMensagensController.selected.assunto}" title="#{bundleMensagens.ViewTMensagensTitle_assunto}"/>
+                    <h:outputText value="#{bundleMensagens.ViewTMensagensLabel_data}"/>
+                    <h:outputText value="#{tMensagensController.selected.data}" title="#{bundleMensagens.ViewTMensagensTitle_data}">
                         <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
                     </h:outputText>
-                    <h:outputText value="#{bundle.ViewTMensagensLabel_estado}"/>
-                    <h:outputText value="#{tMensagensController.selected.estado}" title="#{bundle.ViewTMensagensTitle_estado}"/>
-                    <h:outputText value="#{bundle.ViewTMensagensLabel_texto}"/>
-                    <h:outputText value="#{tMensagensController.selected.texto}" title="#{bundle.ViewTMensagensTitle_texto}"/>
-                    <h:outputText value="#{bundle.ViewTMensagensLabel_destinatario}"/>
-                    <h:outputText value="#{tMensagensController.selected.destinatario}" title="#{bundle.ViewTMensagensTitle_destinatario}"/>
-                    <h:outputText value="#{bundle.ViewTMensagensLabel_remetente}"/>
-                    <h:outputText value="#{tMensagensController.selected.remetente}" title="#{bundle.ViewTMensagensTitle_remetente}"/>
+                    <h:outputText value="#{bundleMensagens.ViewTMensagensLabel_estado}"/>
+                    <h:outputText value="#{tMensagensController.selected.estado}" title="#{bundleMensagens.ViewTMensagensTitle_estado}"/>
+                    <h:outputText value="#{bundleMensagens.ViewTMensagensLabel_texto}"/>
+                    <h:outputText value="#{tMensagensController.selected.texto}" title="#{bundleMensagens.ViewTMensagensTitle_texto}"/>
+                    <h:outputText value="#{bundleMensagens.ViewTMensagensLabel_destinatario}"/>
+                    <h:outputText value="#{tMensagensController.selected.destinatario}" title="#{bundleMensagens.ViewTMensagensTitle_destinatario}"/>
+                    <h:outputText value="#{bundleMensagens.ViewTMensagensLabel_remetente}"/>
+                    <h:outputText value="#{tMensagensController.selected.remetente}" title="#{bundleMensagens.ViewTMensagensTitle_remetente}"/>
                 </h:panelGrid>
                 <br />
-                <h:commandLink action="#{tMensagensController.destroyAndView}" value="#{bundle.ViewTMensagensDestroyLink}"/>
+                <h:commandLink action="#{tMensagensController.destroyAndView}" value="#{bundleMensagens.ViewTMensagensDestroyLink}"/>
                 <br />
                 <br />
-                <h:link outcome="Edit" value="#{bundle.ViewTMensagensEditLink}"/>
+                <h:link outcome="Edit" value="#{bundleMensagens.ViewTMensagensEditLink}"/>
                 <br />
-                <h:commandLink action="#{tMensagensController.prepareCreate}" value="#{bundle.ViewTMensagensCreateLink}" />
+                <h:commandLink action="#{tMensagensController.prepareCreate}" value="#{bundleMensagens.ViewTMensagensCreateLink}" />
                 <br />
-                <h:commandLink action="#{tMensagensController.prepareList}" value="#{bundle.ViewTMensagensShowAllLink}"/>
+                <h:commandLink action="#{tMensagensController.prepareList}" value="#{bundleMensagens.ViewTMensagensShowAllLink}"/>
                 <br />
                 <br />
-                <h:link outcome="/index" value="#{bundle.ViewTMensagensIndexLink}"/>
+                <h:link outcome="/index" value="#{bundleMensagens.ViewTMensagensIndexLink}"/>
 
             </h:form>
         </ui:define>

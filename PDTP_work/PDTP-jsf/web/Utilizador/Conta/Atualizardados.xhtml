@@ -24,7 +24,10 @@
                     <h:outputLabel value="#{bundle.EditTUtilizadoresLabel_morada}" for="morada" />
                     <h:inputTextarea id="morada" value="#{UtilizadorController.selected.morada}" title="#{bundle.EditTUtilizadoresTitle_morada}" cols="100" rows="4"/>
                 </h:panelGrid>
-                <h:commandLink action="#{UtilizadorController.update}" value="Guardar"/>
+                <h:commandButton id="carregar" value="Guardar"
+                                 styleClass="btn btn-success"
+                                 action="#{UtilizadorController.update()}"></h:commandButton>
+                <h:messages for="carregar" errorStyle="color: red" infoStyle="color: green" layout="table"/>
                
             </h:form>
         </ui:define>
