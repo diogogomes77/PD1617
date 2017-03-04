@@ -20,9 +20,11 @@
             <h:form>
                 <h:panelGrid columns="2">
                     <h:outputLabel value="#{bundle.EditTUtilizadoresLabel_password}" for="password" />
-                    <h:inputSecret id="password" value="#{UtilizadorController.selected.password}" title="#{bundle.EditTUtilizadoresTitle_password}" />
+                    <h:inputSecret id="password" value="#{UtilizadorController.passwordAntiga}" title="#{bundle.EditTUtilizadoresTitle_password}" />
+                    <h:outputLabel value="#{bundle.EditTUtilizadoresLabel_razaopedidosuspensao}" for="razaoSupensao" />
+                    <h:inputText id="razaoSupensao" value="#{UtilizadorController.selected.razaopedidosuspensao}" title="#{bundle.EditTUtilizadoresTitle_razaopedidosuspensao}" size="100"/>
                 </h:panelGrid>
-                <h:commandLink action="#{UtilizadorController.alteraPassword}" value="Guardar"/>
+                <h:commandLink action="#{UtilizadorController.suspendeConta}" value="Submeter Pedido"/>
             </h:form>
         </ui:define>
     </ui:composition> 

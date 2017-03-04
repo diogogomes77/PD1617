@@ -11,6 +11,7 @@ import beans.ClientUtilizadorRemote;
 import beans.SessionException;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
@@ -19,6 +20,7 @@ import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 import javax.servlet.http.HttpSession;
 import jpaentidades.TUtilizadores;
+import jsfclasses.util.JsfUtil;
 
 /**
  *
@@ -32,7 +34,7 @@ public class UtilizadorController extends VisitanteController implements Seriali
     ClientUtilizadorRemote client;
 
     double saldoCarregar = 0.0;
-    
+
     String passwordAntiga = "";
 
     public UtilizadorController() {
@@ -164,18 +166,46 @@ public class UtilizadorController extends VisitanteController implements Seriali
         } catch (SessionException ex) {
             Logger.getLogger(UtilizadorController.class.getName()).log(Level.SEVERE, null, ex);
         }
+        JsfUtil.addErrorMessage("Não foi possível altera dos dados.");
         return null;
     }
 
     public String alteraPassword() {
         try {
-            if (client.alteraPassword(current.getPassword())) {
-                current = (TUtilizadores) client.getUser();
-                return "Consultardados";
+            if (client.verificaPassword(passwordAntiga)) {
+                passwordAntiga = "";
+                if (client.alteraPassword(current.getPassword())) {
+                    current = (TUtilizadores) client.getUser();
+                    JsfUtil.addSuccessMessage("Password alterada.");
+                    return "Consultardados";
+                }
+            }else{
+                JsfUtil.addErrorMessage("Erro a verificar a password.");
+                return null;
             }
         } catch (SessionException ex) {
             Logger.getLogger(UtilizadorController.class.getName()).log(Level.SEVERE, null, ex);
         }
+        JsfUtil.addErrorMessage("Não foi possível aterar a password");
+        return null;
+    }
+    public String suspendeConta() {
+        try {
+            if (client.verificaPassword(passwordAntiga)) {
+                passwordAntiga = "";
+                if (client.pedirSuspensao(current.getRazaopedidosuspensao())) {
+                    current = (TUtilizadores) client.getUser();
+                    JsfUtil.addSuccessMessage("Pedido de suspensão submetido");
+                    return "Consultardados";
+                }
+            }else{
+                JsfUtil.addErrorMessage("Erro a verificar a password.");
+                return null;
+            }
+        } catch (SessionException ex) {
+            Logger.getLogger(UtilizadorController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        JsfUtil.addErrorMessage("Não foi possível suspender a conta");
         return null;
     }
 }
