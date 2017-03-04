@@ -167,4 +167,6 @@ public interface ClientUtilizadorRemote extends ClientAuthRemote {
      * @throws beans.SessionException
      */
     boolean denunciarVendedor(String username, String razao) throws SessionException;
+    
+    public List<Object> getItensSeguidosObj() throws SessionException;
 }

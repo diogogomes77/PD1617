@@ -1057,7 +1057,21 @@ public class Leiloeira implements LeiloeiraLocal {
         }
         return null;
     }
-
+    @Override
+    public List<Object> getItensSeguidosObj(String username) {
+        List<Object> result = new ArrayList<>();
+        TUtilizadores u = (TUtilizadores) DAO.find(TUtilizadores.class, username);
+        if (u != null) {
+            for (Object itemseg : DAO.findByNamedQuery(TitemsSeguidos.class, "TitemsSeguidos.findByUtilizador", "utilizador", u)) {
+                System.out.println("---"+((TitemsSeguidos)itemseg).toString());
+                result.add( ((TitemsSeguidos)itemseg).getItem());
+                 System.out.println("ADD---"+((TitemsSeguidos)itemseg).getItem().getDescricao());
+                //result.add(((TitemsSeguidos) seg).toString());
+            }
+            return result;
+        }
+        return null;
+    }
     /**
      *
      * @param username

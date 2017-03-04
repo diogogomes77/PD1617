@@ -477,4 +477,6 @@ public interface LeiloeiraLocal {
      * @return @throws beans.SessionException
      */
     List<Object> obtemCategoriasRange(int[] range) throws SessionException;
+    
+    public List<Object> getItensSeguidosObj(String username);
 }

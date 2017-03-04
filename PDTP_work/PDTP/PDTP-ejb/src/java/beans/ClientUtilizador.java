@@ -112,7 +112,11 @@ public class ClientUtilizador extends ClientAuth implements ClientUtilizadorRemo
         setLastAction();
         return leiloeira.getItensSeguidos(myName);
     }
-
+    @Override
+    public List<Object> getItensSeguidosObj() throws SessionException {
+        setLastAction();
+        return leiloeira.getItensSeguidosObj(myName);
+    }
     @Override
     public List<String> getMeusItensPorPagar() throws SessionException {
         setLastAction();

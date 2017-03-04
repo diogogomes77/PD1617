@@ -63,6 +63,80 @@
                     </h:dataTable>
                 </h:panelGroup>
             </h:form>
+            
+            
+            <h:form styleClass="jsfcrud_list_form">
+                
+                <h:outputText escape="false" value="#{bundleItensSeguidos.ListTitemsSeguidosEmpty}" rendered="#{titemsSeguidosController.items.rowCount == 0}"/>
+                <h:panelGroup rendered="#{titemsSeguidosController.items.rowCount > 0}">
+                    <h:outputText value="#{titemsSeguidosController.pagination.pageFirstItem + 1}..#{titemsSeguidosController.pagination.pageLastItem + 1}/#{titemsSeguidosController.pagination.itemsCount}"/>&nbsp;
+                    <h:commandLink action="#{titemsSeguidosController.previous}" value="#{bundleItensSeguidos.Previous} #{titemsSeguidosController.pagination.pageSize}" rendered="#{titemsSeguidosController.pagination.hasPreviousPage}"/>&nbsp;
+                    <h:commandLink action="#{titemsSeguidosController.next}" value="#{bundleItensSeguidos.Next} #{titemsSeguidosController.pagination.pageSize}" rendered="#{titemsSeguidosController.pagination.hasNextPage}"/>&nbsp;
+                    <h:dataTable value="#{titemsSeguidosController.itemsobj}" var="item" border="0" cellpadding="2" cellspacing="0" rowClasses="jsfcrud_odd_row,jsfcrud_even_row" rules="all" style="border:solid 1px">
+                       <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundleItens.ListTItensTitle_categoria}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.categoria}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundleItens.ListTItensTitle_comprarja}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.comprarja}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundleItens.ListTItensTitle_licitacaomaxima}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.licitacaomaxima}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundleItens.ListTItensTitle_datafim}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.datafim}">
+                                <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                            </h:outputText>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundleItens.ListTItensTitle_datainicio}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.datainicio}">
+                                <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                            </h:outputText>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundleItens.ListTItensTitle_descricao}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.descricao}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundleItens.ListTItensTitle_precoinicial}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.precoinicial}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundleItens.ListTItensTitle_vendedor}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.vendedor}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="&nbsp;"/>
+                            </f:facet>
+                            <h:commandLink action="#{tItensController.prepareView}" value="#{bundleItens.ListTItensViewLink}"/>
+                            <h:commandLink action="#{tItensController.naoseguir}" value=" Seguir"/>
+                        </h:column>
+                    </h:dataTable>
+                </h:panelGroup>
+            </h:form>
+            
+            
         </ui:define>
     </ui:composition> 
 

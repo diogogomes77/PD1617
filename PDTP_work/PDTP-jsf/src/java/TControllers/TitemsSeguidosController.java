@@ -1,12 +1,19 @@
 package TControllers;
 
+import autenticacao.Util;
+import beans.ClientUtilizadorRemote;
+import beans.SessionException;
 import jpafacades.TitemsSeguidosFacade;
 import jpaentidades.TitemsSeguidos;
 import beans.util.JsfUtil;
 import beans.util.PaginationHelper;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
@@ -17,13 +24,26 @@ import javax.faces.convert.FacesConverter;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 import javax.faces.model.SelectItem;
+import javax.servlet.http.HttpSession;
+import jpaentidades.TItens;
 
 @Named("titemsSeguidosController")
 @SessionScoped
 public class TitemsSeguidosController implements Serializable {
 
+    private ClientUtilizadorRemote remoteSession;
+     
+     @PostConstruct
+    public void init() {
+        HttpSession session = Util.getSession();
+        System.out.println("-----SESSAO "+session.getAttribute("sessaoUser"));
+        remoteSession = (ClientUtilizadorRemote) session.getAttribute("sessaoUser");
+    }
+    
+    
     private TitemsSeguidos current;
     private DataModel items = null;
+     private DataModel itemsobj = null;
     @EJB
     private jpafacades.TitemsSeguidosFacade ejbFacade;
     private PaginationHelper pagination;
@@ -57,6 +77,7 @@ public class TitemsSeguidosController implements Serializable {
                 public DataModel createPageDataModel() {
                     return new ListDataModel(getFacade().findRange(new int[]{getPageFirstItem(), getPageFirstItem() + getPageSize()}));
                 }
+
             };
         }
         return pagination;
@@ -158,6 +179,37 @@ public class TitemsSeguidosController implements Serializable {
             items = getPagination().createPageDataModel();
         }
         return items;
+    }
+    
+    public DataModel getItemsobj() {
+        if (itemsobj == null) {
+           PaginationHelper paginationobj = new PaginationHelper(10) {
+
+                @Override
+                public int getItemsCount() {
+                    return getFacade().count();
+                }
+
+                @Override               
+                public DataModel createPageDataModel() {
+                    try {
+                            //return new ListDataModel(getFacade().findRange(new int[]{getPageFirstItem(), getPageFirstItem() + getPageSize()}));
+                         List<Object> itenseguidos = remoteSession.getItensSeguidosObj();
+                         for (Object o: itenseguidos){
+                             System.out.println("obj---"+o);
+                         }
+                            return new ListDataModel( (List<TItens>)(List<?>) itenseguidos);
+                           // return itemsseg;
+                    } catch (SessionException ex) {
+                        Logger.getLogger(TitemsSeguidosController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    return null;
+                }
+            };
+            
+            itemsobj = paginationobj.createPageDataModel();
+        }
+        return itemsobj;
     }
 
     private void recreateModel() {
