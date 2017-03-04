@@ -4,23 +4,22 @@
       xmlns:h="http://java.sun.com/jsf/html"  
       xmlns:f="http://java.sun.com/jsf/core"  
       xmlns:ui="http://java.sun.com/jsf/facelets"> 
-    <ui:composition template="main.xhtml">
+    <ui:composition template="../main.xhtml">
         <ui:define name="left">
-            <ui:include src="leftMenu.xhtml" />
+            <ui:include src="../leftMenu.xhtml" />
         </ui:define>
         <ui:define name="title">
             <h1 class="page-header "> <i class="fa fa-handshake-o"></i>  
                 <h:outputText value=" #{bundle.UtilizadorInicio}"></h:outputText>
             </h1>
-        </ui:define>
+        </ui:define>                     
         <ui:define name="content">                        
-            <h:link outcome="/tMensagens/List" value="Show All TMensagens Items"/>
-            <br />
-            <h:link outcome="/tUtilizadores/List" value="Show All TUtilizadores Items"/>
-            
-            <ui:include src="/Geral/ListaRegistados.xhtml" />
-        </ui:define>
+            <f:view>
+                <h:form>
+                    <h:outputLabel value="Saldo:" for="saldo" />
+                    <h:outputText id="saldo" value="#{UtilizadorController.selected.saldo}" />
+                </h:form>
+            </f:view>
+        </ui:define>    
     </ui:composition> 
-
-
 </html>

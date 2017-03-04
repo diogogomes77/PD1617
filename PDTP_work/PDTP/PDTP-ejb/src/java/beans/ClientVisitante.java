@@ -2,13 +2,12 @@ package beans;
 
 import java.util.List;
 import javax.ejb.Stateless;
-import javax.inject.Named;
 
 /**
  *
  * @author diogo
  */
-@Named
+//@Named
 @Stateless
 public class ClientVisitante extends ClientBase implements ClientVisitanteRemote {
 

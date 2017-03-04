@@ -6,9 +6,9 @@
 package jsfclasses;
 
 import gui.Menu;
-import TControllers.TUtilizadoresController;
 import autenticacao.Util;
 import beans.ClientVisitanteRemote;
+import beans.ClientWebSession;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -33,6 +33,9 @@ public class VisitanteController /*extends TUtilizadoresController*/ implements 
 
     @EJB
     private ClientVisitanteRemote client;
+    
+    @EJB
+    ClientWebSession webSession;
 
     private UIComponent loginButton;
 
@@ -62,6 +65,8 @@ public class VisitanteController /*extends TUtilizadoresController*/ implements 
         //session = null;
         HttpSession session = Util.getSession();
         session.setAttribute("sessaoUser", client);
+        webSession.setUserName("");
+        webSession.setObjSessao(client);
     }
 
     public ArrayList<Menu> getMenus() {
@@ -79,6 +84,7 @@ public class VisitanteController /*extends TUtilizadoresController*/ implements 
             //HttpSession session = SessionUtils.getSession();
             HttpSession session = Util.getSession();
             session.setAttribute("username", current.getUsername());
+            webSession.setUserName(current.getUsername());
             if (client.isAdmin(current.getUsername())) {
                 return "/Administrador/Inicio";
             }
@@ -134,5 +140,14 @@ public class VisitanteController /*extends TUtilizadoresController*/ implements 
         }
         JsfUtil.addErrorMessage("Erro de Registo");
         return null;
+    }
+    
+    public String reativaConta(){
+            if (client.pedirReativacaoUsername(current.getNome(),current.getPassword())) {
+                JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("TUtilizadoresRecurado"));
+                return "/Inicio.xhtml";
+            }
+        JsfUtil.addErrorMessage("Erro de Registo");
+        return null;        
     }
 }

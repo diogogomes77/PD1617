@@ -4,14 +4,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import javax.ejb.Singleton;
-import javax.inject.Named;
 import pdtp.UtilizadorEstado;
 
 /**
  *
  * @author diogo
  */
-@Named
+//@Named
 @Singleton
 public class ClientAdmin extends ClientAuth implements ClientAdminRemote {
 

@@ -33,6 +33,8 @@ public class AdminController extends VisitanteController implements Serializable
 
     @EJB
     private ClientAdminRemote client;
+    
+    
     private ArrayList<Menu> menus;
     private String seccao;
 
@@ -81,6 +83,8 @@ public class AdminController extends VisitanteController implements Serializable
             HttpSession session = Util.getSession();
             client.setMyName((String) session.getAttribute("username"));
             session.setAttribute("sessaoUser", client);
+//            client.setMyName(webSession.getUserName());
+//            webSession.setObjSessao(client);
         } catch (SessionException ex) {
             Logger.getLogger(UtilizadorController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -98,6 +102,7 @@ public class AdminController extends VisitanteController implements Serializable
         session.invalidate();
         try {
             client.logOff();
+            webSession.setUserName("");
         } catch (SessionException ex) {
             Logger.getLogger(AdminController.class.getName()).log(Level.SEVERE, null, ex);
         }

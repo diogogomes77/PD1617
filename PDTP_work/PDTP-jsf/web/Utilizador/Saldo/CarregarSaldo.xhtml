@@ -4,21 +4,36 @@
       xmlns:h="http://java.sun.com/jsf/html"  
       xmlns:f="http://java.sun.com/jsf/core"  
       xmlns:ui="http://java.sun.com/jsf/facelets"> 
-    <ui:composition template="main.xhtml">
+    <ui:composition template="../main.xhtml">
         <ui:define name="left">
-            <ui:include src="leftMenu.xhtml" />
+            <ui:include src="../leftMenu.xhtml" />
         </ui:define>
         <ui:define name="title">
             <h1 class="page-header "> <i class="fa fa-handshake-o"></i>  
                 <h:outputText value=" #{bundle.UtilizadorInicio}"></h:outputText>
             </h1>
         </ui:define>
-        <ui:define name="content">                        
-            <h:link outcome="/tMensagens/List" value="Show All TMensagens Items"/>
-            <br />
-            <h:link outcome="/tUtilizadores/List" value="Show All TUtilizadores Items"/>
-            
-            <ui:include src="/Geral/ListaRegistados.xhtml" />
+        <ui:define name="content"> 
+            <f:view>
+                <h:form id="saldoForm" styleClass="navbar-form navbar-right">
+                    <div class="form-group">
+                        <h:outputLabel value="Saldo a carregar:" for="saldo" />
+                        <h:inputText id="saldo" value="#{UtilizadorController.saldoCarregar}" styleClass="form-control" size="20" required="true" >
+                            <f:converter converterId="javax.faces.Double"/>
+                            <f:validateDoubleRange minimum="1" maximum="9999.99999"/>
+                            <f:passThroughAttribute name="placeholder"
+                                                    value="0.00"/>
+                        </h:inputText> 
+                    </div>
+                    <div class="form-group">
+                        <h:commandButton id="carregar" value="Carregar"
+                                         styleClass="btn btn-success"
+                                         action="#{UtilizadorController.caregarSaldo()}"></h:commandButton>
+                        <h:messages for="carregar" errorStyle="color: red" infoStyle="color: green" layout="table"/>
+                    </div>
+                </h:form>
+            </f:view>
+
         </ui:define>
     </ui:composition> 
 

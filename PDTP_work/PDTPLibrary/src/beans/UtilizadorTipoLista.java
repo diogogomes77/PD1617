@@ -15,6 +15,11 @@ public enum UtilizadorTipoLista {
     /**
      *
      */
+    LISTA_USER_ATIVOS("Lista Utilizadores Ativos"),
+
+    /**
+     *
+     */
     LISTA_USER_ALL("Lista Todos o Utilizadores"),
 
     /**
@@ -30,9 +35,9 @@ public enum UtilizadorTipoLista {
     /**
      *
      */
-    LISTA_USER_SUPENDER("Lista Reativar");
+    LISTA_USER_SUPENDER("Lista Suspender");
     
-     private String msg;
+    private String msg;
     UtilizadorTipoLista(String s) { msg = s;};
 
     /**

@@ -1,14 +1,12 @@
 package TControllers;
 
 import autenticacao.Util;
-import beans.ClientAuthRemote;
 import beans.ClientRemote;
 import jpaentidades.TNewsletters;
 import jsfclasses.util.JsfUtil;
 import jsfclasses.util.PaginationHelper;
 
 import java.io.Serializable;
-import java.util.ResourceBundle;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.inject.Named;
@@ -34,8 +32,8 @@ public class TNewslettersController implements Serializable {
 
     private TNewsletters current;
     private DataModel items = null;
-//    @EJB
-//    private beans.TNewslettersFacade ejbFacade;
+
+    
     private PaginationHelper pagination;
     private int selectedItemIndex;
 
@@ -83,81 +81,81 @@ public class TNewslettersController implements Serializable {
         return pagination;
     }
 
-    public String prepareList() {
-        recreateModel();
-        return "List";
-    }
-
-    public String prepareView() {
-        current = (TNewsletters) getItems().getRowData();
-        selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
-        return "View";
-    }
-
-    public String prepareCreate() {
-        current = new TNewsletters();
-        selectedItemIndex = -1;
-        return "Create";
-    }
-
-    public String create() {
-        try {
-            getFacade().create(current);
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("TNewslettersCreated"));
-            return prepareCreate();
-        } catch (Exception e) {
-            JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
-            return null;
-        }
-    }
-
-    public String prepareEdit() {
-        current = (TNewsletters) getItems().getRowData();
-        selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
-        return "Edit";
-    }
-
-    public String update() {
-        try {
-            getFacade().edit(current);
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("TNewslettersUpdated"));
-            return "View";
-        } catch (Exception e) {
-            JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
-            return null;
-        }
-    }
-
-    public String destroy() {
-        current = (TNewsletters) getItems().getRowData();
-        selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
-        performDestroy();
-        recreatePagination();
-        recreateModel();
-        return "List";
-    }
-
-    public String destroyAndView() {
-        performDestroy();
-        recreateModel();
-        updateCurrentItem();
-        if (selectedItemIndex >= 0) {
-            return "View";
-        } else {
-            // all items were removed - go back to list
-            recreateModel();
-            return "List";
-        }
-    }
-
-    private void performDestroy() {
-        try {
-            getFacade().remove(current);
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("TNewslettersDeleted"));
-        } catch (Exception e) {
-            JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
-        }
-    }
+//    public String prepareList() {
+//        recreateModel();
+//        return "List";
+//    }
+//
+//    public String prepareView() {
+//        current = (TNewsletters) getItems().getRowData();
+//        selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
+//        return "View";
+//    }
+//
+//    public String prepareCreate() {
+//        current = new TNewsletters();
+//        selectedItemIndex = -1;
+//        return "Create";
+//    }
+//
+//    public String create() {
+//        try {
+//            getFacade().create(current);
+//            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("TNewslettersCreated"));
+//            return prepareCreate();
+//        } catch (Exception e) {
+//            JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
+//            return null;
+//        }
+//    }
+//
+//    public String prepareEdit() {
+//        current = (TNewsletters) getItems().getRowData();
+//        selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
+//        return "Edit";
+//    }
+//
+//    public String update() {
+//        try {
+//            getFacade().edit(current);
+//            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("TNewslettersUpdated"));
+//            return "View";
+//        } catch (Exception e) {
+//            JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
+//            return null;
+//        }
+//    }
+//
+//    public String destroy() {
+//        current = (TNewsletters) getItems().getRowData();
+//        selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
+//        performDestroy();
+//        recreatePagination();
+//        recreateModel();
+//        return "List";
+//    }
+//
+//    public String destroyAndView() {
+//        performDestroy();
+//        recreateModel();
+//        updateCurrentItem();
+//        if (selectedItemIndex >= 0) {
+//            return "View";
+//        } else {
+//            // all items were removed - go back to list
+//            recreateModel();
+//            return "List";
+//        }
+//    }
+//
+//    private void performDestroy() {
+//        try {
+//            getFacade().remove(current);
+//            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("TNewslettersDeleted"));
+//        } catch (Exception e) {
+//            JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
+//        }
+//    }
 
     private void updateCurrentItem() {
         int count = getFacade().count();
@@ -192,13 +190,13 @@ public class TNewslettersController implements Serializable {
     public String next() {
         getPagination().nextPage();
         recreateModel();
-        return "List";
+        return null;
     }
 
     public String previous() {
         getPagination().previousPage();
         recreateModel();
-        return "List";
+        return null;
     }
 
     public SelectItem[] getItemsAvailableSelectMany() {

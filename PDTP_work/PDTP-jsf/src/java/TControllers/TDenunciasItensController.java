@@ -62,96 +62,96 @@ public class TDenunciasItensController implements Serializable {
         return pagination;
     }
 
-    public String prepareList() {
-        recreateModel();
-        return "List";
-    }
-
-    public String prepareView() {
-        current = (TDenunciasItens) getItems().getRowData();
-        selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
-        return "View";
-    }
-
-    public String prepareCreate() {
-        current = new TDenunciasItens();
-        selectedItemIndex = -1;
-        return "Create";
-    }
-
-    public String create() {
-        try {
-            getFacade().create(current);
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/BundleItenstudo").getString("TDenunciasItensCreated"));
-            return prepareCreate();
-        } catch (Exception e) {
-            JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/BundleItenstudo").getString("PersistenceErrorOccured"));
-            return null;
-        }
-    }
-
-    public String prepareEdit() {
-        current = (TDenunciasItens) getItems().getRowData();
-        selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
-        return "Edit";
-    }
-
-    public String update() {
-        try {
-            getFacade().edit(current);
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/BundleItenstudo").getString("TDenunciasItensUpdated"));
-            return "View";
-        } catch (Exception e) {
-            JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/BundleItenstudo").getString("PersistenceErrorOccured"));
-            return null;
-        }
-    }
-
-    public String destroy() {
-        current = (TDenunciasItens) getItems().getRowData();
-        selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
-        performDestroy();
-        recreatePagination();
-        recreateModel();
-        return "List";
-    }
-
-    public String destroyAndView() {
-        performDestroy();
-        recreateModel();
-        updateCurrentItem();
-        if (selectedItemIndex >= 0) {
-            return "View";
-        } else {
-            // all items were removed - go back to list
-            recreateModel();
-            return "List";
-        }
-    }
-
-    private void performDestroy() {
-        try {
-            getFacade().remove(current);
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/BundleItenstudo").getString("TDenunciasItensDeleted"));
-        } catch (Exception e) {
-            JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/BundleItenstudo").getString("PersistenceErrorOccured"));
-        }
-    }
-
-    private void updateCurrentItem() {
-        int count = getFacade().count();
-        if (selectedItemIndex >= count) {
-            // selected index cannot be bigger than number of items:
-            selectedItemIndex = count - 1;
-            // go to previous page if last page disappeared:
-            if (pagination.getPageFirstItem() >= count) {
-                pagination.previousPage();
-            }
-        }
-        if (selectedItemIndex >= 0) {
-            current = getFacade().findRange(new int[]{selectedItemIndex, selectedItemIndex + 1}).get(0);
-        }
-    }
+//    public String prepareList() {
+//        recreateModel();
+//        return "List";
+//    }
+//
+//    public String prepareView() {
+//        current = (TDenunciasItens) getItems().getRowData();
+//        selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
+//        return "View";
+//    }
+//
+//    public String prepareCreate() {
+//        current = new TDenunciasItens();
+//        selectedItemIndex = -1;
+//        return "Create";
+//    }
+//
+//    public String create() {
+//        try {
+//            getFacade().create(current);
+//            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/BundleItenstudo").getString("TDenunciasItensCreated"));
+//            return prepareCreate();
+//        } catch (Exception e) {
+//            JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/BundleItenstudo").getString("PersistenceErrorOccured"));
+//            return null;
+//        }
+//    }
+//
+//    public String prepareEdit() {
+//        current = (TDenunciasItens) getItems().getRowData();
+//        selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
+//        return "Edit";
+//    }
+//
+//    public String update() {
+//        try {
+//            getFacade().edit(current);
+//            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/BundleItenstudo").getString("TDenunciasItensUpdated"));
+//            return "View";
+//        } catch (Exception e) {
+//            JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/BundleItenstudo").getString("PersistenceErrorOccured"));
+//            return null;
+//        }
+//    }
+//
+//    public String destroy() {
+//        current = (TDenunciasItens) getItems().getRowData();
+//        selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
+//        performDestroy();
+//        recreatePagination();
+//        recreateModel();
+//        return "List";
+//    }
+//
+//    public String destroyAndView() {
+//        performDestroy();
+//        recreateModel();
+//        updateCurrentItem();
+//        if (selectedItemIndex >= 0) {
+//            return "View";
+//        } else {
+//            // all items were removed - go back to list
+//            recreateModel();
+//            return "List";
+//        }
+//    }
+//
+//    private void performDestroy() {
+//        try {
+//            getFacade().remove(current);
+//            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/BundleItenstudo").getString("TDenunciasItensDeleted"));
+//        } catch (Exception e) {
+//            JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/BundleItenstudo").getString("PersistenceErrorOccured"));
+//        }
+//    }
+//
+//    private void updateCurrentItem() {
+//        int count = getFacade().count();
+//        if (selectedItemIndex >= count) {
+//            // selected index cannot be bigger than number of items:
+//            selectedItemIndex = count - 1;
+//            // go to previous page if last page disappeared:
+//            if (pagination.getPageFirstItem() >= count) {
+//                pagination.previousPage();
+//            }
+//        }
+//        if (selectedItemIndex >= 0) {
+//            current = getFacade().findRange(new int[]{selectedItemIndex, selectedItemIndex + 1}).get(0);
+//        }
+//    }
 
     public DataModel getItems() {
         if (items == null) {
@@ -171,13 +171,13 @@ public class TDenunciasItensController implements Serializable {
     public String next() {
         getPagination().nextPage();
         recreateModel();
-        return "List";
+        return null;
     }
 
     public String previous() {
         getPagination().previousPage();
         recreateModel();
-        return "List";
+        return null;
     }
 
     public SelectItem[] getItemsAvailableSelectMany() {

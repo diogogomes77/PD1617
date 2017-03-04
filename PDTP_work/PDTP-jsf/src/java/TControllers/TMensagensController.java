@@ -2,6 +2,7 @@ package TControllers;
 
 import autenticacao.Util;
 import beans.ClientAuthRemote;
+import beans.ClientWebSession;
 import beans.SessionException;
 import jpaentidades.TMensagens;
 import jsfclasses.util.JsfUtil;
@@ -13,6 +14,7 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -28,6 +30,9 @@ import javax.servlet.http.HttpSession;
 @SessionScoped
 public class TMensagensController implements Serializable {
 
+    @EJB
+    ClientWebSession webSession;
+
     private ClientAuthRemote remoteSession;
 
     protected TMensagens current;
@@ -41,10 +46,11 @@ public class TMensagensController implements Serializable {
     @PostConstruct
     public void init() {
         //session = null;
+
         HttpSession session = Util.getSession();
-        remoteSession = (ClientAuthRemote)session.getAttribute("sessaoUser");
+        remoteSession = (ClientAuthRemote) session.getAttribute("sessaoUser");
     }
-    
+
     public TMensagens getSelected() {
         if (current == null) {
             current = new TMensagens();

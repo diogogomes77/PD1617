@@ -275,7 +275,8 @@ public class TUtilizadores implements Serializable {
 
     @Override
     public String toString() {
-        return "jpaentidades.TUtilizadores[ username=" + username + " ]";
+        //return "jpaentidades.TUtilizadores[ username=" + username + " ]";
+        return "[" + username + "] - "+ nome;
     }
 
     /**

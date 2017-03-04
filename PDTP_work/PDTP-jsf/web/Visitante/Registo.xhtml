@@ -32,13 +32,13 @@
                        
                     <h:outputLabel value="#{bundle.CreateTUtilizadoresLabel_morada}" for="morada" />
                     <h:inputText id="morada" value="#{VisitanteController.selected.morada}" title="#{bundle.CreateTUtilizadoresTitle_morada}"
-                                  required="true" requiredMessage="#{bundle.CreateTUtilizadoresRequiredMessage_username}" />
+                                  required="true" requiredMessage="#{bundle.CreateTUtilizadoresRequiredMessage_morada}" />
                     <h:outputLabel value="#{bundle.CreateTUtilizadoresLabel_nome}" for="nome" />
                     <h:inputText id="nome" value="#{VisitanteController.selected.nome}" title="#{bundle.CreateTUtilizadoresTitle_nome}" 
-                                  required="true" requiredMessage="#{bundle.CreateTUtilizadoresRequiredMessage_username}" />
+                                  required="true" requiredMessage="#{bundle.CreateTUtilizadoresRequiredMessage_nome}" />
                     <h:outputLabel value="#{bundle.CreateTUtilizadoresLabel_password}" for="password" />
                     <h:inputText id="password" value="#{VisitanteController.selected.password}" title="#{bundle.CreateTUtilizadoresTitle_password}" 
-                                  required="true" requiredMessage="#{bundle.CreateTUtilizadoresRequiredMessage_username}" />
+                                  required="true" requiredMessage="#{bundle.CreateTUtilizadoresRequiredMessage_password}" />
                 </h:panelGrid>
                 <br />
                 <h:commandLink action="#{VisitanteController.create}" value="Registar" />

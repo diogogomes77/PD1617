@@ -5,13 +5,12 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.Stateful;
-import javax.inject.Named;
 
 /**
  *
  * @author diogo
  */
-@Named
+//@Named
 @Stateful
 public class ClientUtilizador extends ClientAuth implements ClientUtilizadorRemote {
 
@@ -147,7 +146,7 @@ public class ClientUtilizador extends ClientAuth implements ClientUtilizadorRemo
     @Override
     public List<Object> obtemUtilizadores(UtilizadorTipoLista lista) throws SessionException {
         setLastAction();
-        if (lista == UtilizadorTipoLista.LISTA_USER_ALL) {
+        if ((lista == UtilizadorTipoLista.LISTA_USER_ALL) || (lista == UtilizadorTipoLista.LISTA_USER_ATIVOS)) {
             return super.obtemUtilizadores(lista);
         }
         return null;
@@ -156,7 +155,7 @@ public class ClientUtilizador extends ClientAuth implements ClientUtilizadorRemo
     @Override
     public int obtemNumUtilizador(UtilizadorTipoLista lista) throws SessionException {
         setLastAction();
-        if (lista == UtilizadorTipoLista.LISTA_USER_ALL) {
+        if ((lista == UtilizadorTipoLista.LISTA_USER_ALL) || (lista == UtilizadorTipoLista.LISTA_USER_ATIVOS)) {
             return super.obtemNumUtilizador(lista);
         }
         return 0;
@@ -171,7 +170,7 @@ public class ClientUtilizador extends ClientAuth implements ClientUtilizadorRemo
     @Override
     public List<Object> obtemUtilizadoresRange(UtilizadorTipoLista lista, int[] range) throws SessionException {
         setLastAction();
-        if (lista == UtilizadorTipoLista.LISTA_USER_ALL) {
+        if ((lista == UtilizadorTipoLista.LISTA_USER_ALL) || (lista == UtilizadorTipoLista.LISTA_USER_ATIVOS)){
             return super.obtemUtilizadoresRange(lista, range);
         }
         return null;

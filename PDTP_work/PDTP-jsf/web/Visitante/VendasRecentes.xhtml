@@ -6,14 +6,70 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <ui:composition template="main.xhtml">
-         <ui:define name="left">
+        <ui:define name="left">
             <ui:include src="leftMenu.xhtml" />
         </ui:define>
         <ui:define name="title">
-            <h:outputText value="#{bundle.VisitanteLogin}"></h:outputText>
+            <h1 class="page-header "> <i class="fa fa-handshake-o"></i> 
+                <h:outputText value="#{bundle.ReativarTIntensVendasRecentes}"></h:outputText>
+            </h1>
         </ui:define>
         <ui:define name="content">
-Venda recentes visitante
+            <f:view>
+                <h:form>
+                    <h:panelGroup id="messagePanel" layout="block">
+                        <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+                    </h:panelGroup>
+                    <h:outputText escape="false" value="#{bundle.ListTitensRecentesEmpty}" rendered="#{tItensController.items.rowCount == 0}"/>
+                    <h:panelGroup rendered="#{tItensController.items.rowCount > 0}">
+                        <h:outputText value="#{tItensController.pagination.pageFirstItem + 1}..#{tItensController.pagination.pageLastItem + 1}/#{tItensController.pagination.itemsCount}"/>&nbsp;
+                        <h:commandLink action="#{tItensController.previous}" value="#{bundle.Previous} #{tItensController.pagination.pageSize}" rendered="#{tItensController.pagination.hasPreviousPage}"/>&nbsp;
+                        <h:commandLink action="#{tItensController.next}" value="#{bundle.Next} #{tItensController.pagination.pageSize}" rendered="#{tItensController.pagination.hasNextPage}"/>&nbsp;
+
+                        <h:dataTable value="#{tItensController.items}" var="item" border="0" cellpadding="2" cellspacing="0" rowClasses="jsfcrud_odd_row,jsfcrud_even_row" rules="all" style="border:solid 1px">
+                            <h:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Descricao"/>
+                                </f:facet>
+                                <h:outputText value="#{item.descricao}"/>
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Categoria"/>
+                                </f:facet>
+                                <h:outputText value="#{item.categoria}"/>
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Comprador"/>
+                                </f:facet>
+                                <h:outputText value="#{item.comprador}"/>
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Licitacaomaxima"/>
+                                </f:facet>
+                                <h:outputText value="#{item.licitacaomaxima}"/>
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Datafim"/>
+                                </f:facet>
+                                <h:outputText value="#{item.datafim}">
+                                    <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                                </h:outputText>
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Vendedor"/>
+                                </f:facet>
+                                <h:outputText value="#{item.vendedor}"/>
+                            </h:column>
+                        </h:dataTable>
+                    </h:panelGroup>
+                </h:form>
+            </f:view>
+
         </ui:define>
     </ui:composition>
 

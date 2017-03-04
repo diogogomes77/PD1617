@@ -9,7 +9,6 @@ import beans.MensagemEstado;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.time.ZoneOffset;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Cacheable;

@@ -31,6 +31,8 @@ public class UtilizadorController extends VisitanteController implements Seriali
     @EJB
     ClientUtilizadorRemote client;
 
+    double saldoCarregar = 0.0;
+
     public UtilizadorController() {
         super();
         Logger.getLogger(UtilizadorController.class.getName()).log(Level.SEVERE, null, "lOGON ");
@@ -75,10 +77,12 @@ public class UtilizadorController extends VisitanteController implements Seriali
     @PostConstruct
     public void init() {
         try {
-            //session = null;
+//            //session = null;
             HttpSession session = Util.getSession();
             client.setMyName((String) session.getAttribute("username"));
             session.setAttribute("sessaoUser", client);
+//            client.setMyName(webSession.getUserName());
+//            webSession.setObjSessao(client);
             current = (TUtilizadores) client.getUser();
             System.out.println("----CURRENT=" + current.getUsername());
         } catch (SessionException ex) {
@@ -101,9 +105,67 @@ public class UtilizadorController extends VisitanteController implements Seriali
         try {
             //session = null;
             client.logOff();
+            webSession.setUserName("");
         } catch (SessionException ex) {
             Logger.getLogger(UtilizadorController.class.getName()).log(Level.SEVERE, null, ex);
         }
         return "/Inicio.xhtml";
+    }
+
+    public String caregarSaldo() {
+        if (saldoCarregar > 0) {
+            try {
+                client.addSaldo(saldoCarregar);
+                saldoCarregar = 0.0;
+            } catch (SessionException ex) {
+                Logger.getLogger(UtilizadorController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return "VerSaldo";
+    }
+
+    public double getSaldoCarregar() {
+        return saldoCarregar;
+    }
+
+    public void setSaldoCarregar(double saldoCarregar) {
+        this.saldoCarregar = saldoCarregar;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public Double getLastSaldo() {
+        try {
+            return client.getSaldo();
+        } catch (SessionException ex) {
+            Logger.getLogger(UtilizadorController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+
+    public String update() {
+        try {
+            if (client.atualizaDados(current.getNome(), current.getMorada())) {
+                current = (TUtilizadores) client.getUser();
+                return "Consultardados";
+            }
+        } catch (SessionException ex) {
+            Logger.getLogger(UtilizadorController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+
+    public String alteraPassword() {
+        try {
+            if (client.alteraPassword(current.getPassword())) {
+                current = (TUtilizadores) client.getUser();
+                return "Consultardados";
+            }
+        } catch (SessionException ex) {
+            Logger.getLogger(UtilizadorController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
     }
 }

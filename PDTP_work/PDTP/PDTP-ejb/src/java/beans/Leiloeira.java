@@ -1268,6 +1268,9 @@ public class Leiloeira implements LeiloeiraLocal {
                 case LISTA_USER_ALL:
                     list = DAO.findAll(TUtilizadores.class);
                     break;
+                case LISTA_USER_ATIVOS:
+                    list = DAO.findByNamedQuery(TUtilizadores.class, "TUtilizadores.findByEstado", "estado", UtilizadorEstado.ATIVO);
+                    break;
                 case LISTA_USER_ADESOES:
                     list = DAO.findByNamedQuery(TUtilizadores.class, "TUtilizadores.findByEstado", "estado", UtilizadorEstado.ATIVO_PEDIDO);
                     break;
@@ -1295,6 +1298,9 @@ public class Leiloeira implements LeiloeiraLocal {
                 case LISTA_USER_ALL:
                     numReg = DAO.count(TUtilizadores.class);
                     break;
+                case LISTA_USER_ATIVOS:
+                    numReg = DAO.countByNamedQuery(TUtilizadores.class, "TUtilizadores.findByEstado", "estado", UtilizadorEstado.ATIVO);
+                    break;
                 case LISTA_USER_ADESOES:
                     numReg = DAO.countByNamedQuery(TUtilizadores.class, "TUtilizadores.countFindByEstado", "estado", UtilizadorEstado.ATIVO_PEDIDO);
                     break;
@@ -1321,6 +1327,9 @@ public class Leiloeira implements LeiloeiraLocal {
             switch (lista) {
                 case LISTA_USER_ALL:
                     list = DAO.findRange(TUtilizadores.class, range);
+                    break;
+                case LISTA_USER_ATIVOS:
+                    list = DAO.findRangeByNamedQuery(TUtilizadores.class, range, "TUtilizadores.findByEstado", "estado", UtilizadorEstado.ATIVO);
                     break;
                 case LISTA_USER_ADESOES:
                     list = DAO.findRangeByNamedQuery(TUtilizadores.class, range, "TUtilizadores.findByEstado", "estado", UtilizadorEstado.ATIVO_PEDIDO);

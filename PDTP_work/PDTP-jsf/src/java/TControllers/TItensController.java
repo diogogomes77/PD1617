@@ -1,12 +1,12 @@
 package TControllers;
 
 import autenticacao.Util;
+import beans.ClientRemote;
 import beans.ClientUtilizadorRemote;
 import beans.SessionException;
 import jpaentidades.TItens;
 import jsfclasses.util.JsfUtil;
 import jsfclasses.util.PaginationHelper;
-
 
 import java.io.Serializable;
 import java.sql.Timestamp;
@@ -31,8 +31,8 @@ import jpafacades.TItensFacade;
 @SessionScoped
 public class TItensController implements Serializable {
 
-    private ClientUtilizadorRemote remoteSession;
-    
+    private ClientRemote remoteSession;
+
     private TItens current;
     private DataModel items = null;
     @EJB
@@ -42,11 +42,13 @@ public class TItensController implements Serializable {
 
     public TItensController() {
     }
+
     @PostConstruct
     public void init() {
         HttpSession session = Util.getSession();
-        remoteSession = (ClientUtilizadorRemote) session.getAttribute("sessaoUser");
+        remoteSession = (ClientRemote) session.getAttribute("sessaoUser");
     }
+
     public TItens getSelected() {
         if (current == null) {
             current = new TItens();
@@ -88,24 +90,28 @@ public class TItensController implements Serializable {
         return "View";
     }
 
-    
     public String seguir() {
         HttpSession session = Util.getSession();
-       
+
         current = (TItens) getItems().getRowData();
         selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
-        System.out.println("---SEGUIR itemid "+ current.getItemid());
+        System.out.println("---SEGUIR itemid " + current.getItemid());
         try {
-            
-            boolean ok = remoteSession.seguirItem(current.getItemid());
-            if (ok) JsfUtil.addSuccessMessage("Item Seguido");
-            else JsfUtil.addSuccessMessage("Erro");
+            boolean ok = ((ClientUtilizadorRemote)remoteSession).seguirItem(current.getItemid());
+            if (ok) {
+                JsfUtil.addSuccessMessage("Item Seguido");
+            } else {
+                JsfUtil.addSuccessMessage("Erro");
+            }
             return null;
         } catch (SessionException ex) {
             Logger.getLogger(TItensController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch( Exception e){
+            Logger.getLogger(TItensController.class.getName()).log(Level.SEVERE, null, e);
         }
         return null;
     }
+
     public String prepareCreate() {
         current = new TItens();
         selectedItemIndex = -1;
@@ -114,9 +120,9 @@ public class TItensController implements Serializable {
 
     public String create() {
         try {
-            
+
             Timestamp limite = new java.sql.Timestamp(current.getDatafim().getTime());
-           remoteSession.addItem(current.getCategoria(), current.getDescricao(), current.getPrecoinicial(), current.getComprarja(),limite);
+            ((ClientUtilizadorRemote)remoteSession).addItem(current.getCategoria(), current.getDescricao(), current.getPrecoinicial(), current.getComprarja(), limite);
             JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/BundleItens").getString("TItensCreated"));
             return prepareCreate();
         } catch (Exception e) {

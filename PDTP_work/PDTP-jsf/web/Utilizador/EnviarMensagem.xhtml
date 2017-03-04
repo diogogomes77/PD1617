@@ -22,10 +22,12 @@
                     <h:outputLabel value="#{bundle.CreateTMensagensLabel_assunto}" for="assunto" />
                     <h:inputText id="assunto" value="#{tMensagensController.selected.assunto}" title="#{bundle.CreateTMensagensTitle_assunto}" />
                     <h:outputLabel value="#{bundle.CreateTMensagensLabel_texto}" for="texto" />
-                    <h:inputText id="texto" value="#{tMensagensController.selected.texto}" title="#{bundle.CreateTMensagensTitle_texto}" />
+                    <h:inputText id="texto" value="#{tMensagensController.selected.texto}" title="#{bundle.CreateTMensagensTitle_texto}" size="100"/>
                     <h:outputLabel value="#{bundle.CreateTMensagensLabel_destinatario}" for="destinatario" />
-                    <h:selectOneMenu id="destinatario" value="#{tMensagensController.selected.destinatario}" title="#{bundle.CreateTMensagensTitle_destinatario}" >
-                        <f:selectItems value="#{tUtilizadoresController.itemsAvailableSelectOne}"/>
+                    <h:selectOneMenu id="destinatario" value="#{tMensagensController.selected.destinatario}" 
+                                     title="#{bundle.CreateTMensagensTitle_destinatario}" 
+                                     required="true" requiredMessage="#{bundle.CreateTMensagensTitle_destinatario} em falta." >
+                        <f:selectItems value="#{tUtilizadoresAtivosController.itemsAvailableSelectOne}"/>
                     </h:selectOneMenu>
                 </h:panelGrid>
                 <br />

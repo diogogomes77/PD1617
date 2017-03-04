@@ -6,8 +6,10 @@
 package jsfclasses;
 import gui.Menu;
 import TControllers.TUtilizadoresController;
+import beans.ClientWebSession;
 import java.io.Serializable;
 import java.util.ArrayList;
+import javax.ejb.EJB;
 import jpaentidades.TUtilizadores;
 
 /**
@@ -17,6 +19,8 @@ import jpaentidades.TUtilizadores;
 
 public abstract class AbstractController extends TUtilizadoresController implements Serializable { // extends TUtilizadoresController
 
+    @EJB
+    ClientWebSession webSession;
     
     protected TUtilizadoresController tUtilizadorController ;
     

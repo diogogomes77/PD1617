@@ -294,7 +294,7 @@ public class TUtilizadoresController implements Serializable {
         } catch (SessionException ex) {
             Logger.getLogger(TUtilizadoresController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return JsfUtil.getSelectItems(list, false);
+        return JsfUtil.getSelectItems(list, true);
     }
 
     public TUtilizadores getTUtilizadores(java.lang.String id) {
@@ -316,7 +316,7 @@ public class TUtilizadoresController implements Serializable {
                 return null;
             }
             TUtilizadoresController controller = (TUtilizadoresController) facesContext.getApplication().getELResolver().
-                    getValue(facesContext.getELContext(), null, "tUtilizadoresController");
+                    getValue(facesContext.getELContext(), null, "tUtilizadoresAtivosController");
             return controller.getTUtilizadores(getKey(value));
         }
 
