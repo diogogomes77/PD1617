@@ -7,8 +7,8 @@ import jsfclasses.util.JsfUtil;
 import jsfclasses.util.PaginationHelper;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.component.UIComponent;
@@ -19,7 +19,6 @@ import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 import javax.faces.model.SelectItem;
 import javax.servlet.http.HttpSession;
-import jpafacades.TNewslettersFacade;
 
 @Named("tNewslettersController")
 @SessionScoped
@@ -27,8 +26,8 @@ public class TNewslettersController implements Serializable {
 
     private ClientRemote remoteSession;
 
-    @EJB
-    private TNewslettersFacade ejbFacade;
+//    @EJB
+//    private TNewslettersFacade ejbFacade;
 
     private TNewsletters current;
     private DataModel items = null;
@@ -59,9 +58,9 @@ public class TNewslettersController implements Serializable {
         return current;
     }
 
-    private TNewslettersFacade getFacade() {
-        return ejbFacade;
-    }
+//    private TNewslettersFacade getFacade() {
+//        return ejbFacade;
+//    }
 
     public PaginationHelper getPagination() {
         if (pagination == null) {
@@ -69,96 +68,20 @@ public class TNewslettersController implements Serializable {
 
                 @Override
                 public int getItemsCount() {
-                    return getFacade().count();
+                    return getUserSession().obtemNumNewsletter();
                 }
 
                 @Override
                 public DataModel createPageDataModel() {
-                    return new ListDataModel(getFacade().findRange(new int[]{getPageFirstItem(), getPageFirstItem() + getPageSize()}));
+                    return new ListDataModel(getUserSession().obtemNewsletterRange(new int[]{getPageFirstItem(), getPageFirstItem() + getPageSize()}));
                 }
             };
         }
         return pagination;
     }
 
-//    public String prepareList() {
-//        recreateModel();
-//        return "List";
-//    }
-//
-//    public String prepareView() {
-//        current = (TNewsletters) getItems().getRowData();
-//        selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
-//        return "View";
-//    }
-//
-//    public String prepareCreate() {
-//        current = new TNewsletters();
-//        selectedItemIndex = -1;
-//        return "Create";
-//    }
-//
-//    public String create() {
-//        try {
-//            getFacade().create(current);
-//            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("TNewslettersCreated"));
-//            return prepareCreate();
-//        } catch (Exception e) {
-//            JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
-//            return null;
-//        }
-//    }
-//
-//    public String prepareEdit() {
-//        current = (TNewsletters) getItems().getRowData();
-//        selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
-//        return "Edit";
-//    }
-//
-//    public String update() {
-//        try {
-//            getFacade().edit(current);
-//            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("TNewslettersUpdated"));
-//            return "View";
-//        } catch (Exception e) {
-//            JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
-//            return null;
-//        }
-//    }
-//
-//    public String destroy() {
-//        current = (TNewsletters) getItems().getRowData();
-//        selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
-//        performDestroy();
-//        recreatePagination();
-//        recreateModel();
-//        return "List";
-//    }
-//
-//    public String destroyAndView() {
-//        performDestroy();
-//        recreateModel();
-//        updateCurrentItem();
-//        if (selectedItemIndex >= 0) {
-//            return "View";
-//        } else {
-//            // all items were removed - go back to list
-//            recreateModel();
-//            return "List";
-//        }
-//    }
-//
-//    private void performDestroy() {
-//        try {
-//            getFacade().remove(current);
-//            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("TNewslettersDeleted"));
-//        } catch (Exception e) {
-//            JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
-//        }
-//    }
-
     private void updateCurrentItem() {
-        int count = getFacade().count();
+        int count = getUserSession().obtemNumNewsletter();
         if (selectedItemIndex >= count) {
             // selected index cannot be bigger than number of items:
             selectedItemIndex = count - 1;
@@ -168,7 +91,7 @@ public class TNewslettersController implements Serializable {
             }
         }
         if (selectedItemIndex >= 0) {
-            current = getFacade().findRange(new int[]{selectedItemIndex, selectedItemIndex + 1}).get(0);
+            current = (TNewsletters)getUserSession().obtemNewsletterRange(new int[]{selectedItemIndex, selectedItemIndex + 1}).get(0);
         }
     }
 
@@ -200,15 +123,17 @@ public class TNewslettersController implements Serializable {
     }
 
     public SelectItem[] getItemsAvailableSelectMany() {
-        return JsfUtil.getSelectItems(ejbFacade.findAll(), false);
+         List<Object> list = getUserSession().obtemNewsletter();
+        return JsfUtil.getSelectItems(list, false);
     }
 
     public SelectItem[] getItemsAvailableSelectOne() {
-        return JsfUtil.getSelectItems(ejbFacade.findAll(), true);
+        List<Object> list = getUserSession().obtemNewsletter();
+        return JsfUtil.getSelectItems(list, true);
     }
 
     public TNewsletters getTNewsletters(java.lang.Integer id) {
-        return ejbFacade.find(id);
+        return (TNewsletters)getUserSession().obtemNewsletterById(id);
     }
 
     @FacesConverter(forClass = TNewsletters.class)
