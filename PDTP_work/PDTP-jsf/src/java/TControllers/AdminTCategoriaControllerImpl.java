@@ -114,11 +114,31 @@ public class AdminTCategoriaControllerImpl extends TCategoriaController {
     @Override
     public TCategoria getTCategoria(String id) {
         try {
-            return (TCategoria)remoteSession.obtemCategoriasById(id);
+            return (TCategoria) remoteSession.obtemCategoriasById(id);
         } catch (SessionException ex) {
             Logger.getLogger(AdminTCategoriaControllerImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
+    }
+
+    @Override
+    List findRange(int[] range) {
+        try {
+            return remoteSession.obtemCategoriasRange(range);
+        } catch (SessionException ex) {
+            Logger.getLogger(AdminTCategoriaControllerImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+
+    @Override
+    public int getCount() {
+        try {
+            return remoteSession.obtemNumCategorias();
+        } catch (SessionException ex) {
+            Logger.getLogger(AdminTCategoriaControllerImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return 0;
     }
 
 }

@@ -1352,22 +1352,42 @@ public class Leiloeira implements LeiloeiraLocal {
     }
 
     @Override
-    public List<Object> obtemCategoriasEnt() throws SessionException {
+    public List<Object> obtemCategoriasEnt() {
         return DAO.findAll(TCategoria.class);
     }
 
     @Override
-    public int obtemNumCategorias() throws SessionException {
+    public int obtemNumCategorias() {
         return DAO.count(TCategoria.class);
     }
 
     @Override
-    public Object obtemCategoriasById(String id) throws SessionException {
+    public Object obtemCategoriasById(String id) {
         return DAO.find(TCategoria.class, id);
     }
 
     @Override
-    public List<Object> obtemCategoriasRange(int[] range) throws SessionException {
+    public List<Object> obtemCategoriasRange(int[] range) {
         return DAO.findRange(TCategoria.class, range);
+    }
+
+    @Override
+    public List<Object> obtemNewsletterEnt() {
+        return DAO.findAll(TNewsletters.class);
+    }
+
+    @Override
+    public int obtemNumNewsletter() {
+        return DAO.count(TNewsletters.class);
+    }
+
+    @Override
+    public Object obtemNewsletterById(Integer id) {
+        return DAO.find(TNewsletters.class, id);
+    }
+
+    @Override
+    public List<Object> obtemNewsletterRange(int[] range) {
+        return DAO.findRange(TNewsletters.class, range);
     }
 }

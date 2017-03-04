@@ -66,4 +66,24 @@ public class ClientVisitante extends ClientBase implements ClientVisitanteRemote
 
     }
 
+    @Override
+    public List<Object> obtemNewsletter(){
+        return super.obtemNewsletter();
+    }
+
+    @Override
+    public int obtemNumNewsletter(){
+        return super.obtemNumNewsletter();
+    }
+
+    @Override
+    public Object obtemNewsletterById(Integer id){
+        return super.obtemNewsletterById(id);
+    }
+
+    @Override
+    public List<Object> obtemNewsletterRange(int[] range){
+        return super.obtemNewsletterRange(range);
+    }
+
 }

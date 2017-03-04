@@ -477,4 +477,29 @@ public interface LeiloeiraLocal {
      * @return @throws beans.SessionException
      */
     List<Object> obtemCategoriasRange(int[] range) throws SessionException;
+    /**
+     *
+     * @return @throws beans.SessionException
+     */
+    List<Object> obtemNewsletterEnt();
+
+    /**
+     *
+     * @return @throws beans.SessionException
+     */
+    int obtemNumNewsletter();
+
+    /**
+     *
+     * @param id
+     * @return @throws beans.SessionException
+     */
+    Object obtemNewsletterById(Integer id);
+
+    /**
+     *
+     * @param range
+     * @return @throws beans.SessionException
+     */
+    List<Object> obtemNewsletterRange( int[] range);
 }

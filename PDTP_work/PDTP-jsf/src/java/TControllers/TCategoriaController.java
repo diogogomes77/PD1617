@@ -60,6 +60,14 @@ public class TCategoriaController implements Serializable {
     private TCategoriaFacade getFacade() {
         return ejbFacade;
     }
+    
+    List findRange( int[] range ){
+        return (List) getFacade().findRange(range);
+    }
+
+    public int getCount(){
+        return getFacade().count();
+    }
 
     public PaginationHelper getPagination() {
         if (pagination == null) {
@@ -67,12 +75,12 @@ public class TCategoriaController implements Serializable {
 
                 @Override
                 public int getItemsCount() {
-                    return getFacade().count();
+                    return getCount();
                 }
 
                 @Override
                 public DataModel createPageDataModel() {
-                    return new ListDataModel(getFacade().findRange(new int[]{getPageFirstItem(), getPageFirstItem() + getPageSize()}));
+                    return new ListDataModel(findRange(new int[]{getPageFirstItem(), getPageFirstItem() + getPageSize()}));
                 }
             };
         }

@@ -67,6 +67,29 @@ public abstract class ClientAuth extends ClientBase implements ClientAuthRemote 
         trySetLastAction();
         return super.getTotalItens();
     }
+    @Override
+    public List<Object> obtemNewsletter(){
+        trySetLastAction();
+        return leiloeira.obtemNewsletterEnt();
+    }
+
+    @Override
+    public int obtemNumNewsletter() {
+        trySetLastAction();
+        return leiloeira.obtemNumNewsletter();
+    }
+
+    @Override
+    public Object obtemNewsletterById(Integer id) {
+        trySetLastAction();
+        return leiloeira.obtemNewsletterById(id);
+    }
+
+    @Override
+    public List<Object> obtemNewsletterRange(int[] range){
+        trySetLastAction();
+        return leiloeira.obtemNewsletterRange(range);
+    }
     //Fim do métodos da base
 
     //
@@ -194,5 +217,5 @@ public abstract class ClientAuth extends ClientBase implements ClientAuthRemote 
         setLastAction();
         return leiloeira.alteraMensagemParaLida(myName, id, lida);
     }
-
+    
 }
