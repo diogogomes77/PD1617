@@ -17,25 +17,21 @@
         <ui:define name="content">
             <f:view>
                 <h:form id="reqLogin" styleClass="navbar-form navbar-left">
-                    <div class="form-group">
+                    <h:panelGrid columns="2">
                         <h:outputLabel value="Username a recuperar:" for="username" />
                         <h:inputText id="username" value="#{VisitanteController.selected.username}" 
                                      title="#{bundle.CreateTUtilizadoresTitle_username}" 
                                      required="true" requiredMessage="#{bundle.CreateTUtilizadoresRequiredMessage_username}">
 
                         </h:inputText>
-                    </div>
-                    <div class="form-group">
                         <h:outputLabel value="Nova Password" for="password" />
                         <h:inputSecret id="password" value="#{VisitanteController.selected.password}" title="#{bundle.CreateTUtilizadoresTitle_password}" 
-                                     required="true" requiredMessage="#{bundle.CreateTUtilizadoresRequiredMessage_password}" />
-                    </div>
-                    <div class="form-group">
-                        <h:commandButton id="recuperar" value="Recuperar"
-                                         styleClass="btn btn-success"
-                                         action="#{VisitanteController.reativaConta()}"></h:commandButton>
-                        <h:messages for="carregar" errorStyle="color: red" infoStyle="color: green" layout="table"/>
-                    </div>
+                                       required="true" requiredMessage="#{bundle.CreateTUtilizadoresRequiredMessage_password}" />
+                    </h:panelGrid>
+                    <h:commandButton id="recuperar" value="Recuperar"
+                                     styleClass="btn btn-success"
+                                     action="#{VisitanteController.reativaConta()}"></h:commandButton>
+                    <h:messages for="carregar" errorStyle="color: red" infoStyle="color: green" layout="table"/>
                 </h:form>
             </f:view>
         </ui:define>

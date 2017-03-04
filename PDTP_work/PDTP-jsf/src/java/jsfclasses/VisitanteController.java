@@ -108,7 +108,7 @@ public class VisitanteController /*extends TUtilizadoresController*/ implements 
 
     public String getUsernameCheck() {
         if (usernameCheck == true) {
-            return "Ajax check";
+            return null;
         } else {
             return "ERRO: já existe um username igual";
         }
