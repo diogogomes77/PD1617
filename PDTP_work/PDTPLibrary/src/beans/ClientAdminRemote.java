@@ -135,5 +135,31 @@ public interface ClientAdminRemote extends ClientAuthRemote {
      * @throws SessionException
      */
     public Object getUserByID( String id) throws SessionException;
+
+    /**
+     *
+     * @return @throws beans.SessionException
+     */
+    List<Object> obtemCategoriasEnt() throws SessionException;
+
+    /**
+     *
+     * @return @throws beans.SessionException
+     */
+    int obtemNumCategorias() throws SessionException;
+
+    /**
+     *
+     * @param id
+     * @return @throws beans.SessionException
+     */
+    Object obtemCategoriasById(String id) throws SessionException;
+
+    /**
+     *
+     * @param range
+     * @return @throws beans.SessionException
+     */
+    List<Object> obtemCategoriasRange(int[] range) throws SessionException;
     
 }

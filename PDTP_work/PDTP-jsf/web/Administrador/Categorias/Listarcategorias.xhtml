@@ -18,12 +18,12 @@
                 <h:panelGroup id="messagePanel" layout="block">
                     <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
                 </h:panelGroup>
-                <h:outputText escape="false" value="#{bundleCat.ListTCategoriaEmpty}" rendered="#{tCategoriaController.items.rowCount == 0}"/>
-                <h:panelGroup rendered="#{tCategoriaController.items.rowCount > 0}">
-                    <h:outputText value="#{tCategoriaController.pagination.pageFirstItem + 1}..#{tCategoriaController.pagination.pageLastItem + 1}/#{tCategoriaController.pagination.itemsCount}"/>&nbsp;
-                    <h:commandLink action="#{tCategoriaController.previous}" value="#{bundleCat.Previous} #{tCategoriaController.pagination.pageSize}" rendered="#{tCategoriaController.pagination.hasPreviousPage}"/>&nbsp;
-                    <h:commandLink action="#{tCategoriaController.next}" value="#{bundleCat.Next} #{tCategoriaController.pagination.pageSize}" rendered="#{tCategoriaController.pagination.hasNextPage}"/>&nbsp;
-                    <h:dataTable value="#{tCategoriaController.items}" var="item" border="0" cellpadding="2" cellspacing="0" rowClasses="jsfcrud_odd_row,jsfcrud_even_row" rules="all" style="border:solid 1px">
+                <h:outputText escape="false" value="#{bundleCat.ListTCategoriaEmpty}" rendered="#{admintCategoriaController.items.rowCount == 0}"/>
+                <h:panelGroup rendered="#{admintCategoriaController.items.rowCount > 0}">
+                    <h:outputText value="#{admintCategoriaController.pagination.pageFirstItem + 1}..#{admintCategoriaController.pagination.pageLastItem + 1}/#{admintCategoriaController.pagination.itemsCount}"/>&nbsp;
+                    <h:commandLink action="#{admintCategoriaController.previous}" value="#{bundleCat.Previous} #{admintCategoriaController.pagination.pageSize}" rendered="#{admintCategoriaController.pagination.hasPreviousPage}"/>&nbsp;
+                    <h:commandLink action="#{admintCategoriaController.next}" value="#{bundleCat.Next} #{admintCategoriaController.pagination.pageSize}" rendered="#{admintCategoriaController.pagination.hasNextPage}"/>&nbsp;
+                    <h:dataTable value="#{admintCategoriaController.items}" var="item" border="0" cellpadding="2" cellspacing="0" rowClasses="jsfcrud_odd_row,jsfcrud_even_row" rules="all" style="border:solid 1px">
                        
                         <h:column>
                             <f:facet name="header">
@@ -35,9 +35,9 @@
                             <f:facet name="header">
                                 <h:outputText value="&nbsp;"/>
                             </f:facet>
-                            <h:commandLink action="#{tCategoriaController.prepareEdit}" value="#{bundleCat.ListTCategoriaEditLink}"/>
+                            <h:commandLink action="#{admintCategoriaController.prepareEdit}" value="#{bundleCat.ListTCategoriaEditLink}"/>
                             <h:outputText value=" "/>
-                            <h:commandLink action="#{tCategoriaController.destroy}" value="#{bundleCat.ListTCategoriaDestroyLink}"/>
+                            <h:commandLink action="#{admintCategoriaController.destroy}" value="#{bundleCat.ListTCategoriaDestroyLink}"/>
                         </h:column>
                     </h:dataTable>
                 </h:panelGroup>

@@ -4,7 +4,6 @@ import jpaentidades.TCategoria;
 import jsfclasses.util.JsfUtil;
 import jsfclasses.util.PaginationHelper;
 
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -27,11 +26,25 @@ import jpafacades.TCategoriaFacade;
 public class TCategoriaController implements Serializable {
 
     protected TCategoria current;
+    protected String nomeAntigoCategoria = null;
     protected DataModel items = null;
     @EJB
-    protected TCategoriaFacade ejbFacade;
+    private TCategoriaFacade ejbFacade;
     protected PaginationHelper pagination;
     protected int selectedItemIndex;
+
+    protected String novaCategoria = null;
+
+    public String getNovaCategoria() {
+        if (novaCategoria == null) {
+            novaCategoria = "";
+        }
+        return novaCategoria;
+    }
+
+    public void setNovaCategoria(String novaCategoria) {
+        this.novaCategoria = novaCategoria;
+    }
 
     public TCategoriaController() {
     }
@@ -66,40 +79,52 @@ public class TCategoriaController implements Serializable {
         return pagination;
     }
 
-    public String prepareList() {
-        recreateModel();
-        return "List";
-    }
-
-    public String prepareView() {
-        current = (TCategoria) getItems().getRowData();
-        selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
-        return "View";
-    }
-
-    public String prepareCreate() {
-        current = new TCategoria();
-        selectedItemIndex = -1;
-        return "Create";
-    }
-
-    
-
-    public String prepareEdit() {
-        current = (TCategoria) getItems().getRowData();
-        selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
-        return "Edit";
+    public String create() {
+        try {
+            getFacade().create(current);
+            novaCategoria = null;
+            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/BundleCat").getString("TCategoriaCreated"));
+            recreateModel();
+            return "Listarcategorias";
+        } catch (Exception e) {
+            JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/BundleCat").getString("PersistenceErrorOccured"));
+            return null;
+        }
     }
 
     public String update() {
         try {
             getFacade().edit(current);
             JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/BundleCat").getString("TCategoriaUpdated"));
-            return "View";
+            return "Listarcategorias";
         } catch (Exception e) {
             JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/BundleCat").getString("PersistenceErrorOccured"));
             return null;
         }
+    }
+
+    public String prepareList() {
+        recreateModel();
+        return "Listarcategorias";
+    }
+
+    public String prepareView() {
+        current = (TCategoria) getItems().getRowData();
+        selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
+        return "AlterarCategoria";
+    }
+
+    public String prepareCreate() {
+        current = new TCategoria();
+        selectedItemIndex = -1;
+        return "Novacategoria";
+    }
+
+    public String prepareEdit() {
+        current = (TCategoria) getItems().getRowData();
+        nomeAntigoCategoria = current.getNome();
+        selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
+        return "AlterarCategoria";
     }
 
     public String destroy() {
@@ -108,7 +133,7 @@ public class TCategoriaController implements Serializable {
         performDestroy();
         recreatePagination();
         recreateModel();
-        return "List";
+        return "Listarcategorias";
     }
 
     public String destroyAndView() {
@@ -116,11 +141,11 @@ public class TCategoriaController implements Serializable {
         recreateModel();
         updateCurrentItem();
         if (selectedItemIndex >= 0) {
-            return "View";
+            return "AlterarCategoria";
         } else {
             // all items were removed - go back to list
             recreateModel();
-            return "List";
+            return "Listarcategorias";
         }
     }
 
@@ -166,38 +191,40 @@ public class TCategoriaController implements Serializable {
     public String next() {
         getPagination().nextPage();
         recreateModel();
-        return "List";
+        return null;
     }
 
     public String previous() {
         getPagination().previousPage();
         recreateModel();
-        return "List";
+        return null;
     }
 
     public SelectItem[] getItemsAvailableSelectMany() {
         return JsfUtil.getSelectItems(ejbFacade.findAll(), false);
     }
 
-     public SelectItem[] getItemsAvailableSelectOne_() {
+    public SelectItem[] getItemsAvailableSelectOne_() {
         return JsfUtil.getSelectItems(ejbFacade.findAll(), true);
     }
-      public List<TCategoria> getItemsAvailableSelectOne() {
+
+    public List<TCategoria> getItemsAvailableSelectOne() {
         return ejbFacade.findAll();
     }
+
     public List getItemsAvailableSelectOnee() {
         List<SelectItem> itens = Arrays.asList(JsfUtil.getSelectItems(ejbFacade.findAll(), true));
         List<String> result = new ArrayList();
-        for (SelectItem item : itens){
+        for (SelectItem item : itens) {
 //            TCategoria t = (TCategoria)item.getValue();
 //            result.add(t.getNome());
-            
-             result.add(item.getLabel());
+
+            result.add(item.getLabel());
         }
         return result;
     }
 
-    public TCategoria getTCategoria(java.lang.Integer id) {
+    public TCategoria getTCategoria(String id) {
         return ejbFacade.find(id);
     }
 
@@ -214,10 +241,8 @@ public class TCategoriaController implements Serializable {
             return controller.getTCategoria(getKey(value));
         }
 
-        java.lang.Integer getKey(String value) {
-            java.lang.Integer key;
-            key = Integer.valueOf(value);
-            return key;
+        String getKey(String value) {
+            return value.trim();
         }
 
         String getStringKey(java.lang.Integer value) {

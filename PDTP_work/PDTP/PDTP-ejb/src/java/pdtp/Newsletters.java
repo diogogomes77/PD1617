@@ -39,20 +39,6 @@ public class Newsletters {//extends TNewsletters{
                 .toInstant(ZoneOffset.UTC).getEpochSecond();
         
         TNewsletters news = new TNewsletters(assunto,newsletter);
-        //TNewsletters news = new TNewsletters();
-        //news.setAssunto(assunto);
-        //news.setNewsletter(newsletter);
-
-//       try {
-//       System.out.println("-----------------begin newsletter");
-//           DAO.getEntityManager().getTransaction().begin();
-//             System.out.println("-----------------creatte newsletter");
-//            DAO.create(news);
-//             System.out.println("-----------------commit newsletter");
-//         DAO.getEntityManager().getTransaction().commit();
-//       } catch (Exception e) {
-//            DAO.getEntityManager().getTransaction().rollback();
-//       }
     }
 
     public String getAssunto() {

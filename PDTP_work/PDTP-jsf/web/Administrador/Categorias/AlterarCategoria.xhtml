@@ -20,10 +20,12 @@
             <h:form>
                 <h:panelGrid columns="2">
                     <h:outputLabel value="#{bundleCat.EditTCategoriaLabel_nome}" for="nome" />
-                    <h:inputText id="nome" value="#{tCategoriaController.selected.nome}" title="#{bundleCat.EditTCategoriaTitle_nome}" />
+                    <h:inputText id="nome" value="#{admintCategoriaController.selected.nome}" title="#{bundleCat.EditTCategoriaTitle_nome}" />
                 </h:panelGrid>
-                <h:commandLink action="#{tCategoriaController.update}" value="Guardar"/>
-
+                <h:commandButton id="carregar" value="#{bundleCat.EditTCategoriaSaveLink}"
+                                 styleClass="btn btn-success"
+                                 action="#{admintCategoriaController.update()}"></h:commandButton>
+                <h:messages for="carregar" errorStyle="color: red" infoStyle="color: green" layout="table"/>
             </h:form>
         </ui:define>
     </ui:composition> 

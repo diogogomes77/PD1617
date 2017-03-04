@@ -14,17 +14,20 @@
             </h1>
         </ui:define>
         <ui:define name="content">                        
-          <h:panelGroup id="messagePanel" layout="block">
+            <h:panelGroup id="messagePanel" layout="block">
                 <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
             </h:panelGroup>
             <h:form>
                 <h:panelGrid columns="2">
                     <h:outputLabel value="#{bundleCat.CreateTCategoriaLabel_nome}" for="nome" />
-                    <h:inputText id="nome" value="#{admintCategoriaController.selected.nome}" title="#{bundleCat.CreateTCategoriaTitle_nome}" />
+                    <h:inputText id="nome" value="#{admintCategoriaController.novaCategoria}" title="#{bundleCat.CreateTCategoriaTitle_nome}" />
                 </h:panelGrid>
                 <br />
-                <h:commandLink action="#{admintCategoriaController.create}" value="#{bundleCat.CreateTCategoriaSaveLink}" />
- 
+                <h:commandButton id="carregar" value="#{bundleCat.CreateTCategoriaSaveLink}"
+                                 styleClass="btn btn-success"
+                                 action="#{admintCategoriaController.create()}"></h:commandButton>
+                <h:messages for="carregar" errorStyle="color: red" infoStyle="color: green" layout="table"/>
+
             </h:form>
         </ui:define>
     </ui:composition> 

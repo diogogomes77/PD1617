@@ -1350,4 +1350,24 @@ public class Leiloeira implements LeiloeiraLocal {
 
         return list;
     }
+
+    @Override
+    public List<Object> obtemCategoriasEnt() throws SessionException {
+        return DAO.findAll(TCategoria.class);
+    }
+
+    @Override
+    public int obtemNumCategorias() throws SessionException {
+        return DAO.count(TCategoria.class);
+    }
+
+    @Override
+    public Object obtemCategoriasById(String id) throws SessionException {
+        return DAO.find(TCategoria.class, id);
+    }
+
+    @Override
+    public List<Object> obtemCategoriasRange(int[] range) throws SessionException {
+        return DAO.findRange(TCategoria.class, range);
+    }
 }

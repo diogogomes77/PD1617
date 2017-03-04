@@ -152,4 +152,28 @@ public class ClientAdmin extends ClientAuth implements ClientAdminRemote {
         setLastAction();
         return leiloeira.obtemUserById(id);
     }
+
+    @Override
+    public List<Object> obtemCategoriasEnt() throws SessionException {
+        setLastAction();
+        return leiloeira.obtemCategoriasEnt();
+    }
+
+    @Override
+    public int obtemNumCategorias() throws SessionException {
+        setLastAction();
+        return leiloeira.obtemNumCategorias();
+    }
+
+    @Override
+    public Object obtemCategoriasById(String id) throws SessionException {
+        setLastAction();
+        return leiloeira.obtemCategoriasById(id);
+    }
+
+    @Override
+    public List<Object> obtemCategoriasRange(int[] range) throws SessionException {
+        setLastAction();
+        return leiloeira.obtemCategoriasRange(range);
+    }
 }

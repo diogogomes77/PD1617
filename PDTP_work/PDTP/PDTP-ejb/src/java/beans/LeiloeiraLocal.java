@@ -1,4 +1,3 @@
-
 package beans;
 
 import java.sql.Timestamp;
@@ -15,7 +14,7 @@ import pdtp.UtilizadorEstado;
  */
 @Local
 public interface LeiloeiraLocal {
-    
+
     /**
      *
      * @param name
@@ -66,7 +65,7 @@ public interface LeiloeiraLocal {
      * @param username
      * @return
      */
-    Double addSaldo(Double valor,String username);
+    Double addSaldo(Double valor, String username);
 
     /**
      *
@@ -74,7 +73,7 @@ public interface LeiloeiraLocal {
      * @return
      */
     Double getSaldo(String username);
-    
+
     /**
      *
      * @return
@@ -118,13 +117,13 @@ public interface LeiloeiraLocal {
      * @param razao
      * @return
      */
-    boolean pedirSuspensaoUtilizador(String denunciador,String denunciado,String razao);
+    boolean pedirSuspensaoUtilizador(String denunciador, String denunciado, String razao);
 
     /**
      *
      * @return
      */
-    HashMap<String,String> getPedidosSuspensao();
+    HashMap<String, String> getPedidosSuspensao();
 
     /**
      *
@@ -147,7 +146,7 @@ public interface LeiloeiraLocal {
      * @param assunto
      * @return
      */
-    boolean addMensagem(String remetente, String destinatario, String texto,String assunto);
+    boolean addMensagem(String remetente, String destinatario, String texto, String assunto);
 
     /**
      *
@@ -185,7 +184,7 @@ public interface LeiloeiraLocal {
      * @return
      */
     Object obtemMensagemByIdEnviada(String username, Integer id);
-    
+
     /**
      *
      * @param username
@@ -213,6 +212,7 @@ public interface LeiloeiraLocal {
      * @return
      */
     boolean alteraMensagemParaLida(String username, Integer id, Boolean lida);
+
     /**
      *
      * @param nomeCategoria
@@ -247,7 +247,7 @@ public interface LeiloeiraLocal {
      * @param password
      * @return
      */
-    boolean pedirReativacaoUsername(String username,String password);
+    boolean pedirReativacaoUsername(String username, String password);
 
     /**
      *
@@ -275,7 +275,7 @@ public interface LeiloeiraLocal {
      * @param dataLimite
      * @return
      */
-    boolean addItem(String categoria, String username,String descricao, Double precoInicial, Double precoComprarJa,Timestamp dataLimite);
+    boolean addItem(String categoria, String username, String descricao, Double precoInicial, Double precoComprarJa, Timestamp dataLimite);
 
     /**
      *
@@ -283,7 +283,7 @@ public interface LeiloeiraLocal {
      * @return
      */
     List<String> getItensUtilizador(String username);
-    
+
     /**
      *
      * @return
@@ -340,7 +340,7 @@ public interface LeiloeiraLocal {
      * @param itemId
      * @return
      */
-    boolean seguirItem(String username,long itemId);
+    boolean seguirItem(String username, long itemId);
 
     /**
      *
@@ -348,7 +348,7 @@ public interface LeiloeiraLocal {
      * @param itemId
      * @return
      */
-    boolean seguirItemCancelar(String username,long itemId);
+    boolean seguirItemCancelar(String username, long itemId);
 
     /**
      *
@@ -385,7 +385,7 @@ public interface LeiloeiraLocal {
      * @param razao
      * @return
      */
-    boolean denunciarItem(long itemId,String denunciador,String razao);
+    boolean denunciarItem(long itemId, String denunciador, String razao);
 
     /**
      *
@@ -414,22 +414,22 @@ public interface LeiloeiraLocal {
      * @return
      */
     boolean cancelarItem(long itemId);
-    
-    public DAOLocal getDAO() ;
+
+    public DAOLocal getDAO();
 
     boolean isLogged(String username);
 
     List<String> obtemNewsletter();
-    
+
     List<Object> obtemNewsletter(int nLastNews);
-    
-        /**
+
+    /**
      *
      * @param username
      * @return
      */
     public Object obtemUserById(String username);
-    
+
     /**
      *
      * @param lista
@@ -451,4 +451,30 @@ public interface LeiloeiraLocal {
      * @return @throws beans.SessionException
      */
     List<Object> obtemUtilizadoresRange(UtilizadorTipoLista lista, int[] range) throws SessionException;
+
+    /**
+     *
+     * @return @throws beans.SessionException
+     */
+    List<Object> obtemCategoriasEnt() throws SessionException;
+
+    /**
+     *
+     * @return @throws beans.SessionException
+     */
+    int obtemNumCategorias() throws SessionException;
+
+    /**
+     *
+     * @param id
+     * @return @throws beans.SessionException
+     */
+    Object obtemCategoriasById(String id) throws SessionException;
+
+    /**
+     *
+     * @param range
+     * @return @throws beans.SessionException
+     */
+    List<Object> obtemCategoriasRange(int[] range) throws SessionException;
 }
