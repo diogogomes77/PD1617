@@ -10,7 +10,7 @@
         </ui:define>
         <ui:define name="title">
             <h1 class="page-header "> <i class="fa fa-handshake-o"></i>  
-                <h:outputText value=" Atualizar Dados"></h:outputText>
+                <h:outputText value="#{bundle.EditTUtilizadoresTitle}"></h:outputText>
             </h1>
         </ui:define>
         <ui:define name="content">                        
@@ -22,7 +22,7 @@
                     <h:outputLabel value="#{bundle.EditTUtilizadoresLabel_nome}" for="nome" />
                     <h:inputText id="nome" value="#{UtilizadorController.selected.nome}" title="#{bundle.EditTUtilizadoresTitle_nome}" />
                     <h:outputLabel value="#{bundle.EditTUtilizadoresLabel_morada}" for="morada" />
-                    <h:inputText id="morada" value="#{UtilizadorController.selected.morada}" title="#{bundle.EditTUtilizadoresTitle_morada}" />
+                    <h:inputTextarea id="morada" value="#{UtilizadorController.selected.morada}" title="#{bundle.EditTUtilizadoresTitle_morada}" cols="100" rows="4"/>
                 </h:panelGrid>
                 <h:commandLink action="#{UtilizadorController.update}" value="Guardar"/>
                

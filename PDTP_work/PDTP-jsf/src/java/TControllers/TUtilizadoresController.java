@@ -23,8 +23,12 @@ import javax.servlet.http.HttpSession;
 import beans.UtilizadorTipoLista;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.enterprise.context.SessionScoped;
+import javax.inject.Named;
 import jsfclasses.AdminController;
 
+@Named("tUtilizadoresController")
+@SessionScoped
 public class TUtilizadoresController implements Serializable {
 
     private ClientRemote remoteSession;

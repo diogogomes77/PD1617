@@ -14,7 +14,16 @@
             </h1>
         </ui:define>
         <ui:define name="content">                        
-            <ui:include src="/Geral/ListaRegistados.xhtml" />
+           <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="#{bundle.EditTUtilizadoresLabel_password}" for="password" />
+                    <h:inputSecret id="password" value="#{UtilizadorController.selected.password}" title="#{bundle.EditTUtilizadoresTitle_password}" />
+                </h:panelGrid>
+                <h:commandLink action="#{UtilizadorController.alteraPassword}" value="Guardar"/>
+            </h:form>
         </ui:define>
     </ui:composition> 
 

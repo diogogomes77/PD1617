@@ -10,32 +10,11 @@
         </ui:define>
         <ui:define name="title">
             <h1 class="page-header "> <i class="fa fa-handshake-o"></i>  
-                <h:outputText value="Enviar Mensagem"></h:outputText>
+                <h:outputText value="#{bundle.CreateTMensagensTitle}"></h:outputText>
             </h1>
         </ui:define>
-        <ui:define name="content">                        
-             <h:panelGroup id="messagePanel" layout="block">
-                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
-            </h:panelGroup>
-            <h:form>
-                <h:panelGrid columns="2">
-                    <h:outputLabel value="#{bundle.CreateTMensagensLabel_assunto}" for="assunto" />
-                    <h:inputText id="assunto" value="#{tMensagensController.selected.assunto}" title="#{bundle.CreateTMensagensTitle_assunto}" />
-                    <h:outputLabel value="#{bundle.CreateTMensagensLabel_texto}" for="texto" />
-                    <h:inputText id="texto" value="#{tMensagensController.selected.texto}" title="#{bundle.CreateTMensagensTitle_texto}" size="100"/>
-                    <h:outputLabel value="#{bundle.CreateTMensagensLabel_destinatario}" for="destinatario" />
-                    <h:selectOneMenu id="destinatario" value="#{tMensagensController.selected.destinatario}" 
-                                     title="#{bundle.CreateTMensagensTitle_destinatario}" 
-                                     required="true" requiredMessage="#{bundle.CreateTMensagensTitle_destinatario} em falta." >
-                        <f:selectItems value="#{tUtilizadoresAtivosController.itemsAvailableSelectOne}"/>
-                    </h:selectOneMenu>
-                </h:panelGrid>
-                <br />
-                <h:commandLink action="#{tMensagensController.create}" value="Enviar" />
-
-            </h:form>
-        </ui:define>
+        <ui:define name="content">
+            <ui:include src="/userAuth/EnviarMensagemAuth.xhtml" />
+        </ui:define>     
     </ui:composition> 
-
-
 </html>

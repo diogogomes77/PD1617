@@ -32,6 +32,8 @@ public class UtilizadorController extends VisitanteController implements Seriali
     ClientUtilizadorRemote client;
 
     double saldoCarregar = 0.0;
+    
+    String passwordAntiga = "";
 
     public UtilizadorController() {
         super();
@@ -130,6 +132,14 @@ public class UtilizadorController extends VisitanteController implements Seriali
 
     public void setSaldoCarregar(double saldoCarregar) {
         this.saldoCarregar = saldoCarregar;
+    }
+
+    public String getPasswordAntiga() {
+        return passwordAntiga;
+    }
+
+    public void setPasswordAntiga(String passwordAntiga) {
+        this.passwordAntiga = passwordAntiga;
     }
 
     /**

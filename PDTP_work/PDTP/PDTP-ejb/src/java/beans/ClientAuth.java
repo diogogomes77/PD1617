@@ -73,7 +73,7 @@ public abstract class ClientAuth extends ClientBase implements ClientAuthRemote 
     @Override
     public boolean logOff() throws SessionException {
         if (leiloeira.logOff(myName)) { // Singleeton testa MyName == null
-            myName = null;
+            myName = "";
             return true;
         }
         setLastAction();

@@ -143,7 +143,7 @@ public class VisitanteController /*extends TUtilizadoresController*/ implements 
     }
     
     public String reativaConta(){
-            if (client.pedirReativacaoUsername(current.getNome(),current.getPassword())) {
+            if (client.pedirReativacaoUsername(current.getUsername(),current.getPassword())) {
                 JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("TUtilizadoresRecurado"));
                 return "/Inicio.xhtml";
             }
