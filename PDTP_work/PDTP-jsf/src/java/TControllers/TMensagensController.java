@@ -36,6 +36,7 @@ public class TMensagensController implements Serializable {
     private ClientAuthRemote remoteSession;
 
     protected TMensagens current;
+    protected TMensagens newMessage = null;
     protected DataModel items = null;
     protected PaginationHelper pagination;
     protected int selectedItemIndex;
@@ -62,6 +63,17 @@ public class TMensagensController implements Serializable {
     private ClientAuthRemote getUserSession() {
         return remoteSession;
     }
+
+    public TMensagens getNewMessage() {
+        prepareCreate();
+        return newMessage;
+    }
+
+    public void setNewMessage(TMensagens newMessage) {
+        this.newMessage = newMessage;
+    }
+    
+    
 
     public PaginationHelper getPagination() {
         if (pagination == null) {
@@ -130,14 +142,18 @@ public class TMensagensController implements Serializable {
     }
 
     public String prepareCreate() {
-        current = new TMensagens();
+        if (newMessage == null) {
+            newMessage = new TMensagens();
+        }
+        current = newMessage;
         selectedItemIndex = -1;
         return "EnviarMensagem"/*"Create"*/;
     }
 
     public String create() {
         try {
-            if (getUserSession().sendMensagem(current.getDestinatario().getUsername(), current.getTexto(), current.getAssunto())) {
+            if (getUserSession().sendMensagem(newMessage.getDestinatario().getUsername(), newMessage.getTexto(), newMessage.getAssunto())) {
+                newMessage = null;
                 JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/BundleMensagens").getString("TMensagensCreated"));
                 return prepareCreate();
             }

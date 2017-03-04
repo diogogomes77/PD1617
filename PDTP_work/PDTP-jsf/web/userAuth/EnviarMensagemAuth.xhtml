@@ -10,16 +10,16 @@
         </h:panelGroup>
         <h:form>
             <h:panelGrid columns="2">
-                <h:outputLabel value="#{bundleMensagens.CreateTMensagensLabel_assunto}" for="assunto" />
-                <h:inputText id="assunto" value="#{tMensagensController.selected.assunto}" title="#{bundleMensagens.CreateTMensagensTitle_assunto}" />
-                <h:outputLabel value="#{bundleMensagens.CreateTMensagensLabel_texto}" for="texto" />
-                <h:inputTextarea id="texto" value="#{tMensagensController.selected.texto}" title="#{bundleMensagens.CreateTMensagensTitle_texto}" cols="100" rows="3"/>
-                <h:outputLabel value="#{bundleMensagens.CreateTMensagensLabel_destinatario}" for="destinatario" />
-                <h:selectOneMenu id="destinatario" value="#{tMensagensController.selected.destinatario}" 
+                <h:selectOneMenu id="destinatario" value="#{tMensagensController.newMessage.destinatario}" 
                                  title="#{bundleMensagens.CreateTMensagensTitle_destinatario}" 
                                  required="true" requiredMessage="#{bundleMensagens.CreateTMensagensTitle_destinatario} em falta." >
                     <f:selectItems value="#{tUtilizadoresAtivosController.itemsAvailableSelectOne}"/>
                 </h:selectOneMenu>
+                <h:outputLabel value="#{bundleMensagens.CreateTMensagensLabel_assunto}" for="assunto" />
+                <h:inputText id="assunto" value="#{tMensagensController.newMessage.assunto}" title="#{bundleMensagens.CreateTMensagensTitle_assunto}" size="100"/>
+                <h:outputLabel value="#{bundleMensagens.CreateTMensagensLabel_texto}" for="texto" />
+                <h:inputTextarea id="texto" value="#{tMensagensController.newMessage.texto}" title="#{bundleMensagens.CreateTMensagensTitle_texto}" cols="100" rows="3"/>
+                <h:outputLabel value="#{bundleMensagens.CreateTMensagensLabel_destinatario}" for="destinatario" />
             </h:panelGrid>
             <br />
             <h:commandButton id="carregar" value="Enviar"
