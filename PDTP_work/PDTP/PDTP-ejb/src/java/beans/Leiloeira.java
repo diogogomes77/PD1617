@@ -851,7 +851,6 @@ public class Leiloeira implements LeiloeiraLocal {
             TitemsAVenda iVenda = new TitemsAVenda(item);
             TNewsletters news = new TNewsletters("Item adicionado ", item.getDescricao());
             EntityTransaction trans = DAO.getEntityManager().getTransaction();
-
             trans.begin();
             tItens.create(item);
             tItensAVenda.create(iVenda);

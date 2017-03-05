@@ -34,9 +34,7 @@ public abstract class AbstractFacade<T> {
 //    }
     public void create(T entity) {
         Logger.getLogger(getClass().getName()).log(Level.INFO, "Create Entity " + entity);
-        DAO.getEntityManager().getTransaction().begin();
         DAO.create(entity);
-        DAO.getEntityManager().getTransaction().commit();
     }
 
     public void edit(T entity) {
