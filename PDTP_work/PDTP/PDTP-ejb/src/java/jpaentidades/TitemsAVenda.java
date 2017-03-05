@@ -48,7 +48,6 @@ public class TitemsAVenda implements Serializable {
     @Column(name = "data")
     @Temporal(TemporalType.TIMESTAMP)
     private Date data;
-    @Basic(optional = false)
     @NotNull
     @JoinColumn(name = "item", referencedColumnName = "itemid")
     @ManyToOne

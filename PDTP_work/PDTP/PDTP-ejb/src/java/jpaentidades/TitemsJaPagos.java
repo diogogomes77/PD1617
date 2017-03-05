@@ -40,12 +40,10 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class TitemsJaPagos implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    @Basic(optional = false)
     @NotNull
     @JoinColumn(name = "utilizador", referencedColumnName = "username")
     @ManyToOne
     private TUtilizadores utilizador;
-    @Basic(optional = false)
     @JoinColumn(name = "item", referencedColumnName = "itemid")
     @ManyToOne
     private TItens item;

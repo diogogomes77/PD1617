@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
 import javax.persistence.Basic;
+import javax.persistence.Cacheable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -49,12 +50,10 @@ public class TitemsSeguidos implements Serializable {
     @Column(name = "data")
     @Temporal(TemporalType.TIMESTAMP)
     private Date data;
-    @Basic(optional = false)
     @NotNull
     @JoinColumn(name = "utilizador", referencedColumnName = "username")
     @ManyToOne
     private TUtilizadores utilizador;
-    @Basic(optional = false)
     @NotNull
     @JoinColumn(name = "item", referencedColumnName = "itemid")
     @ManyToOne
