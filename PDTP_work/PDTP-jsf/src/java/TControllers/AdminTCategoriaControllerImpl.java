@@ -80,7 +80,7 @@ public class AdminTCategoriaControllerImpl extends TCategoriaController {
         try {
             list = remoteSession.obtemCategoriasEnt();
         } catch (SessionException ex) {
-            Logger.getLogger(TUtilizadoresController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(AdminTCategoriaControllerImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
         return JsfUtil.getSelectItems(list, false);
     }
@@ -91,7 +91,7 @@ public class AdminTCategoriaControllerImpl extends TCategoriaController {
         try {
             list = remoteSession.obtemCategoriasEnt();
         } catch (SessionException ex) {
-            Logger.getLogger(TUtilizadoresController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(AdminTCategoriaControllerImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
         return JsfUtil.getSelectItems(list, true);
     }

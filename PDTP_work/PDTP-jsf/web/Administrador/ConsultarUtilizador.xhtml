@@ -14,11 +14,77 @@
             </h1>
         </ui:define>
         <ui:define name="content">                        
-            <h:link outcome="/tMensagens/List" value="Show All TMensagens Items"/>
-            <br />
-            <h:link outcome="/tUtilizadores/List" value="Show All TUtilizadores Items"/>
-            
-            <ui:include src="/Geral/ListaRegistados.xhtml" />
+            <h:form styleClass="jsfcrud_list_form">
+                <h:panelGroup id="messagePanel" layout="block">
+                    <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+                </h:panelGroup>
+                <h:outputText escape="false" value="#{bundle.ListTUtilizadoresEmpty}" rendered="#{tUtilizadoresController.items.rowCount == 0}"/>
+                <h:panelGroup rendered="#{tUtilizadoresController.items.rowCount > 0}">
+                    <h:outputText value="#{tUtilizadoresController.pagination.pageFirstItem + 1}..#{tUtilizadoresController.pagination.pageLastItem + 1}/#{tUtilizadoresController.pagination.itemsCount}"/>&nbsp;
+                    <h:commandLink action="#{tUtilizadoresController.previous}" value="#{bundle.Previous} #{tUtilizadoresController.pagination.pageSize}" rendered="#{tUtilizadoresController.pagination.hasPreviousPage}"/>&nbsp;
+                    <h:commandLink action="#{tUtilizadoresController.next}" value="#{bundle.Next} #{tUtilizadoresController.pagination.pageSize}" rendered="#{tUtilizadoresController.pagination.hasNextPage}"/>&nbsp;
+                    <h:dataTable value="#{tUtilizadoresController.items}" var="item" border="0" cellpadding="2" cellspacing="0" rowClasses="jsfcrud_odd_row,jsfcrud_even_row" rules="all" style="border:solid 1px">
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListTUtilizadoresTitle_username}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.username}"/>
+                        </h:column>
+<!--                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListTUtilizadoresTitle_password}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.password}" />
+                        </h:column>-->
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListTUtilizadoresTitle_estado}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.estado}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListTUtilizadoresTitle_logged}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.logged}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListTUtilizadoresTitle_nome}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.nome}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListTUtilizadoresTitle_saldo}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.saldo}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListTUtilizadoresTitle_morada}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.morada}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListTUtilizadoresTitle_razaopedidosuspensao}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.razaopedidosuspensao}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="&nbsp;"/>
+                           </f:facet> 
+<!--                            <h:commandLink action="#{tUtilizadoresController.prepareView()}" value="#{bundle.ListTUtilizadoresViewLink}"/>
+                            <h:outputText value=" "/>
+                            <h:commandLink action="#{tUtilizadoresController.prepareEdit()}" value="#{bundle.ListTUtilizadoresEditLink}"/>-->
+<!--                            <h:outputText value=" "/>
+                            <h:commandLink action="#{tUtilizadoresController.destroy()}" value="#{bundle.ListTUtilizadoresDestroyLink}"/>-->
+                        </h:column>
+                    </h:dataTable>
+                </h:panelGroup>
+            </h:form>
         </ui:define>
     </ui:composition> 
 

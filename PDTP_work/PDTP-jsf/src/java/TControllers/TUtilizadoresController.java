@@ -23,6 +23,7 @@ import javax.servlet.http.HttpSession;
 import beans.UtilizadorTipoLista;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 import jsfclasses.AdminController;
@@ -42,7 +43,7 @@ public class TUtilizadoresController implements Serializable {
         return tipoLista;
     }
 
-    //@PostConstruct
+    @PostConstruct
     public void init() {
         HttpSession session = Util.getSession();
         remoteSession = (ClientRemote) session.getAttribute("sessaoUser");
