@@ -45,7 +45,7 @@ import pdtp.ItemEstados;
     , @NamedQuery(name = "TItens.findByVendedor", query = "SELECT t FROM TItens t WHERE t.vendedor = :vendedor")
     , @NamedQuery(name = "TItens.findByComprarja", query = "SELECT t FROM TItens t WHERE t.comprarja = :comprarja")
     , @NamedQuery(name = "TItens.findByDatafim", query = "SELECT t FROM TItens t WHERE t.datafim >= :datafim ORDER BY t.datafim DESC")
-    , @NamedQuery(name = "TItens.countFindByDatafim", query = "SELECT count(t.itemid) FROM TItens t WHERE t.datafim = :datafim ORDER BY t.datafim DESC")
+    , @NamedQuery(name = "TItens.countFindByDatafim", query = "SELECT count(t.itemid) FROM TItens t WHERE t.datafim >= :datafim")
     , @NamedQuery(name = "TItens.findByDatainicio", query = "SELECT t FROM TItens t WHERE t.datainicio = :datainicio")
     , @NamedQuery(name = "TItens.findByDescricao", query = "SELECT t FROM TItens t WHERE t.descricao = :descricao")
     , @NamedQuery(name = "TItens.findByEstado", query = "SELECT t FROM TItens t WHERE t.estado = :estado")

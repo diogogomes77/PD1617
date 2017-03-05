@@ -36,7 +36,7 @@ public class TItensController implements Serializable {
 
     private ClientRemote remoteSession;
 
-    ItensTipoLista tipoList = ItensTipoLista.LISTA_ITENS_ALL;
+    protected ItensTipoLista tipoList = ItensTipoLista.LISTA_ITENS_ALL;
     private TItens current;
     private DataModel items = null;
     @EJB
