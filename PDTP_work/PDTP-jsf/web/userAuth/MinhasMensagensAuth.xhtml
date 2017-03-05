@@ -25,16 +25,16 @@
                     -->
                     <h:column>
                         <f:facet name="header">
-                            <h:outputText value="#{bundleMensagens.ListTMensagensTitle_assunto}"/>
+                            <h:outputText value="#{bundleMensagens.ListTMensagensTitle_remetente}"/>
                         </f:facet>
-                        <h:outputText value="#{item.assunto}"/>
+                        <h:outputText value="#{item.remetente}"/>
                     </h:column>
                     <h:column>
                         <f:facet name="header">
                             <h:outputText value="#{bundleMensagens.ListTMensagensTitle_data}"/>
                         </f:facet>
                         <h:outputText value="#{item.data}">
-                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                            <f:convertDateTime pattern="dd/MM/yyyy HH:mm" />
                         </h:outputText>
                     </h:column>
                     <h:column>
@@ -42,6 +42,12 @@
                             <h:outputText value="#{bundleMensagens.ListTMensagensTitle_estado}"/>
                         </f:facet>
                         <h:outputText value="#{item.estado.msg()}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundleMensagens.ListTMensagensTitle_assunto}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.assunto}"/>
                     </h:column>
                     <h:column>
                         <f:facet name="header">
@@ -58,12 +64,6 @@
                                             <h:outputText value="#{item.destinatario}"/>
                                         </h:column>
                     -->
-                    <h:column>
-                        <f:facet name="header">
-                            <h:outputText value="#{bundleMensagens.ListTMensagensTitle_remetente}"/>
-                        </f:facet>
-                        <h:outputText value="#{item.remetente}"/>
-                    </h:column>
                     <h:column>
                         <f:facet name="header">
                             <h:outputText value="Marcar Como"/>

@@ -39,9 +39,18 @@ import jpaentidades.TitemsJaPagos;
 import jpaentidades.TitemsPorPagar;
 import jpaentidades.TitemsSeguidos;
 import jpafacades.TCategoriaFacade;
+import jpafacades.TDenunciasItensFacade;
+import jpafacades.TDenunciasVendedoresFacade;
 import jpafacades.TItensFacade;
+import jpafacades.TLicitacoesFacade;
+import jpafacades.TMensagensFacade;
 import jpafacades.TNewslettersFacade;
 import jpafacades.TUtilizadoresFacade;
+import jpafacades.TVendasFacade;
+import jpafacades.TitemsAVendaFacade;
+import jpafacades.TitemsJaPagosFacade;
+import jpafacades.TitemsPorPagarFacade;
+import jpafacades.TitemsSeguidosFacade;
 
 import pdtp.ItemEstados;
 
@@ -78,6 +87,24 @@ public class Leiloeira implements LeiloeiraLocal {
     private TNewslettersFacade tNewsletters;
     @EJB
     private TItensFacade tItens;
+    @EJB
+    private TMensagensFacade tMensagens;
+    @EJB
+    private TitemsAVendaFacade tItensAVenda;
+    @EJB
+    private TitemsJaPagosFacade tItensJaPagos;
+    @EJB
+    private TitemsPorPagarFacade tItensPorPagar;
+    @EJB
+    private TitemsSeguidosFacade tItensSeguindos;
+    @EJB
+    private TLicitacoesFacade tLicitacoes;
+    @EJB
+    private TDenunciasItensFacade tDenunciasItens;
+    @EJB
+    private TDenunciasVendedoresFacade tDenunciasVendedores;
+    @EJB
+    private TVendasFacade tVendas;
 
     @Resource
     TimerService timerService;
@@ -310,7 +337,7 @@ public class Leiloeira implements LeiloeiraLocal {
                 it.setEstado(ItemEstados.VENDIDA);
                 it.setComprador(maxLic.getLicitador());
                 tItens.edit(it);
-                DAO.create(new TitemsPorPagar(maxLic.getLicitador(), it));
+                tItensPorPagar.create(new TitemsPorPagar(maxLic.getLicitador(), it));
                 TNewsletters news = new TNewsletters("Item vendido", it.getDescricao());
                 tNewsletters.create(news);
                 trans.commit();
@@ -415,7 +442,7 @@ public class Leiloeira implements LeiloeiraLocal {
             trans.begin();
             tUtilizadores.edit(util);
             tNewsletters.create(news);
-            DAO.create(msg);
+            tMensagens.create(msg);
             trans.commit();
             return true;
         }
@@ -498,7 +525,7 @@ public class Leiloeira implements LeiloeiraLocal {
             EntityTransaction trans = DAO.getEntityManager().getTransaction();
             trans.begin();
             tUtilizadores.edit(util);
-            DAO.create(msg);
+            tMensagens.create(msg);
             trans.commit();
 
             return true;
@@ -540,7 +567,7 @@ public class Leiloeira implements LeiloeiraLocal {
             //Guardar a ativação do utilizador
             EntityTransaction trans = DAO.getEntityManager().getTransaction();
             trans.begin();
-            DAO.create(msg);
+            tMensagens.create(msg);
             tUtilizadores.edit(util);
             trans.commit();
 
@@ -581,7 +608,7 @@ public class Leiloeira implements LeiloeiraLocal {
         msg.setEstado(MensagemEstado.ENVIADA);
 
         //Guardar a mensagem e o utilizador
-        DAO.createWithCommit(msg);
+        tMensagens.createWithCommit(msg);
         return true;
     }
 
@@ -615,19 +642,19 @@ public class Leiloeira implements LeiloeiraLocal {
     @Override
     public List<Object> getTMensagensUtilizador(String username) {
         //Obter todas as mensagens enviadas para o utilizador
-        return DAO.findByNamedQuery(TMensagens.class, "TMensagens.findByDestinatario", "username", new TUtilizadores(username));
+        return (List) tMensagens.findByNamedQuery("TMensagens.findByDestinatario", "username", new TUtilizadores(username));
     }
 
     @Override
     public int obtemNumTMensagens(String username) {
         //Obter o numero de mensagens do utilizador
-        return DAO.countByNamedQuery(TMensagens.class, "TMensagens.countFindByDestinatario", "username", new TUtilizadores(username));
+        return tMensagens.countByNamedQuery("TMensagens.countFindByDestinatario", "username", new TUtilizadores(username));
     }
 
     @Override
     public Object obtemMensagemById(String username, Integer id) {
         //Obter um mensagem pelo ID e verificar se é para o utilizador
-        TMensagens msg = (TMensagens) DAO.find(TMensagens.class, id);
+        TMensagens msg = tMensagens.find(id);
         if (msg != null) {
             if (username.equals(msg.getDestinatario().getUsername())) {
                 return msg;
@@ -639,7 +666,7 @@ public class Leiloeira implements LeiloeiraLocal {
     @Override
     public Object obtemMensagemByIdEnviada(String username, Integer id) {
         //Obter um mensagem pelo ID e verificar se é para do utilizador
-        TMensagens msg = (TMensagens) DAO.find(TMensagens.class, id);
+        TMensagens msg = tMensagens.find(id);
         if (msg != null) {
             if (username.equals(msg.getRemetente().getUsername())) {
                 return msg;
@@ -651,7 +678,7 @@ public class Leiloeira implements LeiloeiraLocal {
     @Override
     public List<Object> obtemMensagensRange(String username, int[] range) {
         //Obter pelo intervalo passado de registos
-        return DAO.findRangeByNamedQuery(TMensagens.class, range, "TMensagens.findByDestinatario", "username", new TUtilizadores(username));
+        return (List) tMensagens.findRangeByNamedQuery(range, "TMensagens.findByDestinatario", "username", new TUtilizadores(username));
     }
 
     @Override
@@ -663,7 +690,7 @@ public class Leiloeira implements LeiloeiraLocal {
                 msg.setAssunto(assunto);
                 msg.setTexto(texto);
                 msg.setDestinatario(new TUtilizadores(destinatario));
-                DAO.editWithCommit(msg);
+                tMensagens.editWithCommit(msg);
                 return true;
             }
         }
@@ -680,7 +707,7 @@ public class Leiloeira implements LeiloeiraLocal {
             } else {
                 msg.setEstado(MensagemEstado.ENTREGUE);
             }
-            DAO.editWithCommit(msg);
+            tMensagens.editWithCommit(msg);
         }
         return false;
     }
@@ -827,7 +854,7 @@ public class Leiloeira implements LeiloeiraLocal {
 
             trans.begin();
             tItens.create(item);
-            DAO.create(iVenda);
+            tItensAVenda.create(iVenda);
             tNewsletters.create(news);
             trans.commit();
 
@@ -836,7 +863,7 @@ public class Leiloeira implements LeiloeiraLocal {
         return false;
     }
 
-        @Override
+    @Override
     public boolean alterarItem(Long id, String username, String categoria, String descricao, Double precoInicial, Double precoComprarJa, Timestamp dataLimite) throws SessionException {
         TUtilizadores util = tUtilizadores.find(username);
         if (util != null) {
@@ -854,9 +881,8 @@ public class Leiloeira implements LeiloeiraLocal {
         return false;
     }
 
-   
     @Override
-    public boolean eliminaItem(Long id) throws SessionException{
+    public boolean eliminaItem(Long id) throws SessionException {
         tItens.remove(new TItens(id));
         return true;
     }
@@ -886,7 +912,7 @@ public class Leiloeira implements LeiloeiraLocal {
     @Override
     public int getTotalItens() {
         //Saber o número de itens à venda
-        return DAO.count(TitemsAVenda.class);
+        return tItensAVenda.count();
     }
 
     /**
@@ -977,8 +1003,8 @@ public class Leiloeira implements LeiloeiraLocal {
                 EntityTransaction trans = DAO.getEntityManager().getTransaction();
                 trans.begin();
                 tItens.edit(i);
-                DAO.create(venda);
-                DAO.create(new TitemsPorPagar(u, i));
+                tVendas.create(venda);
+                tItensPorPagar.create(new TitemsPorPagar(u, i));
                 trans.commit();
                 //Enviar mensagem ao vendedor
                 this.addMensagem("admin", i.getVendedor().getUsername(), "Item Terminado com comprador", i.getDescricao());
@@ -1018,7 +1044,7 @@ public class Leiloeira implements LeiloeiraLocal {
                         lic.setItem(i);
                         lic.setLicitador(licitador);
                         lic.setValor(value);
-                        DAO.create(lic);
+                        tLicitacoes.create(lic);
                         trans.commit();
                         if (value >= i.getComprarja()) {
                             this.comprarJaItem(itemId, username);
@@ -1046,8 +1072,8 @@ public class Leiloeira implements LeiloeiraLocal {
         TUtilizadores u = tUtilizadores.find(username);
         if (u != null) {
             //Refacturing para passar a user a entidade dos utilizadores
-            if (DAO.findByNamedQuery(TitemsSeguidos.class, "TitemsSeguidos.findByItemUtilizador", "item", i, "utilizador", u).isEmpty()) {
-                DAO.createWithCommit(new TitemsSeguidos(u, i));
+            if (tItensSeguindos.findByNamedQuery("TitemsSeguidos.findByItemUtilizador", "item", i, "utilizador", u).isEmpty()) {
+                tItensSeguindos.createWithCommit(new TitemsSeguidos(u, i));
                 return true;
             }
         }
@@ -1069,8 +1095,8 @@ public class Leiloeira implements LeiloeiraLocal {
         TUtilizadores u = tUtilizadores.find(username);
         if (u != null) {
             //Remover o item da lista dos seguidos
-            if (!DAO.findByNamedQuery(TitemsSeguidos.class, "TitemsSeguidos.findByItemUtilizador", "item", i, "utilizador", u).isEmpty()) {
-                DAO.removeWithCommit(new TitemsSeguidos(u, i));
+            if (!tItensSeguindos.findByNamedQuery("TitemsSeguidos.findByItemUtilizador", "item", i, "utilizador", u).isEmpty()) {
+                tItensSeguindos.removeWithCommit(new TitemsSeguidos(u, i));
                 return true;
             }
         }
@@ -1088,8 +1114,8 @@ public class Leiloeira implements LeiloeiraLocal {
         TUtilizadores u = tUtilizadores.find(username);
         if (u != null) {
             //Refacturing para passar a user a entidade dos utlizadores
-            for (Object seg : DAO.findByNamedQuery(TitemsSeguidos.class, "TitemsSeguidos.findByUtilizador", "utilizador", u)) {
-                result.add(((TitemsSeguidos) seg).toString());
+            for (TitemsSeguidos seg : tItensSeguindos.findByNamedQuery("TitemsSeguidos.findByUtilizador", "utilizador", u)) {
+                result.add(seg.toString());
             }
             return result;
         }
@@ -1101,10 +1127,10 @@ public class Leiloeira implements LeiloeiraLocal {
         List<Object> result = new ArrayList<>();
         TUtilizadores u = tUtilizadores.find(username);
         if (u != null) {
-            for (Object itemseg : DAO.findByNamedQuery(TitemsSeguidos.class, "TitemsSeguidos.findByUtilizador", "utilizador", u)) {
-                System.out.println("---" + ((TitemsSeguidos) itemseg).toString());
-                result.add(((TitemsSeguidos) itemseg).getItem());
-                System.out.println("ADD---" + ((TitemsSeguidos) itemseg).getItem().getDescricao());
+            for (TitemsSeguidos itemseg : tItensSeguindos.findByNamedQuery("TitemsSeguidos.findByUtilizador", "utilizador", u)) {
+                System.out.println("---" + itemseg.toString());
+                result.add(itemseg.getItem());
+                System.out.println("ADD---" + itemseg.getItem().getDescricao());
                 //result.add(((TitemsSeguidos) seg).toString());
             }
             return result;
@@ -1121,8 +1147,8 @@ public class Leiloeira implements LeiloeiraLocal {
     public List<String> getUltimosItensVendidos() {
         List<String> result = new ArrayList<>();
         //Refacturing para passar a user a entidade dos utlizadores
-        for (Object venda : DAO.findByNamedQuery(TVendas.class, "TVendas.findLast", 10)) {
-            result.add(((TVendas) venda).toString());
+        for (TVendas venda : tVendas.findByNamedQuery("TVendas.findLast", 10)) {
+            result.add(venda.toString());
         }
         return result;
     }
@@ -1135,11 +1161,11 @@ public class Leiloeira implements LeiloeiraLocal {
     @Override
     public List<String> getIensPorPagarUtilizador(String username) {
         List<String> result = new ArrayList<>();
-        TUtilizadores u = (TUtilizadores) DAO.find(TUtilizadores.class, username);
+        TUtilizadores u = tUtilizadores.find(username);
         if (u != null) {
             //Refacturing para passar a user a entidade dos utilizadores
-            for (Object seg : DAO.findByNamedQuery(TitemsPorPagar.class, "TitemsPorPagar.findByUtilizador", "utilizador", u)) {
-                result.add(((TitemsPorPagar) seg).toString());
+            for (TitemsPorPagar seg : tItensPorPagar.findByNamedQuery("TitemsPorPagar.findByUtilizador", "utilizador", u)) {
+                result.add(seg.toString());
             }
             return result;
         }
@@ -1162,7 +1188,7 @@ public class Leiloeira implements LeiloeiraLocal {
         TUtilizadores u = tUtilizadores.find(username);
         if (u != null) {
             //Refacturing para passar a user a entidade dos utilizadores
-            TitemsPorPagar porPag = (TitemsPorPagar) DAO.findByNamedQuery(TitemsPorPagar.class, "TitemsPorPagar.findByItemUtilizador", "item", i, "utilizador", u).get(0);
+            TitemsPorPagar porPag = tItensPorPagar.findByNamedQuery("TitemsPorPagar.findByItemUtilizador", "item", i, "utilizador", u).get(0);
             if (porPag == null && i.getLicitacaomaxima() <= u.getSaldo()) {
                 //Tirar o Saldo
                 u.setSaldo(u.getSaldo() - i.getLicitacaomaxima());
@@ -1170,8 +1196,8 @@ public class Leiloeira implements LeiloeiraLocal {
                 EntityTransaction trans = DAO.getEntityManager().getTransaction();
                 trans.begin();
                 tUtilizadores.edit(u);
-                DAO.remove(porPag);
-                DAO.create(new TitemsJaPagos(u, i));
+                tItensPorPagar.remove(porPag);
+                tItensJaPagos.create(new TitemsJaPagos(u, i));
                 trans.commit();
                 return true;
             }
@@ -1202,7 +1228,7 @@ public class Leiloeira implements LeiloeiraLocal {
         den.setDenunciador(u);
         den.setItem(i);
         den.setRazao(razao);
-        DAO.createWithCommit(den);
+        tDenunciasItens.createWithCommit(den);
         addMensagem(denunciador, "admin", den.toString(), "denuncia item " + i.getItemid());
         return true;
     }
@@ -1215,8 +1241,8 @@ public class Leiloeira implements LeiloeiraLocal {
     public List<String> obtemDenunciasVendedores() {
         List<String> result = new ArrayList<>();
         //Obter os vendedores denunciados
-        for (Object d : DAO.findAll(TDenunciasVendedores.class)) {
-            result.add(((TDenunciasVendedores) d).toLineString());
+        for (TDenunciasVendedores d : tDenunciasVendedores.findAll()) {
+            result.add(d.toLineString());
         }
         return result;
     }
@@ -1229,8 +1255,8 @@ public class Leiloeira implements LeiloeiraLocal {
     public List<String> obtemDenunciasItens() {
         List<String> result = new ArrayList<>();
         //Obter os itens denunciados
-        for (Object d : DAO.findAll(TDenunciasItens.class)) {
-            result.add(((TDenunciasItens) d).toLineString());
+        for (TDenunciasItens d : tDenunciasItens.findAll()) {
+            result.add(d.toLineString());
         }
         return result;
     }
@@ -1257,7 +1283,7 @@ public class Leiloeira implements LeiloeiraLocal {
         den.setDenunciador(d);
         den.setVendedor(v);
         den.setRazao(razao);
-        DAO.createWithCommit(den);
+        tDenunciasVendedores.createWithCommit(den);
         addMensagem(denunciador, "admin", d.toString(), "denuncia vendedor " + v.getUsername());
         return true;
     }
@@ -1496,7 +1522,7 @@ public class Leiloeira implements LeiloeiraLocal {
         if (null != lista) {
             switch (lista) {
                 case LISTA_ITENS_ALL:
-                    list = tItens.findRange( range);
+                    list = tItens.findRange(range);
                     break;
                 case LISTA_ITENS_ULTIMOS_VENDIDOS:
                     Calendar cal;
