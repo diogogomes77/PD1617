@@ -5,11 +5,7 @@
  */
 package jpafacades;
 
-import javax.ejb.EJB;
 import javax.ejb.Singleton;
-import javax.ejb.Stateless;
-import javax.persistence.EntityManager;
-import beans.DAOLocal;
 import jpaentidades.TNewsletters;
 
 /**
@@ -19,13 +15,6 @@ import jpaentidades.TNewsletters;
 @Singleton
 public class TNewslettersFacade extends AbstractFacade<TNewsletters> {
 
-//    @EJB
-//    private DAOLocal DAO;
-//
-//    @Override
-//    public EntityManager getEntityManager() {
-//        return DAO.getEntityManager();
-//    }
 
     public TNewslettersFacade() {
         super(TNewsletters.class);

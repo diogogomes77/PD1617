@@ -5,16 +5,11 @@
  */
 package jpafacades;
 
-import beans.Leiloeira;
-import beans.LeiloeiraLocal;
+import beans.DAOLocal;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-import beans.DAOLocal;
 
 /**
  *
@@ -22,10 +17,9 @@ import beans.DAOLocal;
  */
 public abstract class AbstractFacade<T> {
 
-   // EntityManagerFactory emf = Persistence.createEntityManagerFactory("PDTP-ejbPU");
-
+    // EntityManagerFactory emf = Persistence.createEntityManagerFactory("PDTP-ejbPU");
     @EJB
-    protected LeiloeiraLocal leiloeira;
+    private DAOLocal DAO;
     
     private Class<T> entityClass;
 
@@ -34,64 +28,69 @@ public abstract class AbstractFacade<T> {
         this.entityClass = entityClass;
     }
 
-   // protected abstract EntityManager getEntityManager();
+    // protected abstract EntityManager getEntityManager();
 //    public EntityManager getEntityManager() {
 //        return emf.createEntityManager();
 //    }
-    
     public void create(T entity) {
-        Logger.getLogger(getClass().getName()).log(Level.INFO, "Create Entity "+entity);
-        leiloeira.getDAO().getEntityManager().getTransaction().begin();
-        leiloeira.getDAO().create(entity);
-        leiloeira.getDAO().getEntityManager().getTransaction().commit();
+        Logger.getLogger(getClass().getName()).log(Level.INFO, "Create Entity " + entity);
+        DAO.getEntityManager().getTransaction().begin();
+        DAO.create(entity);
+        DAO.getEntityManager().getTransaction().commit();
     }
 
     public void edit(T entity) {
-        Logger.getLogger(getClass().getName()).log(Level.INFO, "Edit Entity "+entity);
-       // getEntityManager().merge(entity);
-        leiloeira.getDAO().edit(entity);
+        Logger.getLogger(getClass().getName()).log(Level.INFO, "Edit Entity " + entity);
+        DAO.edit(entity);
     }
 
     public void remove(T entity) {
-        Logger.getLogger(getClass().getName()).log(Level.FINE, "Remove Entity "+entity);
-        //getEntityManager().remove(getEntityManager().merge(entity));
-        leiloeira.getDAO().remove(entity);
+        Logger.getLogger(getClass().getName()).log(Level.FINE, "Remove Entity " + entity);
+        DAO.remove(entity);
     }
 
     public T find(Object id) {
-        Logger.getLogger(getClass().getName()).log(Level.INFO, "Find Entity "+id);
-        //return getEntityManager().find(entityClass, id);
-        return (T)leiloeira.getDAO().find(entityClass,id);
+        Logger.getLogger(getClass().getName()).log(Level.INFO, "Find Entity " + id);
+        return (T) DAO.find(entityClass, id);
     }
 
     public List<T> findAll() {
-        Logger.getLogger(getClass().getName()).log(Level.INFO, "Find All Entity");
-        //javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
-        //cq.select(cq.from(entityClass));
-        //return getEntityManager().createQuery(cq).getResultList();
-        return (List<T>)leiloeira.getDAO().findAll(entityClass);
+        Logger.getLogger(getClass().getName()).log(Level.INFO, "Find All Entity " + entityClass.getName());
+        return (List<T>) DAO.findAll(entityClass);
+    }
+
+    public List<T> findByNamedQuery(String nameQuery, int maxResult) {
+        Logger.getLogger(getClass().getName()).log(Level.INFO, "Find All Entity by namedQuery 1 arg" + entityClass.getName() + " -> " + nameQuery);
+        return (List<T>) DAO.findByNamedQuery(entityClass, nameQuery, maxResult);
+    }
+
+    public List<T> findByNamedQuery(String nameQuery, String nameParam, Object valeu) {
+        Logger.getLogger(getClass().getName()).log(Level.INFO, "Find All Entity by namedQuery 1 arg" + entityClass.getName() + " -> " + nameQuery);
+        return (List<T>) DAO.findByNamedQuery(entityClass, nameQuery, nameParam, valeu);
+    }
+
+    public List<T> findByNamedQuery(String nameQuery, String nameParam1, Object valeu1, String nameParam2, Object valeu2) {
+        Logger.getLogger(getClass().getName()).log(Level.INFO, "Find All Entity by namedQuery 2 args" + entityClass.getName() + " -> " + nameQuery);
+        return (List<T>) DAO.findByNamedQuery(entityClass, nameQuery, nameParam1, valeu1, nameParam2, valeu2);
     }
 
     public List<T> findRange(int[] range) {
         Logger.getLogger(getClass().getName()).log(Level.INFO, "Find Range of Entity");
-//        javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
-//        cq.select(cq.from(entityClass));
-//        javax.persistence.Query q = getEntityManager().createQuery(cq);
-//        q.setMaxResults(range[1] - range[0] + 1);
-//        q.setFirstResult(range[0]);
-//        //return q.getResultList();
-        
-        return (List<T>)leiloeira.getDAO().findRange(entityClass,range);
+        return (List<T>) DAO.findRange(entityClass, range);
+    }
+
+    public List<T> findRangeByNamedQuery(int[] range, String nameQuery, String nameParam, Object valeu) {
+        Logger.getLogger(getClass().getName()).log(Level.INFO, "Find Range of Entity by named query " + entityClass.getName() + " -> " + nameQuery);
+        return (List<T>) DAO.findRangeByNamedQuery(entityClass, range, nameQuery, nameParam, valeu);
     }
 
     public int count() {
-//        Logger.getLogger(getClass().getName()).log(Level.INFO, "Count Entity");
-//        javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
-//        javax.persistence.criteria.Root<T> rt = cq.from(entityClass);
-//        cq.select(getEntityManager().getCriteriaBuilder().count(rt));
-//        javax.persistence.Query q = getEntityManager().createQuery(cq);
-//        return ((Long) q.getSingleResult()).intValue();
-        return leiloeira.getDAO().count(entityClass);
+        Logger.getLogger(getClass().getName()).log(Level.INFO, "Count Entity " + entityClass.getName());
+        return DAO.count(entityClass);
     }
-    
+
+    public int countByNamedQuery(String nameQuery, String nameParam, Object valeu) {
+        Logger.getLogger(getClass().getName()).log(Level.INFO, "Count Entity by named query " + entityClass.getName() + " -> " + nameQuery);
+        return DAO.countByNamedQuery(entityClass, nameQuery, nameParam, valeu);
+    }
 }

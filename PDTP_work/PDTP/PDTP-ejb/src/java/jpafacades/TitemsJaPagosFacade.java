@@ -6,8 +6,6 @@
 package jpafacades;
 
 import javax.ejb.Stateless;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import jpaentidades.TitemsJaPagos;
 
 /**
