@@ -20,5 +20,15 @@ public class TItensFacade extends AbstractFacade<TItens> {
     public TItensFacade() {
         super(TItens.class);
     }
+
+    @Override
+    public void removeWithCommit(TItens entity) {
+        //Não permite a remoção de itens
+    }
+
+    @Override
+    public void remove(TItens entity) {
+        //Não permite a remoção de itens
+    }
     
 }

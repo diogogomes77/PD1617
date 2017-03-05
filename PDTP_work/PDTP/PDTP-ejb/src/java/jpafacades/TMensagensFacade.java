@@ -19,5 +19,15 @@ public class TMensagensFacade extends AbstractFacade<TMensagens> {
     public TMensagensFacade() {
         super(TMensagens.class);
     }
+
+    @Override
+    public void removeWithCommit(TMensagens entity) {
+        //Não permite e remoção de mensagens
+    }
+
+    @Override
+    public void remove(TMensagens entity) {
+        //Não permite e remoção de mensagens
+    }
     
 }

@@ -20,4 +20,15 @@ public class TUtilizadoresFacade extends AbstractFacade<TUtilizadores> {
     public TUtilizadoresFacade() {
         super(TUtilizadores.class);
     }
+
+    @Override
+    public void removeWithCommit(TUtilizadores entity) {
+        //Não permite a remoção de utilizadores
+    }
+
+    @Override
+    public void remove(TUtilizadores entity) {
+        //Não permite a remoção de utilizadores
+    }
+    
 }
