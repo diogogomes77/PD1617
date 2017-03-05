@@ -40,6 +40,10 @@ public class TDenunciasItensController implements Serializable {
         return current;
     }
 
+    public String verDenuncias(Long id){
+        return "DenunciaDeItemList";
+    }
+    
     private TDenunciasItensFacade getFacade() {
         return ejbFacade;
     }

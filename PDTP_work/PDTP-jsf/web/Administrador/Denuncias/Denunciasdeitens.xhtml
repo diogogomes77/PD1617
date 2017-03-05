@@ -14,11 +14,49 @@
             </h1>
         </ui:define>
         <ui:define name="content">                        
-            <h:link outcome="/tMensagens/List" value="Show All TMensagens Items"/>
-            <br />
-            <h:link outcome="/tUtilizadores/List" value="Show All TUtilizadores Items"/>
-            
-            <ui:include src="/Geral/ListaRegistados.xhtml" />
+            <h:form styleClass="jsfcrud_list_form">
+                <h:panelGroup id="messagePanel" layout="block">
+                    <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+                </h:panelGroup>
+                <h:outputText escape="false" value="#{bundleItens.ListTItensEmpty}" rendered="#{tItensDenunciadosController.items.rowCount == 0}"/>
+                <h:panelGroup rendered="#{tItensDenunciadosController.items.rowCount > 0}">
+                    <h:outputText value="#{tItensDenunciadosController.pagination.pageFirstItem + 1}..#{tItensDenunciadosController.pagination.pageLastItem + 1}/#{tItensDenunciadosController.pagination.itemsCount}"/>&nbsp;
+                    <h:commandLink action="#{tItensDenunciadosController.previous}" value="#{bundleItens.Previous} #{tItensDenunciadosController.pagination.pageSize}" rendered="#{tItensDenunciadosController.pagination.hasPreviousPage}"/>&nbsp;
+                    <h:commandLink action="#{tItensDenunciadosController.next}" value="#{bundleItens.Next} #{tItensDenunciadosController.pagination.pageSize}" rendered="#{tItensDenunciadosController.pagination.hasNextPage}"/>&nbsp;
+                    <h:dataTable value="#{tItensDenunciadosController.items}" var="item" border="0" cellpadding="2" cellspacing="0" rowClasses="jsfcrud_odd_row,jsfcrud_even_row" rules="all" style="border:solid 1px">
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundleItens.ListTItensTitle_categoria}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.categoria}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundleItens.ListTItensTitle_vendedor}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.vendedor}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundleItens.ListTItensTitle_descricao}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.descricao}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundleItens.ListTItensTitle_estado}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.estado}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="&nbsp;"/>
+                            </f:facet>
+                            <h:commandLink action="#{tDenunciasItensController.verDenuncias(item.itemid)}" value="#{bundleItens.ListTItensViewLink}"/>
+                        </h:column>
+                    </h:dataTable>
+                </h:panelGroup>
+            </h:form>
         </ui:define>
     </ui:composition> 
 

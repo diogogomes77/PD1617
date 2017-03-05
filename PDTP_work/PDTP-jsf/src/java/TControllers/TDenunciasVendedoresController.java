@@ -43,7 +43,10 @@ public class TDenunciasVendedoresController implements Serializable {
     private TDenunciasVendedoresFacade getFacade() {
         return ejbFacade;
     }
-
+   public String verDenuncias(String id){
+        return "DenunciaDeItemList";
+    }
+   
     public PaginationHelper getPagination() {
         if (pagination == null) {
             pagination = new PaginationHelper(10) {
