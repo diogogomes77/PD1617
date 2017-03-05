@@ -3,6 +3,7 @@ package TControllers;
 import autenticacao.Util;
 import beans.ClientRemote;
 import beans.ClientUtilizadorRemote;
+import beans.ItensTipoLista;
 import beans.SessionException;
 import jpaentidades.TItens;
 import jsfclasses.util.JsfUtil;
@@ -10,6 +11,8 @@ import jsfclasses.util.PaginationHelper;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -33,6 +36,7 @@ public class TItensController implements Serializable {
 
     private ClientRemote remoteSession;
 
+    ItensTipoLista tipoList = ItensTipoLista.LISTA_ITENS_ALL;
     private TItens current;
     private DataModel items = null;
     @EJB
@@ -60,6 +64,41 @@ public class TItensController implements Serializable {
     private TItensFacade getFacade() {
         return ejbFacade;
     }
+    public int getItensCount() {
+        if( remoteSession != null ){
+            try {
+                return remoteSession.obtemNumItens(tipoList);
+            } catch (SessionException ex) {
+                Logger.getLogger(TItensController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return 0;
+    }
+
+    public List findRange(int[] range ){
+        if( remoteSession != null ){
+            try {
+                return remoteSession.obtemItensRange(tipoList, range);
+            } catch (SessionException ex) {
+                Logger.getLogger(TItensController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return new ArrayList();
+    }
+    public List findAll( ){
+        if( remoteSession != null ){
+            try {
+                return remoteSession.obtemItens(tipoList);
+            } catch (SessionException ex) {
+                Logger.getLogger(TItensController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return new ArrayList();
+    }
+
+    public TItens findById( Long id ){
+        return null;
+    }
 
     public PaginationHelper getPagination() {
         if (pagination == null) {
@@ -67,12 +106,12 @@ public class TItensController implements Serializable {
 
                 @Override
                 public int getItemsCount() {
-                    return getFacade().count();
+                    return getItensCount();
                 }
 
                 @Override
                 public DataModel createPageDataModel() {
-                    return new ListDataModel(getFacade().findRange(new int[]{getPageFirstItem(), getPageFirstItem() + getPageSize()}));
+                    return new ListDataModel(findRange(new int[]{getPageFirstItem(), getPageFirstItem() + getPageSize()}));
                 }
             };
         }
@@ -81,13 +120,13 @@ public class TItensController implements Serializable {
 
     public String prepareList() {
         recreateModel();
-        return "List";
+        return "ListadeItens";
     }
 
     public String prepareView() {
         current = (TItens) getItems().getRowData();
         selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
-        return "View";
+        return "ConsultarItem";
     }
 
     public String seguir() {
@@ -97,7 +136,7 @@ public class TItensController implements Serializable {
         selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
         System.out.println("---SEGUIR itemid " + current.getItemid());
         try {
-            boolean ok = ((ClientUtilizadorRemote)remoteSession).seguirItem(current.getItemid());
+            boolean ok = ((ClientUtilizadorRemote) remoteSession).seguirItem(current.getItemid());
             if (ok) {
                 JsfUtil.addSuccessMessage("Item Seguido");
             } else {
@@ -106,7 +145,7 @@ public class TItensController implements Serializable {
             return null;
         } catch (SessionException ex) {
             Logger.getLogger(TItensController.class.getName()).log(Level.SEVERE, null, ex);
-        } catch( Exception e){
+        } catch (Exception e) {
             Logger.getLogger(TItensController.class.getName()).log(Level.SEVERE, null, e);
         }
         return null;
@@ -115,14 +154,14 @@ public class TItensController implements Serializable {
     public String prepareCreate() {
         current = new TItens();
         selectedItemIndex = -1;
-        return "Create";
+        return "ColocarItemavenda";
     }
 
     public String create() {
         try {
 
             Timestamp limite = new java.sql.Timestamp(current.getDatafim().getTime());
-            ((ClientUtilizadorRemote)remoteSession).addItem(current.getCategoria(), current.getDescricao(), current.getPrecoinicial(), current.getComprarja(), limite);
+            ((ClientUtilizadorRemote) remoteSession).addItem(current.getCategoria(), current.getDescricao(), current.getPrecoinicial(), current.getComprarja(), limite);
             JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/BundleItens").getString("TItensCreated"));
             return prepareCreate();
         } catch (Exception e) {
@@ -139,9 +178,11 @@ public class TItensController implements Serializable {
 
     public String update() {
         try {
+            //TODO: Atualizar os item
             getFacade().edit(current);
+            //((ClientUtilizadorRemote) remoteSession).
             JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/BundleItens").getString("TItensUpdated"));
-            return "View";
+            return "ConsultarItem";
         } catch (Exception e) {
             JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/BundleItens").getString("PersistenceErrorOccured"));
             return null;
@@ -154,7 +195,7 @@ public class TItensController implements Serializable {
         performDestroy();
         recreatePagination();
         recreateModel();
-        return "List";
+        return "ListadeItens";
     }
 
     public String destroyAndView() {
@@ -162,16 +203,17 @@ public class TItensController implements Serializable {
         recreateModel();
         updateCurrentItem();
         if (selectedItemIndex >= 0) {
-            return "View";
+            return "ConsultarItem";
         } else {
             // all items were removed - go back to list
             recreateModel();
-            return "List";
+            return "ListadeItens";
         }
     }
 
     private void performDestroy() {
         try {
+            //TODO:Fazer o remove
             getFacade().remove(current);
             JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/BundleItens").getString("TItensDeleted"));
         } catch (Exception e) {
@@ -180,7 +222,7 @@ public class TItensController implements Serializable {
     }
 
     private void updateCurrentItem() {
-        int count = getFacade().count();
+        int count = getItensCount();
         if (selectedItemIndex >= count) {
             // selected index cannot be bigger than number of items:
             selectedItemIndex = count - 1;
@@ -190,7 +232,7 @@ public class TItensController implements Serializable {
             }
         }
         if (selectedItemIndex >= 0) {
-            current = getFacade().findRange(new int[]{selectedItemIndex, selectedItemIndex + 1}).get(0);
+            current = (TItens)findRange(new int[]{selectedItemIndex, selectedItemIndex + 1}).get(0);
         }
     }
 
@@ -212,25 +254,25 @@ public class TItensController implements Serializable {
     public String next() {
         getPagination().nextPage();
         recreateModel();
-        return "List";
+        return null;
     }
 
     public String previous() {
         getPagination().previousPage();
         recreateModel();
-        return "List";
+        return null;
     }
 
     public SelectItem[] getItemsAvailableSelectMany() {
-        return JsfUtil.getSelectItems(ejbFacade.findAll(), false);
+        return JsfUtil.getSelectItems(findAll(), false);
     }
 
     public SelectItem[] getItemsAvailableSelectOne() {
-        return JsfUtil.getSelectItems(ejbFacade.findAll(), true);
+        return JsfUtil.getSelectItems(findAll(), true);
     }
 
     public TItens getTItens(java.lang.Long id) {
-        return ejbFacade.find(id);
+        return findById(id);
     }
 
     @FacesConverter(forClass = TItens.class)

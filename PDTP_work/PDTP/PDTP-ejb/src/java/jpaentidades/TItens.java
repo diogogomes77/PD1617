@@ -44,7 +44,8 @@ import pdtp.ItemEstados;
     , @NamedQuery(name = "TItens.findByComprador", query = "SELECT t FROM TItens t WHERE t.comprador = :comprador")
     , @NamedQuery(name = "TItens.findByVendedor", query = "SELECT t FROM TItens t WHERE t.vendedor = :vendedor")
     , @NamedQuery(name = "TItens.findByComprarja", query = "SELECT t FROM TItens t WHERE t.comprarja = :comprarja")
-    , @NamedQuery(name = "TItens.findByDatafim", query = "SELECT t FROM TItens t WHERE t.datafim = :datafim")
+    , @NamedQuery(name = "TItens.findByDatafim", query = "SELECT t FROM TItens t WHERE t.datafim >= :datafim ORDER BY t.datafim DESC")
+    , @NamedQuery(name = "TItens.countFindByDatafim", query = "SELECT count(t.itemid) FROM TItens t WHERE t.datafim = :datafim ORDER BY t.datafim DESC")
     , @NamedQuery(name = "TItens.findByDatainicio", query = "SELECT t FROM TItens t WHERE t.datainicio = :datainicio")
     , @NamedQuery(name = "TItens.findByDescricao", query = "SELECT t FROM TItens t WHERE t.descricao = :descricao")
     , @NamedQuery(name = "TItens.findByEstado", query = "SELECT t FROM TItens t WHERE t.estado = :estado")
@@ -78,9 +79,9 @@ public class TItens implements Serializable {
     private ItemEstados estado;
     @Column(name = "precoinicial")
     private Double precoinicial;
-    @OneToMany(mappedBy = "item", cascade = CascadeType.ALL )
+    @OneToMany(mappedBy = "item", cascade = CascadeType.ALL)
     private Collection<TDenunciasItens> tDenunciasItensCollection;
-    @OneToMany(mappedBy = "item", cascade = CascadeType.ALL )
+    @OneToMany(mappedBy = "item", cascade = CascadeType.ALL)
     private Collection<TLicitacoes> tLicitacoesCollection;
     @OneToMany(mappedBy = "item", cascade = CascadeType.ALL)
     private Collection<TVendas> tVendasCollection;
@@ -235,7 +236,7 @@ public class TItens implements Serializable {
 
     @Override
     public boolean equals(Object object) {
-       if (!(object instanceof TItens)) {
+        if (!(object instanceof TItens)) {
             return false;
         }
         TItens other = (TItens) object;
@@ -249,18 +250,19 @@ public class TItens implements Serializable {
     public String toString() {
         return "jpaentidades.TItens[ itemid=" + itemid + " ]";
     }
+
     /**
      *
      * @return
      */
-    public String toLineString(){
+    public String toLineString() {
         StringBuilder item = new StringBuilder();
         item.append("ID: ");
-         item.append(itemid);
+        item.append(itemid);
         item.append(" Descricao: ");
         item.append(descricao);
         item.append(" Data fim: ");
-        
+
         item.append(datafim);
         item.append(" Vendedor: ");
         item.append(vendedor.getUsername());

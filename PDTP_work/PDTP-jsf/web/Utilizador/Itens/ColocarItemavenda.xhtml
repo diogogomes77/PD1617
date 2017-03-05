@@ -26,21 +26,20 @@
                                         itemValue="#{categoria.nome}" itemLabel="#{categoria.nome}"
                                        />
                     </h:selectOneMenu>
-            
-                    <h:outputLabel value="#{bundleItens.CreateTItensLabel_comprarja}" for="comprarja" />
-                    <h:inputText id="comprarja" value="#{tItensController.selected.comprarja}" title="#{bundleItens.CreateTItensTitle_comprarja}" />
-                    <h:outputLabel value="#{bundleItens.CreateTItensLabel_datafim}" for="datafim" />
-                    <h:inputText id="datafim" value="#{tItensController.selected.datafim}" title="#{bundleItens.CreateTItensTitle_datafim}" >
-                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
-                    </h:inputText>
-                    <h:outputLabel value="#{bundleItens.CreateTItensLabel_datainicio}" for="datainicio" />
-                    <h:inputText id="datainicio" value="#{tItensController.selected.datainicio}" title="#{bundleItens.CreateTItensTitle_datainicio}" >
-                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
-                    </h:inputText>
                     <h:outputLabel value="#{bundleItens.CreateTItensLabel_descricao}" for="descricao" />
-                    <h:inputText id="descricao" value="#{tItensController.selected.descricao}" title="#{bundleItens.CreateTItensTitle_descricao}" />
+                    <h:inputText id="descricao" value="#{tItensController.selected.descricao}" title="#{bundleItens.CreateTItensTitle_descricao}" />            
                     <h:outputLabel value="#{bundleItens.CreateTItensLabel_precoinicial}" for="precoinicial" />
                     <h:inputText id="precoinicial" value="#{tItensController.selected.precoinicial}" title="#{bundleItens.CreateTItensTitle_precoinicial}" />
+                    <h:outputLabel value="#{bundleItens.CreateTItensLabel_comprarja}" for="comprarja" />
+                    <h:inputText id="comprarja" value="#{tItensController.selected.comprarja}" title="#{bundleItens.CreateTItensTitle_comprarja}" />
+                    <h:outputLabel value="#{bundleItens.CreateTItensLabel_datainicio}" for="datainicio" />
+                    <h:inputText id="datainicio" value="#{tItensController.selected.datainicio}" title="#{bundleItens.CreateTItensTitle_datainicio}" >
+                        <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+                    </h:inputText>
+                    <h:outputLabel value="#{bundleItens.CreateTItensLabel_datafim}" for="datafim" />
+                    <h:inputText id="datafim" value="#{tItensController.selected.datafim}" title="#{bundleItens.CreateTItensTitle_datafim}" >
+                        <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+                    </h:inputText>
                 </h:panelGrid>
                 <br />
                 <h:commandLink action="#{tItensController.create}" value="#{bundleItens.CreateTItensSaveLink}" />

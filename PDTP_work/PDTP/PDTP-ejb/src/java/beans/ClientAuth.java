@@ -67,8 +67,9 @@ public abstract class ClientAuth extends ClientBase implements ClientAuthRemote 
         trySetLastAction();
         return super.getTotalItens();
     }
+
     @Override
-    public List<Object> obtemNewsletter(){
+    public List<Object> obtemNewsletter() {
         trySetLastAction();
         return leiloeira.obtemNewsletterEnt();
     }
@@ -86,7 +87,7 @@ public abstract class ClientAuth extends ClientBase implements ClientAuthRemote 
     }
 
     @Override
-    public List<Object> obtemNewsletterRange(int[] range){
+    public List<Object> obtemNewsletterRange(int[] range) {
         trySetLastAction();
         return leiloeira.obtemNewsletterRange(range);
     }
@@ -217,5 +218,30 @@ public abstract class ClientAuth extends ClientBase implements ClientAuthRemote 
         setLastAction();
         return leiloeira.alteraMensagemParaLida(myName, id, lida);
     }
-    
+
+    @Override
+    public List<Object> obtemItens(ItensTipoLista lista) throws SessionException {
+        setLastAction();
+        return super.obtemItens(lista);
+   
+    }
+
+    @Override
+    public int obtemNumItens(ItensTipoLista lista) throws SessionException {
+        setLastAction();
+        return super.obtemNumItens(lista);
+    }
+
+    @Override
+    public Object obtemItensById(Integer id) throws SessionException {
+        setLastAction();
+        return super.obtemItensById(id);
+    }
+
+    @Override
+    public List<Object> obtemItensRange(ItensTipoLista lista, int[] range) throws SessionException {
+        setLastAction();
+        return super.obtemItensRange(lista, range);
+    }
+
 }

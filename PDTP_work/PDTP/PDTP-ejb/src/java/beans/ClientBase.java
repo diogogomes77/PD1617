@@ -69,23 +69,44 @@ public abstract class ClientBase implements ClientRemote {
     }
 
     @Override
-    public List<Object> obtemNewsletter(){
+    public List<Object> obtemNewsletter() {
         return leiloeira.obtemNewsletterEnt();
     }
 
     @Override
-    public int obtemNumNewsletter(){
+    public int obtemNumNewsletter() {
         return leiloeira.obtemNumNewsletter();
     }
 
     @Override
-    public Object obtemNewsletterById(Integer id){
+    public Object obtemNewsletterById(Integer id) {
         return leiloeira.obtemNewsletterById(id);
     }
 
     @Override
-    public List<Object> obtemNewsletterRange(int[] range){
+    public List<Object> obtemNewsletterRange(int[] range) {
         return leiloeira.obtemNewsletterRange(range);
+    }
+
+    @Override
+    public List<Object> obtemItens(ItensTipoLista lista) throws SessionException {
+        return leiloeira.obtemItens(lista);
+
+    }
+
+    @Override
+    public int obtemNumItens(ItensTipoLista lista) throws SessionException {
+        return leiloeira.obtemNumItens(lista);
+    }
+
+    @Override
+    public Object obtemItensById(Integer id) throws SessionException {
+        return leiloeira.obtemItensById(id);
+    }
+
+    @Override
+    public List<Object> obtemItensRange(ItensTipoLista lista, int[] range) throws SessionException {
+        return leiloeira.obtemItensRange(lista, range);
     }
 
 }

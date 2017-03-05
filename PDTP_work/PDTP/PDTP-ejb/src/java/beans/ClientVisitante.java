@@ -1,5 +1,6 @@
 package beans;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Stateless;
 
@@ -84,6 +85,35 @@ public class ClientVisitante extends ClientBase implements ClientVisitanteRemote
     @Override
     public List<Object> obtemNewsletterRange(int[] range){
         return super.obtemNewsletterRange(range);
+    }
+
+    @Override
+    public List<Object> obtemItens(ItensTipoLista lista) throws SessionException {
+        if( lista == ItensTipoLista.LISTA_ITENS_ULTIMOS_VENDIDOS ){
+            return super.obtemItens(lista);
+        }
+        return new ArrayList<>();
+    }
+
+    @Override
+    public int obtemNumItens(ItensTipoLista lista) throws SessionException {
+        if( lista == ItensTipoLista.LISTA_ITENS_ULTIMOS_VENDIDOS ){
+            return super.obtemNumItens(lista);
+        }
+        return 0;
+    }
+
+    @Override
+    public Object obtemItensById(Integer id) throws SessionException {
+        return super.obtemItensById(id);
+    }
+
+    @Override
+    public List<Object> obtemItensRange(ItensTipoLista lista, int[] range) throws SessionException {
+        if( lista == ItensTipoLista.LISTA_ITENS_ULTIMOS_VENDIDOS ){
+            return super.obtemItensRange(lista, range);
+        }
+        return new ArrayList<>();
     }
 
 }

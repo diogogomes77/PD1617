@@ -98,5 +98,34 @@ public interface ClientRemote {
      * @param range
      * @return @throws beans.SessionException
      */
-    List<Object> obtemNewsletterRange( int[] range);
+    List<Object> obtemNewsletterRange(int[] range);
+
+    /**
+     *
+     * @param lista
+     * @return @throws beans.SessionException
+     */
+    List<Object> obtemItens(ItensTipoLista lista) throws SessionException;
+
+    /**
+     *
+     * @param lista
+     * @return @throws beans.SessionException
+     */
+    int obtemNumItens(ItensTipoLista lista) throws SessionException;
+
+    /**
+     *
+     * @param id
+     * @return @throws beans.SessionException
+     */
+    Object obtemItensById(Integer id) throws SessionException;
+
+    /**
+     *
+     * @param lista
+     * @param range
+     * @return @throws beans.SessionException
+     */
+    List<Object> obtemItensRange(ItensTipoLista lista, int[] range) throws SessionException;
 }

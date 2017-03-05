@@ -8,7 +8,6 @@ import jsfclasses.util.PaginationHelper;
 import jpafacades.TLicitacoesFacade;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
 import java.util.ResourceBundle;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;

@@ -1404,4 +1404,66 @@ public class Leiloeira implements LeiloeiraLocal {
     public List<Object> obtemNewsletterRange(int[] range) {
         return DAO.findRange(TNewsletters.class, range);
     }
+
+    @Override
+    public Object obtemItensById(Integer id) throws SessionException {
+        return DAO.find(TItens.class, id);
+    }
+
+    @Override
+    public List<Object> obtemItens(ItensTipoLista lista) throws SessionException {
+        List<Object> list = null;
+        if (null != lista) {
+            switch (lista) {
+                case LISTA_ITENS_ALL:
+                    list = DAO.findAll(TItens.class);
+                    break;
+                case LISTA_ITENS_ULTIMOS_VENDIDOS:
+                    Calendar cal; (cal = Calendar.getInstance()).add(Calendar.YEAR, -1 );
+                    list = DAO.findByNamedQuery(TItens.class, "TItens.findByDatafim", "datafim", cal.getTime());
+                    break;
+                default:
+                    break;
+            }
+        }
+        return list;
+    }
+
+    @Override
+    public int obtemNumItens(ItensTipoLista lista) throws SessionException {
+        int numItem = 0;
+        if (null != lista) {
+            switch (lista) {
+                case LISTA_ITENS_ALL:
+                    numItem = DAO.count(TItens.class);
+                    break;
+                case LISTA_ITENS_ULTIMOS_VENDIDOS:
+                    Calendar cal; (cal = Calendar.getInstance()).add(Calendar.YEAR, -1 );
+                    numItem = DAO.countByNamedQuery(TItens.class, "TItens.countFindByDatafim", "datafim", cal.getTime());
+                    break;
+                default:
+                    break;
+            }
+        }
+        return numItem;
+    }
+
+    @Override
+    public List<Object> obtemItensRange(ItensTipoLista lista, int[] range) throws SessionException {
+        List<Object> list = null;
+        if (null != lista) {
+            switch (lista) {
+                case LISTA_ITENS_ALL:
+                    list = DAO.findRange(TItens.class, range);
+                    break;
+                case LISTA_ITENS_ULTIMOS_VENDIDOS:
+                    Calendar cal; (cal = Calendar.getInstance()).add(Calendar.YEAR, -1 );
+                    list = DAO.findRangeByNamedQuery(TItens.class, range, "TItens.findByDatafim", "datafim", cal.getTime());
+                    break;
+                default:
+                    break;
+            }
+        }
+        return list;
+    }
 }
