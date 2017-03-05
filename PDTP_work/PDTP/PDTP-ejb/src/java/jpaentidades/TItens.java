@@ -39,6 +39,8 @@ import pdtp.ItemEstados;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "TItens.findAll", query = "SELECT t FROM TItens t")
+    , @NamedQuery(name = "TItens.findAllDenuncias", query = "SELECT t FROM TItens t WHERE t IN ( SELECT t.item FROM TDenunciasItens t )")
+    , @NamedQuery(name = "TItens.countFindAllDenuncias", query = "SELECT count(t.itemid) FROM TItens t WHERE t IN ( SELECT t.item FROM TDenunciasItens t )")
     , @NamedQuery(name = "TItens.findByItemid", query = "SELECT t FROM TItens t WHERE t.itemid = :itemid")
     , @NamedQuery(name = "TItens.findByCategoria", query = "SELECT t FROM TItens t WHERE t.categoria = :categoria")
     , @NamedQuery(name = "TItens.findByComprador", query = "SELECT t FROM TItens t WHERE t.comprador = :comprador")

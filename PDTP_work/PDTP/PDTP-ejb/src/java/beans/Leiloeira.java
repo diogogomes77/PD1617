@@ -1363,6 +1363,9 @@ public class Leiloeira implements LeiloeiraLocal {
                 case LISTA_USER_ONLINE:
                     list = tUtilizadores.findByNamedQuery("TUtilizadores.findByLogged", "logged", true);
                     break;
+                case LISTA_USER_DENUNCIADOS:
+                    list = tUtilizadores.findByNamedQuery("TUtilizadores.findAllDenuncias", "", null);
+                    break;
                 default:
                     break;
             }
@@ -1393,6 +1396,9 @@ public class Leiloeira implements LeiloeiraLocal {
                 case LISTA_USER_ONLINE:
                     numReg = tUtilizadores.countByNamedQuery("TUtilizadores.countFindByLogged", "logged", true);
                     break;
+                case LISTA_USER_DENUNCIADOS:
+                    numReg = tUtilizadores.countByNamedQuery("TUtilizadores.countfindAllDenuncias", "", null);
+                    break;
                 default:
                     break;
             }
@@ -1422,6 +1428,9 @@ public class Leiloeira implements LeiloeiraLocal {
                     break;
                 case LISTA_USER_ONLINE:
                     list = tUtilizadores.findRangeByNamedQuery(range, "TUtilizadores.findByLogged", "logged", true);
+                    break;
+                case LISTA_USER_DENUNCIADOS:
+                    list = tUtilizadores.findRangeByNamedQuery(range, "TUtilizadores.findAllDenuncias", "", null);
                     break;
                 default:
                     break;
@@ -1489,6 +1498,9 @@ public class Leiloeira implements LeiloeiraLocal {
                     (cal = Calendar.getInstance()).add(Calendar.YEAR, -1);
                     list = tItens.findByNamedQuery("TItens.findByDatafim", "datafim", cal.getTime());
                     break;
+                case LISTA_ITENS_DENUCIADOS:
+                    list = tItens.findByNamedQuery("TItens.findAllDenuncias", "", null);
+                    break;
                 default:
                     break;
             }
@@ -1509,6 +1521,9 @@ public class Leiloeira implements LeiloeiraLocal {
                     (cal = Calendar.getInstance()).add(Calendar.YEAR, -1);
                     numItem = tItens.countByNamedQuery("TItens.countFindByDatafim", "datafim", cal.getTime());
                     break;
+                case LISTA_ITENS_DENUCIADOS:
+                    numItem = tItens.countByNamedQuery("TItens.countFindAllDenuncias", "", null);
+                    break;
                 default:
                     break;
             }
@@ -1528,6 +1543,9 @@ public class Leiloeira implements LeiloeiraLocal {
                     Calendar cal;
                     (cal = Calendar.getInstance()).add(Calendar.YEAR, -1);
                     list = tItens.findRangeByNamedQuery(range, "TItens.findByDatafim", "datafim", cal.getTime());
+                    break;
+                case LISTA_ITENS_DENUCIADOS:
+                    list = tItens.findRangeByNamedQuery(range, "TItens.findAllDenuncias", "", null);
                     break;
                 default:
                     break;

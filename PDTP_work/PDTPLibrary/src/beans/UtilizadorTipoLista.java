@@ -15,6 +15,11 @@ public enum UtilizadorTipoLista {
     /**
      *
      */
+    LISTA_USER_DENUNCIADOS("Lista Utilizadores Denunciados"),
+
+    /**
+     *
+     */
     LISTA_USER_ATIVOS("Lista Utilizadores Ativos"),
 
     /**

@@ -34,6 +34,8 @@ import pdtp.UtilizadorEstado;
 @NamedQueries({
     @NamedQuery(name = "TUtilizadores.findAll", query = "SELECT t FROM TUtilizadores t ORDER BY t.lastAction ASC")
     , @NamedQuery(name = "TUtilizadores.countFindAll", query = "SELECT count( t.username ) FROM TUtilizadores t ")
+    , @NamedQuery(name = "TUtilizadores.findAllDenuncias", query = "SELECT t FROM TUtilizadores t WHERE t IN ( SELECT t.vendedor FROM TDenunciasVendedores t )")
+    , @NamedQuery(name = "TUtilizadores.countFindAllDenuncias", query = "SELECT count(t.username) FROM TUtilizadores t WHERE t IN ( SELECT t.vendedor FROM TDenunciasVendedores t )")
     , @NamedQuery(name = "TUtilizadores.findByUsername", query = "SELECT t FROM TUtilizadores t WHERE t.username = :username")
     , @NamedQuery(name = "TUtilizadores.findByEstado", query = "SELECT t FROM TUtilizadores t WHERE t.estado = :estado ORDER BY t.lastAction ASC")
     , @NamedQuery(name = "TUtilizadores.countFindByEstado", query = "SELECT count( t.username ) FROM TUtilizadores t WHERE t.estado = :estado")

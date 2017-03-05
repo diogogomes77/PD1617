@@ -20,6 +20,11 @@ public enum ItensTipoLista {
     /**
      *
      */
+    LISTA_ITENS_DENUCIADOS("Lista dos itens Denunciados"),
+
+    /**
+     *
+     */
     LISTA_ITENS_SUPENDER("Lista Suspender");
     
     private String msg;
