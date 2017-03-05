@@ -20,7 +20,7 @@ public abstract class AbstractFacade<T> {
     // EntityManagerFactory emf = Persistence.createEntityManagerFactory("PDTP-ejbPU");
     @EJB
     private DAOLocal DAO;
-    
+
     private Class<T> entityClass;
 
     public AbstractFacade(Class<T> entityClass) {
@@ -93,4 +93,20 @@ public abstract class AbstractFacade<T> {
         Logger.getLogger(getClass().getName()).log(Level.INFO, "Count Entity by named query " + entityClass.getName() + " -> " + nameQuery);
         return DAO.countByNamedQuery(entityClass, nameQuery, nameParam, valeu);
     }
+
+    public void editWithCommit(T entity) {
+        Logger.getLogger(getClass().getName()).log(Level.INFO, "Alterar e faz commmit ao registo " + entity);
+        DAO.editWithCommit(entity);
+    }
+
+    public void createWithCommit(T entity) {
+        Logger.getLogger(getClass().getName()).log(Level.INFO, "Cria e faz commmit ao registo " + entity);
+        DAO.createWithCommit(entity);
+    }
+
+    public void removeWithCommit(T entity) {
+        Logger.getLogger(getClass().getName()).log(Level.INFO, "Elimina e faz commmit ao registo " + entity);
+        DAO.removeWithCommit(entity);
+    }
+
 }
