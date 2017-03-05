@@ -279,6 +279,27 @@ public interface LeiloeiraLocal {
 
     /**
      *
+     * @param id
+     * @param categria
+     * @param descricao
+     * @param precoInicial
+     * @param precoComprarJa
+     * @param dataLimite
+     * @return
+     * @throws beans.SessionException
+     */
+    boolean alterarItem(Long id, String username, String categoria, String descricao, Double precoInicial, Double precoComprarJa, Timestamp dataLimite) throws SessionException;
+
+    /**
+     *
+     * @param id
+     * @return
+     * @throws beans.SessionException
+     */
+    boolean eliminaItem(Long id) throws SessionException;
+
+    /**
+     *
      * @param username
      * @return
      */

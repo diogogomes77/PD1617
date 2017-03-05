@@ -42,6 +42,20 @@ public class ClientUtilizador extends ClientAuth implements ClientUtilizadorRemo
         return leiloeira.addItem(myName, categoria, descricao, precoInicial, precoComprarJa, dataLimite);
     }
 
+  
+    @Override
+    public boolean alterarItem(Long id, String categria, String descricao, Double precoInicial, Double precoComprarJa, Timestamp dataLimite) throws SessionException {
+        setLastAction();
+        return leiloeira.alterarItem(id, myName, categria, descricao, precoInicial, precoComprarJa, dataLimite);
+    }
+
+   
+    @Override
+    public boolean eliminaItem(Long id) throws SessionException{
+        setLastAction();
+        return leiloeira.eliminaItem(id);
+    }
+
     @Override
     public List<String> getCategorias() throws SessionException {
         setLastAction();

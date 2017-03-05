@@ -14,12 +14,12 @@ import javax.inject.Named;
  *
  * @author eugenio
  */
-@Named("tItensVisitanteController")
+@Named("tItensAdministradorController")
 @SessionScoped
-public class TItensVisitanteController extends TItensController {
+public class TItensAdministradorController extends TItensController {
 
-    public TItensVisitanteController() {
-        tipoList = ItensTipoLista.LISTA_ITENS_ULTIMOS_VENDIDOS;
+    public TItensAdministradorController() {
+        tipoList = ItensTipoLista.LISTA_ITENS_ALL;
     }
 
     @PostConstruct

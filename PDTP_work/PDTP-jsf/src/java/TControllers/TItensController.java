@@ -39,8 +39,8 @@ public class TItensController implements Serializable {
     protected ItensTipoLista tipoList = ItensTipoLista.LISTA_ITENS_ALL;
     private TItens current;
     private DataModel items = null;
-    @EJB
-    private TItensFacade ejbFacade;
+//    @EJB
+//    private TItensFacade ejbFacade;
     private PaginationHelper pagination;
     private int selectedItemIndex;
 
@@ -61,11 +61,11 @@ public class TItensController implements Serializable {
         return current;
     }
 
-    private TItensFacade getFacade() {
-        return ejbFacade;
-    }
+//    private TItensFacade getFacade() {
+//        return ejbFacade;
+//    }
     public int getItensCount() {
-        if( remoteSession != null ){
+        if (remoteSession != null) {
             try {
                 return remoteSession.obtemNumItens(tipoList);
             } catch (SessionException ex) {
@@ -75,8 +75,8 @@ public class TItensController implements Serializable {
         return 0;
     }
 
-    public List findRange(int[] range ){
-        if( remoteSession != null ){
+    public List findRange(int[] range) {
+        if (remoteSession != null) {
             try {
                 return remoteSession.obtemItensRange(tipoList, range);
             } catch (SessionException ex) {
@@ -85,8 +85,9 @@ public class TItensController implements Serializable {
         }
         return new ArrayList();
     }
-    public List findAll( ){
-        if( remoteSession != null ){
+
+    public List findAll() {
+        if (remoteSession != null) {
             try {
                 return remoteSession.obtemItens(tipoList);
             } catch (SessionException ex) {
@@ -96,7 +97,7 @@ public class TItensController implements Serializable {
         return new ArrayList();
     }
 
-    public TItens findById( Long id ){
+    public TItens findById(Long id) {
         return null;
     }
 
@@ -159,15 +160,17 @@ public class TItensController implements Serializable {
 
     public String create() {
         try {
+            if (remoteSession instanceof ClientUtilizadorRemote) {
+                Timestamp limite = new java.sql.Timestamp(current.getDatafim().getTime());
+                ((ClientUtilizadorRemote) remoteSession).addItem(current.getCategoria(), current.getDescricao(), current.getPrecoinicial(), current.getComprarja(), limite);
+                JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/BundleItens").getString("TItensCreated"));
+                return prepareCreate();
 
-            Timestamp limite = new java.sql.Timestamp(current.getDatafim().getTime());
-            ((ClientUtilizadorRemote) remoteSession).addItem(current.getCategoria(), current.getDescricao(), current.getPrecoinicial(), current.getComprarja(), limite);
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/BundleItens").getString("TItensCreated"));
-            return prepareCreate();
-        } catch (Exception e) {
+            }
+        } catch (SessionException e) {
             JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/BundleItens").getString("PersistenceErrorOccured"));
-            return null;
         }
+        return null;
     }
 
     public String prepareEdit() {
@@ -178,15 +181,17 @@ public class TItensController implements Serializable {
 
     public String update() {
         try {
-            //TODO: Atualizar os item
-            getFacade().edit(current);
-            //((ClientUtilizadorRemote) remoteSession).
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/BundleItens").getString("TItensUpdated"));
-            return "ConsultarItem";
-        } catch (Exception e) {
+            if (remoteSession instanceof ClientUtilizadorRemote) {
+                //Atualizar o item via sessão
+                Timestamp limite = new java.sql.Timestamp(current.getDatafim().getTime());
+                ((ClientUtilizadorRemote) remoteSession).alterarItem(current.getItemid(), current.getCategoria(), current.getDescricao(), current.getPrecoinicial(), current.getComprarja(), limite);
+                JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/BundleItens").getString("TItensUpdated"));
+                return "ConsultarItem";
+            }
+        } catch (SessionException e) {
             JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/BundleItens").getString("PersistenceErrorOccured"));
-            return null;
         }
+        return null;
     }
 
     public String destroy() {
@@ -213,10 +218,12 @@ public class TItensController implements Serializable {
 
     private void performDestroy() {
         try {
-            //TODO:Fazer o remove
-            getFacade().remove(current);
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/BundleItens").getString("TItensDeleted"));
-        } catch (Exception e) {
+            if (remoteSession instanceof ClientUtilizadorRemote) {
+                //Fazer o remove
+                ((ClientUtilizadorRemote) remoteSession).eliminaItem(current.getItemid());
+                JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/BundleItens").getString("TItensDeleted"));
+            }
+        } catch (SessionException e) {
             JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/BundleItens").getString("PersistenceErrorOccured"));
         }
     }
@@ -232,7 +239,7 @@ public class TItensController implements Serializable {
             }
         }
         if (selectedItemIndex >= 0) {
-            current = (TItens)findRange(new int[]{selectedItemIndex, selectedItemIndex + 1}).get(0);
+            current = (TItens) findRange(new int[]{selectedItemIndex, selectedItemIndex + 1}).get(0);
         }
     }
 

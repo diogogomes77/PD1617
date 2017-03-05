@@ -52,6 +52,27 @@ public interface ClientUtilizadorRemote extends ClientAuthRemote {
 
     /**
      *
+     * @param id
+     * @param categria
+     * @param descricao
+     * @param precoInicial
+     * @param precoComprarJa
+     * @param dataLimite
+     * @return
+     * @throws beans.SessionException
+     */
+    boolean alterarItem(Long id, String categria, String descricao, Double precoInicial, Double precoComprarJa, Timestamp dataLimite) throws SessionException;
+
+    /**
+     *
+     * @param id
+     * @return
+     * @throws beans.SessionException
+     */
+    boolean eliminaItem(Long id) throws SessionException;
+
+    /**
+     *
      * @return
      * @throws beans.SessionException
      */

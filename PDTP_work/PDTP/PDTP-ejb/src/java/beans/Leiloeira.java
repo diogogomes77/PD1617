@@ -836,6 +836,31 @@ public class Leiloeira implements LeiloeiraLocal {
         return false;
     }
 
+        @Override
+    public boolean alterarItem(Long id, String username, String categoria, String descricao, Double precoInicial, Double precoComprarJa, Timestamp dataLimite) throws SessionException {
+        TUtilizadores util = tUtilizadores.find(username);
+        if (util != null) {
+            TItens item = tItens.find(id);
+            item.setDescricao(descricao);
+            item.setPrecoinicial(precoInicial);
+            item.setComprarja(precoComprarJa);
+            item.setDatafim(dataLimite);
+            item.setEstado(ItemEstados.INICIADA);
+            item.setCategoria(categoria);
+            tItens.editWithCommit(item);
+
+            return true;
+        }
+        return false;
+    }
+
+   
+    @Override
+    public boolean eliminaItem(Long id) throws SessionException{
+        tItens.remove(new TItens(id));
+        return true;
+    }
+
     /**
      *
      * @param username
